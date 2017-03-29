@@ -1,20 +1,14 @@
 package groupg;
 
-/*
-  Created by WilsonWong on 3/19/2017.
-  Edited by Samantha Comeau, Saul Woolf, Alazar Genene on 3/29/2017
- */
+import java.sql.*;
 
 /**
  * @author Wilson Wong
  * @author Samanthe Comeau
- * @auther Saul Woolf
- * @auther Alazar Genene
+ * @author Saul Woolf
+ * @author Alazar Genene
  * @since 2017-03-19
  */
-
-import java.sql.*;
-
 public class JavaDBExample
 {
     void testDB()
