@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.Controller">
+   <children>
+      <Label layoutX="206.0" layoutY="41.0" text="Edit Coordinates">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TabPane layoutX="100.0" layoutY="92.0" prefHeight="271.0" prefWidth="427.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Add">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane layoutY="7.0" prefHeight="225.0" prefWidth="427.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="210.0" minWidth="10.0" prefWidth="120.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="315.0" minWidth="10.0" prefWidth="307.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Coordinates:" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                              <Label text="Neighbors:" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <Label text="Name:" GridPane.halignment="CENTER" />
+                              <Button fx:id="editCoordAddCoordBtn" mnemonicParsing="false" onAction="#editCoordOnAddCoord" text="Add Coordinate" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
+                              <TextField fx:id="editCoordNameField" promptText="Coordinate Name" GridPane.columnIndex="1" />
+                              <TextField fx:id="editCoordCoordField" promptText="X,Y" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField fx:id="editCoordNeighborField" promptText="List neighbors separated by commas" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Remove">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane layoutX="25.0" layoutY="14.0" prefHeight="201.0" prefWidth="381.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="184.0" minWidth="10.0" prefWidth="111.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="275.0" minWidth="10.0" prefWidth="270.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Name:" GridPane.halignment="CENTER" />
+                              <TextField fx:id="editCoordRemoveField" promptText="Enter coordinate name to remove" GridPane.columnIndex="1" />
+                              <Button fx:id="editCoordRemBtn" mnemonicParsing="false" onAction="#editCoordOnRemCoord" text="Remove Coordinates" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Edit Name">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane layoutX="39.0" layoutY="22.0" prefHeight="195.0" prefWidth="354.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="170.0" minWidth="10.0" prefWidth="134.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="270.0" minWidth="10.0" prefWidth="220.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Old Name:" GridPane.halignment="CENTER" />
+                              <Label text="New Name:" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                              <Button fx:id="editCoordChangeNameBtn" mnemonicParsing="false" onAction="#editCoordOnChangeName" text="Change Name" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="editCoordOldNameField" promptText="Enter old name" GridPane.columnIndex="1" />
+                              <TextField fx:id="editCoordNewNameField" promptText="Enter new name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <Button fx:id="editCoordLogoutBtn" layoutX="468.0" layoutY="41.0" mnemonicParsing="false" onAction="#editCoordOnLogout" text="Logout" />
+      <Button fx:id="editCoordCancelBtn" layoutX="100.0" layoutY="42.0" mnemonicParsing="false" onAction="#editCoordOnCancel" text="Cancel/Back" />
+   </children>
+</AnchorPane>
