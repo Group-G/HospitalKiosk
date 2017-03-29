@@ -61,3 +61,5 @@ classes/
 !/derby.log
 .idea/kotlinc.xml
 .idea/dbnavigator.xml
+derby.log
+HospitalDatabase/
