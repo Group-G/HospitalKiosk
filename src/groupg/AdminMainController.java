@@ -43,7 +43,7 @@ public class AdminMainController
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/welcomeScreen.fxml", "Edit Coordinates", logoutBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/welcomeScreen.fxml", "Welcome", logoutBtn.getScene());
         }
         catch (IOException e)
         {
