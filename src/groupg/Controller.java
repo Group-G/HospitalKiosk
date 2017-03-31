@@ -19,7 +19,6 @@ import java.io.IOException;
  * @version 0.0
  * @since 2017-03-23
  */
-
 public class Controller
 {
     //welcomeScreen
