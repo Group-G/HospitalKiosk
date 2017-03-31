@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -16,15 +17,16 @@ import java.io.IOException;
  * @author Ryan Benasutti
  * @since 2017-03-23
  */
-public class Controller
+public class WelcomeScreenController
 {
-    //welcomeScreen
     @FXML
-    private Button welcomeAdminLoginBtn;
+    private Button adminBtn;
     @FXML
-    private TextField welcomeScreenSearchField;
+    private TextField searchField;
+    @FXML
+    private MenuButton catDropdown;
 
-    public void moveToAdminWindow(ActionEvent actionEvent)
+    public void onAdminLogin(ActionEvent actionEvent)
     {
         Parent root;
         try
@@ -32,7 +34,7 @@ public class Controller
             root = FXMLLoader.load(getClass().getResource("/adminLogin.fxml"));
             Platform.runLater(() ->
                               {
-                                  Stage stage = (Stage) welcomeAdminLoginBtn.getScene().getWindow();
+                                  Stage stage = (Stage) adminBtn.getScene().getWindow();
                                   stage.setTitle("Admin Login");
                                   stage.setScene(new Scene(root, 610, 400));
                                   stage.show();
@@ -42,5 +44,10 @@ public class Controller
         {
             e.printStackTrace();
         }
+    }
+
+    public void onCatSelect(ActionEvent actionEvent)
+    {
+        //Do something with catDropdown
     }
 }
