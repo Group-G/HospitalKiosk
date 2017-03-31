@@ -46,12 +46,6 @@ public class Controller
     @FXML
     private Button adminMainEditCategoryBtn, adminMainEditCoordBtn, adminMainLogoutBtn;
 
-    //editCoordinates
-    @FXML
-    private Button editCoordAddCoordBtn, editCoordRemBtn, editCoordChangeNameBtn, editCoordCancelBtn, editCoordLogoutBtn;
-    @FXML
-    private TextField editCoordNameField, editCoordCoordField, editCoordNeighborField, editCoordRemoveField, editCoordOldNameField, editCoordNewNameField;
-
     public void moveToAdminWindow(ActionEvent actionEvent)
     {
         Parent root;
@@ -163,61 +157,6 @@ public class Controller
             Platform.runLater(() ->
                               {
                                   Stage stage = (Stage)adminMainLogoutBtn.getScene().getWindow();
-                                  stage.setTitle("Welcome");
-                                  stage.setScene(new Scene(root, 610, 400));
-                                  stage.show();
-                              });
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void editCoordOnAddCoord(ActionEvent actionEvent)
-    {
-        //Add coord from editCoordNameField, editCoordCoordField, editCoordNeighborField
-    }
-
-    public void editCoordOnRemCoord(ActionEvent actionEvent)
-    {
-        //Remove coord from editCoordRemoveField
-    }
-
-    public void editCoordOnChangeName(ActionEvent actionEvent)
-    {
-        //Change coord name from editCoordOldNameField, editCoordNewNameField
-    }
-
-    public void editCoordOnCancel(ActionEvent actionEvent)
-    {
-        Parent root;
-        try
-        {
-            root = FXMLLoader.load(getClass().getResource("/adminMain.fxml"));
-            Platform.runLater(() ->
-                              {
-                                  Stage stage = (Stage)editCoordCancelBtn.getScene().getWindow();
-                                  stage.setTitle("Admin Main");
-                                  stage.setScene(new Scene(root, 610, 400));
-                                  stage.show();
-                              });
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void editCoordOnLogout(ActionEvent actionEvent)
-    {
-        Parent root;
-        try
-        {
-            root = FXMLLoader.load(getClass().getResource("/welcomeScreen.fxml"));
-            Platform.runLater(() ->
-                              {
-                                  Stage stage = (Stage)editCoordLogoutBtn.getScene().getWindow();
                                   stage.setTitle("Welcome");
                                   stage.setScene(new Scene(root, 610, 400));
                                   stage.show();
