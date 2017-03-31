@@ -5,12 +5,39 @@ import java.util.LinkedList;
  */
 public class node implements inode{
     String name;
-    double coordx;  //X-Coordinate
-    double coordy;  //Y-Coordinate
-    LinkedList<String> neighbors;
-    String type;  //Type is hall, stair, elev, room
-    float weight;
+    private double coordx;  //X-Coordinate
+    private double coordy;  //Y-Coordinate
+    private LinkedList<String> neighbors;
+    private String type;  //Type is hall, stair, elev, room
+    private float weight;
 
+    //Constructor
+    public node(String name, double x, double y, LinkedList<String> neighbors, String type, float weight) {
+        this.name = name;
+        this.coordx = x;
+        this.coordy = y;
+        this.neighbors = neighbors;
+        this.type = type;
+        this.weight = weight;
+    }
 
+    public double getCoordx() {
+        return coordx;
+    }
 
+    public double getCoordy() {
+        return coordy;
+    }
+
+    public LinkedList<String> getNeighbors() {
+        return neighbors;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public float getWeight() {
+        return weight;
+    }
 }
