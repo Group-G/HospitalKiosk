@@ -1,15 +1,10 @@
 package groupg;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -28,17 +23,9 @@ public class WelcomeScreenController
 
     public void onAdminLogin(ActionEvent actionEvent)
     {
-        Parent root;
         try
         {
-            root = FXMLLoader.load(getClass().getResource("/adminLogin.fxml"));
-            Platform.runLater(() ->
-                              {
-                                  Stage stage = (Stage) adminBtn.getScene().getWindow();
-                                  stage.setTitle("Admin Login");
-                                  stage.setScene(new Scene(root, 610, 400));
-                                  stage.show();
-                              });
+            ResourceManager.getInstance().loadFXMLIntoScene("/adminLogin.fxml", "Admin Login", adminBtn.getScene());
         }
         catch (IOException e)
         {
