@@ -16,7 +16,6 @@ import java.io.IOException;
 
 /**
  * @author Ryan Benasutti
- * @version 0.0
  * @since 2017-03-23
  */
 public class Controller
@@ -46,12 +45,6 @@ public class Controller
     //adminMain
     @FXML
     private Button adminMainEditCategoryBtn, adminMainEditCoordBtn, adminMainLogoutBtn;
-
-    //editCategory
-    @FXML
-    private Button editCategoryLogoutBtn, editCategoryCancelBtn, editCategoryEnterBtn, editCategoryRemBtn;
-    @FXML
-    private TextField editCategoryCategoryNameField, editCategoryCoordNameField, editCategoryRemoveField;
 
     //editCoordinates
     @FXML
@@ -179,56 +172,6 @@ public class Controller
         {
             e.printStackTrace();
         }
-    }
-
-    public void editCategoryOnCancel(ActionEvent actionEvent)
-    {
-        Parent root;
-        try
-        {
-            root = FXMLLoader.load(getClass().getResource("/adminMain.fxml"));
-            Platform.runLater(() ->
-                              {
-                                  Stage stage = (Stage) editCategoryCancelBtn.getScene().getWindow();
-                                  stage.setTitle("Admin Main");
-                                  stage.setScene(new Scene(root, 610, 400));
-                                  stage.show();
-                              });
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void editCategoryOnLogout(ActionEvent actionEvent)
-    {
-        Parent root;
-        try
-        {
-            root = FXMLLoader.load(getClass().getResource("/welcomeScreen.fxml"));
-            Platform.runLater(() ->
-                              {
-                                  Stage stage = (Stage) editCategoryLogoutBtn.getScene().getWindow();
-                                  stage.setTitle("Welcome");
-                                  stage.setScene(new Scene(root, 610, 400));
-                                  stage.show();
-                              });
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void editCategoryOnAdd(ActionEvent actionEvent)
-    {
-        //Add category from editCategoryCategoryNameField, editCategoryCoordNameField
-    }
-
-    public void editCategoryOnRem(ActionEvent actionEvent)
-    {
-        //Remove category from editCategoryRemoveField
     }
 
     public void editCoordOnAddCoord(ActionEvent actionEvent)
