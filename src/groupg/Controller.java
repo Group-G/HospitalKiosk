@@ -36,12 +36,6 @@ public class Controller
     @FXML
     private MenuButton dirScreenStartLocCategory, dirScreenDestCategory;
 
-    //adminLogin
-    @FXML
-    private Button adminLoginCloseBtn, adminLoginLoginBtn;
-    @FXML
-    private TextField adminLoginUsernameField, adminLoginPasswordField;
-
     //adminMain
     @FXML
     private Button adminMainEditCategoryBtn, adminMainEditCoordBtn, adminMainLogoutBtn;
@@ -56,48 +50,6 @@ public class Controller
                               {
                                   Stage stage = (Stage) welcomeAdminLoginBtn.getScene().getWindow();
                                   stage.setTitle("Admin Login");
-                                  stage.setScene(new Scene(root, 610, 400));
-                                  stage.show();
-                              });
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void adminLoginClose(ActionEvent actionEvent)
-    {
-        Parent root;
-        try
-        {
-            root = FXMLLoader.load(getClass().getResource("/welcomeScreen.fxml"));
-            Platform.runLater(() ->
-                              {
-                                  Stage stage = (Stage) adminLoginCloseBtn.getScene().getWindow();
-                                  stage.setTitle("Welcome");
-                                  stage.setScene(new Scene(root, 610, 400));
-                                  stage.show();
-                              });
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void onLogin(ActionEvent actionEvent)
-    {
-        //Check credentials: adminLoginUsernameField, adminLoginPasswordField
-
-        Parent root;
-        try
-        {
-            root = FXMLLoader.load(getClass().getResource("/adminMain.fxml"));
-            Platform.runLater(() ->
-                              {
-                                  Stage stage = (Stage) adminLoginLoginBtn.getScene().getWindow();
-                                  stage.setTitle("Admin Main");
                                   stage.setScene(new Scene(root, 610, 400));
                                   stage.show();
                               });

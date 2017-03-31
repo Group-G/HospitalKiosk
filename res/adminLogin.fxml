@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -17,37 +18,47 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.AdminLoginController">
    <children>
-      <GridPane layoutX="138.0" layoutY="159.0" prefHeight="156.0" prefWidth="306.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0" spacing="30.0">
          <children>
-            <Button fx:id="adminLoginLoginBtn" mnemonicParsing="false" onAction="#onLogin" text="Login" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Username:" />
-            <Label text="Password:" GridPane.rowIndex="1" />
-            <PasswordField fx:id="adminLoginPasswordField" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="adminLoginUsernameField" promptText="Username" GridPane.columnIndex="1" />
-            <Button fx:id="adminLoginCloseBtn" mnemonicParsing="false" onAction="#adminLoginClose" text="Cancel/Back" GridPane.rowIndex="2" />
+            <Label layoutX="139.0" layoutY="45.0" text="Admin Login">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="86.0" fitWidth="152.0" layoutX="322.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@jackalope.png" />
+               </image>
+            </ImageView>
          </children>
-      </GridPane>
-      <Label layoutX="139.0" layoutY="45.0" text="Admin Login">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="86.0" fitWidth="152.0" layoutX="322.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@jackalope.png" />
-         </image>
-      </ImageView>
+      </HBox>
       <Label layoutX="179.0" layoutY="135.0" text="Incorrect Username or Password" textFill="#dd1111" visible="false" />
+      <VBox layoutY="150.0" prefHeight="250.0" prefWidth="600.0" spacing="10.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" layoutX="138.0" layoutY="173.0" spacing="10.0">
+               <children>
+                  <Label layoutX="138.0" layoutY="177.0" text="Username:" />
+                  <TextField fx:id="usernameField" layoutX="291.0" layoutY="173.0" promptText="Username" GridPane.columnIndex="1" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="13.0">
+               <children>
+                  <Label layoutX="138.0" layoutY="229.0" text="Password:" GridPane.rowIndex="1" />
+                  <PasswordField fx:id="passField" layoutX="291.0" layoutY="225.0" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </HBox>
+            <HBox layoutX="138.0" layoutY="277.0" spacing="87.0">
+               <children>
+                  <Button fx:id="cancelBtn" layoutX="138.0" layoutY="277.0" mnemonicParsing="false" onAction="#onCancel" text="Cancel/Back" GridPane.rowIndex="2" />
+                  <Button fx:id="loginBtn" layoutX="291.0" layoutY="277.0" mnemonicParsing="false" onAction="#onLogin" text="Login" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="180.0" />
+         </padding>
+      </VBox>
    </children>
 </AnchorPane>
