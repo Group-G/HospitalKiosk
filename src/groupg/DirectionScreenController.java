@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -14,26 +16,29 @@ import java.io.IOException;
 
 /**
  * @author Ryan Benasutti
- * @since 2017-03-23
+ * @since 2017-03-30
  */
-public class Controller
+public class DirectionScreenController
 {
-    //welcomeScreen
     @FXML
-    private Button welcomeAdminLoginBtn;
+    private Button cancelBtn, exportBtn;
     @FXML
-    private TextField welcomeScreenSearchField;
+    private TextField startField, destField;
+    @FXML
+    private ListView dirList;
+    @FXML
+    private MenuButton startCat, destCat;
 
-    public void moveToAdminWindow(ActionEvent actionEvent)
+    public void onCancel(ActionEvent event)
     {
         Parent root;
         try
         {
-            root = FXMLLoader.load(getClass().getResource("/adminLogin.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/welcomeScreen.fxml"));
             Platform.runLater(() ->
                               {
-                                  Stage stage = (Stage) welcomeAdminLoginBtn.getScene().getWindow();
-                                  stage.setTitle("Admin Login");
+                                  Stage stage = (Stage) cancelBtn.getScene().getWindow();
+                                  stage.setTitle("Welcome");
                                   stage.setScene(new Scene(root, 610, 400));
                                   stage.show();
                               });
@@ -42,5 +47,10 @@ public class Controller
         {
             e.printStackTrace();
         }
+    }
+
+    public void onExport(ActionEvent event)
+    {
+
     }
 }
