@@ -36,10 +36,6 @@ public class Controller
     @FXML
     private MenuButton dirScreenStartLocCategory, dirScreenDestCategory;
 
-    //adminMain
-    @FXML
-    private Button adminMainEditCategoryBtn, adminMainEditCoordBtn, adminMainLogoutBtn;
-
     public void moveToAdminWindow(ActionEvent actionEvent)
     {
         Parent root;
@@ -50,66 +46,6 @@ public class Controller
                               {
                                   Stage stage = (Stage) welcomeAdminLoginBtn.getScene().getWindow();
                                   stage.setTitle("Admin Login");
-                                  stage.setScene(new Scene(root, 610, 400));
-                                  stage.show();
-                              });
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void adminMainOnEditCategory(ActionEvent actionEvent)
-    {
-        Parent root;
-        try
-        {
-            root = FXMLLoader.load(getClass().getResource("/editCategory.fxml"));
-            Platform.runLater(() ->
-                              {
-                                  Stage stage = (Stage)adminMainEditCategoryBtn.getScene().getWindow();
-                                  stage.setTitle("Edit Category");
-                                  stage.setScene(new Scene(root, 610, 400));
-                                  stage.show();
-                              });
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void adminMainOnEditCoords(ActionEvent actionEvent)
-    {
-        Parent root;
-        try
-        {
-            root = FXMLLoader.load(getClass().getResource("/editCoordinates.fxml"));
-            Platform.runLater(() ->
-                              {
-                                  Stage stage = (Stage)adminMainEditCoordBtn.getScene().getWindow();
-                                  stage.setTitle("Edit Coordinates");
-                                  stage.setScene(new Scene(root, 610, 400));
-                                  stage.show();
-                              });
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void adminMainOnLogout(ActionEvent actionEvent)
-    {
-        Parent root;
-        try
-        {
-            root = FXMLLoader.load(getClass().getResource("/welcomeScreen.fxml"));
-            Platform.runLater(() ->
-                              {
-                                  Stage stage = (Stage)adminMainLogoutBtn.getScene().getWindow();
-                                  stage.setTitle("Welcome");
                                   stage.setScene(new Scene(root, 610, 400));
                                   stage.show();
                               });
