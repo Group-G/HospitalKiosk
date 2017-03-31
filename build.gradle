@@ -22,6 +22,11 @@ sourceSets {
             srcDir 'res/'
         }
     }
+    test {
+        java {
+            srcDir 'test/'
+        }
+    }
 }
 
 jar {
