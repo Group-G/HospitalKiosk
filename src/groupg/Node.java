@@ -38,6 +38,7 @@ public class Node implements iNode {
         return weight;
     }
 
+    //gets length between node and this node
     public double lengthTo(Node other){
         double len = Math.sqrt(Math.pow(Math.abs(this.getCoordx()-other.getCoordx()), 2)
                     - Math.pow(Math.abs(this.getCoordy()-other.getCoordy()), 2));
