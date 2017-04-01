@@ -69,7 +69,7 @@ public class AdminMainController implements Initializable
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/editCategory.fxml", "Edit Categories", logoutBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/editCategory.fxml", "Edit Categories", editCatBtn.getScene());
         }
         catch (IOException e)
         {
