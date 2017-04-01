@@ -47,12 +47,13 @@ public class Node implements iNode {
     public int getID() {
         return ID;
     }
-    public float getfloor() {
+    public String getfloor() {
         return floor;
     }
-    public float getBuilding() {
+    public String getBuilding() {
         return building;
     }
+
     //gets length between node and this node
     public double lengthTo(Node other){
         double len = Math.sqrt(Math.pow(Math.abs(this.getCoordx()-other.getCoordx()), 2)
