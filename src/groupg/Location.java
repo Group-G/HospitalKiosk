@@ -11,10 +11,19 @@ public class Location {
     private int x, y, ID;
     private Category category;
     private String floor, building;
-    ArrayList<groupg.Location> neighbors = new ArrayList<groupg.Location>();
+    ArrayList<Location> neighbors = new ArrayList<Location>();
 
     /*CONSTRUCTORS*/
 
+    public Location(int x, int y, int ID, Category category, String floor, String building, ArrayList<Location> neighbors) {
+        this.x = x;
+        this.y = y;
+        this.ID = ID;
+        this.category = category;
+        this.floor = floor;
+        this.building = building;
+        this.neighbors = neighbors;
+    }
 
     /*SETTERS*/
     public void setX(int x) {

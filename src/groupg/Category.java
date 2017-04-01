@@ -9,6 +9,11 @@ public class Category {
 
     /*CONSTRUCTORS*/
 
+    public Category(String categoryName, Location location) {
+        this.categoryName = categoryName;
+        this.location = location;
+    }
+
     /*GETTERS*/
     public Location getLocation() {
         return this.location;
