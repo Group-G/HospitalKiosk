@@ -23,7 +23,7 @@ class NodeFactory
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.7));
         circle.relocate(x, y);
-        NodeListenerFactory.getInstance().makeDraggable(circle);
+        NodeListenerFactory.makeDraggable(circle);
         return circle;
     }
 }

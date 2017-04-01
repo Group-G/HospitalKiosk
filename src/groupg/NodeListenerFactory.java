@@ -21,33 +21,16 @@ import java.util.List;
  */
 class NodeListenerFactory
 {
-    private static NodeListenerFactory ourInstance = new NodeListenerFactory();
     private static List<UniqueNode> nodes = new ArrayList<>();
-
-    static NodeListenerFactory getInstance()
-    {
-        return ourInstance;
-    }
-
-    static void setNodes(List<UniqueNode> nodeList)
-    {
-       nodes = nodeList;
-    }
-
-    private NodeListenerFactory()
-    {
-    }
-
-    private double orgSceneX, orgSceneY;
-    private double orgTranslateX, orgTranslateY;
-    private UniqueNode currentSelection = null;
-    private double mouseX, mouseY;
+    private static double orgSceneX, orgSceneY, orgTranslateX, orgTranslateY;
+    private static UniqueNode currentSelection = null;
+    private static double mouseX, mouseY;
 
     /**
      * Makes Nodes draggable and clickable with a mouse listener
      * @param nodes Nodes to make draggable
      */
-    void makeDraggable(UniqueNode... nodes)
+    static void makeDraggable(UniqueNode... nodes)
     {
         Arrays.stream(nodes).forEach(node ->
                                      {
@@ -58,7 +41,12 @@ class NodeListenerFactory
                                      });
     }
 
-    private EventHandler<ContextMenuEvent> showContextMenu = new EventHandler<ContextMenuEvent>()
+    static void setNodes(List<UniqueNode> nodeList)
+    {
+        nodes = nodeList;
+    }
+
+    private static EventHandler<ContextMenuEvent> showContextMenu = new EventHandler<ContextMenuEvent>()
     {
         @Override
         public void handle(ContextMenuEvent event)
@@ -94,7 +82,7 @@ class NodeListenerFactory
         }
     };
 
-    private EventHandler<MouseEvent> trackMouseCoordinates = new EventHandler<MouseEvent>()
+    private static EventHandler<MouseEvent> trackMouseCoordinates = new EventHandler<MouseEvent>()
     {
         @Override
         public void handle(MouseEvent event)
@@ -104,7 +92,7 @@ class NodeListenerFactory
         }
     };
 
-    private EventHandler<MouseEvent> mousePressedHandler = new EventHandler<MouseEvent>()
+    private static EventHandler<MouseEvent> mousePressedHandler = new EventHandler<MouseEvent>()
     {
         @Override
         public void handle(MouseEvent t)
@@ -137,7 +125,7 @@ class NodeListenerFactory
         }
     };
 
-    private EventHandler<MouseEvent> mouseDraggedHandler = new EventHandler<MouseEvent>()
+    private static EventHandler<MouseEvent> mouseDraggedHandler = new EventHandler<MouseEvent>()
     {
         @Override
         public void handle(MouseEvent t)
