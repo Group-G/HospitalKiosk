@@ -44,8 +44,7 @@ class NodeListenerFactory
     private double mouseX, mouseY;
 
     /**
-     * Makes Nodes draggable with a mouse listener
-     *
+     * Makes Nodes draggable and clickable with a mouse listener
      * @param nodes Nodes to make draggable
      */
     void makeDraggable(UniqueNode... nodes)
