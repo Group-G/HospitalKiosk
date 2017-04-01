@@ -108,7 +108,8 @@ public class EditCoordController implements Initializable
 
     public void onAdd(ActionEvent actionEvent)
     {
-        //Add coord from addNameField, addXYField
+        //Add node
+
     }
 
     public void onRem(ActionEvent actionEvent)
