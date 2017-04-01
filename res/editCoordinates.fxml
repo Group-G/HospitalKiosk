@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -48,6 +49,19 @@
                                     <TextField fx:id="addXYField" layoutX="120.0" layoutY="73.0" prefWidth="300.0" promptText="X,Y" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                  </children>
                               </HBox>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <MenuButton fx:id="floorDD" mnemonicParsing="false" text="Floor" />
+                                    <MenuButton fx:id="buildingDD" mnemonicParsing="false" text="Building" />
+                                    <MenuButton fx:id="neighborDD" mnemonicParsing="false" text="Neighbors" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets left="70.0" />
+                                 </padding>
+                              </HBox>
                               <Button fx:id="addBtn" mnemonicParsing="false" onAction="#onAdd" text="Add Coordinate">
                                  <VBox.margin>
                                     <Insets left="145.0" />
@@ -66,24 +80,15 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <VBox prefHeight="271.0" prefWidth="600.0" spacing="10.0">
+                        <HBox layoutY="70.0" prefWidth="600.0" spacing="10.0">
                            <children>
-                              <HBox alignment="CENTER_LEFT" layoutX="63.0" layoutY="35.0" spacing="20.0">
-                                 <children>
-                                    <Label alignment="TOP_LEFT" layoutX="63.0" layoutY="39.0" text="Name:" GridPane.halignment="CENTER" />
-                                    <TextField fx:id="remField" layoutX="136.0" layoutY="35.0" prefWidth="300.0" promptText="Coordinate Name" GridPane.columnIndex="1" />
-                                 </children>
-                              </HBox>
-                              <Button fx:id="remBtn" layoutX="136.0" layoutY="169.0" mnemonicParsing="false" onAction="#onRem" text="Remove Coordinates" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                 <VBox.margin>
-                                    <Insets left="140.0" />
-                                 </VBox.margin>
-                              </Button>
+                              <MenuButton fx:id="selNodeDD" mnemonicParsing="false" text="Select Node" />
+                              <Button fx:id="remBtn" mnemonicParsing="false" onAction="#onRem" prefWidth="120.0" text="Remove Node" />
                            </children>
                            <padding>
-                              <Insets left="100.0" top="20.0" />
+                              <Insets left="175.0" />
                            </padding>
-                        </VBox>
+                        </HBox>
                      </children>
                   </AnchorPane>
             </content>
