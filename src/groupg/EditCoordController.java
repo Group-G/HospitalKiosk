@@ -3,10 +3,16 @@ package groupg;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,11 +27,15 @@ import java.util.ResourceBundle;
 public class EditCoordController implements Initializable
 {
     @FXML
-    private Button cancelBtn, logoutBtn, addBtn, remBtn, changeNameBtn;
+    private Button cancelBtn, logoutBtn, addBtn, changeNameBtn;
     @FXML
-    private TextField addNameField, addXYField, remField, oldNameField, newNameField;
+    private TextField addNameField, addXYField, oldNameField, newNameField;
     @FXML
-    private MenuButton floorDD, buildingDD, neighborDD, selNodeDD;
+    private MenuButton floorDD, buildingDD, neighborDD;
+    @FXML
+    private Canvas canvas;
+    @FXML
+    private AnchorPane canvasAP;
 
     //Selected items on add screen
     private String selectedFloor = "", selectedBuilding = "", selectedNeighbor = "";
@@ -45,41 +55,54 @@ public class EditCoordController implements Initializable
         nodes.add("TEST NODE 1");
         nodes.add("TEST NODE 2");
 
-        floors.forEach(elem -> {
-            MenuItem item = new MenuItem(elem);
-            item.setOnAction(actionEvent -> {
-                selectedFloor = item.getText();
-                floorDD.setText(selectedFloor);
-            });
-            floorDD.getItems().add(new MenuItem(elem));
-        });
+        floors.forEach(elem ->
+                       {
+                           MenuItem item = new MenuItem(elem);
+                           item.setOnAction(actionEvent ->
+                                            {
+                                                selectedFloor = item.getText();
+                                                floorDD.setText(selectedFloor);
+                                            });
+                           floorDD.getItems().add(new MenuItem(elem));
+                       });
 
-        buildings.forEach(elem -> {
-            MenuItem item = new MenuItem(elem);
-            item.setOnAction(actionEvent -> {
-                selectedBuilding = item.getText();
-                buildingDD.setText(selectedBuilding);
-            });
-            buildingDD.getItems().add(new MenuItem(elem));
-        });
+        buildings.forEach(elem ->
+                          {
+                              MenuItem item = new MenuItem(elem);
+                              item.setOnAction(actionEvent ->
+                                               {
+                                                   selectedBuilding = item.getText();
+                                                   buildingDD.setText(selectedBuilding);
+                                               });
+                              buildingDD.getItems().add(new MenuItem(elem));
+                          });
 
-        nodes.forEach(elem -> {
-            MenuItem item = new MenuItem(elem);
-            item.setOnAction(actionEvent -> {
-                selectedNeighbor = item.getText();
-                neighborDD.setText(selectedNeighbor);
-            });
-            neighborDD.getItems().add(new MenuItem(elem));
-        });
+        nodes.forEach(elem ->
+                      {
+                          MenuItem item = new MenuItem(elem);
+                          item.setOnAction(actionEvent ->
+                                           {
+                                               selectedNeighbor = item.getText();
+                                               neighborDD.setText(selectedNeighbor);
+                                           });
+                          neighborDD.getItems().add(new MenuItem(elem));
+                      });
 
-        nodes.forEach(elem -> {
-            MenuItem item = new MenuItem(elem);
-            item.setOnAction(actionEvent -> {
-                nodeToBeRemoved = item.getText();
-                selNodeDD.setText(nodeToBeRemoved);
-            });
-            selNodeDD.getItems().add(item);
-        });
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        drawShapes(gc);
+
+        Circle node1 = NodeFactory.drawNode(30, 30);
+        Circle node2 = NodeFactory.drawNode(40, 40);
+        MouseGestures.getInstance().makeDraggable(node1, node2);
+        Pane overlay = new Pane();
+        overlay.getChildren().addAll(node1, node2);
+        canvasAP.getChildren().add(overlay);
+    }
+
+    private void drawShapes(GraphicsContext gc)
+    {
+        gc.setStroke(Color.RED);
+        gc.strokeRoundRect(10, 10, 100, 100, 10, 10);
     }
 
     public void onCancel(ActionEvent actionEvent)
@@ -110,13 +133,6 @@ public class EditCoordController implements Initializable
     {
         //Add node
 
-    }
-
-    public void onRem(ActionEvent actionEvent)
-    {
-        //Remove node
-        //TODO: Tell DB to remove node nodeToBeRemoved
-        System.out.println("Removed node: " + nodeToBeRemoved);
     }
 
     public void onChangeName(ActionEvent actionEvent)
