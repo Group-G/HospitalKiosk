@@ -7,9 +7,10 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Ryan Benasutti
@@ -18,10 +19,16 @@ import java.util.Arrays;
 class MouseGestures
 {
     private static MouseGestures ourInstance = new MouseGestures();
+    private static List<UniqueNode> nodes = new ArrayList<>();
 
     static MouseGestures getInstance()
     {
         return ourInstance;
+    }
+
+    static void setNodes(List<UniqueNode> nodeList)
+    {
+       nodes = nodeList;
     }
 
     private MouseGestures()
@@ -30,7 +37,7 @@ class MouseGestures
 
     private double orgSceneX, orgSceneY;
     private double orgTranslateX, orgTranslateY;
-    private Circle currentSelection = null;
+    private UniqueNode currentSelection = null;
     private double mouseX, mouseY;
 
     /**
@@ -38,7 +45,7 @@ class MouseGestures
      *
      * @param nodes Nodes to make draggable
      */
-    void makeDraggable(Node... nodes)
+    void makeDraggable(UniqueNode... nodes)
     {
         Arrays.stream(nodes).forEach(node ->
                                      {
@@ -57,9 +64,14 @@ class MouseGestures
             final ContextMenu contextMenu = new ContextMenu();
             MenuItem changeType = new MenuItem("Change Type");
             MenuItem changeCat = new MenuItem("Change Category");
-            contextMenu.getItems().addAll(changeType, changeCat);
+            MenuItem remove = new MenuItem("Remove Node");
+            contextMenu.getItems().addAll(changeType, changeCat, remove);
             changeType.setOnAction(event1 -> System.out.println("TYPE CHANGED"));
             changeCat.setOnAction(event1 -> System.out.println("CAT CHANGED"));
+            remove.setOnAction(event1 -> {
+                nodes.remove(currentSelection);
+                System.out.println("Removed node with ID: " + currentSelection.getID());
+            });
             contextMenu.show(currentSelection, mouseX, mouseY);
         }
     };
@@ -82,9 +94,9 @@ class MouseGestures
             orgSceneX = t.getSceneX();
             orgSceneY = t.getSceneY();
 
-            if (t.getSource() instanceof Circle)
+            if (t.getSource() instanceof UniqueNode)
             {
-                Circle p = ((Circle) (t.getSource()));
+                UniqueNode p = ((UniqueNode) (t.getSource()));
                 orgTranslateX = p.getCenterX();
                 orgTranslateY = p.getCenterY();
 
@@ -118,9 +130,9 @@ class MouseGestures
             double newTranslateX = orgTranslateX + offsetX;
             double newTranslateY = orgTranslateY + offsetY;
 
-            if (t.getSource() instanceof Circle)
+            if (t.getSource() instanceof UniqueNode)
             {
-                Circle p = ((Circle) (t.getSource()));
+                UniqueNode p = ((UniqueNode) (t.getSource()));
                 p.setCenterX(newTranslateX);
                 p.setCenterY(newTranslateY);
             }

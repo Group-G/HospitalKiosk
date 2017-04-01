@@ -1,7 +1,6 @@
 package groupg;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 /**
  * @author Ryan Benasutti
@@ -15,9 +14,9 @@ class NodeFactory
      * @param y Y coordinate
      * @return  Circle at (x,y) representing a Node
      */
-    static Circle drawNode(double x, double y)
+    static UniqueNode drawNode(double x, double y)
     {
-        Circle circle = new Circle(10);
+        UniqueNode circle = new UniqueNode(10);
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.7));
         circle.relocate(x, y);
