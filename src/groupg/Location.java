@@ -5,40 +5,37 @@ import java.util.LinkedList;
  */
 public class Location implements iNode {
     String name;
-    private double coordx;  //X-Coordinate
-    private double coordy;  //Y-Coordinate
-    private LinkedList<String> neighbors;
+    private double x;  //X-Coordinate
+    private double y;  //Y-Coordinate
+    private LinkedList<Integer> neighbors;
     private String category;  //Type is hall, stair, elev, room
     private float weight;
     int ID;
     String floor;
     String building;
-    int astarh;
-    int astarj;
+
 
     //Constructor
-    public Location(String name, double x, double y, LinkedList<String> neighbors, String category, float weight, int ID, String floor, String building) {
+    public Node(String name, double x, double y, LinkedList<String> neighbors, String category, float weight, int ID, String floor, String building) {
         this.name = name;
-        this.coordx = x;
-        this.coordy = y;
+        this.x = x;
+        this.y = y;
         this.neighbors = neighbors;
         this.category = category;
         this.weight = weight;
         this.floor = floor;
         this.building = building;
         this.ID = ID;
-        this.astarh = astarh;
-        this.astarj = astarj;
     }
 
     //Getters
-    public double getCoordx() {
-        return coordx;
+    public double getX() {
+        return x;
     }
-    public double getCoordy() {
-        return coordy;
+    public double getY() {
+        return y;
     }
-    public LinkedList<String> getNeighbors() {
+    public LinkedList<Integer> getNeighbors() {
         return neighbors;
     }
     public String getCategory() {
@@ -56,21 +53,11 @@ public class Location implements iNode {
     public String getBuilding() {
         return building;
     }
-<<<<<<< HEAD
-    public int getastarh() {
-        return astarh;
-    }
-    public int getastarj() {
-        return astarj;
-    }
-=======
 
->>>>>>> origin/astar
     //gets length between node and this node
     public double lengthTo(Location other){
-        double len = Math.sqrt(Math.pow(Math.abs(this.getCoordx()-other.getCoordx()), 2)
-                    - Math.pow(Math.abs(this.getCoordy()-other.getCoordy()), 2));
+        double len = Math.sqrt(Math.pow(Math.abs(this.getX()-other.getX()), 2)
+                    - Math.pow(Math.abs(this.getY()-other.getY()), 2));
         return len;
     }
-
 }
