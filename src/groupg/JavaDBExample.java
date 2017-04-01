@@ -49,7 +49,7 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop location.\n");
+                System.out.println("Could not drop location.");
                 //e.printStackTrace();
             }
 
@@ -58,7 +58,7 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop personelle.\n");
+                System.out.println("Could not drop personelle.");
                 //e.printStackTrace();
             }
 
@@ -67,7 +67,7 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop building.\n");
+                System.out.println("Could not drop building.");
                 //e.printStackTrace();
             }
 
@@ -76,7 +76,7 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop floor.\n");
+                System.out.println("Could not drop floor.");
                 //e.printStackTrace();
             }
 
@@ -85,7 +85,7 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop connection.\n");
+                System.out.println("Could not drop connection.");
                 //e.printStackTrace();
             }
 
@@ -94,7 +94,7 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop admin.\n");
+                System.out.println("Could not drop admin.");
                 //e.printStackTrace();
             }
 
@@ -103,18 +103,18 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop category.\n");
+                System.out.println("Could not drop category.");
                 //e.printStackTrace();
             }
             //END DROP TABLES
 
             //CREATE TABLES
-            stmt.execute("CREATE TABLE LOCATION (LOCATION_ID char(20) NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_NUM int default 1, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int default 0)");
-            stmt.execute("CREATE TABLE PERSONELLE (PERSONELLE_ID int NOT NULL Primary Key, PERSONELLE_NAME varchar(20) default NULL, OFFICE_NUMBER char(20))");
-            stmt.execute("CREATE TABLE BUILDING (BUILDING_ID char(20) NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)");
-            stmt.execute("CREATE TABLE FLOOR(FLOOR_ID char(20) NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID char(20), FILENAME varchar(20))");
-            stmt.execute("CREATE TABLE CONNECTIONS(LOCATION_ONE char(20), LOCATION_TWO char(20))");
-            stmt.execute("CREATE TABLE ADMIN(ADMIN_ID char(20), ADMIN_UN char(20), ADMIN_PW char(20))");
+            stmt.execute("CREATE TABLE LOCATION (LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_NUM int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)");
+            stmt.execute("CREATE TABLE PERSONELLE (PERSONELLE_ID int NOT NULL Primary Key, PERSONELLE_NAME varchar(20) default NULL, OFFICE_NUMBER int)");
+            stmt.execute("CREATE TABLE BUILDING (BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)");
+            stmt.execute("CREATE TABLE FLOOR(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID char(20), FILENAME varchar(20))");
+            stmt.execute("CREATE TABLE CONNECTIONS(LOCATION_ONE int, LOCATION_TWO int)");
+            stmt.execute("CREATE TABLE ADMIN(ADMIN_ID int, ADMIN_UN char(20), ADMIN_PW char(20))");
             stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(20))");
             //END CREATE TABLES
 
@@ -189,23 +189,63 @@ public class JavaDBExample
             // substitute your database name for myDB
             Connection connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
             Statement stmt = connection.createStatement();
-            //INSERT INTO TABLES
-                /*stmt.execute("INSERT INTO ROOM VALUES " +
-                        "('A11', 1, 2, 2, 'WAITING_ROOM', 0), " +
-                        "('A21', 1, 2, 3, 'OFFICE', 0) ");
-                stmt.execute("INSERT INTO PERSONELLE VALUES " +
-                        "(0123, 'Dr. Hunter Peterson', 'A21'), " +
-                        "(0124, 'Nurse Bella', 'A21') ");
-                stmt.execute("INSERT INTO BUILDING VALUES " +
-                        "('B0', 'Residential Services', 2), " +
-                        "('B1', 'Morgan Hall', 4) ");
-                stmt.execute("INSERT INTO FLOOR VALUES " +
-                        "(1, 'Residential Services'), " +
-                        "(1, 'Morgan Hall'), " +
-                        "(2, 'Morgan Hall'), " +
-                        "(3, 'Morgan Hall'), " +
-                        "(4, 'Morgan Hall') ");*/
-            //END INSERT TABLES
+
+            //INSERT LOCATION
+            //FORMAT
+            //(LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_NUM int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)
+            stmt.execute("INSERT INTO LOCATION VALUES " +
+                    "(1111, 'A111', 'WAITING_ROOM', 1, 1, 1, 0000), " +
+                    "(1112, 'A112', 'OFFICE', 1, 1, 3, 0001) ");
+
+            //INSERT PERSONELLE
+            //FORMAT
+            //(PERSONELLE_ID int NOT NULL Primary Key, PERSONELLE_NAME varchar(20) default NULL, OFFICE_NUMBER int)
+            stmt.execute("INSERT INTO PERSONELLE VALUES " +
+                    "(2221, 'Dr. Hunter Peterson', 1112), " +
+                    "(2222, 'Nurse Bella', 1112) ");
+
+            //INSERT BUILDING
+            //FORMAT
+            //(BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)
+            stmt.execute("INSERT INTO BUILDING VALUES " +
+                    "(0000, 'Residential Services', 1), " +
+                    "(0001, 'Morgan Hall', 4) ");
+
+            //INSERT FLOOR
+            //FORMAT
+            //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID int, FILENAME varchar(20))
+            stmt.execute("INSERT INTO FLOOR VALUES " +
+                    "(0000, 1, 'Residential Services', 'B0_F1_img'), " +
+                    "(0011, 1, 'Morgan Hall', 'B1_F1_img'), " +
+                    "(0012, 2, 'Morgan Hall', 'B1_F2_img'), " +
+                    "(0013, 3, 'Morgan Hall', 'B1_F3_img'), " +
+                    "(0014, 4, 'Morgan Hall', 'B1_F4_img') ");
+
+            //INSERT CONNECTIONS
+            //FORMAT
+            //(LOCATION_ONE int, LOCATION_TWO int)
+            /*stmt.execute("INSERT INTO CONNECTIONS VALUES " +
+                    "(0000, 0001), ");*/
+
+            //INSERT ADMIN
+            //FORMAT
+            //(ADMIN_ID int, ADMIN_UN char(20), ADMIN_PW char(20))
+            stmt.execute("INSERT INTO ADMIN VALUES " +
+                    "(9990, 'admin', 'admin'), " +
+                    "(9991, 'sjcomeau', 'sjc') ");
+
+            //INSERT CATEGORY
+            //FORMAT
+            //(CATEGORY_NAME varchar(20))
+            stmt.execute("INSERT INTO CATEGORY VALUES " +
+                    "('Office'), " +
+                    "('Bathroom'), " +
+                    "('Hall'), " +
+                    "('Waiting Area'), " +
+                    "('Emergency Room') ");
+
+            //Print
+            System.out.println("Tables inserted!");
         }
         catch (SQLException e)
         {
