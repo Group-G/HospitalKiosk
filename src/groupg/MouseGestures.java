@@ -3,6 +3,7 @@ package groupg;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import java.util.Arrays;
@@ -26,17 +27,20 @@ class MouseGestures
 
     private double orgSceneX, orgSceneY;
     private double orgTranslateX, orgTranslateY;
+    private Circle currentSelection = null;
 
     /**
      * Makes Nodes draggable with a mouse listener
+     *
      * @param nodes Nodes to make draggable
      */
     void makeDraggable(Node... nodes)
     {
-        Arrays.stream(nodes).forEach(node -> {
-            node.setOnMousePressed(circleOnMousePressedEventHandler);
-            node.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-        });
+        Arrays.stream(nodes).forEach(node ->
+                                     {
+                                         node.setOnMousePressed(circleOnMousePressedEventHandler);
+                                         node.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+                                     });
     }
 
     private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>()
@@ -45,27 +49,29 @@ class MouseGestures
         @Override
         public void handle(MouseEvent t)
         {
-
             orgSceneX = t.getSceneX();
             orgSceneY = t.getSceneY();
 
             if (t.getSource() instanceof Circle)
             {
-
                 Circle p = ((Circle) (t.getSource()));
-
                 orgTranslateX = p.getCenterX();
                 orgTranslateY = p.getCenterY();
 
+                //Clear current highlight
+                if (currentSelection != null)
+                {
+                    currentSelection.setFill(Color.BLACK);
+                }
+
+                currentSelection = p;
+                p.setFill(Color.RED);
             }
             else
             {
-
                 Node p = ((Node) (t.getSource()));
-
                 orgTranslateX = p.getTranslateX();
                 orgTranslateY = p.getTranslateY();
-
             }
         }
     };
