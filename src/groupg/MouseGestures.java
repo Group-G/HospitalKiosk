@@ -1,8 +1,11 @@
 package groupg;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
@@ -62,16 +65,32 @@ class MouseGestures
         public void handle(ContextMenuEvent event)
         {
             final ContextMenu contextMenu = new ContextMenu();
-            MenuItem changeType = new MenuItem("Change Type");
+
+            Menu changeType = new Menu("Change Type");
+            ObservableList<MenuItem> types = FXCollections.observableArrayList();
+            List<String> tempStringsFromDB = new ArrayList<>(); //TODO: Grab items from DB
+            tempStringsFromDB.add("Type 1");
+            tempStringsFromDB.add("Type 2");
+            tempStringsFromDB.forEach(s -> {
+                MenuItem item = new MenuItem(s);
+                item.setOnAction(e ->
+                                 {
+                                     System.out.println("Changed type for node " + currentSelection.getID() + " to " + s);
+                                 });
+                changeType.getItems().add(item);
+            });
+            changeType.getItems().addAll(types);
+
             MenuItem changeCat = new MenuItem("Change Category");
             MenuItem remove = new MenuItem("Remove Node");
+
             contextMenu.getItems().addAll(changeType, changeCat, remove);
-            changeType.setOnAction(event1 -> System.out.println("TYPE CHANGED"));
-            changeCat.setOnAction(event1 -> System.out.println("CAT CHANGED"));
+
             remove.setOnAction(event1 -> {
                 nodes.remove(currentSelection);
                 System.out.println("Removed node with ID: " + currentSelection.getID());
             });
+
             contextMenu.show(currentSelection, mouseX, mouseY);
         }
     };

@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 class NodeFactory
 {
     private static int id = 1; //TODO: Get rid of this once ID is done better
+
     /**
      * Constructs a Circle for a Node at a point
      * @param x X coordinate
