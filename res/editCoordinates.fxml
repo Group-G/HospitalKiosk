@@ -20,114 +20,23 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.EditCoordController">
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.EditCoordController">
    <children>
-      <HBox alignment="CENTER" layoutY="38.0" prefWidth="600.0" spacing="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="38.0">
-         <children>
-            <Button fx:id="cancelBtn" layoutX="100.0" layoutY="42.0" mnemonicParsing="false" onAction="#onCancel" text="Cancel/Back" />
-            <Label layoutX="206.0" layoutY="41.0" text="Edit Coordinates">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <Button fx:id="logoutBtn" layoutX="468.0" layoutY="41.0" mnemonicParsing="false" onAction="#onLogout" text="Logout" />
-         </children>
-         <padding>
-            <Insets right="20.0" />
-         </padding>
-      </HBox>
-      <TabPane layoutY="100.0" prefHeight="300.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
-        <tabs>
-          <Tab text="Add">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <VBox prefHeight="271.0" prefWidth="600.0" spacing="10.0">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" layoutX="43.0" layoutY="16.0" spacing="50.0">
-                                 <children>
-                                    <Label layoutX="43.0" layoutY="20.0" text="Name:" GridPane.halignment="CENTER" />
-                                    <TextField fx:id="addNameField" layoutX="120.0" layoutY="16.0" prefWidth="300.0" promptText="Coordinate Name" GridPane.columnIndex="1" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER_LEFT" layoutX="27.0" layoutY="73.0" spacing="10.0">
-                                 <children>
-                                    <Label layoutX="27.0" layoutY="77.0" text="Coordinates:" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                                    <TextField fx:id="addXYField" layoutX="120.0" layoutY="73.0" prefWidth="300.0" promptText="X,Y" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                 </children>
-                              </HBox>
-                              <HBox spacing="10.0">
-                                 <children>
-                                    <MenuButton fx:id="floorDD" mnemonicParsing="false" text="Floor" />
-                                    <MenuButton fx:id="buildingDD" mnemonicParsing="false" text="Building" />
-                                    <MenuButton fx:id="neighborDD" mnemonicParsing="false" text="Neighbors" />
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                                 <padding>
-                                    <Insets left="70.0" />
-                                 </padding>
-                              </HBox>
-                              <Button fx:id="addBtn" mnemonicParsing="false" onAction="#onAdd" text="Add Coordinate">
-                                 <VBox.margin>
-                                    <Insets left="145.0" />
-                                 </VBox.margin>
-                              </Button>
-                           </children>
-                           <padding>
-                              <Insets left="100.0" top="20.0" />
-                           </padding>
-                        </VBox>
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="Remove">
-            <content>
-                  <GridPane fx:id="canvasWrapper">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                  </GridPane>
-            </content>
-          </Tab>
-            <Tab text="Edit Name">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <VBox prefHeight="271.0" prefWidth="600.0" spacing="10.0">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" layoutX="78.0" layoutY="42.0" spacing="21.0">
-                                 <children>
-                                    <Label layoutX="78.0" layoutY="46.0" text="Old Name:" GridPane.halignment="CENTER" />
-                                    <TextField fx:id="oldNameField" layoutX="173.0" layoutY="42.0" prefWidth="300.0" promptText="Enter old name" GridPane.columnIndex="1" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER_LEFT" layoutX="75.0" layoutY="107.0" spacing="15.0">
-                                 <children>
-                                    <Label layoutX="75.0" layoutY="111.0" text="New Name:" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                                    <TextField fx:id="newNameField" layoutX="173.0" layoutY="107.0" prefWidth="300.0" promptText="Enter new name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                 </children>
-                              </HBox>
-                              <Button fx:id="changeNameBtn" mnemonicParsing="false" onAction="#onChangeName" text="Change Name">
-                                 <VBox.margin>
-                                    <Insets left="155.0" />
-                                 </VBox.margin>
-                              </Button>
-                           </children>
-                           <padding>
-                              <Insets left="100.0" top="20.0" />
-                           </padding>
-                        </VBox>
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
-        </tabs>
-      </TabPane>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#onCancel" text="Cancel/Back" />
+            <Button fx:id="logoutBtn" mnemonicParsing="false" onAction="#onLogout" text="Logout" />
+            <Button fx:id="addBtn" mnemonicParsing="false" onAction="#onAdd" text="Add Node" />
+        </items>
+      </ToolBar>
+      <GridPane fx:id="canvasWrapper" layoutX="1.0" layoutY="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
    </children>
 </AnchorPane>
