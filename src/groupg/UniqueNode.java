@@ -12,10 +12,10 @@ class UniqueNode extends Circle
 {
     private Integer ID;
 
-    UniqueNode(double radius)
+    UniqueNode(double radius, Integer ID)
     {
         super(radius);
-        ID = 1; //TODO: Make this unique
+        this.ID = ID; //TODO: Make this unique
     }
 
     Integer getID()

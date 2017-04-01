@@ -13,7 +13,6 @@ import javafx.scene.layout.Pane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 /**
  * @author Ryan Benasutti
@@ -34,11 +33,11 @@ public class EditCoordController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         nodes.addListener((ListChangeListener.Change<? extends UniqueNode> in) -> {
-            canvasWrapper.getChildren().setAll(
-                    canvasWrapper.getChildren().stream()
-                                 .filter(elem -> !(elem instanceof Pane))
-                                 .collect(Collectors.toList()));
-    });
+            canvasWrapper.getChildren().clear();
+            canvasWrapper.getChildren().add(canvas);
+            overlay.getChildren().setAll(nodes);
+            canvasWrapper.getChildren().add(overlay);
+        });
 
         canvasWrapper.getChildren().add(canvas);
         canvasWrapper.getChildren().add(overlay);
@@ -75,6 +74,5 @@ public class EditCoordController implements Initializable
         nodes.add(node);
         MouseGestures.setNodes(nodes);
         overlay.getChildren().setAll(nodes);
-        canvasWrapper.getChildren().add(overlay);
     }
 }

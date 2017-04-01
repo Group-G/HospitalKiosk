@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
  */
 class NodeFactory
 {
+    private static int id = 1; //TODO: Get rid of this once ID is done better
     /**
      * Constructs a Circle for a Node at a point
      * @param x X coordinate
@@ -16,7 +17,8 @@ class NodeFactory
      */
     static UniqueNode drawNode(double x, double y)
     {
-        UniqueNode circle = new UniqueNode(10);
+        UniqueNode circle = new UniqueNode(10, id);
+        id++;
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.7));
         circle.relocate(x, y);
