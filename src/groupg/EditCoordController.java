@@ -32,6 +32,7 @@ public class EditCoordController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        //Listener to remove nodes when they are right-click deleted
         nodes.addListener((ListChangeListener.Change<? extends UniqueNode> in) -> {
             canvasWrapper.getChildren().clear();
             canvasWrapper.getChildren().add(canvas);
