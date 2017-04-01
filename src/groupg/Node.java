@@ -50,18 +50,22 @@ public class Location implements iNode {
     public int getID() {
         return ID;
     }
-    public float getfloor() {
+    public String getfloor() {
         return floor;
     }
-    public float getBuilding() {
+    public String getBuilding() {
         return building;
     }
+<<<<<<< HEAD
     public int getastarh() {
         return astarh;
     }
     public int getastarj() {
         return astarj;
     }
+=======
+
+>>>>>>> origin/astar
     //gets length between node and this node
     public double lengthTo(Location other){
         double len = Math.sqrt(Math.pow(Math.abs(this.getCoordx()-other.getCoordx()), 2)
