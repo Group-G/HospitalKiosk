@@ -8,14 +8,14 @@ import java.util.LinkedList;
 import java.util.ArrayList;
 public class Location {
 
-    private int x, y, ID;
+    private int x, y, ID, weight;
     private Category category;
     private String floor, building;
-    ArrayList<Location> neighbors = new ArrayList<Location>();
+    ArrayList<Integer> neighbors = new ArrayList<>();
 
     /*CONSTRUCTORS*/
 
-    public Location(int x, int y, int ID, Category category, String floor, String building, ArrayList<Location> neighbors) {
+    public Location(int x, int y, int ID, Category category, String floor, String building, ArrayList<Integer> neighbors) {
         this.x = x;
         this.y = y;
         this.ID = ID;

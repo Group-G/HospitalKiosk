@@ -7,12 +7,10 @@ import java.util.List;
 /**
  * Created by svwoolf on 4/1/17.
  */
-public class HospitalData
-{
+public class HospitalData {
 //    List<Building> buildings = new LinkedList<>();
     List<String> categories = new LinkedList<>();
-    HospitalData()
-    {
+    HospitalData() {
         if(pullDataFromDB()) {
             System.out.println("Successfully pulled data from DB");
         } else {
