@@ -8,17 +8,24 @@ public class Node implements iNode {
     private double coordx;  //X-Coordinate
     private double coordy;  //Y-Coordinate
     private LinkedList<String> neighbors;
-    private String type;  //Type is hall, stair, elev, room
+    private String category;  //Type is hall, stair, elev, room
     private float weight;
+    int ID;
+    String floor;
+    String building;
+
 
     //Constructor
-    public Node(String name, double x, double y, LinkedList<String> neighbors, String type, float weight) {
+    public Node(String name, double x, double y, LinkedList<String> neighbors, String category, float weight, int ID, String floor, String building) {
         this.name = name;
         this.coordx = x;
         this.coordy = y;
         this.neighbors = neighbors;
-        this.type = type;
+        this.category = category;
         this.weight = weight;
+        this.floor = floor;
+        this.building = building;
+        this.ID = ID;
     }
 
     //Getters
@@ -31,13 +38,21 @@ public class Node implements iNode {
     public LinkedList<String> getNeighbors() {
         return neighbors;
     }
-    public String getType() {
-        return type;
+    public String getCategory() {
+        return category;
     }
     public float getWeight() {
         return weight;
     }
-
+    public int getID() {
+        return ID;
+    }
+    public float getfloor() {
+        return floor;
+    }
+    public float getBuilding() {
+        return building;
+    }
     //gets length between node and this node
     public double lengthTo(Node other){
         double len = Math.sqrt(Math.pow(Math.abs(this.getCoordx()-other.getCoordx()), 2)
