@@ -11,6 +11,12 @@ import java.sql.*;
  */
 public class JavaDBExample
 {
+    /* connectDB
+        @params none
+        @return void
+        @functionality attempts to connect to HospitalDatabase, on fail it will print how to
+            connect and return
+     */
     void connectDB()
     {
         System.out.println("-------Embedded Java DB Connection Testing --------");
@@ -35,6 +41,12 @@ public class JavaDBExample
         System.out.println("\nJava DB connection established!");
     }
 
+    /* createTables
+            @params none
+            @return void
+            @functionality attepts to connect to HospitalDatabase and drops/creates tables
+                on fail it will return
+         */
     void createTables(){
         try
         {
@@ -127,6 +139,11 @@ public class JavaDBExample
         }
     }
 
+    /* insertTables
+        @params none
+        @return void
+        @functionality inserts dummy values into HospitalDatabase
+     */
     void insertTables(){
         try {
             // substitute your database name for myDB
@@ -197,6 +214,12 @@ public class JavaDBExample
         }
     }
 
+
+    /* selectTables
+        @params none
+        @return void
+        @functionality attempts to connect to HospitalDatabase and select values (unimportant rn)
+     */
     void selectTables(){
         try{
             // substitute your database name for myDB
