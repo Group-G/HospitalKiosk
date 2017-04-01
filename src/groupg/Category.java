@@ -7,14 +7,22 @@ public class Category {
     private String categoryName;
     private Location location;
 
-    public Location getLocation() {
-        return location;
-    }
+    /*CONSTRUCTORS*/
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    /*GETTERS*/
+    public Location getLocation() {
+        return this.location;
     }
 
     public String getCategoryName() {
-        return categoryName;
-    }}
+        return this.categoryName;
+    }
+    /*END GETTERS*/
+
+    /*SETTERS*/
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+    /*END SETTERS*/
+
+}

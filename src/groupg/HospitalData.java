@@ -12,19 +12,15 @@ public class HospitalData
     List<String> categories = new LinkedList<>();
     HospitalData()
     {
-        if(pullDataFromDB())
-        {
+        if(pullDataFromDB()) {
             System.out.println("Successfully pulled data from DB");
-        }
-        else
-        {
+        } else {
             System.out.println("Failed to pull data from DB");
         }
     }
 
 
-    public static boolean pullDataFromDB()
-    {
+    public static boolean pullDataFromDB() {
         return false;
     }
 }
