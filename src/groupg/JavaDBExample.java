@@ -126,7 +126,7 @@ public class JavaDBExample
             stmt.execute("CREATE TABLE BUILDING (BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)");
             stmt.execute("CREATE TABLE FLOOR(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID char(20), FILENAME varchar(20))");
             stmt.execute("CREATE TABLE CONNECTIONS(LOCATION_ONE int, LOCATION_TWO int)");
-            stmt.execute("CREATE TABLE ADMIN(ADMIN_ID int, ADMIN_UN char(20), ADMIN_PW char(20))");
+            stmt.execute("CREATE TABLE ADMIN(ADMIN_UN char(20) NOT NULL Primary Key, ADMIN_PW char(20))");
             stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(20))");
             //END CREATE TABLES
 
@@ -191,8 +191,8 @@ public class JavaDBExample
             //FORMAT
             //(ADMIN_ID int, ADMIN_UN char(20), ADMIN_PW char(20))
             stmt.execute("INSERT INTO ADMIN VALUES " +
-                    "(9990, 'admin', 'admin'), " +
-                    "(9991, 'sjcomeau', 'sjc') ");
+                    "('admin', 'admin'), " +
+                    "('sjcomeau', 'sjc') ");
 
             //INSERT CATEGORY
             //FORMAT
