@@ -3,7 +3,7 @@ import java.util.LinkedList;
 /**
  * Created by Dylan on 3/30/17.
  */
-public class Node implements iNode {
+public class Location implements iNode {
     String name;
     private double coordx;  //X-Coordinate
     private double coordy;  //Y-Coordinate
@@ -13,10 +13,11 @@ public class Node implements iNode {
     int ID;
     String floor;
     String building;
-
+    int astarh;
+    int astarj;
 
     //Constructor
-    public Node(String name, double x, double y, LinkedList<String> neighbors, String category, float weight, int ID, String floor, String building) {
+    public Location(String name, double x, double y, LinkedList<String> neighbors, String category, float weight, int ID, String floor, String building) {
         this.name = name;
         this.coordx = x;
         this.coordy = y;
@@ -26,6 +27,8 @@ public class Node implements iNode {
         this.floor = floor;
         this.building = building;
         this.ID = ID;
+        this.astarh = astarh;
+        this.astarj = astarj;
     }
 
     //Getters
@@ -53,10 +56,17 @@ public class Node implements iNode {
     public float getBuilding() {
         return building;
     }
+    public int getastarh() {
+        return astarh;
+    }
+    public int getastarj() {
+        return astarj;
+    }
     //gets length between node and this node
-    public double lengthTo(Node other){
+    public double lengthTo(Location other){
         double len = Math.sqrt(Math.pow(Math.abs(this.getCoordx()-other.getCoordx()), 2)
                     - Math.pow(Math.abs(this.getCoordy()-other.getCoordy()), 2));
         return len;
     }
+
 }
