@@ -2,6 +2,9 @@ package groupg;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -28,6 +31,7 @@ class MouseGestures
     private double orgSceneX, orgSceneY;
     private double orgTranslateX, orgTranslateY;
     private Circle currentSelection = null;
+    private double mouseX, mouseY;
 
     /**
      * Makes Nodes draggable with a mouse listener
@@ -38,14 +42,40 @@ class MouseGestures
     {
         Arrays.stream(nodes).forEach(node ->
                                      {
-                                         node.setOnMousePressed(circleOnMousePressedEventHandler);
-                                         node.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+                                         node.setOnMousePressed(mousePressedHandler);
+                                         node.setOnMouseDragged(mouseDraggedHandler);
+                                         node.setOnContextMenuRequested(showContextMenu);
+                                         node.setOnMouseMoved(trackMouseCoordinates);
                                      });
     }
 
-    private EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>()
+    private EventHandler<ContextMenuEvent> showContextMenu = new EventHandler<ContextMenuEvent>()
     {
+        @Override
+        public void handle(ContextMenuEvent event)
+        {
+            final ContextMenu contextMenu = new ContextMenu();
+            MenuItem changeType = new MenuItem("Change Type");
+            MenuItem changeCat = new MenuItem("Change Category");
+            contextMenu.getItems().addAll(changeType, changeCat);
+            changeType.setOnAction(event1 -> System.out.println("TYPE CHANGED"));
+            changeCat.setOnAction(event1 -> System.out.println("CAT CHANGED"));
+            contextMenu.show(currentSelection, mouseX, mouseY);
+        }
+    };
 
+    private EventHandler<MouseEvent> trackMouseCoordinates = new EventHandler<MouseEvent>()
+    {
+        @Override
+        public void handle(MouseEvent event)
+        {
+            mouseX = event.getScreenX();
+            mouseY = event.getScreenY();
+        }
+    };
+
+    private EventHandler<MouseEvent> mousePressedHandler = new EventHandler<MouseEvent>()
+    {
         @Override
         public void handle(MouseEvent t)
         {
@@ -64,6 +94,7 @@ class MouseGestures
                     currentSelection.setFill(Color.BLACK);
                 }
 
+                //Set new highlight
                 currentSelection = p;
                 p.setFill(Color.RED);
             }
@@ -76,7 +107,7 @@ class MouseGestures
         }
     };
 
-    private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>()
+    private EventHandler<MouseEvent> mouseDraggedHandler = new EventHandler<MouseEvent>()
     {
         @Override
         public void handle(MouseEvent t)

@@ -77,7 +77,6 @@ public class EditCoordController implements Initializable
     public void onAdd(ActionEvent actionEvent)
     {
         Circle node = NodeFactory.drawNode(100, 100);
-        MouseGestures.getInstance().makeDraggable(node);
         canvasWrapper.getChildren().remove(overlay);
         overlay.getChildren().add(node);
         canvasWrapper.getChildren().add(overlay);

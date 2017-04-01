@@ -16,9 +16,16 @@ class ResizableCanvas extends Pane
     private final int id;
     private final Canvas canvas = new Canvas();
 
+    private double mouseX, mouseY;
+
     ResizableCanvas(int id)
     {
         this.id = id;
+        canvas.setOnMouseMoved(event ->
+                               {
+                                   mouseX = event.getX();
+                                   mouseY = event.getY();
+                               });
         getChildren().add(canvas);
     }
 
@@ -49,5 +56,15 @@ class ResizableCanvas extends Pane
                     break;
             }
         }
+    }
+
+    public double getMouseX()
+    {
+        return mouseX;
+    }
+
+    public double getMouseY()
+    {
+        return mouseY;
     }
 }
