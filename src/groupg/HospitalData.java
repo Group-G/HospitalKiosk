@@ -1,5 +1,6 @@
 package groupg;
 
+import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,9 +21,70 @@ public class HospitalData
     }
 
 
-    public static boolean pullDataFromDB() {
+    public boolean pullDataFromDB() {
+        try {
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        }
+        catch(ClassNotFoundException e) {
+            System.out.println("Java DB Driver not found.");
+            return false;
+        }
+        Connection connection = null;
+
+        try {
+
+            connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
+            Statement stmt = connection.createStatement();
+            if(pullBuildings(stmt) && pullFloors(stmt) && pullLocations(stmt)){
+                return true;
+            }
+
+
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Connection failed. Check output console.");
+            e.printStackTrace();
+            return false;
+        }
+
         return false;
     }
+    private boolean pullBuildings(Statement stmt)
+    {
+        try {
+            ResultSet buildings = stmt.executeQuery("SELECT * FROM BUILDING");
+            ResultSetMetaData roomDataset = buildings.getMetaData();
+            int roomColumns = roomDataset.getColumnCount();
+            for (int i = 1; i <= roomColumns; i++) {
+                System.out.println(roomDataset.getColumnName(i));
+            }
 
+
+            while (buildings.next()) {
+
+                System.out.println(" ");
+                for (int j = 1; j <= roomColumns; j++) {
+                    System.out.print(buildings.getString(j) + "|");
+                }
+                System.out.println();
+            }
+            return true;
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Failed to pull ");
+            return false;
+        }
+
+    }
+    private boolean pullFloors(Statement stmt)
+    {
+        return true;
+    }
+    private boolean pullLocations(Statement stmt)
+    {
+        return true;
+    }
 
 }
