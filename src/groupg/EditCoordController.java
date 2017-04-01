@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 public class EditCoordController implements Initializable
 {
     @FXML
-    private Button cancelBtn, logoutBtn, addNodeBtn, editCatBtn;
+    private Button logoutBtn, addNodeBtn, editCatBtn;
 
     @FXML
     private GridPane canvasWrapper;
@@ -42,18 +42,6 @@ public class EditCoordController implements Initializable
 
         canvasWrapper.getChildren().add(canvas);
         canvasWrapper.getChildren().add(overlay);
-    }
-
-    public void onCancel(ActionEvent actionEvent)
-    {
-        try
-        {
-            ResourceManager.getInstance().loadFXMLIntoScene("/adminMain.fxml", "Admin Main", cancelBtn.getScene());
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
     }
 
     public void onLogout(ActionEvent actionEvent)

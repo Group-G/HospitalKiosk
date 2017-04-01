@@ -36,7 +36,7 @@ public class AdminLoginController
 
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/adminMain.fxml", "Admin Main", cancelBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/editCoordinates.fxml", "Edit Coordinates", cancelBtn.getScene());
         }
         catch (IOException e)
         {
