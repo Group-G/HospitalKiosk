@@ -19,12 +19,12 @@ import java.util.List;
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-class MouseGestures
+class NodeListenerFactory
 {
-    private static MouseGestures ourInstance = new MouseGestures();
+    private static NodeListenerFactory ourInstance = new NodeListenerFactory();
     private static List<UniqueNode> nodes = new ArrayList<>();
 
-    static MouseGestures getInstance()
+    static NodeListenerFactory getInstance()
     {
         return ourInstance;
     }
@@ -34,7 +34,7 @@ class MouseGestures
        nodes = nodeList;
     }
 
-    private MouseGestures()
+    private NodeListenerFactory()
     {
     }
 

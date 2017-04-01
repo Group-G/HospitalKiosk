@@ -61,7 +61,7 @@ public class AdminMainController implements Initializable
         UniqueNode node = NodeFactory.getNode(100, 100);
         canvasWrapper.getChildren().remove(overlay);
         nodes.add(node);
-        MouseGestures.setNodes(nodes);
+        NodeListenerFactory.setNodes(nodes);
         overlay.getChildren().setAll(nodes);
     }
 
