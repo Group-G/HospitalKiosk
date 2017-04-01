@@ -52,7 +52,7 @@ class ResizableCanvas extends Pane
             switch (id)
             {
                 case EDIT_NODES_CANVAS:
-                    gc.drawImage(new Image("/faulkner_1.png", w, h, false, false), 0, 0);
+                    gc.drawImage(new Image("/faulkner_4_cropped.png", w, h, false, true), 0, 0);
                     break;
             }
         }
