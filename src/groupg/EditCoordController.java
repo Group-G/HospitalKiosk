@@ -3,15 +3,12 @@ package groupg;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import java.io.IOException;
@@ -33,9 +30,7 @@ public class EditCoordController implements Initializable
     @FXML
     private MenuButton floorDD, buildingDD, neighborDD;
     @FXML
-    private Canvas canvas;
-    @FXML
-    private AnchorPane canvasAP;
+    private GridPane canvasWrapper;
 
     //Selected items on add screen
     private String selectedFloor = "", selectedBuilding = "", selectedNeighbor = "";
@@ -88,21 +83,13 @@ public class EditCoordController implements Initializable
                           neighborDD.getItems().add(new MenuItem(elem));
                       });
 
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        drawShapes(gc);
-
+        ResizableCanvas canvas = new ResizableCanvas(ResizableCanvas.EDIT_NODES_CANVAS);
         Circle node1 = NodeFactory.drawNode(30, 30);
         Circle node2 = NodeFactory.drawNode(40, 40);
         MouseGestures.getInstance().makeDraggable(node1, node2);
         Pane overlay = new Pane();
         overlay.getChildren().addAll(node1, node2);
-        canvasAP.getChildren().add(overlay);
-    }
-
-    private void drawShapes(GraphicsContext gc)
-    {
-        gc.setStroke(Color.RED);
-        gc.strokeRoundRect(10, 10, 100, 100, 10, 10);
+        canvasWrapper.getChildren().addAll(canvas, overlay);
     }
 
     public void onCancel(ActionEvent actionEvent)

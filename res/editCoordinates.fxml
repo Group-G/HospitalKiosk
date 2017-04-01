@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.canvas.*?>
@@ -21,7 +22,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.EditCoordController">
    <children>
-      <HBox alignment="CENTER" layoutY="38.0" prefWidth="600.0" spacing="70.0">
+      <HBox alignment="CENTER" layoutY="38.0" prefWidth="600.0" spacing="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="38.0">
          <children>
             <Button fx:id="cancelBtn" layoutX="100.0" layoutY="42.0" mnemonicParsing="false" onAction="#onCancel" text="Cancel/Back" />
             <Label layoutX="206.0" layoutY="41.0" text="Edit Coordinates">
@@ -35,7 +36,7 @@
             <Insets right="20.0" />
          </padding>
       </HBox>
-      <TabPane layoutY="100.0" prefHeight="300.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutY="100.0" prefHeight="300.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
         <tabs>
           <Tab text="Add">
             <content>
@@ -84,11 +85,14 @@
           </Tab>
           <Tab text="Remove">
             <content>
-              <AnchorPane fx:id="canvasAP" minHeight="271.0" minWidth="600.0" prefHeight="271.0" prefWidth="600.0">
-                     <children>
-                         <Canvas fx:id="canvas" height="271.0" width="600.0" />
-                     </children>
-                  </AnchorPane>
+                  <GridPane fx:id="canvasWrapper">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
             </content>
           </Tab>
             <Tab text="Edit Name">

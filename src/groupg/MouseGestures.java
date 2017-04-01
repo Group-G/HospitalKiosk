@@ -11,11 +11,11 @@ import java.util.Arrays;
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-public class MouseGestures
+class MouseGestures
 {
     private static MouseGestures ourInstance = new MouseGestures();
 
-    public static MouseGestures getInstance()
+    static MouseGestures getInstance()
     {
         return ourInstance;
     }
