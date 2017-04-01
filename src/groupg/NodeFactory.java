@@ -15,7 +15,7 @@ class NodeFactory
      * @param y Y coordinate
      * @return  Circle at (x,y) representing a Node
      */
-    static UniqueNode drawNode(double x, double y)
+    static UniqueNode getNode(double x, double y)
     {
         UniqueNode circle = new UniqueNode(10, id);
         id++;

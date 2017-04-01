@@ -70,7 +70,7 @@ public class EditCoordController implements Initializable
 
     public void onAdd(ActionEvent actionEvent)
     {
-        UniqueNode node = NodeFactory.drawNode(100, 100);
+        UniqueNode node = NodeFactory.getNode(100, 100);
         canvasWrapper.getChildren().remove(overlay);
         nodes.add(node);
         MouseGestures.setNodes(nodes);
