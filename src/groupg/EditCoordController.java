@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 public class EditCoordController implements Initializable
 {
     @FXML
-    private Button cancelBtn, logoutBtn;
+    private Button cancelBtn, logoutBtn, addNodeBtn, editCatBtn;
 
     @FXML
     private GridPane canvasWrapper;
@@ -68,12 +68,24 @@ public class EditCoordController implements Initializable
         }
     }
 
-    public void onAdd(ActionEvent actionEvent)
+    public void onAddNode(ActionEvent actionEvent)
     {
         UniqueNode node = NodeFactory.getNode(100, 100);
         canvasWrapper.getChildren().remove(overlay);
         nodes.add(node);
         MouseGestures.setNodes(nodes);
         overlay.getChildren().setAll(nodes);
+    }
+
+    public void onEditCat(ActionEvent event)
+    {
+        try
+        {
+            ResourceManager.getInstance().loadFXMLIntoScene("/editCategory.fxml", "Edit Categories", logoutBtn.getScene());
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

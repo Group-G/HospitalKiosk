@@ -38,7 +38,7 @@ class ResourceManager
                           {
                               Stage stage = (Stage) scene.getWindow();
                               stage.setTitle(title);
-                              stage.setScene(new Scene(root, 600, 400));
+                              stage.setScene(new Scene(root, scene.getWidth(), scene.getHeight()));
                               stage.show();
                           });
     }

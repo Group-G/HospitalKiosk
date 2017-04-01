@@ -1,40 +1,44 @@
 package groupg;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ListView;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * @author Ryan Benasutti
  * @since 2017-03-30
  */
-public class EditCategoryController
+public class EditCategoryController implements Initializable
 {
     @FXML
-    private Button logoutBtn, cancelBtn, addCatBtn, remCatBtn;
+    private Button cancelBtn, newBtn, deleteBtn;
     @FXML
-    private TextField addCatNameField, remCatNameField;
+    private ListView<String> catList;
+
+    private ObservableList<String> cats = FXCollections.observableArrayList();
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
+    {
+        cats.clear();
+        cats.add("Test cat 1");
+        cats.add("Test cat 2");
+        catList.getItems().setAll(cats); //TODO: Get cats from DB
+    }
 
     public void onCancel(ActionEvent actionEvent)
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/adminMain.fxml", "Admin Main", cancelBtn.getScene());
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void onLogout(ActionEvent actionEvent)
-    {
-        try
-        {
-            ResourceManager.getInstance().loadFXMLIntoScene("/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/editCoordinates.fxml", "Edit Coordinates", cancelBtn.getScene());
         }
         catch (IOException e)
         {
@@ -44,11 +48,19 @@ public class EditCategoryController
 
     public void onAdd(ActionEvent actionEvent)
     {
-        //Add category from editCategoryCategoryNameField, editCategoryCoordNameField
+        try
+        {
+            ResourceManager.getInstance().loadFXMLIntoScene("/editCategoryAdd.fxml", "Add New Category", newBtn.getScene());
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
-    public void onRem(ActionEvent actionEvent)
+    public void onDelete(ActionEvent actionEvent)
     {
-        //Remove category from editCategoryRemoveField
+        //TODO: Remove cat from DB
+        catList.getItems().remove(catList.getSelectionModel().getSelectedItem());
     }
 }

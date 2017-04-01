@@ -20,14 +20,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.EditCoordController">
    <children>
       <ToolBar prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#onCancel" text="Cancel/Back" />
             <Button fx:id="logoutBtn" mnemonicParsing="false" onAction="#onLogout" text="Logout" />
-            <Button fx:id="addBtn" mnemonicParsing="false" onAction="#onAdd" text="Add Node" />
+            <Button fx:id="addNodeBtn" mnemonicParsing="false" onAction="#onAddNode" text="Add Node" />
+            <Button fx:id="editCatBtn" mnemonicParsing="false" onAction="#onEditCat" text="Edit Categories" />
         </items>
       </ToolBar>
       <GridPane fx:id="canvasWrapper" layoutX="1.0" layoutY="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
