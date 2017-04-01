@@ -38,7 +38,7 @@ public class EditCategoryController implements Initializable
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/editCoordinates.fxml", "Edit Coordinates", cancelBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/adminMain.fxml", "Admin Main", cancelBtn.getScene());
         }
         catch (IOException e)
         {

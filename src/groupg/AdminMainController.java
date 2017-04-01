@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
  * @author Ryan Benasutti
  * @since 2017-03-30
  */
-public class EditCoordController implements Initializable
+public class AdminMainController implements Initializable
 {
     @FXML
     private Button logoutBtn, addNodeBtn, editCatBtn;
