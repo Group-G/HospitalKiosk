@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 public class WelcomeScreenController implements Initializable, Controller
 {
     @FXML
-    private Button adminBtn;
+    private Button adminBtn, searchBtn;
     @FXML
     private HBox topHBox;
     @FXML
@@ -38,7 +38,7 @@ public class WelcomeScreenController implements Initializable, Controller
 
         ObservableList<Node> children = FXCollections.observableArrayList(topHBox.getChildren());
         children.add(textField);
-        Collections.swap(children, 0, 1);
+        Collections.swap(children, 1, 2);
         topHBox.getChildren().setAll(children);
     }
 
@@ -47,6 +47,18 @@ public class WelcomeScreenController implements Initializable, Controller
         try
         {
             ResourceManager.getInstance().loadFXMLIntoScene("/adminLogin.fxml", "Admin Login", adminBtn.getScene());
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void onSearch(ActionEvent actionEvent)
+    {
+        try
+        {
+            ResourceManager.getInstance().loadFXMLIntoScene("/directionScreen.fxml", "Your Directions", searchBtn.getScene());
         }
         catch (IOException e)
         {

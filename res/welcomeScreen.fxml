@@ -12,10 +12,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.WelcomeScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.WelcomeScreenController">
    <children>
       <Button fx:id="adminBtn" layoutX="518.0" layoutY="23.0" mnemonicParsing="false" onAction="#onAdminLogin" text="Admin" AnchorPane.rightAnchor="31.0" />
-      <VBox alignment="CENTER" layoutX="142.0" layoutY="55.0" spacing="20.0" AnchorPane.leftAnchor="142.0" AnchorPane.rightAnchor="132.0" AnchorPane.topAnchor="55.0">
+      <VBox alignment="CENTER" layoutX="142.0" layoutY="55.0" spacing="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
          <children>
             <Label alignment="CENTER" layoutX="140.0" layoutY="68.0" text="Welcome to Faulkner Hospital" wrapText="true">
                <font>
@@ -26,14 +26,13 @@
                <children>
                   <MenuButton fx:id="catDropdown" layoutX="366.0" layoutY="126.0" mnemonicParsing="false" text="Select Area">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Doctor Name" />
                       <MenuItem mnemonicParsing="false" text="Bathroom" />
                         <MenuItem mnemonicParsing="false" text="Doctor Name" />
-                        <MenuItem mnemonicParsing="false" text="Bathroom" />
                         <MenuItem mnemonicParsing="false" text="Food" />
                         <MenuItem mnemonicParsing="false" text="Hospital Wing" />
                     </items>
                   </MenuButton>
+                  <Button fx:id="searchBtn" minWidth="70.0" mnemonicParsing="false" onAction="#onSearch" text="Search" />
                </children>
             </HBox>
          </children>
