@@ -1,16 +1,13 @@
 package groupg;
 
 
-import java.util.ArrayList;
-
 import java.util.LinkedList;
+
 /**
  * Created by AlazarGenene on 4/1/17.
  */
-import java.util.ArrayList;
-import java.util.List;
-
-public class Location {
+public class Location implements Comparable
+{
 
     private double x, y;
 
