@@ -6,6 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * @author Ryan Benasutti
+ * @since 2017-03-23
+ */
 public class Main extends Application
 {
     @Override
@@ -13,14 +17,14 @@ public class Main extends Application
     {
         Parent root = FXMLLoader.load(getClass().getResource("/welcomeScreen.fxml"));
         primaryStage.setTitle("Welcome");
-        primaryStage.setScene(new Scene(root, 610, 400));
+        primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }
 
     public static void main(String[] args)
     {
-        JavaDBExample dbExample = new JavaDBExample();
-        dbExample.testDB();
+//        JavaDBExample dbExample = new JavaDBExample();
+//        dbExample.testDB();
 
         launch(args);
     }
