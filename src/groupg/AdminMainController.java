@@ -26,7 +26,7 @@ public class AdminMainController implements Initializable, Controller
 
     @FXML
     private GridPane canvasWrapper;
-    private ResizableCanvas canvas = new ResizableCanvas(ResizableCanvas.EDIT_NODES_CANVAS);
+    private ResizableCanvas canvas = new ResizableCanvas(ResizableCanvas.DRAW_FLOOR_4);
     private Pane overlay = new Pane();
     static ObservableList<Shape> displayedShapes = FXCollections.observableArrayList();
 
