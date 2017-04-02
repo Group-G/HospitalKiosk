@@ -16,7 +16,7 @@ public class Location {
 
 
     //Constructor
-    public Node(String name, double x, double y, LinkedList<String> neighbors, String category, float weight, int ID, String floor, String building) {
+    public Location(String name, double x, double y, LinkedList<Integer> neighbors, String category, float weight, int ID, String floor, String building) {
         this.name = name;
         this.x = x;
         this.y = y;
