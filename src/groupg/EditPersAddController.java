@@ -22,7 +22,7 @@ import java.util.Set;
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-public class EditPersAddController implements Initializable, Controller
+public class EditPersAddController implements Initializable
 {
     @FXML
     private TextField nameField, titleField;

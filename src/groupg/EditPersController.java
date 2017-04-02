@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 
 import java.io.IOException;
 import java.net.URL;
@@ -13,7 +14,7 @@ import java.util.ResourceBundle;
  * @author Ryan Benasutti
  * @since 2017-03-30
  */
-public class EditPersController implements Initializable, Controller
+public class EditPersController implements Initializable
 {
     @FXML
     private Button cancelBtn, newBtn, editBtn, deleteBtn;
@@ -23,7 +24,7 @@ public class EditPersController implements Initializable, Controller
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        persList.getItems().add(new Person("Ryan Benasutti", "Dr.", new Location("Daniels 3"))); //TODO: Fill from DB
+        persList.getItems().add(new Person("Ryan Benasutti", "Dr.", new Location("Daniels 3", 10, 10, )))); //TODO: Fill from DB
     }
 
     public void onCancel(ActionEvent actionEvent)

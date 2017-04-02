@@ -18,7 +18,7 @@ import java.util.*;
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-class EditPersFineController implements Initializable, Controller
+class EditPersFineController implements Initializable
 {
     @FXML
     private TextField nameField, titleField;
