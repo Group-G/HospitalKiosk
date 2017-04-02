@@ -31,11 +31,13 @@ public class WelcomeScreenController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        AutoCompleteTextField autoCompleteTextField = new AutoCompleteTextField();
-        autoCompleteTextField.getEntries().add("TEST 1");
+        AutoCompleteTextField textField = new AutoCompleteTextField();
+        textField.setMinWidth(200);
+        textField.setPromptText("Search for something...");
+        textField.getEntries().add("TEST 1"); //TODO: Populate this from DB
 
         ObservableList<Node> children = FXCollections.observableArrayList(topHBox.getChildren());
-        children.add(autoCompleteTextField);
+        children.add(textField);
         Collections.swap(children, 0, 1);
         topHBox.getChildren().setAll(children);
     }
