@@ -16,7 +16,7 @@ public class Astar {
     }  //adds all nodes to locations
 
     //main run method adds A* path to shortestPath
-    public void run(Location start, Location goal){
+    public LinkedList<Location> run(Location start, Location goal){
         start.setFcost(0+start.lengthTo(goal));
         open.add(start);
         do{
@@ -55,6 +55,7 @@ public class Astar {
             itr = itr.getParent();
         }
         shortestPath.addFirst(start); //adds start to beginning of path
+        return shortestPath;
     }
 
     //gets location with lowest score
