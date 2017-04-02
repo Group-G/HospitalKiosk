@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
  * @author Ryan Benasutti
  * @since 2017-03-30
  */
-public class EditCategoryController implements Initializable, Controller
+public class EditCategoryController implements Initializable
 {
     @FXML
     private Button cancelBtn, newBtn, deleteBtn;

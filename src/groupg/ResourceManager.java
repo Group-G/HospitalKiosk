@@ -2,6 +2,7 @@ package groupg;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -53,7 +54,7 @@ class ResourceManager
      * @param scene      Scene to load into
      * @param controller Controller to use
      */
-    void loadFXMLIntoSceneWithController(String fileName, String title, Scene scene, Controller controller)
+    void loadFXMLIntoSceneWithController(String fileName, String title, Scene scene, Initializable controller)
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
         loader.setController(controller);

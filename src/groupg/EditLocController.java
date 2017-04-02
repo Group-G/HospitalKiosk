@@ -1,23 +1,30 @@
 package groupg;
 
-import groupg.DatabaseInterface.Location;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * @author Ryan Benasutti
  * @since 2017-04-02
  */
-public class EditLocController implements Controller
+public class EditLocController implements Initializable
 {
     @FXML
     private Button cancelBtn, newBtn, deleteBtn;
     @FXML
     private ListView<Location> locList;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
+    }
 
     public void onCancel(ActionEvent actionEvent)
     {

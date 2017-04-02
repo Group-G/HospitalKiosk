@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -23,12 +24,14 @@ import java.util.*;
  * @author Ryan Benasutti
  * @since 2017-03-30
  */
-public class DirectionScreenController implements Initializable, Controller
+public class DirectionScreenController implements Initializable
 {
     @FXML
     private ToolBar toolBar;
     @FXML
     private Button cancelBtn, searchBtn;
+    @FXML
+    private ListView<String> locList;
     @FXML
     private GridPane canvasWrapper;
     private ResizableCanvas canvas = new ResizableCanvas(ResizableCanvas.DRAW_FLOOR_4);
@@ -110,5 +113,10 @@ public class DirectionScreenController implements Initializable, Controller
                 displayedShapes.add(line);
             }
         }
+    }
+
+    private void generateTextDirections(LinkedList<Location> locations)
+    {
+        //Write directions to locList
     }
 }

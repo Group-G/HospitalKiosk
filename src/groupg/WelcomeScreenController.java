@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
  * @author Ryan Benasutti
  * @since 2017-03-23
  */
-public class WelcomeScreenController implements Initializable, Controller
+public class WelcomeScreenController implements Initializable
 {
     @FXML
     private Button adminBtn, searchBtn;
@@ -32,7 +32,7 @@ public class WelcomeScreenController implements Initializable, Controller
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        AutoCompleteTextField textField = new AutoCompleteTextField();
+        AutoCompleteTextField<String> textField = new AutoCompleteTextField<>();
         textField.setMinWidth(200);
         textField.setPromptText("Search for something...");
         textField.getEntries().add("TEST 1"); //TODO: Populate this from DB
