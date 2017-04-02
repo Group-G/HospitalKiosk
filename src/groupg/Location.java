@@ -8,23 +8,21 @@ public class Location {
     private double x;  //X-Coordinate
     private double y;  //Y-Coordinate
     private LinkedList<Integer> neighbors;
-    private String category;  //Type is hall, stair, elev, room, bath
+    private String category;  //Type is hall, stair, elev, room
     private float weight;
     int ID;
     String floor;
     String building;
-    private double fcost;
-    private Location parent;
 
 
     //Constructor
-    public Location(String name, double x, double y, LinkedList<Integer> neighbors, String category, int ID, String floor, String building) {
+    public Node(String name, double x, double y, LinkedList<String> neighbors, String category, float weight, int ID, String floor, String building) {
         this.name = name;
         this.x = x;
         this.y = y;
         this.neighbors = neighbors;
         this.category = category;
-        this.weight = 0;
+        this.weight = weight;
         this.floor = floor;
         this.building = building;
         this.ID = ID;
@@ -54,20 +52,6 @@ public class Location {
     }
     public String getBuilding() {
         return building;
-    }
-    public Location getParent() {
-        return parent;
-    }
-    public double getFcost() {
-        return fcost;
-    }
-
-    //Setters
-    public void setParent(Location parent) {
-        this.parent = parent;
-    }
-    public void setFcost(double fcost) {
-        this.fcost = fcost;
     }
 
     //gets length between node and this node
