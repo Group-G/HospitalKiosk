@@ -14,7 +14,7 @@ public class Building{
     private String name;
     public Building(int id, String name, int numFloors)
     {
-        System.out.println("New Building: id=" + id + " name=" + name + " numFloor=" + numFloors);
+//        System.out.println("New Building: id=" + id + " name=" + name + " numFloor=" + numFloors);
         this.id = id;
         this.name = name;
         this.numFloors = numFloors;
