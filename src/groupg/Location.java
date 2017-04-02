@@ -1,23 +1,24 @@
 package groupg;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 /**
- * Created by AlazarGenene on 4/1/17.
+ * Created by Dylan on 3/30/17.
  */
-import java.util.ArrayList;
-import java.util.List;
-
 public class Location {
-
-    private double x, y;
+    String name;
+    private double x;  //X-Coordinate
+    private double y;  //Y-Coordinate
+    private LinkedList<Integer> neighbors;
+    private String category;  //Type is hall, stair, elev, room
     private float weight;
-    private int ID;
-    private String name, category,floor, building;
-    LinkedList<Integer> neighbors = new LinkedList<Integer>();
+    int ID;
+    String floor;
+    String building;
+    double fcost;
+    Location parent;
 
-    /*CONSTRUCTORS*/
 
+    //Constructor
     public Location(String name, double x, double y, LinkedList<Integer> neighbors, String category, float weight, int ID, String floor, String building) {
         this.name = name;
         this.x = x;
@@ -29,58 +30,49 @@ public class Location {
         this.building = building;
         this.ID = ID;
     }
-
-    /*SETTERS*/
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public void setFloor(String floor) {
-        this.floor = floor;
-    }
-
-    public void setBuilding(String building) {
-        this.building = building;
-    }
-    /*END SETTERS*/
-
-    /*GETTERS*/
+  
+    //Getters
     public double getX() {
-        return this.x;
+        return x;
     }
-
     public double getY() {
-        return this.y;
+        return y;
     }
-
-    public String getFloor() {
-        return this.floor;
+    public LinkedList<Integer> getNeighbors() {
+        return this.neighbors;
     }
-
-    public String getBuilding() {
-        return this.building;
-    }
-
-    public int getID() {
-        return this.ID;
-    }
-
     public String getCategory() {
-        return this.category;
+        return category;
     }
-    /*END GETTERS*/
+    public float getWeight() {
+        return weight;
+    }
+    public int getID() {
+        return ID;
+    }
+    public String getfloor() {
+        return floor;
+    }
+    public String getBuilding() {
+        return building;
+    }
+    public double getFcost() {
+        return fcost;
+    }
+    public Location getParent() {
+        return parent;
+    }
+    public void setFcost(double fcost) {
+        this.fcost = fcost;
+    }
+    public void setParent(Location parent) {
+        this.parent = parent;
+    }
 
-
+    //gets length between node and this node
+    public double lengthTo(Location other){
+        double len = Math.sqrt(Math.pow(Math.abs(this.getX()-other.getX()), 2)
+                    - Math.pow(Math.abs(this.getY()-other.getY()), 2));
+        return len;
+    }
 }

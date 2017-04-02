@@ -1,0 +1,5 @@
+edit coordinates:
+	add:
+		name, (x,y), category, floor, building, ID, neighbors (max 4)
+	remove: ID
+	edit node: node
