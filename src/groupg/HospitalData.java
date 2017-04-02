@@ -40,10 +40,10 @@ public class HospitalData {
             Statement stmt = connection.createStatement();
 
             if(pullBuildings(stmt)){
-                System.out.println("pulled " + this.buildings.size() + " buildings");
-                System.out.println("pulling floors");
+//                System.out.println("pulled " + this.buildings.size() + " buildings");
+//                System.out.println("pulling floors");
                 if(pullFloors(stmt)) {
-                    System.out.println("pulling locations");
+//                    System.out.println("pulling locations");
                     if (pullLocations(stmt)) {
                         return true;
                     }
@@ -74,10 +74,10 @@ public class HospitalData {
             String buildingName = "FAILED TO PULL";
 
 
-            for (int i = 1; i <= roomColumns; i++) {
-                System.out.print(roomDataset.getColumnName(i) + "|");
-            }
-            System.out.println();
+//            for (int i = 1; i <= roomColumns; i++) {
+//                System.out.print(roomDataset.getColumnName(i) + "|");
+//            }
+//            System.out.println();
 
 
             while (buildings.next()) {
@@ -100,7 +100,7 @@ public class HospitalData {
 
 
                 }
-                System.out.println("making building");
+//                System.out.println("making building");
                 Building b = new Building(buildingId, buildingName, floorCount);
                 this.buildings.add(b);
 
@@ -125,18 +125,16 @@ public class HospitalData {
             ResultSetMetaData roomDataset = floors.getMetaData();
 
             int roomColumns = roomDataset.getColumnCount();
-            for (int i = 1; i <= roomColumns; i++) {
-                System.out.print(roomDataset.getColumnName(i) + "|");
-            }
-            System.out.println();
+//            for (int i = 1; i <= roomColumns; i++) {
+//                System.out.print(roomDataset.getColumnName(i) + "|");
+//            }
+//            System.out.println();
 
 
             int floorId = -1, buildingId = -1, floorNum = -1;
             String floorNumber = "FAILED TO PULL", fileName = "FAILED TO PULL";
 
-            System.out.println("hola");
             while (floors.next()) {
-                System.out.println("hello????");
                 for (int j = 1; j <= roomColumns; j++) {
                     if(roomDataset.getColumnName(j).equals("FLOOR_ID")){
                         floorId = Integer.parseInt(floors.getString(j).replaceAll("\\s+",""));
@@ -156,7 +154,7 @@ public class HospitalData {
 
 
                 }
-                System.out.println("adding floor " + floorId);
+//                System.out.println("adding floor " + floorId);
                 Floor f = new Floor(floorId, buildingId, fileName, floorNumber);
 //               FLOOR_ID FLOOR_NUMBER  BUILDING_ID  FILENAME varchar(20))
                 addFloor(f, buildingId);
@@ -179,10 +177,10 @@ public class HospitalData {
             ResultSetMetaData roomDataset = locations.getMetaData();
 
             int roomColumns = roomDataset.getColumnCount();
-            for (int i = 1; i <= roomColumns; i++) {
-                System.out.print(roomDataset.getColumnName(i) + "|");
-            }
-            System.out.println();
+//            for (int i = 1; i <= roomColumns; i++) {
+//                System.out.print(roomDataset.getColumnName(i) + "|");
+//            }
+//            System.out.println();
 
             int id = -1, x_coord = -1, y_coord = -1;
             String floorID = "FAILED TO PULL", buildingID = "FAILED TO PULL",
@@ -242,33 +240,30 @@ public class HospitalData {
 
 
     public Building getBuildingById(int id) {
-        System.out.println("looking for building " + id);
         for(int i = 0; i < this.buildings.size(); i++)
         {
-            System.out.println(this.buildings.get(i).getId());
             if(this.buildings.get(i).getId() == id)
             {
                 return this.buildings.get(i);
             }
         }
+        System.out.println("COULD NOT FIND BUILDING " + id);
         return null;
     }
 
     public Floor getFloorById(int id) {
 
-        System.out.println("looking for floor " + id + " out of " +  this.buildings.size() + " building");
         for(int i = 0; i < this.buildings.size(); i++)
         {
             ArrayList<Floor> floorList = this.buildings.get(i).getFloorList();
-            System.out.println(floorList.size() + "floors");
             for(int f = 0; f < floorList.size(); f++) {
-                System.out.println(floorList.get(f).getId() + ",  "+ floorList.get(f).getFloorNum());
 
                 if (floorList.get(f).getId() == id) {
                     return floorList.get(f);
                 }
             }
         }
+        System.out.println("COULD NOT FIND FLOOR " + id);
         return null;
     }
 

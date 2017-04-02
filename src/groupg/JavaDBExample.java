@@ -19,7 +19,7 @@ public class JavaDBExample
      */
     void connectDB()
     {
-        System.out.println("-------Embedded Java DB Connection Testing --------");
+//        System.out.println("-------Embedded Java DB Connection Testing --------");
         try
         {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -37,8 +37,8 @@ public class JavaDBExample
             return;
         }
 
-        System.out.println("Java DB driver registered!");
-        System.out.println("\nJava DB connection established!");
+//        System.out.println("Java DB driver registered!");
+//        System.out.println("\nJava DB connection established!");
     }
 
     /* createTables
@@ -132,7 +132,7 @@ public class JavaDBExample
             stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(20))");
             //END CREATE TABLES
 
-            System.out.println("Tables created!");
+//            System.out.println("Tables created!");
         }
         catch (SQLException e)
         {
@@ -216,7 +216,7 @@ public class JavaDBExample
                     "('Emergency Room') ");
 
             //Print
-            System.out.println("Tables inserted!");
+//            System.out.println("Tables inserted!");
         }
         catch (SQLException e)
         {
