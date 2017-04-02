@@ -13,6 +13,8 @@ public class Location {
     int ID;
     String floor;
     String building;
+    double fcost;
+    Location parent;
 
 
     //Constructor
@@ -52,6 +54,18 @@ public class Location {
     }
     public String getBuilding() {
         return building;
+    }
+    public double getFcost() {
+        return fcost;
+    }
+    public Location getParent() {
+        return parent;
+    }
+    public void setFcost(double fcost) {
+        this.fcost = fcost;
+    }
+    public void setParent(Location parent) {
+        this.parent = parent;
     }
 
     //gets length between node and this node
