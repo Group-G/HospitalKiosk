@@ -8,7 +8,7 @@ public class Location implements iNode {
     private double x;  //X-Coordinate
     private double y;  //Y-Coordinate
     private LinkedList<Integer> neighbors;
-    private String category;  //Type is hall, stair, elev, room
+    private String category;  //Type is hall, stair, elev, room, bath
     private float weight;
     int ID;
     String floor;
