@@ -132,4 +132,8 @@ public class Location implements Comparable
     public Location getParent() {
         return this.parent;
     }
+    @Override
+     public int compareTo(Object o) {
+         return toString().compareTo(o.toString());
+    }
 }
