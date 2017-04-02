@@ -7,7 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
@@ -28,7 +28,7 @@ public class DirectionScreenController implements Initializable, Controller
     @FXML
     private Button cancelBtn;
     @FXML
-    private AnchorPane canvasWrapper;
+    private GridPane canvasWrapper;
     private ResizableCanvas canvas = new ResizableCanvas(ResizableCanvas.DRAW_FLOOR_4);
     private Pane overlay = new Pane();
     static ObservableList<Shape> displayedShapes = FXCollections.observableArrayList();
@@ -39,14 +39,14 @@ public class DirectionScreenController implements Initializable, Controller
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         displayedShapes.addListener((ListChangeListener.Change<? extends Shape> in) -> {
-            canvasWrapper.getChildren().removeIf(elem -> elem instanceof Pane && !(elem instanceof ResizableCanvas));
-            //canvasWrapper.getChildren().add(canvas);
+            canvasWrapper.getChildren().clear();
+            canvasWrapper.add(canvas, 0, 0);
             overlay.getChildren().setAll(displayedShapes);
-            canvasWrapper.getChildren().add(overlay);
+            canvasWrapper.add(overlay, 0, 0);
         });
 
-        canvasWrapper.getChildren().add(canvas);
-        canvasWrapper.getChildren().add(overlay);
+        canvasWrapper.add(canvas, 0, 0);
+        canvasWrapper.add(overlay, 0, 0);
 
         LinkedList<Location> locations = new LinkedList<>();
         LinkedList<Integer> loc1N = new LinkedList<>(), loc2N = new LinkedList<>(), loc3N = new LinkedList<>();
