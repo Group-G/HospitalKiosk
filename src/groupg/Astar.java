@@ -8,14 +8,14 @@ import java.util.LinkedList;
 public class Astar {
     LinkedList<Location> open = new LinkedList<>();
     LinkedList<Location> closed = new LinkedList<>();
-    LinkedList<Location> locations;
-    LinkedList<Location> shortestPath = new LinkedList<>();
+    LinkedList<Location> locations;  //list of all nodes for the search
+    LinkedList<Location> shortestPath = new LinkedList<>();  //the shortest path from start to finish
 
     Astar(LinkedList<Location> loc){
         this.locations = loc;
-    }
+    }  //adds all nodes to locations
 
-
+    //main run method adds A* path to shortestPath
     public void run(Location start, Location goal){
         start.setFcost(0+start.lengthTo(goal));
         open.add(start);
@@ -57,6 +57,7 @@ public class Astar {
         shortestPath.addFirst(start); //adds start to beginning of path
     }
 
+    //gets location with lowest score
     public Location lowestF(LinkedList<Location> set){
         double bestScore = Double.MAX_VALUE;
         double currentScore;
@@ -71,6 +72,7 @@ public class Astar {
         return low;
     }
 
+    //returns all neighbors of node
     public LinkedList<Location> getNeighbors(Location loc){
         LinkedList<Location> neigh = new LinkedList<>();
         for (Integer id:loc.getNeighbors()){
@@ -79,6 +81,7 @@ public class Astar {
         return neigh;
     }
 
+    //returns location with the given ID
     private Location getLocation(Integer id){
         Location idLoc = null;
         for (Location l:locations) {
@@ -89,6 +92,7 @@ public class Astar {
         return idLoc;
     }
 
+    //computes fCost for the current location given start and end
     private double computeScore(Location curr, Location strt, Location end){
         double hscore = curr.lengthTo(end);
         double gscore = 0;
