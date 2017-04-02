@@ -1,25 +1,27 @@
 package groupg;
 
+
+import java.util.ArrayList;
+
 import java.util.LinkedList;
 /**
- * Created by Dylan on 3/30/17.
+ * Created by AlazarGenene on 4/1/17.
  */
-public class Location implements Comparable
-{
-    String name;
-    private double x;  //X-Coordinate
-    private double y;  //Y-Coordinate
-    private LinkedList<Integer> neighbors;
-    private String category;  //Type is hall, stair, elev, room
+import java.util.ArrayList;
+import java.util.List;
+
+public class Location {
+
+    private double x, y;
+
     private float weight;
-    int ID;
-    String floor;
-    String building;
-    double fcost;
-    Location parent;
+    private int ID;
+    private double fcost;
+    private String name, category,floor, building;
+    LinkedList<Integer> neighbors = new LinkedList<Integer>();
 
+    /*CONSTRUCTORS*/
 
-    //Constructor
     public Location(String name, double x, double y, LinkedList<Integer> neighbors, String category, float weight, int ID, String floor, String building) {
         this.name = name;
         this.x = x;
@@ -31,44 +33,78 @@ public class Location implements Comparable
         this.building = building;
         this.ID = ID;
     }
-  
-    //Getters
+    public Location(String name, double x, double y, String category, float weight, int ID, String floor, String building) {
+        this.name = name;
+        this.x = x;
+        this.y = y;
+        this.category = category;
+        this.weight = weight;
+        this.floor = floor;
+        this.building = building;
+        this.ID = ID;
+    }
+
+    /*SETTERS*/
+    public void setX(int x) {
+        this.x = x;
+
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setFloor(String floor) {
+        this.floor = floor;
+    }
+
+    public void setBuilding(String building) {
+        this.building = building;
+    }
+    /*END SETTERS*/
+
+    /*GETTERS*/
     public double getX() {
-        return x;
+        return this.x;
     }
+
     public double getY() {
-        return y;
+        return this.y;
     }
-    public LinkedList<Integer> getNeighbors() {
-        return this.neighbors;
+
+    public String getFloor() {
+        return this.floor;
     }
-    public String getCategory() {
-        return category;
-    }
-    public float getWeight() {
-        return weight;
-    }
-    public int getID() {
-        return ID;
-    }
-    public String getfloor() {
-        return floor;
-    }
+
     public String getBuilding() {
-        return building;
+        return this.building;
     }
+
+    public int getID() {
+        return this.ID;
+    }
+
+    public String getCategory() {
+        return this.category;
+    }
+
     public double getFcost() {
         return fcost;
     }
-    public Location getParent() {
-        return parent;
+
+    public LinkedList<Integer> getNeighbors() {
+        return neighbors;
     }
-    public void setFcost(double fcost) {
-        this.fcost = fcost;
-    }
-    public void setParent(Location parent) {
-        this.parent = parent;
-    }
+    /*END GETTERS*/
+
 
     public String getName()
     {

@@ -121,10 +121,12 @@ public class JavaDBExample
             //END DROP TABLES
 
             //CREATE TABLES
-            stmt.execute("CREATE TABLE LOCATION (LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_NUM int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)");
+
+            stmt.execute("CREATE TABLE LOCATION (LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_ID varchar(20), X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)");
             stmt.execute("CREATE TABLE PERSONELLE (PERSONELLE_ID int NOT NULL Primary Key, PERSONELLE_NAME varchar(20) default NULL, OFFICE_NUMBER int)");
             stmt.execute("CREATE TABLE BUILDING (BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)");
-            stmt.execute("CREATE TABLE FLOOR(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID char(20), FILENAME varchar(20))");
+            stmt.execute("CREATE TABLE FLOOR(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER char(20), BUILDING_ID int, FILENAME varchar(20))");
+
             stmt.execute("CREATE TABLE CONNECTIONS(LOCATION_ONE int, LOCATION_TWO int)");
             stmt.execute("CREATE TABLE ADMIN(ADMIN_UN char(20) NOT NULL Primary Key, ADMIN_PW char(20))");
             stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(20))");
@@ -152,40 +154,49 @@ public class JavaDBExample
 
             //INSERT LOCATION
             //FORMAT
-            //(LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_NUM int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)
+
+            //(LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_ID int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)
             stmt.execute("INSERT INTO LOCATION VALUES " +
-                    "(1111, 'A111', 'WAITING_ROOM', 1, 1, 1, 0000), " +
-                    "(1112, 'A112', 'OFFICE', 1, 1, 3, 0001) ");
+                    "(2001, 'A111', 'WAITING_ROOM', '1001', 1, 1, 1), " +
+                    "(2002, 'A112', 'OFFICE', '1002', 1, 3, 2) ");
+
 
             //INSERT PERSONELLE
             //FORMAT
             //(PERSONELLE_ID int NOT NULL Primary Key, PERSONELLE_NAME varchar(20) default NULL, OFFICE_NUMBER int)
             stmt.execute("INSERT INTO PERSONELLE VALUES " +
-                    "(2221, 'Dr. Hunter Peterson', 1112), " +
-                    "(2222, 'Nurse Bella', 1112) ");
+
+                    "(3001, 'Dr. Hunter Peterson', 1112), " +
+                    "(3002, 'Nurse Bella', 1112) ");
+
 
             //INSERT BUILDING
             //FORMAT
             //(BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)
             stmt.execute("INSERT INTO BUILDING VALUES " +
-                    "(0000, 'Residential Services', 1), " +
-                    "(0001, 'Morgan Hall', 4) ");
+
+                    "(101, 'Residential Services', 1), " +
+                    "(102, 'Morgan Hall', 4) ");
+
 
             //INSERT FLOOR
             //FORMAT
             //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID int, FILENAME varchar(20))
             stmt.execute("INSERT INTO FLOOR VALUES " +
-                    "(0000, 1, 'Residential Services', 'B0_F1_img'), " +
-                    "(0011, 1, 'Morgan Hall', 'B1_F1_img'), " +
-                    "(0012, 2, 'Morgan Hall', 'B1_F2_img'), " +
-                    "(0013, 3, 'Morgan Hall', 'B1_F3_img'), " +
-                    "(0014, 4, 'Morgan Hall', 'B1_F4_img') ");
+
+                    "(1001, '1', 101, 'B0_F1_img'), " +
+                    "(1002, '1', 102, 'B1_F1_img'), " +
+                    "(1003, '2', 102, 'B1_F2_img'), " +
+                    "(1004, '3', 102, 'B1_F3_img'), " +
+                    "(1005, '4', 102, 'B1_F4_img') ");
+
 
             //INSERT CONNECTIONS
             //FORMAT
             //(LOCATION_ONE int, LOCATION_TWO int)
             stmt.execute("INSERT INTO CONNECTIONS VALUES " +
-                    "(0000, 0001)");
+                    "(2001, 2002)");
+
 
             //INSERT ADMIN
             //FORMAT
