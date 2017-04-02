@@ -28,6 +28,7 @@ public class Main extends Application
         dbExample.connectDB();
         dbExample.createTables();
         dbExample.insertTables();
+
         
         launch(args);
     }

@@ -45,7 +45,7 @@ public class EditPersController implements Initializable, Controller
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/editCategoryAdd.fxml", "Add New Category", newBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/editPersAdd.fxml", "Add New Person", newBtn.getScene());
         }
         catch (IOException e)
         {

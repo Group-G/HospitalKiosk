@@ -11,17 +11,14 @@ import static org.junit.Assert.assertEquals;
  * @author Ryan Benasutti
  * @since 2017-03-30
  */
-public class AssertTests
-{
+public class AssertTests {
     @Test
-    public void exampleTest()
-    {
+    public void exampleTest() {
         assertEquals("1", 0, 0);
     }
 
     @Test
-    public void astarTest()
-    {
+    public void astarTest() {
         //make list of  all nodes
         LinkedList<Location> nodes = new LinkedList<Location>();
 
@@ -56,12 +53,12 @@ public class AssertTests
 
         //make locations
         Location a = new Location("a", 0, 6, alist, "hallway", 0, 0, "Floor4", "Build1");
-        Location b = new Location("b", 0, 0, blist, "hallway", 1, 0, "Floor4", "Build1");
-        Location c = new Location("c", 3, 3, clist, "hallway", 2, 0, "Floor4", "Build1");
-        Location d = new Location("d", 5, 2, dlist, "hallway", 3, 0, "Floor4", "Build1");
-        Location e = new Location("e", 7, 4, elist, "hallway", 4, 0, "Floor4", "Build1");
-        Location f = new Location("f", 5, 5, flist, "hallway", 5, 0, "Floor4", "Build1");
-        Location g = new Location("g", 3, 13, glist, "hallway", 6, 0, "Floor4", "Build1");
+        Location b = new Location("b", 0, 0, blist, "hallway", 0, 1, "Floor4", "Build1");
+        Location c = new Location("c", 3, 3, clist, "hallway", 0, 2, "Floor4", "Build1");
+        Location d = new Location("d", 5, 2, dlist, "hallway", 0, 3, "Floor4", "Build1");
+        Location e = new Location("e", 7, 4, elist, "hallway", 0, 4, "Floor4", "Build1");
+        Location f = new Location("f", 5, 5, flist, "hallway", 0, 5, "Floor4", "Build1");
+        Location g = new Location("g", 3, 13,glist, "hallway", 0, 6, "Floor4", "Build1");
 
         //add locations to list of all nodes
         nodes.add(a);
@@ -74,7 +71,23 @@ public class AssertTests
 
 
         //run tests
-        Astar test = new Astar(nodes);
-        test.run(a, f);
+        Astar astar = new Astar(nodes);
+        astar.run(a, f);
     }
+
+    @Test
+    public void astarTest2() {
+    LinkedList<Location> locations = new LinkedList<>();
+    LinkedList<Integer> loc1N = new LinkedList<>(), loc2N = new LinkedList<>(), loc3N = new LinkedList<>();
+    Location location1 = new Location("test 1", 10, 10, loc1N, "", 0, 1, "", ""),
+            location2 = new Location("test 2", 100, 100, loc2N, "", 0, 2, "", ""),
+            location3 = new Location("test 3", 250, 100, loc3N, "", 0, 3, "", "");
+        loc1N.add(2);
+        loc2N.add(3);
+        loc3N.add(1);
+        locations.add(location1);
+        locations.add(location2);
+        locations.add(location3);
+   Astar astar = new Astar(locations);
+}
 }

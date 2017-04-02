@@ -1,7 +1,9 @@
 package groupg;
 
 import java.sql.*;
+
 import java.util.ArrayList;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,7 +11,9 @@ import java.util.List;
  * Created by svwoolf on 4/1/17.
  */
 public class HospitalData {
+
     List<Building> buildings = new LinkedList<>();
+
     List<String> categories = new LinkedList<>();
     HospitalData() {
         if(pullDataFromDB()) {
@@ -34,6 +38,7 @@ public class HospitalData {
 
             connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
             Statement stmt = connection.createStatement();
+
             if(pullBuildings(stmt)){
                 System.out.println("pulled " + this.buildings.size() + " buildings");
                 System.out.println("pulling floors");
@@ -64,14 +69,22 @@ public class HospitalData {
             int roomColumns = roomDataset.getColumnCount();
 
 
+
             int buildingId = -1, floorCount = -1;
             String buildingName = "FAILED TO PULL";
+
+
+            for (int i = 1; i <= roomColumns; i++) {
+                System.out.print(roomDataset.getColumnName(i) + "|");
+            }
+            System.out.println();
 
 
             while (buildings.next()) {
 
                 System.out.println(" ");
                 for (int j = 1; j <= roomColumns; j++) {
+
                     if(roomDataset.getColumnName(j).equals("BUILDING_ID")){
                         buildingId = Integer.parseInt(buildings.getString(j));
                     }
@@ -90,12 +103,15 @@ public class HospitalData {
                 System.out.println("making building");
                 Building b = new Building(buildingId, buildingName, floorCount);
                 this.buildings.add(b);
+
             }
             return true;
         }
         catch (SQLException e)
         {
+
             System.out.println("Failed to pull buildings");
+
             return false;
         }
 
@@ -103,14 +119,17 @@ public class HospitalData {
     private boolean pullFloors(Statement stmt)
     {
 
+
         try {
             ResultSet floors = stmt.executeQuery("SELECT * FROM FlOOR");
             ResultSetMetaData roomDataset = floors.getMetaData();
+
             int roomColumns = roomDataset.getColumnCount();
             for (int i = 1; i <= roomColumns; i++) {
                 System.out.print(roomDataset.getColumnName(i) + "|");
             }
             System.out.println();
+
 
             int floorId = -1, buildingId = -1, floorNum = -1;
             String floorNumber = "FAILED TO PULL", fileName = "FAILED TO PULL";
@@ -141,6 +160,7 @@ public class HospitalData {
                 Floor f = new Floor(floorId, buildingId, fileName, floorNumber);
 //               FLOOR_ID FLOOR_NUMBER  BUILDING_ID  FILENAME varchar(20))
                 addFloor(f, buildingId);
+
             }
             return true;
         }
@@ -157,6 +177,7 @@ public class HospitalData {
         try {
             ResultSet locations = stmt.executeQuery("SELECT * FROM LOCATION");
             ResultSetMetaData roomDataset = locations.getMetaData();
+
             int roomColumns = roomDataset.getColumnCount();
             for (int i = 1; i <= roomColumns; i++) {
                 System.out.print(roomDataset.getColumnName(i) + "|");
@@ -205,12 +226,15 @@ public class HospitalData {
                 }
                 Location l = new Location(locationName, x_coord, y_coord, category, 1, id, floorID, buildingID);
                 addLocation(l, Integer.parseInt(floorID));
+
             }
             return true;
         }
         catch (SQLException e)
         {
+
             System.out.println("Failed to pull buildings");
+
             return false;
         }
     }
@@ -270,11 +294,5 @@ public class HospitalData {
             f.addLocation(l);
         }
     }
-
-
-
-
-
-
 
 }

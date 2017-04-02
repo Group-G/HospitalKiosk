@@ -30,5 +30,6 @@ public class Floor{
 
     public String getFloorNum() {
         return floorNumber;
+
     }
 }

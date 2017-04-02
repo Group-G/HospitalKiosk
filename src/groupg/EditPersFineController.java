@@ -31,7 +31,7 @@ class EditPersFineController implements Initializable, Controller
     private HBox locHBox;
 
     private Person pers;
-    private AutoCompleteTextField locField;
+    private AutoCompleteTextField<String> locField = new AutoCompleteTextField<>();
     private Set<String> possibleLocs = new HashSet<>();
 
     EditPersFineController(Person pers)
@@ -46,7 +46,6 @@ class EditPersFineController implements Initializable, Controller
         titleField.setText(pers.getTitle());
         locList.getItems().setAll(pers.getLocationsAsStrings());
 
-        locField = new AutoCompleteTextField();
         locField.setMinWidth(200);
         locField.setPromptText("Location");
         possibleLocs.add("TEST 1"); //TODO: Populate this from DB

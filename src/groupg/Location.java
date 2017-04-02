@@ -1,6 +1,8 @@
 package groupg;
 
+
 import java.util.ArrayList;
+
 import java.util.LinkedList;
 /**
  * Created by AlazarGenene on 4/1/17.
@@ -11,6 +13,7 @@ import java.util.List;
 public class Location {
 
     private double x, y;
+
     private float weight;
     private int ID;
     private double fcost;
@@ -44,6 +47,7 @@ public class Location {
     /*SETTERS*/
     public void setX(int x) {
         this.x = x;
+
     }
 
     public void setY(int y) {
@@ -102,4 +106,27 @@ public class Location {
     /*END GETTERS*/
 
 
+    public String getName()
+    {
+        return name;
+    }
+
+    //gets length between node and this node
+    public double lengthTo(Location other){
+        double len = Math.sqrt(Math.pow(Math.abs(this.getX()-other.getX()), 2)
+                    - Math.pow(Math.abs(this.getY()-other.getY()), 2));
+        return len;
+    }
+
+    @Override
+    public String toString()
+    {
+        return getName();
+    }
+
+    @Override
+    public int compareTo(Object o)
+    {
+        return toString().compareTo(o.toString());
+    }
 }
