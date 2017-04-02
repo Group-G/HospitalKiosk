@@ -38,7 +38,7 @@ public class Location {
         return y;
     }
     public LinkedList<Integer> getNeighbors() {
-        return neighbors;
+        return this.neighbors;
     }
     public String getCategory() {
         return category;
