@@ -26,12 +26,14 @@ class ResourceManager
 
     /**
      * Loads an FXML file into a Scene
+     *
      * @param fileName Relative path for FXML file
      * @param title    Title for Scene
      * @param scene    Scene to load into
      * @throws IOException FXMLLoader.load may fail to retrieve file
+     * @throws NullPointerException FXMLLoader.load may fail to retrieve file
      */
-    void loadFXMLIntoScene(String fileName, String title, Scene scene) throws IOException
+    void loadFXMLIntoScene(String fileName, String title, Scene scene) throws IOException, NullPointerException
     {
         Parent root = FXMLLoader.load(getClass().getResource(fileName));
         Platform.runLater(() ->
@@ -40,6 +42,34 @@ class ResourceManager
                               stage.setTitle(title);
                               stage.setScene(new Scene(root, scene.getWidth(), scene.getHeight()));
                               stage.show();
+                          });
+    }
+
+    /**
+     * Loads an FXML file into a Scene with a custom Controller
+     *
+     * @param fileName   Relative path for FXML file
+     * @param title      Title for Scene
+     * @param scene      Scene to load into
+     * @param controller Controller to use
+     */
+    void loadFXMLIntoSceneWithController(String fileName, String title, Scene scene, Controller controller)
+    {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
+        loader.setController(controller);
+        Platform.runLater(() ->
+                          {
+                              try
+                              {
+                                  Stage stage = (Stage) scene.getWindow();
+                                  stage.setTitle(title);
+                                  stage.setScene(new Scene(loader.load(), scene.getWidth(), scene.getHeight()));
+                                  stage.show();
+                              }
+                              catch (IOException e)
+                              {
+                                  e.printStackTrace();
+                              }
                           });
     }
 }

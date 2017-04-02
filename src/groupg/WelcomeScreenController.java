@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
  * @author Ryan Benasutti
  * @since 2017-03-23
  */
-public class WelcomeScreenController implements Initializable
+public class WelcomeScreenController implements Initializable, Controller
 {
     @FXML
     private Button adminBtn;

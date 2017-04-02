@@ -13,7 +13,7 @@ import java.io.IOException;
  * @author Ryan Benasutti
  * @since 2017-03-30
  */
-public class DirectionScreenController
+public class DirectionScreenController implements Controller
 {
     @FXML
     private Button cancelBtn, exportBtn;

@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-public class EditCategoryAddController
+public class EditCategoryAddController implements Controller
 {
     @FXML
     private Button cancelBtn, addBtn;

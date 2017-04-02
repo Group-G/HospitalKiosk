@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author Ryan Benasutti
  * @since 2017-03-30
  */
-public class AdminLoginController
+public class AdminLoginController implements Controller
 {
     @FXML
     private Button cancelBtn, loginBtn;

@@ -18,10 +18,10 @@ import java.util.ResourceBundle;
  * @author Ryan Benasutti
  * @since 2017-03-30
  */
-public class AdminMainController implements Initializable
+public class AdminMainController implements Initializable, Controller
 {
     @FXML
-    private Button logoutBtn, addNodeBtn, editCatBtn;
+    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn;
 
     @FXML
     private GridPane canvasWrapper;
@@ -70,6 +70,18 @@ public class AdminMainController implements Initializable
         try
         {
             ResourceManager.getInstance().loadFXMLIntoScene("/editCategory.fxml", "Edit Categories", editCatBtn.getScene());
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void onEditPers(ActionEvent event)
+    {
+        try
+        {
+            ResourceManager.getInstance().loadFXMLIntoScene("/editPers.fxml", "Edit Personnel", editCatBtn.getScene());
         }
         catch (IOException e)
         {

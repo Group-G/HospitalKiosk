@@ -1,7 +1,7 @@
 package groupg;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import groupg.DatabaseInterface.Location;
+import groupg.DatabaseInterface.Person;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,22 +16,17 @@ import java.util.ResourceBundle;
  * @author Ryan Benasutti
  * @since 2017-03-30
  */
-public class EditCategoryController implements Initializable, Controller
+public class EditPersController implements Initializable, Controller
 {
     @FXML
-    private Button cancelBtn, newBtn, deleteBtn;
+    private Button cancelBtn, newBtn, editBtn, deleteBtn;
     @FXML
-    private ListView<String> catList;
-
-    private ObservableList<String> cats = FXCollections.observableArrayList();
+    private ListView<Person> persList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        cats.clear();
-        cats.add("Test cat 1");
-        cats.add("Test cat 2");
-        catList.getItems().setAll(cats); //TODO: Get cats from DB
+        persList.getItems().add(new Person("Ryan Benasutti", "Dr.", new Location("Daniels 3"))); //TODO: Fill from DB
     }
 
     public void onCancel(ActionEvent actionEvent)
@@ -61,6 +56,16 @@ public class EditCategoryController implements Initializable, Controller
     public void onDelete(ActionEvent actionEvent)
     {
         //TODO: Remove cat from DB
-        catList.getItems().remove(catList.getSelectionModel().getSelectedItem());
+        persList.getItems().remove(persList.getSelectionModel().getSelectedItem());
+    }
+
+    public void onEdit(ActionEvent event)
+    {
+        Person out = persList.getSelectionModel().getSelectedItem();
+        if (out != null)
+        {
+            EditPersFineController controller = new EditPersFineController(persList.getSelectionModel().getSelectedItem());
+            ResourceManager.getInstance().loadFXMLIntoSceneWithController("/editPersFine.fxml", "Edit Person", editBtn.getScene(), controller);
+        }
     }
 }
