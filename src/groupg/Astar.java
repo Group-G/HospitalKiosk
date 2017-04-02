@@ -11,7 +11,7 @@ public class Astar {
     LinkedList<Location> locations;  //list of all nodes for the search
     LinkedList<Location> shortestPath = new LinkedList<>();  //the shortest path from start to finish
 
-    Astar(LinkedList<Location> loc){
+    public Astar(LinkedList<Location> loc){
         this.locations = loc;
     }  //adds all nodes to locations
 
