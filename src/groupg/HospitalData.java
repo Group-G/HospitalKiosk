@@ -238,10 +238,10 @@ public class HospitalData {
             ArrayList<Floor> floorList = this.buildings.get(i).getFloorList();
             System.out.println(floorList.size() + "floors");
             for(int f = 0; f < floorList.size(); f++) {
-                System.out.println(floorList.get(i).getId() + ",  "+ floorList.get(i).getFloorNum());
+                System.out.println(floorList.get(f).getId() + ",  "+ floorList.get(f).getFloorNum());
 
-                if (floorList.get(i).getId() == id) {
-                    return floorList.get(i);
+                if (floorList.get(f).getId() == id) {
+                    return floorList.get(f);
                 }
             }
         }
