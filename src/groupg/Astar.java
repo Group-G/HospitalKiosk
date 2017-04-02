@@ -19,15 +19,15 @@ public class Astar {
     public LinkedList<Location> run(Location start, Location goal){
         shortestPath.clear(); //clears previous path
         start.setFcost(0+start.lengthTo(goal));
-        open.add(start);
+        this.open.add(start);
         do{
-            Location current = this.lowestF(open);
+            Location current = lowestF(open);
             closed.add(current);
-            open.remove(current);
+            this.open.remove(current);
             if(closed.contains(goal)){
                 break;
             }
-            LinkedList<Location> neighbors = this.getNeighbors(current);
+            LinkedList<Location> neighbors = getNeighbors(current);
             for (Location l:neighbors) {
                 if(closed.contains(l)) {
                     //Do Nothing
