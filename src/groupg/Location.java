@@ -3,28 +3,26 @@ import java.util.LinkedList;
 /**
  * Created by Dylan on 3/30/17.
  */
-public class Location implements iNode {
+public class Location {
     String name;
     private double x;  //X-Coordinate
     private double y;  //Y-Coordinate
     private LinkedList<Integer> neighbors;
-    private String category;  //Type is hall, stair, elev, room, bath
+    private String category;  //Type is hall, stair, elev, room
     private float weight;
     int ID;
     String floor;
     String building;
-    private double fcost;
-    private Location parent;
 
 
     //Constructor
-    public Location(String name, double x, double y, LinkedList<Integer> neighbors, String category, int ID, String floor, String building) {
+    public Location(String name, double x, double y, LinkedList<Integer> neighbors, String category, float weight, int ID, String floor, String building) {
         this.name = name;
         this.x = x;
         this.y = y;
         this.neighbors = neighbors;
         this.category = category;
-        this.weight = 0;
+        this.weight = weight;
         this.floor = floor;
         this.building = building;
         this.ID = ID;
@@ -54,20 +52,6 @@ public class Location implements iNode {
     }
     public String getBuilding() {
         return building;
-    }
-    public Location getParent() {
-        return parent;
-    }
-    public double getFcost() {
-        return fcost;
-    }
-
-    //Setters
-    public void setParent(Location parent) {
-        this.parent = parent;
-    }
-    public void setFcost(double fcost) {
-        this.fcost = fcost;
     }
 
     //gets length between node and this node
