@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Shape;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,16 +28,16 @@ public class AdminMainController implements Initializable, Controller
     private GridPane canvasWrapper;
     private ResizableCanvas canvas = new ResizableCanvas(ResizableCanvas.EDIT_NODES_CANVAS);
     private Pane overlay = new Pane();
-    private ObservableList<UniqueNode> nodes = FXCollections.observableArrayList();
+    static ObservableList<Shape> displayedShapes = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        //Listener to remove nodes when they are right-click deleted
-        nodes.addListener((ListChangeListener.Change<? extends UniqueNode> in) -> {
+        //Listener to remove displayedShapes when they are right-click deleted
+        displayedShapes.addListener((ListChangeListener.Change<? extends Shape> in) -> {
             canvasWrapper.getChildren().clear();
             canvasWrapper.getChildren().add(canvas);
-            overlay.getChildren().setAll(nodes);
+            overlay.getChildren().setAll(displayedShapes);
             canvasWrapper.getChildren().add(overlay);
         });
 
@@ -59,10 +60,7 @@ public class AdminMainController implements Initializable, Controller
     public void onAddNode(ActionEvent actionEvent)
     {
         UniqueNode node = NodeFactory.getNode(100, 100);
-        canvasWrapper.getChildren().remove(overlay);
-        nodes.add(node);
-        NodeListenerFactory.setNodes(nodes);
-        overlay.getChildren().setAll(nodes);
+        displayedShapes.add(node);
     }
 
     public void onEditCat(ActionEvent event)

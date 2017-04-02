@@ -21,7 +21,6 @@ import java.util.List;
  */
 class NodeListenerFactory
 {
-    private static List<UniqueNode> nodes = new ArrayList<>();
     private static double orgSceneX, orgSceneY, orgTranslateX, orgTranslateY;
     private static UniqueNode currentSelection = null;
     private static double mouseX, mouseY;
@@ -38,12 +37,8 @@ class NodeListenerFactory
                                          node.setOnMouseDragged(mouseDraggedHandler);
                                          node.setOnContextMenuRequested(showContextMenu);
                                          node.setOnMouseMoved(trackMouseCoordinates);
+                                         node.setOnMouseReleased(mouseDragReleaseHandler);
                                      });
-    }
-
-    static void setNodes(List<UniqueNode> nodeList)
-    {
-        nodes = nodeList;
     }
 
     private static EventHandler<ContextMenuEvent> showContextMenu = new EventHandler<ContextMenuEvent>()
@@ -70,13 +65,12 @@ class NodeListenerFactory
 
             MenuItem changeCat = new MenuItem("Change Category");
             MenuItem remove = new MenuItem("Remove Node");
-
-            contextMenu.getItems().addAll(changeType, changeCat, remove);
-
             remove.setOnAction(event1 -> {
-                nodes.remove(currentSelection);
+                AdminMainController.displayedShapes.remove(currentSelection);
                 System.out.println("Removed node with ID: " + currentSelection.getID());
             });
+
+            contextMenu.getItems().addAll(changeType, changeCat, remove);
 
             contextMenu.show(currentSelection, mouseX, mouseY);
         }
@@ -147,6 +141,19 @@ class NodeListenerFactory
                 Node p = ((Node) (t.getSource()));
                 p.setTranslateX(newTranslateX);
                 p.setTranslateY(newTranslateY);
+            }
+        }
+    };
+
+    private static EventHandler<MouseEvent> mouseDragReleaseHandler = new EventHandler<MouseEvent>()
+    {
+        @Override
+        public void handle(MouseEvent t)
+        {
+            if (t.getSource() instanceof UniqueNode)
+            {
+                UniqueNode p = ((UniqueNode) (t.getSource()));
+                AdminMainController.displayedShapes.addAll(PathDrawer.getLinesForNode(p));
             }
         }
     };

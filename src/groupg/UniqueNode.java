@@ -2,6 +2,7 @@ package groupg;
 
 import javafx.scene.shape.Circle;
 
+import java.util.LinkedList;
 import java.util.Objects;
 
 /**
@@ -11,16 +12,23 @@ import java.util.Objects;
 class UniqueNode extends Circle
 {
     private Integer ID;
+    private LinkedList<UniqueNode> neighbors;
 
     UniqueNode(double radius, Integer ID)
     {
         super(radius);
         this.ID = ID; //TODO: Make this unique
+        neighbors = new LinkedList<>();
     }
 
     Integer getID()
     {
         return ID;
+    }
+
+    public LinkedList<UniqueNode> getNeighbors()
+    {
+        return neighbors;
     }
 
     @Override
