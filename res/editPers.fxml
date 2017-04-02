@@ -17,11 +17,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.EditCategoryController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.EditPersController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Categories" BorderPane.alignment="CENTER">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Personnel" BorderPane.alignment="CENTER">
                <font>
                   <Font size="24.0" />
                </font>
@@ -31,13 +31,14 @@
             </Text>
          </top>
          <center>
-            <ListView fx:id="catList" BorderPane.alignment="CENTER" />
+            <ListView fx:id="persList" BorderPane.alignment="CENTER" />
          </center>
          <right>
             <VBox alignment="TOP_CENTER" minWidth="120.0" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
                   <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#onCancel" prefWidth="100.0" text="Cancel/Back" />
                   <Button fx:id="newBtn" mnemonicParsing="false" onAction="#onAdd" prefWidth="100.0" text="Add New..." />
+                  <Button fx:id="editBtn" mnemonicParsing="false" onAction="#onEdit" prefWidth="100.0" text="Edit Selected" />
                   <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#onDelete" prefWidth="100.0" text="Delete Selected" />
                </children>
                <BorderPane.margin>
