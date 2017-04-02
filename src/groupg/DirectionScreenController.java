@@ -50,19 +50,29 @@ public class DirectionScreenController implements Initializable, Controller
         canvasWrapper.add(overlay, 0, 1);
 
         LinkedList<Location> locations = new LinkedList<>();
-        Location location1 = new Location("test 1", 10, 10, new LinkedList<>(), "", 0, 1, "", "");
-        Location location2 = new Location("test 2", 10, 10, new LinkedList<>(), "", 0, 2, "", "");
-        location1.getNeighbors().add(2);
-        location2.getNeighbors().add(1);
+        LinkedList<Integer> loc1N = new LinkedList<>(), loc2N = new LinkedList<>(), loc3N = new LinkedList<>();
+        Location location1 = new Location("test 1", 10, 10, loc1N, "", 0, 1, "", ""),
+                 location2 = new Location("test 2", 100, 100, loc2N, "", 0, 2, "", ""),
+                 location3 =new Location("test 3", 250, 100, loc3N, "", 0, 3, "", "");
+        loc1N.add(2);
+        loc2N.add(3);
+        loc3N.add(1);
+        locations.add(location1);
+        locations.add(location2);
+        locations.add(location3);
         astar = new Astar(locations);
-        LinkedList<Location> output = astar.run(location1, location2);
+        LinkedList<Location> output = astar.run(location1, location3);
         List<Location> locs = new ArrayList<>();
         locs.addAll(output);
+
+        //Draw locations
         for (int i = 0; i < locs.size() - 1; i++)
         {
             Location loc1 = locs.get(i);
-            Location loc2 =locs.get(i+1);
-            displayedShapes.add(new Line(loc1.getX(), loc1.getY(), loc2.getX(), loc2.getY()));
+            Location loc2 = locs.get(i+1);
+            Line line = new Line(loc1.getX(), loc1.getY(), loc2.getX(), loc2.getY());
+            displayedShapes.add(line);
+//            System.out.println(line.toString());
         }
     }
 
