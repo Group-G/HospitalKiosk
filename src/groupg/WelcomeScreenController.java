@@ -27,6 +27,7 @@ public class WelcomeScreenController implements Initializable, Controller
     private HBox topHBox;
     @FXML
     private MenuButton catDropdown;
+    static Location requested;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -56,6 +57,8 @@ public class WelcomeScreenController implements Initializable, Controller
 
     public void onSearch(ActionEvent actionEvent)
     {
+        requested = null; //TODO: Get this from DB based on search text
+
         try
         {
             ResourceManager.getInstance().loadFXMLIntoScene("/directionScreen.fxml", "Your Directions", searchBtn.getScene());

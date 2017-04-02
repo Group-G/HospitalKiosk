@@ -7,7 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
@@ -28,7 +28,7 @@ public class DirectionScreenController implements Initializable, Controller
     @FXML
     private Button cancelBtn;
     @FXML
-    private GridPane canvasWrapper;
+    private AnchorPane canvasWrapper;
     private ResizableCanvas canvas = new ResizableCanvas(ResizableCanvas.DRAW_FLOOR_4);
     private Pane overlay = new Pane();
     static ObservableList<Shape> displayedShapes = FXCollections.observableArrayList();
@@ -38,16 +38,15 @@ public class DirectionScreenController implements Initializable, Controller
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        //Listener to remove displayedShapes when they are right-click deleted
         displayedShapes.addListener((ListChangeListener.Change<? extends Shape> in) -> {
-            canvasWrapper.getChildren().clear();
-            canvasWrapper.add(canvas, 0, 1);
+            canvasWrapper.getChildren().removeIf(elem -> elem instanceof Pane && !(elem instanceof ResizableCanvas));
+            //canvasWrapper.getChildren().add(canvas);
             overlay.getChildren().setAll(displayedShapes);
-            canvasWrapper.add(overlay, 0, 1);
+            canvasWrapper.getChildren().add(overlay);
         });
 
-        canvasWrapper.add(canvas, 0, 1);
-        canvasWrapper.add(overlay, 0, 1);
+        canvasWrapper.getChildren().add(canvas);
+        canvasWrapper.getChildren().add(overlay);
 
         LinkedList<Location> locations = new LinkedList<>();
         LinkedList<Integer> loc1N = new LinkedList<>(), loc2N = new LinkedList<>(), loc3N = new LinkedList<>();
@@ -72,7 +71,6 @@ public class DirectionScreenController implements Initializable, Controller
             Location loc2 = locs.get(i+1);
             Line line = new Line(loc1.getX(), loc1.getY(), loc2.getX(), loc2.getY());
             displayedShapes.add(line);
-//            System.out.println(line.toString());
         }
     }
 
