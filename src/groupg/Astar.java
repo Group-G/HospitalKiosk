@@ -39,12 +39,12 @@ public class Astar {
                         open.add(l);
                     }
                     else{
-                        double newScore = computeScore(l, start, goal){
-                            if(newScore<=l.getFcost()){
-                                l.setParent(current);
-                                l.setFcost(newScore);
-                            }
+                        double newScore = computeScore(l, start, goal);
+                        if(newScore<=l.getFcost()){
+                            l.setParent(current);
+                            l.setFcost(newScore);
                         }
+
                     }
                 }
             }
