@@ -4,6 +4,7 @@ import java.sql.*;
 
 import java.util.ArrayList;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -269,7 +270,8 @@ public class HospitalData {
 
 
 
-    public void addFloor(Floor f, int buildingId) {
+
+    private void addFloor(Floor f, int buildingId) {
         Building b = getBuildingById(buildingId);
         if(b == null) {
             System.out.println("couldnt find building");
@@ -280,7 +282,7 @@ public class HospitalData {
         }
     }
 
-    public void addLocation(Location l, int floorId) {
+    private void addLocation(Location l, int floorId) {
         Floor f = getFloorById(floorId);
         if(f == null) {
             System.out.println("couldnt find floor");
@@ -289,5 +291,23 @@ public class HospitalData {
             f.addLocation(l);
         }
     }
+
+
+    public List<Location> getAllLocations()
+    {
+        List<Location> allNodes = new ArrayList<>();
+        for(int i = 0; i < this.buildings.size(); i++)
+        {
+            ArrayList<Floor> floorList = this.buildings.get(i).getFloorList();
+            for(int f = 0; f < floorList.size(); f++) {
+                Collections.addAll(allNodes, floorList.get(i).getLocations());
+
+            }
+        }
+        return allNodes;
+
+    }
+    //getAllLocations
+    //getLocationById
 
 }
