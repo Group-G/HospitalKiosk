@@ -121,7 +121,7 @@ public class JavaDBExample
             //END DROP TABLES
 
             //CREATE TABLES
-            stmt.execute("CREATE TABLE LOCATION (LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_NUM int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)");
+            stmt.execute("CREATE TABLE LOCATION (LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_ID varchar(20), X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)");
             stmt.execute("CREATE TABLE PERSONELLE (PERSONELLE_ID int NOT NULL Primary Key, PERSONELLE_NAME varchar(20) default NULL, OFFICE_NUMBER int)");
             stmt.execute("CREATE TABLE BUILDING (BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)");
             stmt.execute("CREATE TABLE FLOOR(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID char(20), FILENAME varchar(20))");
@@ -175,11 +175,11 @@ public class JavaDBExample
             //FORMAT
             //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID int, FILENAME varchar(20))
             stmt.execute("INSERT INTO FLOOR VALUES " +
-                    "(0000, 1, 'Residential Services', 'B0_F1_img'), " +
-                    "(0011, 1, 'Morgan Hall', 'B1_F1_img'), " +
-                    "(0012, 2, 'Morgan Hall', 'B1_F2_img'), " +
-                    "(0013, 3, 'Morgan Hall', 'B1_F3_img'), " +
-                    "(0014, 4, 'Morgan Hall', 'B1_F4_img') ");
+                    "(0000, 1, '0000', 'B0_F1_img'), " +
+                    "(0011, 1, '0001', 'B1_F1_img'), " +
+                    "(0012, 2, '0001', 'B1_F2_img'), " +
+                    "(0013, 3, '0001', 'B1_F3_img'), " +
+                    "(0014, 4, '0001', 'B1_F4_img') ");
 
             //INSERT CONNECTIONS
             //FORMAT

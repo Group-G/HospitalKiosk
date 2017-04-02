@@ -29,6 +29,16 @@ public class Location {
         this.building = building;
         this.ID = ID;
     }
+    public Location(String name, double x, double y, String category, float weight, int ID, String floor, String building) {
+        this.name = name;
+        this.x = x;
+        this.y = y;
+        this.category = category;
+        this.weight = weight;
+        this.floor = floor;
+        this.building = building;
+        this.ID = ID;
+    }
 
     /*SETTERS*/
     public void setX(int x) {
