@@ -13,6 +13,8 @@ public class Location implements iNode {
     int ID;
     String floor;
     String building;
+    private double fcost;
+    private Location parent;
 
 
     //Constructor
@@ -52,6 +54,20 @@ public class Location implements iNode {
     }
     public String getBuilding() {
         return building;
+    }
+    public Location getParent() {
+        return parent;
+    }
+    public double getFcost() {
+        return fcost;
+    }
+
+    //Setters
+    public void setParent(Location parent) {
+        this.parent = parent;
+    }
+    public void setFcost(double fcost) {
+        this.fcost = fcost;
     }
 
     //gets length between node and this node
