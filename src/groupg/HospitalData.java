@@ -55,9 +55,9 @@ public class HospitalData {
             ResultSetMetaData roomDataset = buildings.getMetaData();
             int roomColumns = roomDataset.getColumnCount();
             for (int i = 1; i <= roomColumns; i++) {
-                System.out.println(roomDataset.getColumnName(i));
+                System.out.print(roomDataset.getColumnName(i) + "|");
             }
-
+            System.out.println();
 
             while (buildings.next()) {
 
@@ -78,11 +78,59 @@ public class HospitalData {
     }
     private boolean pullFloors(Statement stmt)
     {
-        return true;
+        try {
+            ResultSet buildings = stmt.executeQuery("SELECT * FROM FLOOR");
+            ResultSetMetaData roomDataset = buildings.getMetaData();
+            int roomColumns = roomDataset.getColumnCount();
+            for (int i = 1; i <= roomColumns; i++) {
+                System.out.print(roomDataset.getColumnName(i) + "|");
+            }
+            System.out.println();
+
+
+            while (buildings.next()) {
+
+                System.out.println(" ");
+                for (int j = 1; j <= roomColumns; j++) {
+                    System.out.print(buildings.getString(j) + "|");
+                }
+                System.out.println();
+            }
+            return true;
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Failed to pull ");
+            return false;
+        }
     }
     private boolean pullLocations(Statement stmt)
     {
-        return true;
+        try {
+            ResultSet buildings = stmt.executeQuery("SELECT * FROM LOCATION");
+            ResultSetMetaData roomDataset = buildings.getMetaData();
+            int roomColumns = roomDataset.getColumnCount();
+            for (int i = 1; i <= roomColumns; i++) {
+                System.out.print(roomDataset.getColumnName(i) + "|");
+            }
+            System.out.println();
+
+
+            while (buildings.next()) {
+
+                System.out.println(" ");
+                for (int j = 1; j <= roomColumns; j++) {
+                    System.out.print(buildings.getString(j) + "|");
+                }
+                System.out.println();
+            }
+            return true;
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Failed to pull ");
+            return false;
+        }
     }
 
 }
