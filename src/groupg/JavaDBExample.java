@@ -123,7 +123,7 @@ public class JavaDBExample
             //CREATE TABLES
 
             stmt.execute("CREATE TABLE LOCATION (LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_ID varchar(20), X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)");
-            stmt.execute("CREATE TABLE PERSONELLE (PERSONELLE_ID int NOT NULL Primary Key, PERSONELLE_NAME varchar(20) default NULL, OFFICE_NUMBER int)");
+            stmt.execute("CREATE TABLE PERSONELLE (PERSONELLE_ID int NOT NULL Primary Key, TITLE varchar(20) default NULL, PERSONELLE_NAME varchar(20) default NULL, OFFICE_NUMBER int)");
             stmt.execute("CREATE TABLE BUILDING (BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)");
             stmt.execute("CREATE TABLE FLOOR(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER char(20), BUILDING_ID int, FILENAME varchar(20))");
 
@@ -166,8 +166,8 @@ public class JavaDBExample
             //(PERSONELLE_ID int NOT NULL Primary Key, PERSONELLE_NAME varchar(20) default NULL, OFFICE_NUMBER int)
             stmt.execute("INSERT INTO PERSONELLE VALUES " +
 
-                    "(3001, 'Dr. Hunter Peterson', 1112), " +
-                    "(3002, 'Nurse Bella', 1112) ");
+                    "(3001, 'Dr.', 'Hunter Peterson', 1112), " +
+                    "(3002, 'Nurse', 'Bella Bee', 1112) ");
 
 
             //INSERT BUILDING
