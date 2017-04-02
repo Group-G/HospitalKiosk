@@ -34,8 +34,15 @@ public class HospitalData {
 
             connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
             Statement stmt = connection.createStatement();
-            if(pullBuildings(stmt) && pullFloors(stmt) && pullLocations(stmt)){
-                return true;
+            if(pullBuildings(stmt)){
+                System.out.println("pulled " + this.buildings.size() + " buildings");
+                System.out.println("pulling floors");
+                if(pullFloors(stmt)) {
+                    System.out.println("pulling locations");
+                    if (pullLocations(stmt)) {
+                        return true;
+                    }
+                }
             }
 
 
@@ -76,6 +83,7 @@ public class HospitalData {
                     }
 
                     //make building and add it
+                    System.out.println("making building");
                     Building b = new Building(buildingId, buildingName, floorCount);
                     this.buildings.add(b);
 
@@ -205,8 +213,10 @@ public class HospitalData {
 
 
     public Building getBuildingById(int id) {
+        System.out.println("looking for building " + id);
         for(int i = 0; i < this.buildings.size(); i++)
         {
+            System.out.println(this.buildings.get(i).getId());
             if(this.buildings.get(i).getId() == id)
             {
                 return this.buildings.get(i);
@@ -217,7 +227,7 @@ public class HospitalData {
 
     public Floor getFloorById(int id) {
 
-        System.out.println("looking for" + id);
+        System.out.println("looking for floor" + id);
         for(int i = 0; i < this.buildings.size(); i++)
         {
             ArrayList<Floor> floorList = this.buildings.get(i).getFloorList();
@@ -235,6 +245,10 @@ public class HospitalData {
 
     public void addFloor(Floor f, int buildingId) {
         Building b = getBuildingById(buildingId);
+        if(b == null)
+        {
+            System.out.println("couldnt find building");
+        }
         b.addFloor(f);
     }
 
