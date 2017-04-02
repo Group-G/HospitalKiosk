@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.WelcomeScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.WelcomeScreenController">
    <children>
       <Button fx:id="adminBtn" layoutX="518.0" layoutY="23.0" mnemonicParsing="false" onAction="#onAdminLogin" text="Admin" AnchorPane.rightAnchor="31.0" />
       <VBox alignment="CENTER" layoutX="142.0" layoutY="55.0" spacing="20.0" AnchorPane.leftAnchor="142.0" AnchorPane.rightAnchor="132.0" AnchorPane.topAnchor="55.0">
@@ -26,10 +22,9 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER" layoutX="142.0" layoutY="126.0" spacing="10.0">
+            <HBox fx:id="topHBox" alignment="CENTER" layoutX="142.0" layoutY="126.0" spacing="10.0">
                <children>
-                  <TextField fx:id="searchField" layoutX="142.0" layoutY="126.0" prefHeight="27.0" prefWidth="224.0" promptText="Search For A Location" />
-                  <MenuButton fx:id="catDropdown" layoutX="366.0" layoutY="126.0" mnemonicParsing="false" onAction="#onCatSelect" text="Select Area">
+                  <MenuButton fx:id="catDropdown" layoutX="366.0" layoutY="126.0" mnemonicParsing="false" text="Select Area">
                     <items>
                       <MenuItem mnemonicParsing="false" text="Doctor Name" />
                       <MenuItem mnemonicParsing="false" text="Bathroom" />
