@@ -13,10 +13,10 @@ public class Location implements Comparable
 
     private float weight;
     private int ID;
-    private double fcost;
     private String name, category,floor, building;
     LinkedList<Integer> neighbors = new LinkedList<Integer>();
-
+    private double fcost;
+    private Location parent;
     /*CONSTRUCTORS*/
 
     public Location(String name, double x, double y, LinkedList<Integer> neighbors, String category, float weight, int ID, String floor, String building) {
@@ -121,9 +121,15 @@ public class Location implements Comparable
         return getName();
     }
 
-    @Override
-    public int compareTo(Object o)
-    {
-        return toString().compareTo(o.toString());
+    public void setFcost(double fcost) {
+        this.fcost = fcost;
+    }
+
+    public void setParent(Location parent) {
+        this.parent = parent;
+    }
+
+    public Location getParent() {
+        return this.parent;
     }
 }
