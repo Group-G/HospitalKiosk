@@ -7,11 +7,17 @@ import java.sql.*;
  * @author Samanthe Comeau
  * @author Saul Woolf
  * @author Alazar Genene
- * @since 2017-03-19
+ * @since 2017-04-01
  */
 public class JavaDBExample
 {
-    void testDB()
+    /* connectDB
+        @params none
+        @return void
+        @functionality attempts to connect to HospitalDatabase, on fail it will print how to
+            connect and return
+     */
+    void connectDB()
     {
         System.out.println("-------Embedded Java DB Connection Testing --------");
         try
@@ -32,22 +38,30 @@ public class JavaDBExample
         }
 
         System.out.println("Java DB driver registered!");
-        Connection connection = null;
+        System.out.println("\nJava DB connection established!");
+    }
 
+    /* createTables
+            @params none
+            @return void
+            @functionality attepts to connect to HospitalDatabase and drops/creates tables
+                on fail it will return
+         */
+    void createTables(){
         try
         {
             // substitute your database name for myDB
-            connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
+            Connection connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
             Statement stmt = connection.createStatement();
 
             //DROP TABLE
 
             try {
-                stmt.execute("DROP TABLE ROOM");
+                stmt.execute("DROP TABLE LOCATION");
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop room.\n");
+                System.out.println("Could not drop location.");
                 //e.printStackTrace();
             }
 
@@ -56,7 +70,7 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop personelle.\n");
+                System.out.println("Could not drop personelle.");
                 //e.printStackTrace();
             }
 
@@ -65,7 +79,7 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop building.\n");
+                System.out.println("Could not drop building.");
                 //e.printStackTrace();
             }
 
@@ -74,36 +88,145 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop floor.\n");
+                System.out.println("Could not drop floor.");
+                //e.printStackTrace();
+            }
+
+            try {
+                stmt.execute("DROP TABLE CONNECTIONS");
+            }
+            catch (SQLException e)
+            {
+                System.out.println("Could not drop connection.");
+                //e.printStackTrace();
+            }
+
+            try {
+                stmt.execute("DROP TABLE ADMIN");
+            }
+            catch (SQLException e)
+            {
+                System.out.println("Could not drop admin.");
+                //e.printStackTrace();
+            }
+
+            try {
+                stmt.execute("DROP TABLE CATEGORY");
+            }
+            catch (SQLException e)
+            {
+                System.out.println("Could not drop category.");
                 //e.printStackTrace();
             }
             //END DROP TABLES
 
             //CREATE TABLES
-            stmt.execute("CREATE TABLE ROOM (ROOM_ID char(20) NOT NULL Primary Key, FLOOR_NUM int default 1, FLOOR_X_CORD int default 0, FLOOR_Y_CORD int default 0, ROOM_TYPE varchar(20), BUILDING_NUM int default 0)");
-            stmt.execute("CREATE TABLE PERSONELLE (PERSONELLE_ID int NOT NULL Primary Key, DOCTOR_NAME varchar(20) default NULL, OFFICE_NUMBER char(20))");
-            stmt.execute("CREATE TABLE BUILDING (BUILDING_ID char(20) NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)");
-            stmt.execute("CREATE TABLE FLOOR(FLOOR_NUMBER int, BUILDING_ID char(20))");
-            //END DROP TABLES
+            stmt.execute("CREATE TABLE LOCATION (LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_NUM int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)");
+            stmt.execute("CREATE TABLE PERSONELLE (PERSONELLE_ID int NOT NULL Primary Key, PERSONELLE_NAME varchar(20) default NULL, OFFICE_NUMBER int)");
+            stmt.execute("CREATE TABLE BUILDING (BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)");
+            stmt.execute("CREATE TABLE FLOOR(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID char(20), FILENAME varchar(20))");
+            stmt.execute("CREATE TABLE CONNECTIONS(LOCATION_ONE int, LOCATION_TWO int)");
+            stmt.execute("CREATE TABLE ADMIN(ADMIN_UN char(20) NOT NULL Primary Key, ADMIN_PW char(20))");
+            stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(20))");
+            //END CREATE TABLES
 
-            //INSERT INTO TABLES
-            stmt.execute("INSERT INTO ROOM VALUES " +
-                    "('A11', 1, 2, 2, 'WAITING_ROOM', 0), " +
-                    "('A21', 1, 2, 3, 'OFFICE', 0) ");
+            System.out.println("Tables created!");
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Connection failed. Check output console.");
+            e.printStackTrace();
+        }
+    }
+
+    /* insertTables
+        @params none
+        @return void
+        @functionality inserts dummy values into HospitalDatabase
+     */
+    void insertTables(){
+        try {
+            // substitute your database name for myDB
+            Connection connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
+            Statement stmt = connection.createStatement();
+
+            //INSERT LOCATION
+            //FORMAT
+            //(LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_NUM int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)
+            stmt.execute("INSERT INTO LOCATION VALUES " +
+                    "(1111, 'A111', 'WAITING_ROOM', 1, 1, 1, 0000), " +
+                    "(1112, 'A112', 'OFFICE', 1, 1, 3, 0001) ");
+
+            //INSERT PERSONELLE
+            //FORMAT
+            //(PERSONELLE_ID int NOT NULL Primary Key, PERSONELLE_NAME varchar(20) default NULL, OFFICE_NUMBER int)
             stmt.execute("INSERT INTO PERSONELLE VALUES " +
-                    "(0123, 'Dr. Hunter Peterson', 'A21'), " +
-                    "(0124, 'Nurse Bella', 'A21') ");
-            stmt.execute("INSERT INTO BUILDING VALUES " +
-                    "('B0', 'Residential Services', 2), " +
-                    "('B1', 'Morgan Hall', 4) ");
-            stmt.execute("INSERT INTO FLOOR VALUES " +
-                    "(1, 'Residential Services'), " +
-                    "(1, 'Morgan Hall'), " +
-                    "(2, 'Morgan Hall'), " +
-                    "(3, 'Morgan Hall'), " +
-                    "(4, 'Morgan Hall') ");
-            //END INSERT TABLES
+                    "(2221, 'Dr. Hunter Peterson', 1112), " +
+                    "(2222, 'Nurse Bella', 1112) ");
 
+            //INSERT BUILDING
+            //FORMAT
+            //(BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)
+            stmt.execute("INSERT INTO BUILDING VALUES " +
+                    "(0000, 'Residential Services', 1), " +
+                    "(0001, 'Morgan Hall', 4) ");
+
+            //INSERT FLOOR
+            //FORMAT
+            //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID int, FILENAME varchar(20))
+            stmt.execute("INSERT INTO FLOOR VALUES " +
+                    "(0000, 1, 'Residential Services', 'B0_F1_img'), " +
+                    "(0011, 1, 'Morgan Hall', 'B1_F1_img'), " +
+                    "(0012, 2, 'Morgan Hall', 'B1_F2_img'), " +
+                    "(0013, 3, 'Morgan Hall', 'B1_F3_img'), " +
+                    "(0014, 4, 'Morgan Hall', 'B1_F4_img') ");
+
+            //INSERT CONNECTIONS
+            //FORMAT
+            //(LOCATION_ONE int, LOCATION_TWO int)
+            stmt.execute("INSERT INTO CONNECTIONS VALUES " +
+                    "(0000, 0001)");
+
+            //INSERT ADMIN
+            //FORMAT
+            //(ADMIN_ID int, ADMIN_UN char(20), ADMIN_PW char(20))
+            stmt.execute("INSERT INTO ADMIN VALUES " +
+                    "('admin', 'admin'), " +
+                    "('sjcomeau', 'sjc') ");
+
+            //INSERT CATEGORY
+            //FORMAT
+            //(CATEGORY_NAME varchar(20))
+            stmt.execute("INSERT INTO CATEGORY VALUES " +
+                    "('Office'), " +
+                    "('Bathroom'), " +
+                    "('Hall'), " +
+                    "('Waiting Area'), " +
+                    "('Emergency Room') ");
+
+            //Print
+            System.out.println("Tables inserted!");
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Connection failed. Check output console.");
+            e.printStackTrace();
+        }
+    }
+
+
+    /* selectTables
+        @params none
+        @return void
+        @functionality attempts to connect to HospitalDatabase and select values (unimportant rn)
+     */
+    void selectTables(){
+        try{
+            // substitute your database name for myDB
+            Connection connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
+            Statement stmt = connection.createStatement();
+
+            /*
             //New Line
             System.out.println("\n");
 
@@ -145,15 +268,15 @@ public class JavaDBExample
                     System.out.format("%20s", room.getString(j) + '|');
                 }
             }
-
-            /* end try */
+            */
         }
-        catch (SQLException e)
+            catch (SQLException e)
         {
             System.out.println("Connection failed. Check output console.");
             e.printStackTrace();
-            return;
         }
-        System.out.println("\nJava DB connection established!");
     }
+
+
+
 }

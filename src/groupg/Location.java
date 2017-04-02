@@ -1,4 +1,5 @@
 package groupg;
+
 import java.util.LinkedList;
 /**
  * Created by Dylan on 3/30/17.
@@ -29,7 +30,7 @@ public class Location {
         this.building = building;
         this.ID = ID;
     }
-
+  
     //Getters
     public double getX() {
         return x;

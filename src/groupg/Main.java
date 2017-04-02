@@ -23,9 +23,12 @@ public class Main extends Application
 
     public static void main(String[] args)
     {
-//        JavaDBExample dbExample = new JavaDBExample();
-//        dbExample.testDB();
-
+        HospitalData h = new HospitalData();
+        JavaDBExample dbExample = new JavaDBExample();
+        dbExample.connectDB();
+        dbExample.createTables();
+        dbExample.insertTables();
+        
         launch(args);
     }
 }
