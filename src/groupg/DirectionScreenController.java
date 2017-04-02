@@ -50,8 +50,8 @@ public class DirectionScreenController implements Initializable, Controller
         canvasWrapper.add(overlay, 0, 1);
 
         LinkedList<Location> locations = new LinkedList<>();
-        Location location1 = new Location("test 1", 10, 10, new LinkedList<>(), "", 1, "", "");
-        Location location2 = new Location("test 2", 100, 100, new LinkedList<>(), "", 2, "", "");
+        Location location1 = new Location("test 1", 10, 10, new LinkedList<>(), "", 0, 1, "", "");
+        Location location2 = new Location("test 2", 10, 10, new LinkedList<>(), "", 0, 2, "", "");
         location1.getNeighbors().add(2);
         location2.getNeighbors().add(1);
         astar = new Astar(locations);
