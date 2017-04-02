@@ -216,10 +216,13 @@ public class HospitalData {
     }
 
     public Floor getFloorById(int id) {
+
+        System.out.println("looking for" + id);
         for(int i = 0; i < this.buildings.size(); i++)
         {
             ArrayList<Floor> floorList = this.buildings.get(i).getFloorList();
             for(int f = 0; f < floorList.size(); f++) {
+                System.out.println(floorList.get(i).getId());
                 if (floorList.get(i).getId() == id) {
                     return floorList.get(i);
                 }

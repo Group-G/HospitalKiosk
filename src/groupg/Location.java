@@ -13,6 +13,7 @@ public class Location {
     private double x, y;
     private float weight;
     private int ID;
+    private double fcost;
     private String name, category,floor, building;
     LinkedList<Integer> neighbors = new LinkedList<Integer>();
 
@@ -89,6 +90,14 @@ public class Location {
 
     public String getCategory() {
         return this.category;
+    }
+
+    public double getFcost() {
+        return fcost;
+    }
+
+    public LinkedList<Integer> getNeighbors() {
+        return neighbors;
     }
     /*END GETTERS*/
 
