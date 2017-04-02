@@ -1,6 +1,5 @@
 package groupg;
 
-import groupg.DatabaseInterface.Location;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

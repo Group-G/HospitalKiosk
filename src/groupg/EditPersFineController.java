@@ -1,6 +1,5 @@
 package groupg;
 
-import groupg.DatabaseInterface.Person;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
