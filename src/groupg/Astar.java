@@ -17,7 +17,7 @@ public class Astar {
 
     //main run method adds A* path to shortestPath
     public LinkedList<Location> run(Location start, Location goal){
-        shortestPath.clear();
+        shortestPath.clear(); //clears previous path
         start.setFcost(0+start.lengthTo(goal));
         open.add(start);
         do{
