@@ -9,20 +9,20 @@ import java.io.IOException;
 
 /**
  * @author Ryan Benasutti
- * @since 2017-04-01
+ * @since 2017-04-02
  */
-public class EditCategoryAddController implements Controller
+public class EditLocAddController implements Controller
 {
     @FXML
     private Button cancelBtn, addBtn;
     @FXML
-    private TextField catNameField;
+    private TextField locNameField;
 
     public void onCancel(ActionEvent event)
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/editCategory.fxml", "Edit Categories", cancelBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/editLocs.fxml", "Edit Locations", cancelBtn.getScene());
         }
         catch (IOException e)
         {
@@ -32,12 +32,12 @@ public class EditCategoryAddController implements Controller
 
     public void onAdd(ActionEvent event)
     {
-        //TODO: Add cat to DB
-        System.out.println("Added category: " + catNameField.getText());
+        //TODO: Add loc to DB
+        System.out.println("Added location: " + locNameField.getText());
 
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/editCategory.fxml", "Edit Categories", addBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/editLocs.fxml", "Edit Locations", addBtn.getScene());
         }
         catch (IOException e)
         {
