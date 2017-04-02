@@ -13,6 +13,7 @@ public class Floor{
     String floorNumber;
     public Floor(int floorId, int buildingId, String fileName, String floorName)
     {
+//        System.out.println("made floor" + floorId + ", " + buildingId + ", " + fileName + ", " + floorName);
         this.id = floorId;
         this.buildingId = buildingId;
         this.filename = fileName;

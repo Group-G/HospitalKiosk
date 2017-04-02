@@ -1,5 +1,6 @@
 package groupg;
 
+import javax.management.DynamicMBean;
 import java.sql.*;
 
 import java.util.ArrayList;
@@ -41,12 +42,9 @@ public class HospitalData {
             connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
             Statement stmt = connection.createStatement();
 
-            if(pullBuildings(stmt)){
-//                System.out.println("pulled " + this.buildings.size() + " buildings");
-//                System.out.println("pulling floors");
-                if(pullFloors(stmt)) {
-//                    System.out.println("pulling locations");
-                    if (pullLocations(stmt)) {
+            if(pullBuildings(stmt) && pullFloors(stmt) && pullLocations(stmt)){
+                if (pullPeople(stmt)) {
+                    if(pullConnections(stmt)){
                         return true;
                     }
                 }
@@ -63,6 +61,118 @@ public class HospitalData {
 
         return false;
     }
+
+
+
+    public Building getBuildingById(int id) {
+        for(int i = 0; i < this.buildings.size(); i++)
+        {
+            if(this.buildings.get(i).getId() == id)
+            {
+                return this.buildings.get(i);
+            }
+        }
+        System.out.println("COULD NOT FIND BUILDING " + id);
+        return null;
+    }
+
+    public Floor getFloorById(int id) {
+
+        for(int i = 0; i < this.buildings.size(); i++)
+        {
+            ArrayList<Floor> floorList = this.buildings.get(i).getFloorList();
+            for(int f = 0; f < floorList.size(); f++) {
+
+                if (floorList.get(f).getId() == id) {
+                    return floorList.get(f);
+                }
+            }
+        }
+        System.out.println("COULD NOT FIND FLOOR " + id);
+        return null;
+    }
+
+
+
+
+    private void addFloor(Floor f, int buildingId) {
+        Building b = getBuildingById(buildingId);
+        if(b == null) {
+            System.out.println("couldnt find building");
+        }
+        else{
+            b.addFloor(f);
+
+        }
+    }
+
+    private void addLocation(Location l, int floorId) {
+        Floor f = getFloorById(floorId);
+        if(f == null) {
+            System.out.println("couldnt find floor");
+        }
+        else{
+            f.addLocation(l);
+//            System.out.println("added to floor" + floorId);
+        }
+    }
+
+
+    public List<Location> getAllLocations()
+    {
+        List<Location> allNodes = new ArrayList<>();
+
+        for(int i = 0; i < this.buildings.size(); i++) {
+            ArrayList<Floor> floorList = this.buildings.get(i).getFloorList();
+
+
+            for(int f = 0; f < floorList.size(); f++) {
+                List<Location> locationList = floorList.get(f).getLocations();
+
+
+//                System.out.println("building " + i +", floor "+ f +  " has " + locationList.size());
+                for(int l = 0; l < locationList.size(); l++) {
+                    allNodes.add(locationList.get(l));
+                }
+            }
+        }
+//        System.out.println(allNodes.size());
+        return allNodes;
+
+    }
+    //getLocationById
+
+    public Location getLocationById(int id)
+    {
+//        System.out.println("looking for location " + id);
+        List<Location> locations = getAllLocations();
+        for(int i = 0; i < locations.size(); i ++)
+        {
+//            System.out.println(locations.get(i).getID());
+            if(locations.get(i).getID() == id)
+            {
+//                System.out.println("found");
+                return locations.get(i);
+            }
+        }
+        return null;
+
+    }
+    private void addConnection(int id1, int id2) {
+        Location l1 = getLocationById(id1);
+        Location l2 = getLocationById(id2);
+        l1.addNeighbor(id2);
+        l2.addNeighbor(id1);
+    }
+
+
+
+
+
+
+
+
+    /***************************************************************************/
     private boolean pullBuildings(Statement stmt)
     {
         try {
@@ -84,7 +194,7 @@ public class HospitalData {
 
             while (buildings.next()) {
 
-                System.out.println(" ");
+//                System.out.println(" ");
                 for (int j = 1; j <= roomColumns; j++) {
 
                     if(roomDataset.getColumnName(j).equals("BUILDING_ID")){
@@ -241,8 +351,7 @@ public class HospitalData {
 
 
 
-    private boolean pullPeople(Statement stmt)
-    {
+    private boolean pullPeople(Statement stmt) {
         try {
             ResultSet people = stmt.executeQuery("SELECT * FROM PERSONELLE");
             ResultSetMetaData roomDataset = people.getMetaData();
@@ -258,25 +367,19 @@ public class HospitalData {
 
                 System.out.println(" ");
                 for (int j = 1; j <= roomColumns; j++) {
-                    if(roomDataset.getColumnName(j).equals("LOCATION_ID")){
+                    if (roomDataset.getColumnName(j).equals("PERSONELLE_ID")) {
                         id = Integer.parseInt(people.getString(j));
-                    }
-                    else if(roomDataset.getColumnName(j).equals("TITLE")){
+                    } else if (roomDataset.getColumnName(j).equals("TITLE")) {
                         title = people.getString(j);
-                    }
-                    else if(roomDataset.getColumnName(j).equals("PERSONELLE_NAME")){
+                    } else if (roomDataset.getColumnName(j).equals("PERSONELLE_NAME")) {
                         name = people.getString(j);
-                    }
-                    else if(roomDataset.getColumnName(j).equals("OFFICE_NUMBER")){
+                    } else if (roomDataset.getColumnName(j).equals("OFFICE_NUMBER")) {
                         office = people.getString(j);
-                    }
-                    else
-                    {
-                        System.out.println("Could not place " + people.getString(j) +", " + roomDataset.getColumnName(j));
+                    } else {
+                        System.out.println("Could not place " + people.getString(j) + ", " + roomDataset.getColumnName(j));
                     }
 //
 //                    //make building and add it
-
 
 
                 }
@@ -284,100 +387,46 @@ public class HospitalData {
                 this.people.add(p);
             }
             return true;
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
 
             System.out.println("Failed to pull buildings");
 
             return false;
         }
     }
-
-
-
-    public Building getBuildingById(int id) {
-        for(int i = 0; i < this.buildings.size(); i++)
-        {
-            if(this.buildings.get(i).getId() == id)
-            {
-                return this.buildings.get(i);
-            }
-        }
-        System.out.println("COULD NOT FIND BUILDING " + id);
-        return null;
-    }
-
-    public Floor getFloorById(int id) {
-
-        for(int i = 0; i < this.buildings.size(); i++)
-        {
-            ArrayList<Floor> floorList = this.buildings.get(i).getFloorList();
-            for(int f = 0; f < floorList.size(); f++) {
-
-                if (floorList.get(f).getId() == id) {
-                    return floorList.get(f);
-                }
-            }
-        }
-        System.out.println("COULD NOT FIND FLOOR " + id);
-        return null;
-    }
-
-
-
-
-    private void addFloor(Floor f, int buildingId) {
-        Building b = getBuildingById(buildingId);
-        if(b == null) {
-            System.out.println("couldnt find building");
-        }
-        else{
-            b.addFloor(f);
-
-        }
-    }
-
-    private void addLocation(Location l, int floorId) {
-        Floor f = getFloorById(floorId);
-        if(f == null) {
-            System.out.println("couldnt find floor");
-        }
-        else{
-            f.addLocation(l);
-        }
-    }
-
-
-    public List<Location> getAllLocations()
+    private boolean pullConnections(Statement stmt)
     {
-        List<Location> allNodes = new ArrayList<>();
-        for(int i = 0; i < this.buildings.size(); i++) {
-            ArrayList<Floor> floorList = this.buildings.get(i).getFloorList();
-            for(int f = 0; f < floorList.size(); f++) {
-                List<Location> locationList = floorList.get(i).getLocations();
-                for(int l = 0; l < locationList.size(); l++) {
-                    allNodes.add(locationList.get(l));
+        try {
+            ResultSet connections = stmt.executeQuery("SELECT * FROM CONNECTIONS");
+            ResultSetMetaData roomDataset = connections.getMetaData();
+            int roomColumns = roomDataset.getColumnCount();
+
+
+            int id1 = -1, id2 = -1;
+
+            while (connections.next()) {
+                System.out.println(" ");
+                for (int j = 1; j <= roomColumns; j++) {
+                    if(roomDataset.getColumnName(j).equals("LOCATION_ONE")){
+                        id1 = Integer.parseInt(connections.getString(j));
+                    }
+                    else if(roomDataset.getColumnName(j).equals("LOCATION_TWO")){
+                        id2 = Integer.parseInt(connections.getString(j));
+                    }
                 }
+
+                addConnection(id1, id2);
+
             }
+            return true;
         }
-        return allNodes;
-
-    }
-    //getLocationById
-
-    public Location getLocationById(int id)
-    {
-        List<Location> locations = getAllLocations();
-        for(int i = 0; i < locations.size(); i ++)
+        catch (SQLException e)
         {
-            if(locations.get(i).getID() == id)
-            {
-                return locations.get(i);
-            }
-        }
-        return null;
 
+            System.out.println("Failed to pull connections");
+
+            return false;
+        }
     }
 
 }

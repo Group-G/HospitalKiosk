@@ -158,7 +158,8 @@ public class JavaDBExample
             //(LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_ID int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)
             stmt.execute("INSERT INTO LOCATION VALUES " +
                     "(2001, 'A111', 'WAITING_ROOM', '1001', 1, 1, 1), " +
-                    "(2002, 'A112', 'OFFICE', '1002', 1, 3, 2) ");
+                    "(2002, 'A112', 'OFFICE', '1002', 1, 3, 2), " +
+                    "(2003, 'A113', 'OFFICE', '1002', 5, 4, 2) ");
 
 
             //INSERT PERSONELLE

@@ -29,6 +29,7 @@ public class Location implements Comparable
         this.floor = floor;
         this.building = building;
         this.ID = ID;
+//        System.out.println("made location" + ID);
     }
     public Location(String name, double x, double y, String category, float weight, int ID, String floor, String building) {
         this.name = name;
@@ -39,6 +40,7 @@ public class Location implements Comparable
         this.floor = floor;
         this.building = building;
         this.ID = ID;
+//        System.out.println("made location" + ID);
     }
 
     /*SETTERS*/
@@ -135,5 +137,9 @@ public class Location implements Comparable
     @Override
      public int compareTo(Object o) {
          return toString().compareTo(o.toString());
+    }
+    public void addNeighbor(int id)
+    {
+        neighbors.add(id);
     }
 }
