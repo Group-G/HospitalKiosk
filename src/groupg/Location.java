@@ -18,13 +18,13 @@ public class Location implements iNode {
 
 
     //Constructor
-    public Location(String name, double x, double y, LinkedList<Integer> neighbors, String category, float weight, int ID, String floor, String building) {
+    public Location(String name, double x, double y, LinkedList<Integer> neighbors, String category, int ID, String floor, String building) {
         this.name = name;
         this.x = x;
         this.y = y;
         this.neighbors = neighbors;
         this.category = category;
-        this.weight = weight;
+        this.weight = 0;
         this.floor = floor;
         this.building = building;
         this.ID = ID;
