@@ -45,8 +45,7 @@ public class dummy{
     flist.add(6);
     glist.add(0);
     glist.add(5);
-    Astar dummy = new Astar();
-
-    dummy.run(a,f);
-    dummy.shortestPath;
+    Astar test = new Astar();
+    test.run(a,f);
+    test.shortestPath;
 }

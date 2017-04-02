@@ -16,7 +16,7 @@ public class Location implements iNode {
     private double fcost;
     private Location parent;
 
-
+    
     //Constructor
     public Location(String name, double x, double y, LinkedList<Integer> neighbors, String category, int ID, String floor, String building) {
         this.name = name;
