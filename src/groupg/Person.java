@@ -1,5 +1,6 @@
 package groupg;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,5 +64,8 @@ public class Person
     public void setOfficeId(List<Integer> officeId)
     {
         this.officeId = officeId;
+    }
+    public Person(int id, String title, String name){
+        this(1, title, name, new ArrayList<Integer>());
     }
 }

@@ -16,6 +16,7 @@ public class HospitalData {
     List<Building> buildings = new LinkedList<>();
 
     List<String> categories = new LinkedList<>();
+    List<Person> people = new ArrayList<>();
     HospitalData() {
         if(pullDataFromDB()) {
             System.out.println("Successfully pulled data from DB");
@@ -240,6 +241,61 @@ public class HospitalData {
 
 
 
+    private boolean pullPeople(Statement stmt)
+    {
+        try {
+            ResultSet people = stmt.executeQuery("SELECT * FROM PERSONELLE");
+            ResultSetMetaData roomDataset = people.getMetaData();
+
+            int roomColumns = roomDataset.getColumnCount();
+
+            int id = -1;
+            String title = "FAILED TO PULL", name = "FAILED TO PULL",
+                    office = "FAILED TO PULL";
+
+
+            while (people.next()) {
+
+                System.out.println(" ");
+                for (int j = 1; j <= roomColumns; j++) {
+                    if(roomDataset.getColumnName(j).equals("LOCATION_ID")){
+                        id = Integer.parseInt(people.getString(j));
+                    }
+                    else if(roomDataset.getColumnName(j).equals("TITLE")){
+                        title = people.getString(j);
+                    }
+                    else if(roomDataset.getColumnName(j).equals("PERSONELLE_NAME")){
+                        name = people.getString(j);
+                    }
+                    else if(roomDataset.getColumnName(j).equals("OFFICE_NUMBER")){
+                        office = people.getString(j);
+                    }
+                    else
+                    {
+                        System.out.println("Could not place " + people.getString(j) +", " + roomDataset.getColumnName(j));
+                    }
+//
+//                    //make building and add it
+
+
+
+                }
+                Person p = new Person(id, title, name);
+                this.people.add(p);
+            }
+            return true;
+        }
+        catch (SQLException e)
+        {
+
+            System.out.println("Failed to pull buildings");
+
+            return false;
+        }
+    }
+
+
+
     public Building getBuildingById(int id) {
         for(int i = 0; i < this.buildings.size(); i++)
         {
@@ -296,18 +352,32 @@ public class HospitalData {
     public List<Location> getAllLocations()
     {
         List<Location> allNodes = new ArrayList<>();
-        for(int i = 0; i < this.buildings.size(); i++)
-        {
+        for(int i = 0; i < this.buildings.size(); i++) {
             ArrayList<Floor> floorList = this.buildings.get(i).getFloorList();
             for(int f = 0; f < floorList.size(); f++) {
-                Collections.addAll(allNodes, floorList.get(i).getLocations());
-
+                List<Location> locationList = floorList.get(i).getLocations();
+                for(int l = 0; l < locationList.size(); l++) {
+                    allNodes.add(locationList.get(l));
+                }
             }
         }
         return allNodes;
 
     }
-    //getAllLocations
     //getLocationById
+
+    public Location getLocationById(int id)
+    {
+        List<Location> locations = getAllLocations();
+        for(int i = 0; i < locations.size(); i ++)
+        {
+            if(locations.get(i).getID() == id)
+            {
+                return locations.get(i);
+            }
+        }
+        return null;
+
+    }
 
 }
