@@ -1,0 +1,160 @@
+package groupg;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * @author Ryan Benasutti
+ * @since 2017-04-01
+ */
+class NodeListenerFactory
+{
+    private static double orgSceneX, orgSceneY, orgTranslateX, orgTranslateY;
+    private static UniqueNode currentSelection = null;
+    private static double mouseX, mouseY;
+
+    /**
+     * Makes Nodes draggable and clickable with a mouse listener
+     * @param nodes Nodes to make draggable
+     */
+    static void makeDraggable(UniqueNode... nodes)
+    {
+        Arrays.stream(nodes).forEach(node ->
+                                     {
+                                         node.setOnMousePressed(mousePressedHandler);
+                                         node.setOnMouseDragged(mouseDraggedHandler);
+                                         node.setOnContextMenuRequested(showContextMenu);
+                                         node.setOnMouseMoved(trackMouseCoordinates);
+                                         node.setOnMouseReleased(mouseDragReleaseHandler);
+                                     });
+    }
+
+    private static EventHandler<ContextMenuEvent> showContextMenu = new EventHandler<ContextMenuEvent>()
+    {
+        @Override
+        public void handle(ContextMenuEvent event)
+        {
+            final ContextMenu contextMenu = new ContextMenu();
+
+            Menu changeType = new Menu("Change Type");
+            ObservableList<MenuItem> types = FXCollections.observableArrayList();
+            List<String> tempStringsFromDB = new ArrayList<>(); //TODO: Grab items from DB
+            tempStringsFromDB.add("Type 1");
+            tempStringsFromDB.add("Type 2");
+            tempStringsFromDB.forEach(s -> {
+                MenuItem item = new MenuItem(s);
+                item.setOnAction(e ->
+                                 {
+                                     System.out.println("Changed type for node " + currentSelection.getID() + " to " + s);
+                                 });
+                changeType.getItems().add(item);
+            });
+            changeType.getItems().addAll(types);
+
+            MenuItem changeCat = new MenuItem("Change Category");
+            MenuItem remove = new MenuItem("Remove Node");
+            remove.setOnAction(event1 -> {
+                AdminMainController.displayedShapes.remove(currentSelection);
+                System.out.println("Removed node with ID: " + currentSelection.getID());
+            });
+
+            contextMenu.getItems().addAll(changeType, changeCat, remove);
+
+            contextMenu.show(currentSelection, mouseX, mouseY);
+        }
+    };
+
+    private static EventHandler<MouseEvent> trackMouseCoordinates = new EventHandler<MouseEvent>()
+    {
+        @Override
+        public void handle(MouseEvent event)
+        {
+            mouseX = event.getScreenX();
+            mouseY = event.getScreenY();
+        }
+    };
+
+    private static EventHandler<MouseEvent> mousePressedHandler = new EventHandler<MouseEvent>()
+    {
+        @Override
+        public void handle(MouseEvent t)
+        {
+            orgSceneX = t.getSceneX();
+            orgSceneY = t.getSceneY();
+
+            if (t.getSource() instanceof UniqueNode)
+            {
+                UniqueNode p = ((UniqueNode) (t.getSource()));
+                orgTranslateX = p.getCenterX();
+                orgTranslateY = p.getCenterY();
+
+                //Clear current highlight
+                if (currentSelection != null)
+                {
+                    currentSelection.setFill(Color.BLACK);
+                }
+
+                //Set new highlight
+                currentSelection = p;
+                p.setFill(Color.RED);
+            }
+            else
+            {
+                Node p = ((Node) (t.getSource()));
+                orgTranslateX = p.getTranslateX();
+                orgTranslateY = p.getTranslateY();
+            }
+        }
+    };
+
+    private static EventHandler<MouseEvent> mouseDraggedHandler = new EventHandler<MouseEvent>()
+    {
+        @Override
+        public void handle(MouseEvent t)
+        {
+            double offsetX = t.getSceneX() - orgSceneX;
+            double offsetY = t.getSceneY() - orgSceneY;
+
+            double newTranslateX = orgTranslateX + offsetX;
+            double newTranslateY = orgTranslateY + offsetY;
+
+            if (t.getSource() instanceof UniqueNode)
+            {
+                UniqueNode p = ((UniqueNode) (t.getSource()));
+                p.setCenterX(newTranslateX);
+                p.setCenterY(newTranslateY);
+            }
+            else
+            {
+                Node p = ((Node) (t.getSource()));
+                p.setTranslateX(newTranslateX);
+                p.setTranslateY(newTranslateY);
+            }
+        }
+    };
+
+    private static EventHandler<MouseEvent> mouseDragReleaseHandler = new EventHandler<MouseEvent>()
+    {
+        @Override
+        public void handle(MouseEvent t)
+        {
+            if (t.getSource() instanceof UniqueNode)
+            {
+                UniqueNode p = ((UniqueNode) (t.getSource()));
+                AdminMainController.displayedShapes.addAll(PathDrawer.getLinesForNode(p));
+            }
+        }
+    };
+}
