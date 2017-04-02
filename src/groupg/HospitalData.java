@@ -83,13 +83,13 @@ public class HospitalData {
                     }
 
                     //make building and add it
-                    System.out.println("making building");
-                    Building b = new Building(buildingId, buildingName, floorCount);
-                    this.buildings.add(b);
+
 
 
                 }
-                System.out.println();
+                System.out.println("making building");
+                Building b = new Building(buildingId, buildingName, floorCount);
+                this.buildings.add(b);
             }
             return true;
         }
@@ -102,6 +102,7 @@ public class HospitalData {
     }
     private boolean pullFloors(Statement stmt)
     {
+
         try {
             ResultSet floors = stmt.executeQuery("SELECT * FROM FlOOR");
             ResultSetMetaData roomDataset = floors.getMetaData();
@@ -112,33 +113,34 @@ public class HospitalData {
             System.out.println();
 
             int floorId = -1, buildingId = -1, floorNum = -1;
-            String floorName = "FAILED TO PULL", fileName = "FAILED TO PULL";
+            String floorNumber = "FAILED TO PULL", fileName = "FAILED TO PULL";
 
-
+            System.out.println("hola");
             while (floors.next()) {
-
-                System.out.println(" ");
+                System.out.println("hello????");
                 for (int j = 1; j <= roomColumns; j++) {
                     if(roomDataset.getColumnName(j).equals("FLOOR_ID")){
-                        floorId = Integer.parseInt(floors.getString(j));
+                        floorId = Integer.parseInt(floors.getString(j).replaceAll("\\s+",""));
                     }
                     else if(roomDataset.getColumnName(j).equals("BUILDING_ID")){
-                        buildingId = Integer.parseInt(floors.getString(j));
+                        buildingId = Integer.parseInt(floors.getString(j).replaceAll("\\s+",""));
                     }
                     else if(roomDataset.getColumnName(j).equals("FILENAME")){
                         fileName = floors.getString(j);
                     }
                     else if(roomDataset.getColumnName(j).equals("FLOOR_NUMBER")){
-                        floorName = floors.getString(j);
+                        floorNumber = floors.getString(j);
                     }
 //
 //                    //make building and add it
-                    Floor f = new Floor(floorId, buildingId, fileName, floorName);
-                    addFloor(f, buildingId);
+
 
 
                 }
-                System.out.println();
+                System.out.println("adding floor " + floorId);
+                Floor f = new Floor(floorId, buildingId, fileName, floorNumber);
+//               FLOOR_ID FLOOR_NUMBER  BUILDING_ID  FILENAME varchar(20))
+                addFloor(f, buildingId);
             }
             return true;
         }
@@ -185,21 +187,24 @@ public class HospitalData {
                     else if(roomDataset.getColumnName(j).equals("LOCATION_CATEGORY")){
                         category = locations.getString(j);
                     }
-                    else if(roomDataset.getColumnName(j).equals("FLOOR_ID")){
+                    else if(roomDataset.getColumnName(j).equals("FLOOR_NUM") || roomDataset.getColumnName(j).equals("FLOOR_ID")){
                         floorID = locations.getString(j);
                     }
-
                     else if(roomDataset.getColumnName(j).equals("BUILDING_ID")){
                         buildingID = locations.getString(j);
                     }
+                    else
+                    {
+                        System.out.println("Could not place " + locations.getString(j) +", " + roomDataset.getColumnName(j));
+                    }
 //
 //                    //make building and add it
-                    Location l = new Location(locationName, x_coord, y_coord, category, 1, id, floorID, buildingID);
-                    addLocation(l, Integer.parseInt(floorID));
+
 
 
                 }
-                System.out.println();
+                Location l = new Location(locationName, x_coord, y_coord, category, 1, id, floorID, buildingID);
+                addLocation(l, Integer.parseInt(floorID));
             }
             return true;
         }
@@ -227,12 +232,14 @@ public class HospitalData {
 
     public Floor getFloorById(int id) {
 
-        System.out.println("looking for floor" + id);
+        System.out.println("looking for floor " + id + " out of " +  this.buildings.size() + " building");
         for(int i = 0; i < this.buildings.size(); i++)
         {
             ArrayList<Floor> floorList = this.buildings.get(i).getFloorList();
+            System.out.println(floorList.size() + "floors");
             for(int f = 0; f < floorList.size(); f++) {
-                System.out.println(floorList.get(i).getId());
+                System.out.println(floorList.get(i).getId() + ",  "+ floorList.get(i).getFloorNum());
+
                 if (floorList.get(i).getId() == id) {
                     return floorList.get(i);
                 }
@@ -245,16 +252,23 @@ public class HospitalData {
 
     public void addFloor(Floor f, int buildingId) {
         Building b = getBuildingById(buildingId);
-        if(b == null)
-        {
+        if(b == null) {
             System.out.println("couldnt find building");
         }
-        b.addFloor(f);
+        else{
+            b.addFloor(f);
+
+        }
     }
 
     public void addLocation(Location l, int floorId) {
         Floor f = getFloorById(floorId);
-        f.addLocation(l);
+        if(f == null) {
+            System.out.println("couldnt find floor");
+        }
+        else{
+            f.addLocation(l);
+        }
     }
 
 

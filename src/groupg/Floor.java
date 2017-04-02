@@ -10,13 +10,13 @@ public class Floor{
     int id;
     int buildingId;
     String filename;
-    String floorName;
-    public Floor(int floorId, int buildingId, String floorName, String fileName)
+    String floorNumber;
+    public Floor(int floorId, int buildingId, String fileName, String floorName)
     {
         this.id = floorId;
         this.buildingId = buildingId;
         this.filename = fileName;
-        this.floorName = floorName;
+        this.floorNumber = floorName;
     }
 
     public int getId() {
@@ -26,5 +26,9 @@ public class Floor{
     public void addLocation(Location l)
     {
         floorLoc.add(l);
+    }
+
+    public String getFloorNum() {
+        return floorNumber;
     }
 }
