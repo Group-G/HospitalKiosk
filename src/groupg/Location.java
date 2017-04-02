@@ -3,7 +3,7 @@ import java.util.LinkedList;
 /**
  * Created by Dylan on 3/30/17.
  */
-public class Location implements iNode {
+public class Location {
     String name;
     private double x;  //X-Coordinate
     private double y;  //Y-Coordinate
