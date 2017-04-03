@@ -24,7 +24,7 @@ public class EditPersController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        persList.getItems().addAll(HospitalData.getAllPeople()); //Add all people from DB to listview
+        persList.getItems().setAll(HospitalData.getAllPeople()); //Add all people from DB to listview
     }
 
     public void onCancel(ActionEvent actionEvent)
@@ -53,8 +53,9 @@ public class EditPersController implements Initializable
 
     public void onDelete(ActionEvent actionEvent)
     {
-        //TODO: Remove cat from DB
-        persList.getItems().remove(persList.getSelectionModel().getSelectedItem());
+        System.out.println("ID: " + persList.getSelectionModel().getSelectedItem().getId());
+        persList.getItems().removeIf(elem -> persList.getSelectionModel().getSelectedItem().getId() == elem.getId());
+        HospitalData.getAllPeople().removeIf(elem -> persList.getSelectionModel().getSelectedItem().getId() == elem.getId());
     }
 
     public void onEdit(ActionEvent event)

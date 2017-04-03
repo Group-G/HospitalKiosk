@@ -3,12 +3,15 @@ package groupg;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Ryan Benasutti
@@ -22,6 +25,7 @@ class NodeListenerFactory
 
     /**
      * Makes Nodes draggable and clickable with a mouse listener
+     *
      * @param nodes Nodes to make draggable
      */
     static void makeDraggable(UniqueNode... nodes)
@@ -32,7 +36,6 @@ class NodeListenerFactory
                                          node.setOnMouseDragged(mouseDraggedHandler);
                                          node.setOnContextMenuRequested(showContextMenu);
                                          node.setOnMouseMoved(trackMouseCoordinates);
-                                         node.setOnMouseReleased(mouseDragReleaseHandler);
                                      });
     }
 
@@ -43,12 +46,34 @@ class NodeListenerFactory
         {
             final ContextMenu contextMenu = new ContextMenu();
 
-            MenuItem changeCat = new MenuItem("Change Category");
+            Menu changeCat = new Menu("Change Category");
+            List<String> catsFromDB = HospitalData.getAllLocations().stream()
+                                                  .map(Location::getName)
+                                                  .collect(Collectors.toList());
+            catsFromDB.forEach(s ->
+                               {
+                                   MenuItem item = new MenuItem(s);
+                                   item.setOnAction(e ->
+                                                            currentSelection.setCategory(s));
+                                   changeCat.getItems().add(item);
+                               });
+
+            Menu changeLocs = new Menu("Change Location");
+            List<Location> locsFromDB = HospitalData.getLocationsByCategory(currentSelection.getCategory());
+            locsFromDB.forEach(locIn ->
+                               {
+                                   MenuItem item = new MenuItem(locIn.getName());
+                                   item.setOnAction(e ->
+                                                            currentSelection.setLocation(locIn));
+                                   changeLocs.getItems().add(item);
+                               });
+
             MenuItem remove = new MenuItem("Remove Node");
-            remove.setOnAction(event1 -> {
-                AdminMainController.displayedShapes.remove(currentSelection);
-                System.out.println("Removed node with ID: " + currentSelection.getID());
-            });//TODO: Add change location menu item
+            remove.setOnAction(event1 ->
+                               {
+                                   AdminMainController.displayedShapes.remove(currentSelection);
+                                   System.out.println("Removed node with ID: " + currentSelection.getID());
+                               });
 
             contextMenu.getItems().addAll(changeCat, remove);
 
@@ -121,19 +146,6 @@ class NodeListenerFactory
                 Node p = ((Node) (t.getSource()));
                 p.setTranslateX(newTranslateX);
                 p.setTranslateY(newTranslateY);
-            }
-        }
-    };
-
-    private static EventHandler<MouseEvent> mouseDragReleaseHandler = new EventHandler<MouseEvent>()
-    {
-        @Override
-        public void handle(MouseEvent t)
-        {
-            if (t.getSource() instanceof UniqueNode)
-            {
-                UniqueNode p = ((UniqueNode) (t.getSource()));
-                AdminMainController.displayedShapes.addAll(PathDrawer.getLinesForNode(p));
             }
         }
     };

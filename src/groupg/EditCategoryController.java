@@ -29,9 +29,7 @@ public class EditCategoryController implements Initializable
     public void initialize(URL location, ResourceBundle resources)
     {
         cats.clear();
-        cats.add("Test cat 1");
-        cats.add("Test cat 2");
-        catList.getItems().setAll(cats); //TODO: Get cats from DB
+        catList.getItems().setAll(HospitalData.getCategories());
     }
 
     public void onCancel(ActionEvent actionEvent)
