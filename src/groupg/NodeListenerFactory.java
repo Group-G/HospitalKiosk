@@ -34,9 +34,7 @@ class NodeListenerFactory
                                      {
                                          node.setOnMousePressed(mousePressedHandler);
                                          node.setOnMouseDragged(mouseDraggedHandler);
-                                         node.setOnMouseReleased(event -> {
-                                             AdminMainController.drawConnections(currentSelection, AdminMainController.displayedShapes);
-                                         });
+                                         node.setOnMouseReleased(event -> AdminMainController.drawConnections(currentSelection, AdminMainController.displayedShapes));
                                          node.setOnContextMenuRequested(showContextMenu);
                                          node.setOnMouseMoved(trackMouseCoordinates);
                                      });

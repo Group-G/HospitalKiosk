@@ -19,7 +19,9 @@ class NodeFactory
         UniqueNode circle = new UniqueNode(10);
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.7));
-        circle.relocate(x, y);
+//        circle.relocate(x, y);
+        circle.setCenterX(x);
+        circle.setCenterY(y);
         NodeListenerFactory.makeDraggable(circle);
         return circle;
     }
@@ -34,7 +36,9 @@ class NodeFactory
         UniqueNode circle = new UniqueNode(10);
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.7));
-        circle.relocate(location.getX(), location.getY());
+//        circle.relocate(location.getX(), location.getY());
+        circle.setCenterX(location.getX());
+        circle.setCenterY(location.getY());
         NodeListenerFactory.makeDraggable(circle);
         return circle;
     }
