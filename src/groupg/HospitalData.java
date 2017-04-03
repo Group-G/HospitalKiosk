@@ -393,7 +393,7 @@ public class HospitalData {
 
                 }
                 Person p = new Person(id, title, name);
-                this.people.add(p);
+                peopleList.add(p);
             }
             return true;
         } catch (SQLException e) {
