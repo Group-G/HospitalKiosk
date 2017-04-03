@@ -324,10 +324,12 @@ public class HospitalData {
             List<String> newConnections = locs.get(i).getConnectionsSQL();
             for(int j = 0; j < newConnections.size(); j++)
             {
-                if(!connections.equals("")){
-                    connections = connections + ",";
+                if(connections.indexOf(newConnections.get(j)) == -1) {
+                    if (!connections.equals("")) {
+                        connections = connections + ",";
+                    }
+                    connections = connections + newConnections.get(j);
                 }
-                connections = connections + newConnections.get(j);
             }
 
         }
