@@ -39,11 +39,10 @@ public class EditPersAddController implements Initializable
     {
         locField.setMinWidth(200);
         locField.setPromptText("Location");
-        possibleLocs.addAll(HospitalData.getAllLocations());
+        possibleLocs.addAll(HospitalData.getAllLocations()); //Grab all locs from DB
         locField.getEntries().addAll(possibleLocs);
         ObservableList<Node> children = FXCollections.observableArrayList(locHBox.getChildren());
         children.add(locField);
-        Collections.swap(children, 0, 1);
         locHBox.getChildren().setAll(children);
     }
 

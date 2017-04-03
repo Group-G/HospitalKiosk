@@ -32,7 +32,7 @@ class EditPersFineController implements Initializable
 
     private Person pers;
     private AutoCompleteTextField<Location> locField = new AutoCompleteTextField<>();
-    private Set<String> possibleLocs = new HashSet<>();
+    private Set<Location> possibleLocs = new HashSet<>();
 
     EditPersFineController(Person pers)
     {
@@ -47,13 +47,12 @@ class EditPersFineController implements Initializable
         locList.getItems().setAll(pers.getLocations().stream()
                                       .map(HospitalData::getLocationById)
                                       .collect(Collectors.toList())); //Add person's locs from DB
-
         locField.setMinWidth(200);
         locField.setPromptText("Location");
-        locField.getEntries().addAll(HospitalData.getAllLocations()); //Grab all locs from DB
+        possibleLocs.addAll(HospitalData.getAllLocations()); //Grab all locs from DB
+        locField.getEntries().addAll(possibleLocs);
         ObservableList<Node> children = FXCollections.observableArrayList(locHBox.getChildren());
         children.add(locField);
-        Collections.swap(children, 0, 1);
         locHBox.getChildren().setAll(children);
 
         cancelBtn.setOnAction(event ->
@@ -90,26 +89,17 @@ class EditPersFineController implements Initializable
 
         addLocBtn.setOnAction(event ->
                               {
-                                  int numMatches = 0;
-                                  for (Location loc : locList.getItems())
-                                  {
-                                      if (loc.getName().equals(locField.getText()))
-                                      {
-                                          numMatches++;
-                                      }
-                                  }
-
-                                  if (numMatches == 0 && possibleLocs.contains(locField.getText()))
+                                  if (!locList.getItems()
+                                              .stream()
+                                              .map(Location::getName)
+                                              .collect(Collectors.toList())
+                                              .contains(locField.getText()) &&
+                                      possibleLocs.stream()
+                                                  .map(Location::getName)
+                                                  .collect(Collectors.toList())
+                                                  .contains(locField.getText()))
                                   {
                                       locList.getItems().add(locField.getCurrentSelection());
-                                      List<Location> locations = new ArrayList<>();
-                                      locations.addAll(locList.getItems());
-                                      HospitalData.setPerson(pers.getId(),
-                                                             new Person(nameField.getText(),
-                                                                        titleField.getText(),
-                                                                        locations.stream()
-                                                                                 .map(Location::getID)
-                                                                                 .collect(Collectors.toList()), 0));
                                   }
                               });
     }
