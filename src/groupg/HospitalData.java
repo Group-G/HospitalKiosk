@@ -230,6 +230,18 @@ public class HospitalData {
         }
         return true;
     }
+    public static boolean removePerson(int id)
+    {
+//        peopleList
+        for(int i = 0; i < peopleList.size(); i++)
+        {
+            if(peopleList.get(i).getId() == id){
+                peopleList.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     public static List<String> getCategories()
