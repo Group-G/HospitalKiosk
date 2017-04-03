@@ -33,6 +33,7 @@ public class AdminMainController implements Initializable
     private ResizableCanvas canvas = new ResizableCanvas(ResizableCanvas.DRAW_FLOOR_4);
     private Pane overlay = new Pane();
     static ObservableList<Shape> displayedShapes = FXCollections.observableArrayList();
+    static double nodeOffset = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -53,6 +54,9 @@ public class AdminMainController implements Initializable
                                         overlay.getChildren().setAll(displayedShapes);
                                         canvasWrapper.getChildren().add(overlay);
                                     });
+
+        //Canvas resize listener
+
 
         //Add initial elements
         canvasWrapper.getChildren().add(canvas);
@@ -100,7 +104,7 @@ public class AdminMainController implements Initializable
         {
             Location cur = out.get(i);
             Location next = out.get(i + 1);
-            Line line = new Line(cur.getX() + 20, cur.getY() + 20, next.getX() + 20, next.getY() + 20);
+            Line line = new Line(cur.getX() + nodeOffset, cur.getY() + nodeOffset, next.getX() + nodeOffset, next.getY() + nodeOffset);
             displayedShapes.add(line);
         }
 
