@@ -53,7 +53,7 @@ public class EditLocController implements Initializable
 
     public void onDelete(ActionEvent actionEvent)
     {
-        //TODO: Remove cat from DB
-        locList.getItems().remove(locList.getSelectionModel().getSelectedItem());
+//        HospitalData.getAllLocations().remove(locList.getSelectionModel().getSelectedItem());
+        locList.getItems().remove(locList.getSelectionModel().getSelectedIndex()); //TODO: Remove loc from DB
     }
 }

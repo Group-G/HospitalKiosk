@@ -53,8 +53,7 @@ class NodeListenerFactory
             catsFromDB.forEach(s ->
                                {
                                    MenuItem item = new MenuItem(s);
-                                   item.setOnAction(e ->
-                                                            currentSelection.setCategory(s));
+                                   item.setOnAction(e -> currentSelection.setCategory(s));
                                    changeCat.getItems().add(item);
                                });
 
@@ -63,8 +62,7 @@ class NodeListenerFactory
             locsFromDB.forEach(locIn ->
                                {
                                    MenuItem item = new MenuItem(locIn.getName());
-                                   item.setOnAction(e ->
-                                                            currentSelection.setLocation(locIn));
+                                   item.setOnAction(e -> currentSelection.setLocation(locIn));
                                    changeLocs.getItems().add(item);
                                });
 
