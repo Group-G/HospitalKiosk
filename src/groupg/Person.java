@@ -118,6 +118,8 @@ public class Person
     @Override
     public String toString()
     {
+        if (getTitle().equals(""))
+            return getName();
         return getName() + ", " + getTitle();
     }
 
