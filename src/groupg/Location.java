@@ -11,7 +11,7 @@ public class Location implements Comparable
     private double x, y;
 
     private float weight;
-    private int ID;
+    private int id;
     private String name, category,floor, building;
     LinkedList<Integer> neighbors = new LinkedList<Integer>();
     private double fcost;
@@ -26,7 +26,7 @@ public class Location implements Comparable
         this.weight = weight;
         this.floor = floor;
         this.building = building;
-        this.ID = ID;
+        this.id = ID;
 //        System.out.println("made location" + ID);
     }
     public Location(String name, double x, double y, String category, float weight, int ID, String floor, String building) {
@@ -37,7 +37,7 @@ public class Location implements Comparable
         this.weight = weight;
         this.floor = floor;
         this.building = building;
-        this.ID = ID;
+        this.id = ID;
 //        System.out.println("made location" + ID);
     }
 
@@ -52,7 +52,7 @@ public class Location implements Comparable
     }
 
     public void setID(int ID) {
-        this.ID = ID;
+        this.id = ID;
     }
 
     public void setCategory(String category) {
@@ -86,7 +86,7 @@ public class Location implements Comparable
     }
 
     public int getID() {
-        return this.ID;
+        return this.id;
     }
 
     public String getCategory() {
@@ -141,5 +141,11 @@ public class Location implements Comparable
     public void addNeighbor(int id)
     {
         neighbors.add(id);
+    }
+
+    public String getSQL(){
+        String result = "(" + id + ", " + name + "," + category  + "," + floor  + "," + x + "," + y + "," + building+ ")";
+        System.out.println(result);
+        return result;
     }
 }

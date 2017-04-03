@@ -24,12 +24,11 @@ public class Main extends Application
     public static void main(String[] args)
     {
         JavaDBExample dbExample = new JavaDBExample();
-        HospitalData h = new HospitalData();
         dbExample.connectDB();
-        dbExample.createTables();
-        dbExample.insertTables();
+//        dbExample.createTables();
+//        dbExample.insertTables();
+        HospitalData h = new HospitalData();
 
-        
         launch(args);
     }
 }

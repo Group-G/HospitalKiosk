@@ -92,14 +92,7 @@ public class JavaDBExample
                 //e.printStackTrace();
             }
 
-            try {
-                stmt.execute("DROP TABLE CONNECTIONS");
-            }
-            catch (SQLException e)
-            {
-                System.out.println("Could not drop connection.");
-                //e.printStackTrace();
-            }
+
 
             try {
                 stmt.execute("DROP TABLE ADMIN");
@@ -107,6 +100,14 @@ public class JavaDBExample
             catch (SQLException e)
             {
                 System.out.println("Could not drop admin.");
+                //e.printStackTrace();
+            }
+            try {
+                stmt.execute("DROP TABLE PEOPLELOCATIONS");
+            }
+            catch (SQLException e)
+            {
+                System.out.println("Could not drop people locations.");
                 //e.printStackTrace();
             }
 
@@ -128,6 +129,7 @@ public class JavaDBExample
             stmt.execute("CREATE TABLE FLOOR(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER char(20), BUILDING_ID int, FILENAME varchar(20))");
 
             stmt.execute("CREATE TABLE CONNECTIONS(LOCATION_ONE int, LOCATION_TWO int)");
+            stmt.execute("CREATE TABLE PEOPLELOCATIONS(PERSON_ID int, OFFICE_ID int)");
             stmt.execute("CREATE TABLE ADMIN(ADMIN_UN char(20) NOT NULL Primary Key, ADMIN_PW char(20))");
             stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(20))");
             //END CREATE TABLES
@@ -157,9 +159,9 @@ public class JavaDBExample
 
             //(LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_ID int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)
             stmt.execute("INSERT INTO LOCATION VALUES " +
-                    "(2001, 'A111', 'WAITING_ROOM', '1001', 1, 1, 1), " +
-                    "(2002, 'A112', 'OFFICE', '1002', 1, 3, 2), " +
-                    "(2003, 'A113', 'OFFICE', '1002', 5, 4, 2) ");
+                    "(2001, 'A111', 'WAITING_ROOM', '1001', 1, 1, 101), " +
+                    "(2002, 'A112', 'OFFICE', '1002', 1, 3, 102), " +
+                    "(2003, 'A113', 'OFFICE', '1002', 5, 4, 102) ");
 
 
             //INSERT PERSONELLE
@@ -170,6 +172,13 @@ public class JavaDBExample
                     "(3001, 'Dr.', 'Hunter Peterson', 1112), " +
                     "(3002, 'Nurse', 'Bella Bee', 1112) ");
 
+            //INSERT PEOPLELOCATIONS
+            //FORMAT
+            //(int personId int officeID)
+            stmt.execute("INSERT INTO FLOOR VALUES " +
+
+                    "(3001, 2002), " +
+                    "(3002, 2003), ");
 
             //INSERT BUILDING
             //FORMAT
@@ -190,6 +199,7 @@ public class JavaDBExample
                     "(1003, '2', 102, 'B1_F2_img'), " +
                     "(1004, '3', 102, 'B1_F3_img'), " +
                     "(1005, '4', 102, 'B1_F4_img') ");
+
 
 
             //INSERT CONNECTIONS
@@ -225,6 +235,7 @@ public class JavaDBExample
             e.printStackTrace();
         }
     }
+
 
 
     /* selectTables
@@ -283,6 +294,96 @@ public class JavaDBExample
             */
         }
             catch (SQLException e)
+        {
+            System.out.println("Connection failed. Check output console.");
+            e.printStackTrace();
+        }
+    }
+
+
+
+    void fillTable(){
+        try {
+            // substitute your database name for myDB
+            Connection connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
+            Statement stmt = connection.createStatement();
+
+            //INSERT LOCATION
+            //FORMAT
+
+            //(LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_ID int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)
+            stmt.execute("INSERT INTO LOCATION VALUES " +
+                    "(2001, 'A111', 'WAITING_ROOM', '1001', 1, 1, 101), " +
+                    "(2002, 'A112', 'OFFICE', '1002', 1, 3, 2), " +
+                    "(2003, 'A113', 'OFFICE', '1002', 5, 4, 2) ");
+
+
+            //INSERT PERSONELLE
+            //FORMAT
+            //(PERSONELLE_ID int NOT NULL Primary Key, PERSONELLE_NAME varchar(20) default NULL, OFFICE_NUMBER int)
+            stmt.execute("INSERT INTO PERSONELLE VALUES " +
+
+                    "(3001, 'Dr.', 'Hunter Peterson', 1112), " +
+                    "(3002, 'Nurse', 'Bella Bee', 1112) ");
+
+            //INSERT PEOPLELOCATIONS
+            //FORMAT
+            //(int personId int officeID)
+            stmt.execute("INSERT INTO FLOOR VALUES " +
+
+                    "(3001, 2002), " +
+                    "(3002, 2003), ");
+
+            //INSERT BUILDING
+            //FORMAT
+            //(BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)
+            stmt.execute("INSERT INTO BUILDING VALUES " +
+
+                    "(101, 'Residential Services', 1), " +
+                    "(102, 'Morgan Hall', 4) ");
+
+
+            //INSERT FLOOR
+            //FORMAT
+            //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID int, FILENAME varchar(20))
+            stmt.execute("INSERT INTO FLOOR VALUES " +
+
+                    "(1001, '1', 101, 'B0_F1_img'), " +
+                    "(1002, '1', 102, 'B1_F1_img'), " +
+                    "(1003, '2', 102, 'B1_F2_img'), " +
+                    "(1004, '3', 102, 'B1_F3_img'), " +
+                    "(1005, '4', 102, 'B1_F4_img') ");
+
+
+
+            //INSERT CONNECTIONS
+            //FORMAT
+            //(LOCATION_ONE int, LOCATION_TWO int)
+            stmt.execute("INSERT INTO CONNECTIONS VALUES " +
+                    "(2001, 2002)");
+
+
+            //INSERT ADMIN
+            //FORMAT
+            //(ADMIN_ID int, ADMIN_UN char(20), ADMIN_PW char(20))
+            stmt.execute("INSERT INTO ADMIN VALUES " +
+                    "('admin', 'admin'), " +
+                    "('sjcomeau', 'sjc') ");
+
+            //INSERT CATEGORY
+            //FORMAT
+            //(CATEGORY_NAME varchar(20))
+            stmt.execute("INSERT INTO CATEGORY VALUES " +
+                    "('Office'), " +
+                    "('Bathroom'), " +
+                    "('Hall'), " +
+                    "('Waiting Area'), " +
+                    "('Emergency Room') ");
+
+            //Print
+//            System.out.println("Tables inserted!");
+        }
+        catch (SQLException e)
         {
             System.out.println("Connection failed. Check output console.");
             e.printStackTrace();

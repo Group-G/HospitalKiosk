@@ -37,4 +37,6 @@ public class Floor{
     public ArrayList<Location> getLocations() {
         return floorLoc;
     }
+
+
 }

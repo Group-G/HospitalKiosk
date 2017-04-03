@@ -175,7 +175,21 @@ public class HospitalData {
     }
 
 
+    public boolean publishDB()
+    {
 
+        return false;
+    }
+
+    public boolean setPerson(int id, Person p)
+    {
+//        peopleList
+        for(int i = 0; i < peopleList.size(); i++)
+        {
+
+        }
+        return true;
+    }
 
 
 
@@ -437,5 +451,12 @@ public class HospitalData {
             return false;
         }
     }
+
+
+
+
+
+
+
 
 }
