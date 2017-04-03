@@ -82,7 +82,7 @@ public class AdminMainController implements Initializable
 
             if (nodes.get(i) instanceof UniqueNode)
             {
-                if (i != 0)
+                if (i != -1)
                 {
                     out.add(((UniqueNode) nodes.get(i)).getLocation());
                     numUN++;
@@ -100,7 +100,7 @@ public class AdminMainController implements Initializable
         {
             Location cur = out.get(i);
             Location next = out.get(i + 1);
-            Line line = new Line(cur.getX(), cur.getY(), next.getX(), next.getY());
+            Line line = new Line(cur.getX() + 20, cur.getY() + 20, next.getX() + 20, next.getY() + 20);
             displayedShapes.add(line);
         }
 
