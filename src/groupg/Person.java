@@ -90,4 +90,22 @@ public class Person
     {
         return officeId;
     }
+    public String getSQL()
+    {
+        //(3001, 'Dr.', 'Hunter Peterson', 1112),
+        String result = "(" + id +", " + title +", " + name+")";
+        return result;
+    }
+    public List<String> getOfficesSQL(){
+        //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER char(20), BUILDING_ID int, FILENAME varchar(20)
+        ArrayList<String> result = new ArrayList<>();
+        for(int i = 0; i < officeId.size(); i++)
+        {
+            String a = "(" + id+ ","+officeId.get(i) +")";
+            System.out.println(a);
+            result.add(a);
+        }
+
+        return result;
+    }
 }
