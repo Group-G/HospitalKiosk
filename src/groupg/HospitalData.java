@@ -175,13 +175,13 @@ public class HospitalData {
     }
 
 
-    public boolean publishDB()
+    public static boolean publishDB()
     {
 
         return false;
     }
 
-    public boolean setPerson(int id, Person p)
+    public static boolean setPerson(int id, Person p)
     {
 //        peopleList
         for(int i = 0; i < peopleList.size(); i++)
