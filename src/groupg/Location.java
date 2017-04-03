@@ -118,7 +118,7 @@ public class Location implements Comparable
     //gets length between node and this node
     public double lengthTo(Location other){
         double len = Math.sqrt(Math.pow(Math.abs(this.getX()-other.getX()), 2)
-                    - Math.pow(Math.abs(this.getY()-other.getY()), 2));
+                    + Math.pow(Math.abs(this.getY()-other.getY()), 2));
         return len;
     }
 
