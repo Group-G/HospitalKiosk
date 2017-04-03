@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Ryan Benasutti
@@ -34,7 +35,20 @@ class NodeListenerFactory
                                      {
                                          node.setOnMousePressed(mousePressedHandler);
                                          node.setOnMouseDragged(mouseDraggedHandler);
-                                         node.setOnMouseReleased(event -> AdminMainController.drawConnections(currentSelection, AdminMainController.displayedShapes));
+                                         node.setOnMouseReleased(event -> {
+                                             try
+                                             {
+                                                 HospitalData.getAllLocations().stream()
+                                                             .filter(elem -> elem.getID() == currentSelection.getLocation().getID())
+                                                             .collect(Collectors.toList())
+                                                             .set(0, currentSelection.getLocation());
+                                             }
+                                             catch (IndexOutOfBoundsException e)
+                                             {
+                                                 System.out.println("DID NOT FIND LOC IN DB FOR ID: " + currentSelection.getLocation().getID());
+                                             }
+                                             AdminMainController.drawConnections(currentSelection, AdminMainController.displayedShapes);
+                                         });
                                          node.setOnContextMenuRequested(showContextMenu);
                                          node.setOnMouseMoved(trackMouseCoordinates);
                                      });

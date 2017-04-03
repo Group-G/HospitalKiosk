@@ -43,9 +43,6 @@ public class DirectionScreenController implements Initializable
     private Astar astar;
     private LinkedList<Location> locations = new LinkedList<>();
     private LinkedList<Integer> loc1N = new LinkedList<>(), loc2N = new LinkedList<>(), loc3N = new LinkedList<>();
-    private Location location1 = new Location("test 1", 10, 10, loc1N, "", 0, 1, 0, 0),
-            location2 = new Location("test 2", 100, 100, loc2N, "", 0, 2, 0, 0),
-            location3 = new Location("test 3", 250, 100, loc3N, "", 0, 3, 0, 0);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -65,16 +62,11 @@ public class DirectionScreenController implements Initializable
         loc1N.add(2);
         loc2N.add(3);
         loc3N.add(1);
-        locations.add(location1);
-        locations.add(location2);
-        locations.add(location3);
 
-        startLocField.getEntries().add(location1); //TODO: Pull locs from DB
-        startLocField.getEntries().add(location2);
-        startLocField.getEntries().add(location3);
-        destField.getEntries().add(location1);
-        destField.getEntries().add(location2);
-        destField.getEntries().add(location3);
+        //Add locations from DB
+        locations.addAll(HospitalData.getAllLocations());
+        startLocField.getEntries().addAll(locations);
+        destField.getEntries().addAll(locations);
 
         ObservableList<Node> children = FXCollections.observableArrayList(toolBar.getItems());
         children.addAll(startLocField, destField);

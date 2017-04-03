@@ -82,11 +82,13 @@ public class AdminMainController implements Initializable
         for (int i = 0; i < nodes.size(); i++)
         {
             if (numUN > 4)
+            {
                 break;
+            }
 
             if (nodes.get(i) instanceof UniqueNode)
             {
-                if (i != -1)
+                if (i != 0)
                 {
                     out.add(((UniqueNode) nodes.get(i)).getLocation());
                     numUN++;
@@ -100,12 +102,19 @@ public class AdminMainController implements Initializable
                                               .collect(Collectors.toList()));
 
         //Draw lines between the nodes
-        for (int i = 0; i < out.size() - 1; i++)
+        if (out.size() > 0)
         {
-            Location cur = out.get(i);
-            Location next = out.get(i + 1);
-            Line line = new Line(cur.getX() + nodeOffset, cur.getY() + nodeOffset, next.getX() + nodeOffset, next.getY() + nodeOffset);
-            displayedShapes.add(line);
+            double shortest = node.getLocation().lengthTo(out.get(0));
+            for (Location current : out)
+            {
+                if (node.getLocation().lengthTo(current) <= shortest + 10)
+                {
+                    displayedShapes.add(new Line(node.getLocation().getX() + nodeOffset,
+                                                 node.getLocation().getY() + nodeOffset,
+                                                 current.getX() + nodeOffset,
+                                                 current.getY() + nodeOffset));
+                }
+            }
         }
 
         return out;
