@@ -28,6 +28,7 @@ public class Main extends Application
         dbExample.createTables();
         dbExample.insertTables();
         HospitalData h = new HospitalData();
+        h.publishDB();
 
         launch(args);
     }

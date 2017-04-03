@@ -127,7 +127,28 @@ public class HospitalData {
 //            System.out.println("added to floor" + floorId);
         }
     }
+    public static List<Location> getAllFloors()
+    {
+//        List<Location> allNodes = new ArrayList<>();
+//
+//        for(int i = 0; i < buildingsList.size(); i++) {
+//            ArrayList<Floor> floorList = buildingsList.get(i).getFloorList();
+//
+//
+//            for(int f = 0; f < floorList.size(); f++) {
+//                List<Location> locationList = floorList.get(f).getLocations();
+//
+//
+////                System.out.println("building " + i +", floor "+ f +  " has " + locationList.size());
+//                for(int l = 0; l < locationList.size(); l++) {
+//                    allNodes.add(locationList.get(l));
+//                }
+//            }
+//        }
+////        System.out.println(allNodes.size());
+//        return allNodes;
 
+    }
 
     public static List<Location> getAllLocations()
     {
@@ -169,6 +190,26 @@ public class HospitalData {
         return null;
 
     }
+
+    public static Location getLocationsByCategory(String category)
+    {
+//        System.out.println("looking for location " + id);
+        List<Location> locations = getAllLocations();
+        List<Location> correct = new ArrayList<>();
+        for(int i = 0; i < locations.size(); i ++)
+        {
+//            System.out.println(locations.get(i).getID());
+            if(locations.get(i).getCategory() == category)
+            {
+//                System.out.println("found");
+//                return locations.get(i);
+                correct.add(locations.get(i))
+            }
+        }
+        return correct;
+
+    }
+
     public static void addConnection(int id1, int id2) {
         Location l1 = getLocationById(id1);
         Location l2 = getLocationById(id2);
@@ -200,19 +241,51 @@ public class HospitalData {
         return true;
     }
 
-    public static boolean publishDB()
-    {
 
+    public static List<String> getCategories()
+    {
+        return categories;
+    }
+    public static boolean addCategory(String newCategory)
+    {
+        if (!categories.contains(newCategory))
+        {
+            categories.add(newCategory);
+            return true;
+        }
         return false;
     }
-    public static void getCategories()
+
+
+
+    public static boolean publishDB()
     {
+        List<Location> locs = getAllLocations();
+        String locations = "";
+        for(int i = 0; i < locs.size(); i++)
+        {
+            if(i>0)
+            {
+                locations = locations + ",";
+            }
+            locations = locations + locs.get(i).getSQL();
+        }
+        System.out.println(locations);
 
+
+        List<Location> fls = getAllFloors();
+        String floors = "";
+        for(int i = 0; i < fls.size(); i++)
+        {
+            if(i>0)
+            {
+                floors = locations + ",";
+            }
+            floors = locations + fls.get(i).getSQL();
+        }
+        System.out.println(floors);
+        return true;
     }
-
-
-
-
 
 
 
