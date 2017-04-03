@@ -3,11 +3,7 @@ package groupg;
 import javax.management.DynamicMBean;
 import java.sql.*;
 
-import java.util.ArrayList;
-
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by svwoolf on 4/1/17.
@@ -127,26 +123,20 @@ public class HospitalData {
 //            System.out.println("added to floor" + floorId);
         }
     }
-    public static List<Location> getAllFloors()
+    public static List<Floor> getAllFloors()
     {
-        List<Location> allNodes = new ArrayList<>();
-//
-//        for(int i = 0; i < buildingsList.size(); i++) {
-//            ArrayList<Floor> floorList = buildingsList.get(i).getFloorList();
-//
-//
-//            for(int f = 0; f < floorList.size(); f++) {
-//                List<Location> locationList = floorList.get(f).getLocations();
-//
-//
-////                System.out.println("building " + i +", floor "+ f +  " has " + locationList.size());
-//                for(int l = 0; l < locationList.size(); l++) {
-//                    allNodes.add(locationList.get(l));
-//                }
-//            }
-//        }
-////        System.out.println(allNodes.size());
-        return allNodes;
+        List<Floor> allFloors = new ArrayList<>();
+
+        for(int i = 0; i < buildingsList.size(); i++) {
+            ArrayList<Floor> floorList = buildingsList.get(i).getFloorList();
+
+
+            for(int f = 0; f < floorList.size(); f++) {
+                allFloors.add(floorList.get(f));
+            }
+        }
+//        System.out.println(allNodes.size());
+        return allFloors;
 
     }
 
@@ -261,6 +251,7 @@ public class HospitalData {
     public static boolean publishDB()
     {
         List<Location> locs = getAllLocations();
+        String connections = "";
         String locations = "";
         for(int i = 0; i < locs.size(); i++)
         {
@@ -269,21 +260,22 @@ public class HospitalData {
                 locations = locations + ",";
             }
             locations = locations + locs.get(i).getSQL();
+//            newConnections
         }
-        System.out.println(locations);
+        System.out.println("Locations:" + locations);
 
 
-        List<Location> fls = getAllFloors();
+        List<Floor> fls = getAllFloors();
         String floors = "";
         for(int i = 0; i < fls.size(); i++)
         {
             if(i>0)
             {
-                floors = locations + ",";
+                floors = floors + ",";
             }
-            floors = locations + fls.get(i).getSQL();
+            floors = floors + fls.get(i).getSQL();
         }
-        System.out.println(floors);
+        System.out.println("Floors: " + floors);
         return true;
     }
 
@@ -375,7 +367,7 @@ public class HospitalData {
                         fileName = floors.getString(j);
                     }
                     else if(roomDataset.getColumnName(j).equals("FLOOR_NUMBER")){
-                        floorNumber = floors.getString(j);
+                        floorNumber = floors.getString(j).replaceAll("\\s+","");
                     }
 //
 //                    //make building and add it
@@ -499,7 +491,7 @@ public class HospitalData {
 
 
                 }
-                Person p = new Person(id, title, name);
+                Person p = new Person(id, name,title);
                 peopleList.add(p);
             }
             return true;

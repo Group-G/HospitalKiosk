@@ -147,7 +147,7 @@ public class Location implements Comparable
 
     public String getSQL(){
         String result = "(" + id + ", " + name + "," + category  + "," + floor  + "," + x + "," + y + "," + building+ ")";
-        System.out.println(result);
+//        System.out.println(result);
         return result;
     }
     public List<String> getConnectionsSQL(){
@@ -155,7 +155,7 @@ public class Location implements Comparable
         for(int i = 0; i < neighbors.size(); i++)
         {
             String a = "(" + id+ ","+neighbors.get(i) +")";
-            System.out.println(a);
+//            System.out.println(a);
             result.add(a);
         }
 
