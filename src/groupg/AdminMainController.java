@@ -47,6 +47,8 @@ public class AdminMainController implements Initializable
 
     public void onLogout(ActionEvent actionEvent)
     {
+        HospitalData.publishDB(); //Save changes to disk
+
         try
         {
             ResourceManager.getInstance().loadFXMLIntoScene("/welcomeScreen.fxml", "Welcome", logoutBtn.getScene());

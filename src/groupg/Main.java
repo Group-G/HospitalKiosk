@@ -12,6 +12,8 @@ import javafx.stage.Stage;
  */
 public class Main extends Application
 {
+    private static HospitalData h = new HospitalData();
+
     @Override
     public void start(Stage primaryStage) throws Exception
     {
@@ -19,16 +21,16 @@ public class Main extends Application
         primaryStage.setTitle("Welcome");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
+        primaryStage.setOnCloseRequest(event -> HospitalData.publishDB());
     }
 
     public static void main(String[] args)
     {
         JavaDBExample dbExample = new JavaDBExample();
         dbExample.connectDB();
-        dbExample.createTables();
-        dbExample.insertTables();
-        HospitalData h = new HospitalData();
-        h.publishDB();
+//        dbExample.createTables();
+//        dbExample.insertTables();
+        HospitalData.publishDB();
 
         launch(args);
     }
