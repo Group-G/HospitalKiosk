@@ -186,7 +186,9 @@ public class HospitalData {
 //        peopleList
         for(int i = 0; i < peopleList.size(); i++)
         {
-
+            if(peopleList.get(i).getId() == id){
+                peopleList.get(i).setPerson(p);
+            }
         }
         return true;
     }

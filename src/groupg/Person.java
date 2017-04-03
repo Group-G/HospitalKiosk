@@ -37,6 +37,11 @@ public class Person
         this.officeId = officeId;
         this.id = id;
     }
+    public void setPerson(Person p) {
+        this.name = p.getName();
+        this.title = p.getTitle();
+        this.officeId = p.getLocations();
+    }
 
     public String getName()
     {
