@@ -547,7 +547,6 @@ public class HospitalData {
 
             while (locations.next()) {
 
-                System.out.println(" ");
                 for (int j = 1; j <= roomColumns; j++) {
                     if(roomDataset.getColumnName(j).equals("LOCATION_ID")){
                         id = Integer.parseInt(locations.getString(j));
@@ -614,7 +613,6 @@ public class HospitalData {
 
             while (people.next()) {
 
-                System.out.println(" ");
                 for (int j = 1; j <= roomColumns; j++) {
                     if (roomDataset.getColumnName(j).equals("PERSONELLE_ID")) {
                         id = Integer.parseInt(people.getString(j));
@@ -659,7 +657,6 @@ public class HospitalData {
             int id1 = -1, id2 = -1;
 
             while (connections.next()) {
-                System.out.println(" ");
                 for (int j = 1; j <= roomColumns; j++) {
                     if(roomDataset.getColumnName(j).equals("LOCATION_ONE")){
                         id1 = Integer.parseInt(connections.getString(j));
@@ -698,7 +695,6 @@ public class HospitalData {
             int id1 = -1, id2 = -1;
 
             while (connections.next()) {
-                System.out.println(" ");
                 for (int j = 1; j <= roomColumns; j++) {
                     if(roomDataset.getColumnName(j).equals("PERSON_ID")){
                         id1 = Integer.parseInt(connections.getString(j));
@@ -736,7 +732,6 @@ public class HospitalData {
             String aCat = "FAILED TO PULL";
 
             while (cats.next()) {
-                System.out.println(" ");
                 for (int j = 1; j <= roomColumns; j++) {
                     if(roomDataset.getColumnName(j).equals("CATEGORY_NAME")){
                         aCat = cats.getString(j);
