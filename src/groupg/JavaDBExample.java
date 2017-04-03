@@ -321,52 +321,70 @@ public class JavaDBExample
             //FORMAT
 
             //(LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_ID int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)
-            stmt.execute("INSERT INTO LOCATION VALUES " + location);
+            if(!location.equals("")) {
+                stmt.execute("INSERT INTO LOCATION VALUES " + location);
+            }
 
 
             //INSERT PERSONELLE
             //FORMAT
             //(PERSONELLE_ID int NOT NULL Primary Key, PERSONELLE_NAME varchar(20) default NULL, OFFICE_NUMBER int)
-            stmt.execute("INSERT INTO PERSONELLE VALUES " + personelle);
+            if(!personelle.equals("")) {
+                stmt.execute("INSERT INTO PERSONELLE VALUES " + personelle);
+            }
 
             //INSERT PEOPLELOCATIONS
             //FORMAT
             //(int personId int officeID)
-            stmt.execute("INSERT INTO FLOOR VALUES " + floor);
+            if(!floor.equals("")) {
+                stmt.execute("INSERT INTO FLOOR VALUES " + floor);
+            }
 
             //INSERT PEOPLELOCATIONS
             //FORMAT
             //(int personId int officeID)
-            stmt.execute("INSERT INTO PEOPLELOCATIONS VALUES " + offices);
+            if(!offices.equals("")) {
+                stmt.execute("INSERT INTO PEOPLELOCATIONS VALUES " + offices);
+            }
 
             //INSERT BUILDING
             //FORMAT
             //(BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)
-            stmt.execute("INSERT INTO BUILDING VALUES " + building);
+            if(!building.equals("")) {
+                stmt.execute("INSERT INTO BUILDING VALUES " + building);
+            }
 
 
             //INSERT FLOOR
             //FORMAT
             //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID int, FILENAME varchar(20))
-            stmt.execute("INSERT INTO FLOOR VALUES " + floor);
+            if(!floor.equals("")) {
+                stmt.execute("INSERT INTO FLOOR VALUES " + floor);
+            }
 
 
 
             //INSERT CONNECTIONS
             //FORMAT
             //(LOCATION_ONE int, LOCATION_TWO int)
-            stmt.execute("INSERT INTO CONNECTIONS VALUES " +connections);
+            if(!connections.equals("")) {
+                stmt.execute("INSERT INTO CONNECTIONS VALUES " + connections);
+            }
 
 
             //INSERT ADMIN
             //FORMAT
             //(ADMIN_ID int, ADMIN_UN char(20), ADMIN_PW char(20))
-            stmt.execute("INSERT INTO ADMIN VALUES " +admin);
+            if(!admin.equals("")) {
+                stmt.execute("INSERT INTO ADMIN VALUES " + admin);
+            }
 
             //INSERT CATEGORY
             //FORMAT
             //(CATEGORY_NAME varchar(20))
-            stmt.execute("INSERT INTO CATEGORY VALUES " +category);
+            if(!category.equals("")) {
+                stmt.execute("INSERT INTO CATEGORY VALUES " + category);
+            }
 
             //Print
 //            System.out.println("Tables inserted!");

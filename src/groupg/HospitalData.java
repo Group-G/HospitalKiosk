@@ -376,7 +376,12 @@ public class HospitalData {
     }
 
 
-
+    /**
+     * THis method sets a person's data based on their id
+     * @param id id of person you want to modify
+     * @param p person object with data
+     * @return true if the person is being replaced
+     */
     public static boolean setPerson(int id, Person p) {
 //        peopleList
         for(int i = 0; i < peopleList.size(); i++)
@@ -387,6 +392,13 @@ public class HospitalData {
         }
         return true;
     }
+
+    /**
+     * setLocation
+     * @param id id of location you want to change
+     * @param l location object with data you want
+     * @return true if it already exsited, false if not
+     */
     public static boolean setLocation(int id, Location l) {
         List<Location> locs = getAllLocations();
         for(int i = 0; i < locs.size(); i++)
@@ -412,29 +424,26 @@ public class HospitalData {
 
 
     /***************************************************************************/
+    /**
+     * pullBuildings
+     * @param stmt SQL Statement
+     * @return Whether the pull had any errors
+     */
     private static boolean pullBuildings(Statement stmt) {
         try {
+
+            //Grab from database
             ResultSet buildings = stmt.executeQuery("SELECT * FROM BUILDING");
             ResultSetMetaData roomDataset = buildings.getMetaData();
             int roomColumns = roomDataset.getColumnCount();
 
 
-
+            //all values we need and their initial values
             int buildingId = -1, floorCount = -1;
             String buildingName = "FAILED TO PULL";
 
-
-//            for (int i = 1; i <= roomColumns; i++) {
-//                System.out.print(roomDataset.getColumnName(i) + "|");
-//            }
-//            System.out.println();
-
-
             while (buildings.next()) {
-
-//                System.out.println(" ");
                 for (int j = 1; j <= roomColumns; j++) {
-
                     if(roomDataset.getColumnName(j).equals("BUILDING_ID")){
                         buildingId = Integer.parseInt(buildings.getString(j));
                     }
@@ -444,13 +453,7 @@ public class HospitalData {
                     else if(roomDataset.getColumnName(j).equals("FLOOR_COUNT")){
                         floorCount = Integer.parseInt(buildings.getString(j));
                     }
-
-                    //make building and add it
-
-
-
                 }
-//                System.out.println("making building");
                 Building b = new Building(buildingId, buildingName, floorCount);
                 buildingsList.add(b);
 
@@ -459,13 +462,17 @@ public class HospitalData {
         }
         catch (SQLException e)
         {
-
             System.out.println("Failed to pull buildings");
-
             return false;
         }
 
     }
+
+    /**
+     * pullFloors
+     * @param stmt SQL Statement
+     * @return Whether the pull had any errors
+     */
     private boolean pullFloors(Statement stmt) {
 
 
@@ -517,6 +524,12 @@ public class HospitalData {
             return false;
         }
     }
+
+    /**
+     * pullLocations
+     * @param stmt SQL Statement
+     * @return Whether the pull had any errors
+     */
     private boolean pullLocations(Statement stmt) {
         try {
             ResultSet locations = stmt.executeQuery("SELECT * FROM LOCATION");
@@ -581,6 +594,12 @@ public class HospitalData {
             return false;
         }
     }
+
+    /**
+     * pullBuildings
+     * @param stmt SQL Statement
+     * @return Whether the pull had any errors
+     */
     private boolean pullPeople(Statement stmt) {
         try {
             ResultSet people = stmt.executeQuery("SELECT * FROM PERSONELLE");
@@ -624,6 +643,12 @@ public class HospitalData {
             return false;
         }
     }
+
+    /**
+     * pullConnections
+     * @param stmt SQL Statement
+     * @return Whether the pull had any errors
+     */
     private boolean pullConnections(Statement stmt) {
         try {
             ResultSet connections = stmt.executeQuery("SELECT * FROM CONNECTIONS");
@@ -657,6 +682,12 @@ public class HospitalData {
             return false;
         }
     }
+
+    /**
+     * pullOffices
+     * @param stmt SQL Statement
+     * @return Whether the pull had any errors
+     */
     private boolean pullOffices(Statement stmt) {
         try {
             ResultSet connections = stmt.executeQuery("SELECT * FROM PEOPLELOCATIONS");
@@ -689,6 +720,12 @@ public class HospitalData {
             return false;
         }
     }
+
+    /**
+     * pullCategories
+     * @param stmt SQL Statement
+     * @return Whether the pull had any errors
+     */
     private boolean pullCategories(Statement stmt) {
         try {
             ResultSet cats = stmt.executeQuery("SELECT * FROM CATEGORY");
