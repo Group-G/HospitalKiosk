@@ -311,7 +311,7 @@ public class JavaDBExample
 
 
 
-    void fillTable(String location, String personelle, String floor, String building, String connections, String admin,  String category){
+    void fillTable(String location, String personelle, String offices, String floor, String building, String connections, String admin,  String category){
         try {
             // substitute your database name for myDB
             Connection connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
@@ -333,6 +333,11 @@ public class JavaDBExample
             //FORMAT
             //(int personId int officeID)
             stmt.execute("INSERT INTO FLOOR VALUES " + floor);
+
+            //INSERT PEOPLELOCATIONS
+            //FORMAT
+            //(int personId int officeID)
+            stmt.execute("INSERT INTO PEOPLELOCATIONS VALUES " + offices);
 
             //INSERT BUILDING
             //FORMAT

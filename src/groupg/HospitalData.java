@@ -400,7 +400,7 @@ public class HospitalData {
         System.out.println("Admins: " + admins);
 
         dbExample.createTables();
-        dbExample.fillTable( locations, people, floors, building, connections, admins,  cat);
+        dbExample.fillTable( locations, people, offices, floors, building, connections, admins,  cat);
         return true;
     }
 
