@@ -169,7 +169,6 @@ public class HospitalData {
 
     }
     //getLocationById
-
     public static Location getLocationById(int id)
     {
 //        System.out.println("looking for location " + id);
@@ -184,8 +183,8 @@ public class HospitalData {
             }
         }
         return null;
-
     }
+
     public static boolean removeLocationById(int id)
     {
 //        System.out.println("looking for location " + id);
@@ -277,6 +276,19 @@ public class HospitalData {
         }
         return true;
     }
+
+    public static boolean setLocation(int id, Location l)
+    {
+        List<Location> locs = getAllLocations();
+        for(int i = 0; i < locs.size(); i++)
+        {
+            if(locs.get(i).getID() == id){
+                locs.get(i).setLocation(l);
+            }
+        }
+        return true;
+    }
+
     public static boolean removePerson(int id)
     {
 //        peopleList

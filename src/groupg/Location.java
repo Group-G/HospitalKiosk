@@ -174,4 +174,23 @@ public class Location implements Comparable
     public int getFloorId() {
         return floor;
     }
+
+
+    public void setLocation(Location l)
+    {
+        //String name, double x, double y, LinkedList<Integer> neighbors, String category, float weight, int ID, int floor, int building
+        this.name = l.getName();
+        this.x = l.getX();
+        this.y = l.getY();
+        this.neighbors = l.getNeighbors();
+        this.category = l.getCategory();
+        this.weight = l.getWeight();
+        this.floor = l.getFloor();
+        this.building = l.getBuilding();
+
+    }
+
+    public float getWeight() {
+        return weight;
+    }
 }
