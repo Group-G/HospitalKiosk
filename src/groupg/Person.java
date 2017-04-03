@@ -102,7 +102,7 @@ public class Person
         for(int i = 0; i < officeId.size(); i++)
         {
             String a = "(" + id+ ","+officeId.get(i) +")";
-//            System.out.println(a);
+            System.out.println("HELLO"+ a);
             result.add(a);
         }
 

@@ -178,7 +178,8 @@ public class JavaDBExample
             stmt.execute("INSERT INTO PERSONELLE VALUES " +
 
                     "(3001, 'Dr.', 'Hunter Peterson'), " +
-                    "(3002, 'Nurse', 'Bella Bee') ");
+                    "(3002, 'Supreme Being', 'Jeff'), " +
+                    "(3003, 'Nurse', 'Bella Bee') ");
 
             //INSERT PEOPLELOCATIONS
             //FORMAT

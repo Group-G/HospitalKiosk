@@ -260,9 +260,42 @@ public class HospitalData {
                 locations = locations + ",";
             }
             locations = locations + locs.get(i).getSQL();
-//            newConnections
+            List<String> newConnections = locs.get(i).getConnectionsSQL();
+            for(int j = 0; j < newConnections.size(); j++)
+            {
+                if(!connections.equals("")){
+                    connections = connections + ",";
+                }
+                connections = connections + newConnections.get(j);
+            }
+
         }
         System.out.println("Locations:" + locations);
+        System.out.println("Connections:" + connections);
+
+        List<Person> peeps = peopleList;
+        String people = "";
+        String offices = "";
+        for(int i = 0; i < peeps.size(); i++)
+        {
+            if(i>0)
+            {
+                people = people + ",";
+            }
+            people = people + peeps.get(i).getSQL();
+            List<String> newConnections = peeps.get(i).getOfficesSQL();
+            for(int j = 0; j < newConnections.size(); j++)
+            {
+                if(!offices.equals("")){
+                    offices = offices + ",";
+                }
+                offices = offices + newConnections.get(j);
+            }
+
+        }
+        System.out.println("People:" + people);
+        System.out.println("Offices:" + offices);
+
 
 
         List<Floor> fls = getAllFloors();
