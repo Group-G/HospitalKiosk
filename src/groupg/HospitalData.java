@@ -116,6 +116,17 @@ public class HospitalData {
 //            System.out.println("added to floor" + floorId);
         }
     }
+    private static void addLocation(Location l) {
+        int floorId = l.getFloor();
+        Floor f = getFloorById(floorId);
+        if(f == null) {
+            System.out.println("couldnt find floor");
+        }
+        else{
+            f.addLocation(l);
+//            System.out.println("added to floor" + floorId);
+        }
+    }
 
 
     public static List<Location> getAllLocations()
@@ -175,11 +186,7 @@ public class HospitalData {
     }
 
 
-    public static boolean publishDB()
-    {
 
-        return false;
-    }
 
     public static boolean setPerson(int id, Person p)
     {
@@ -192,6 +199,18 @@ public class HospitalData {
         }
         return true;
     }
+
+    public static boolean publishDB()
+    {
+
+        return false;
+    }
+    public static void getCategories()
+    {
+
+    }
+
+
 
 
 
@@ -319,9 +338,8 @@ public class HospitalData {
 //            }
 //            System.out.println();
 
-            int id = -1, x_coord = -1, y_coord = -1;
-            String floorID = "FAILED TO PULL", buildingID = "FAILED TO PULL",
-                    category = "FAILED TO PULL", locationName = "FAILED TO PULL";
+            int id = -1, x_coord = -1, y_coord = -1, buildingID = -1, floorId = -1;
+            String category = "FAILED TO PULL", locationName = "FAILED TO PULL";
 
 
             while (locations.next()) {
@@ -344,10 +362,10 @@ public class HospitalData {
                         category = locations.getString(j);
                     }
                     else if(roomDataset.getColumnName(j).equals("FLOOR_NUM") || roomDataset.getColumnName(j).equals("FLOOR_ID")){
-                        floorID = locations.getString(j);
+                        floorId = Integer.parseInt(locations.getString(j));
                     }
                     else if(roomDataset.getColumnName(j).equals("BUILDING_ID")){
-                        buildingID = locations.getString(j);
+                        buildingID = Integer.parseInt(locations.getString(j));
                     }
                     else
                     {
@@ -359,8 +377,8 @@ public class HospitalData {
 
 
                 }
-                Location l = new Location(locationName, x_coord, y_coord, category, 1, id, floorID, buildingID);
-                addLocation(l, Integer.parseInt(floorID));
+                Location l = new Location(locationName, x_coord, y_coord, category, 1, id, floorId, buildingID);
+                addLocation(l);
 
             }
             return true;

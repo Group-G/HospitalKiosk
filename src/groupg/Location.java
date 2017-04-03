@@ -1,7 +1,9 @@
 package groupg;
 
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by AlazarGenene on 4/1/17.
@@ -11,13 +13,13 @@ public class Location implements Comparable
     private double x, y;
 
     private float weight;
-    private int id;
-    private String name, category,floor, building;
+    private int id, floor, building;
+    private String name, category;
     LinkedList<Integer> neighbors = new LinkedList<Integer>();
     private double fcost;
     private Location parent;
 
-    public Location(String name, double x, double y, LinkedList<Integer> neighbors, String category, float weight, int ID, String floor, String building) {
+    public Location(String name, double x, double y, LinkedList<Integer> neighbors, String category, float weight, int ID, int floor, int building) {
         this.name = name;
         this.x = x;
         this.y = y;
@@ -29,7 +31,7 @@ public class Location implements Comparable
         this.id = ID;
 //        System.out.println("made location" + ID);
     }
-    public Location(String name, double x, double y, String category, float weight, int ID, String floor, String building) {
+    public Location(String name, double x, double y, String category, float weight, int ID, int floor, int building) {
         this.name = name;
         this.x = x;
         this.y = y;
@@ -59,11 +61,11 @@ public class Location implements Comparable
         this.category = category;
     }
 
-    public void setFloor(String floor) {
+    public void setFloor(int floor) {
         this.floor = floor;
     }
 
-    public void setBuilding(String building) {
+    public void setBuilding(int building) {
         this.building = building;
     }
     /*END SETTERS*/
@@ -77,11 +79,11 @@ public class Location implements Comparable
         return this.y;
     }
 
-    public String getFloor() {
+    public int getFloor() {
         return this.floor;
     }
 
-    public String getBuilding() {
+    public int getBuilding() {
         return this.building;
     }
 
@@ -146,6 +148,17 @@ public class Location implements Comparable
     public String getSQL(){
         String result = "(" + id + ", " + name + "," + category  + "," + floor  + "," + x + "," + y + "," + building+ ")";
         System.out.println(result);
+        return result;
+    }
+    public List<String> getConnectionsSQL(){
+        ArrayList<String> result = new ArrayList<>();
+        for(int i = 0; i < neighbors.size(); i++)
+        {
+            String a = "(" + id+ ","+neighbors.get(i) +")";
+            System.out.println(a);
+            result.add(a);
+        }
+
         return result;
     }
 }

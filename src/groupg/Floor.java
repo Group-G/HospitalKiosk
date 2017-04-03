@@ -38,5 +38,10 @@ public class Floor{
         return floorLoc;
     }
 
-
+    public String getSQL(){
+        //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER char(20), BUILDING_ID int, FILENAME varchar(20)
+        String result = "(" + id + ", " + floorNumber + "," + buildingId+ "," + filename+")";
+        System.out.println(result);
+        return result;
+    }
 }

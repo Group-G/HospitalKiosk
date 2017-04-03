@@ -32,4 +32,10 @@ public class Building{
     public ArrayList<Floor> getFloorList() {
         return floorList;
     }
+    public String getSQL(){
+        //(BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)
+        String result = "(" + id + ", " + name + "," + numFloors+ ")";
+        System.out.println(result);
+        return result;
+    }
 }
