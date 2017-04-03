@@ -28,6 +28,8 @@ public class Main extends Application
     public static void main(String[] args)
     {
         dbExample.connectDB();
+//        dbExample.createTables();
+//        dbExample.insertTables();
         HospitalData.publishDB();
 
         launch(args);

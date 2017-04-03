@@ -81,18 +81,21 @@ class ResourceManager
      * @param fileName Relative path for FXML file
      * @param title    Title for Dialog
      * @param scene    Scene to load into
+     * @param width    Width of Dialog
+     * @param height   Height of Dialog
      * @throws IOException FXMLLoader.load may fail to retrieve file
      * @throws NullPointerException FXMLLoader.load may fail to retrieve file
      */
-    <T> T loadFXMLIntoDialog(String fileName, String title, Scene scene) throws IOException, NullPointerException
+    <T> T loadFXMLIntoDialog(String fileName, String title, Scene scene, double width, double height) throws IOException, NullPointerException
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
         Parent root = loader.load();
         Platform.runLater(() -> {
             Stage dialog = new Stage();
+            dialog.setTitle(title);
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.initOwner(scene.getWindow());
-            dialog.setScene(new Scene(root, scene.getWidth(), scene.getHeight()));
+            dialog.setScene(new Scene(root, width, height));
             dialog.show();
         });
         return loader.getController();

@@ -11,7 +11,7 @@ public class Person
     private String name, title;
     private List<Integer> officeId;
     private int id;
-    private static int idCounter = 1;
+    private static int idCounter = 3004;
 
     public Person(String name, String title, List<Integer> officeId, int id)
     {

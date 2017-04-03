@@ -2,14 +2,11 @@ package groupg;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,16 +44,17 @@ class NodeListenerFactory
             final ContextMenu contextMenu = new ContextMenu();
 
             MenuItem changeName = new MenuItem("Change Name");
-            changeName.setOnAction(s -> {
-                try
-                {
-                    ResourceManager.getInstance().<ChangeNameDialogController>loadFXMLIntoDialog("/changeNameDialog.fxml", "Change Location Name", currentSelection.getScene()).setExistingText("test");
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            });
+            changeName.setOnAction(s ->
+                                   {
+                                       TextInputDialog dialog = new TextInputDialog(currentSelection.getLocation().getName());
+                                       dialog.setTitle("Change Name");
+                                       dialog.setGraphic(null);
+                                       dialog.setHeaderText("Change Name");
+                                       dialog.setContentText("Please enter a new name:");
+                                       dialog.showAndWait()
+                                             .filter(result -> !result.equals(""))
+                                             .ifPresent(result -> currentSelection.getLocation().setName(result));
+                                   });
 
             Menu changeCat = new Menu("Change Category");
             List<String> catsFromDB = HospitalData.getCategories();
@@ -139,8 +137,8 @@ class NodeListenerFactory
                 UniqueNode p = ((UniqueNode) (t.getSource()));
                 p.setCenterX(newTranslateX);
                 p.setCenterY(newTranslateY);
-                p.getLocation().setX((int)newTranslateX);
-                p.getLocation().setY((int)newTranslateY);
+                p.getLocation().setX((int) newTranslateX);
+                p.getLocation().setY((int) newTranslateY);
             }
             else
             {

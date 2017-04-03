@@ -110,6 +110,11 @@ public class Location implements Comparable
         return name;
     }
 
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
     //gets length between node and this node
     public double lengthTo(Location other){
         double len = Math.sqrt(Math.pow(Math.abs(this.getX()-other.getX()), 2)
