@@ -158,7 +158,7 @@ public class HospitalData {
         return null;
 
     }
-    private static void addConnection(int id1, int id2) {
+    public static void addConnection(int id1, int id2) {
         Location l1 = getLocationById(id1);
         Location l2 = getLocationById(id2);
         if(l1 == null || l2 == null){
@@ -169,7 +169,7 @@ public class HospitalData {
             l2.addNeighbor(id1);
         }
     }
-    private static List<Person> getAllPeople()
+    public static List<Person> getAllPeople()
     {
         return peopleList;
     }
