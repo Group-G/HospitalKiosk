@@ -9,7 +9,6 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,16 +37,6 @@ class NodeListenerFactory
                                          node.setOnMouseReleased(event -> {
                                              HospitalData.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
                                              AdminMainController.drawConnections(currentSelection, AdminMainController.displayedShapes);
-                                             System.out.println("Num nodes in DB: " + HospitalData.getAllLocations().size());
-                                             int num = 0;
-                                             for (Shape s : AdminMainController.displayedShapes)
-                                             {
-                                                 if (s instanceof UniqueNode)
-                                                 {
-                                                     num++;
-                                                 }
-                                             }
-                                             System.out.println("Num nodes in Pane: " + num);
                                          });
                                          node.setOnContextMenuRequested(showContextMenu);
                                          node.setOnMouseMoved(trackMouseCoordinates);
