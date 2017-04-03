@@ -388,9 +388,11 @@ public class HospitalData {
         {
             if(locs.get(i).getID() == id){
                 locs.get(i).setLocation(l);
+                return true;
             }
         }
-        return true;
+        addLocation(l);
+        return false;
     }
 
 
