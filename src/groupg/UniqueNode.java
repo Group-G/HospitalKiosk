@@ -22,6 +22,7 @@ class UniqueNode extends Circle
         super(radius);
         this.ID = ID;
         this.neighbors = neighbors;
+        this.location = new Location("", 0, 0, category, 0, ID + 100, 4, 1);
     }
 
     UniqueNode(double radius, int ID)

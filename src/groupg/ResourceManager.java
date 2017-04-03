@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -72,5 +73,28 @@ class ResourceManager
                                   e.printStackTrace();
                               }
                           });
+    }
+
+    /**
+     * Loads an FXML file into a Dialog
+     *
+     * @param fileName Relative path for FXML file
+     * @param title    Title for Dialog
+     * @param scene    Scene to load into
+     * @throws IOException FXMLLoader.load may fail to retrieve file
+     * @throws NullPointerException FXMLLoader.load may fail to retrieve file
+     */
+    <T> T loadFXMLIntoDialog(String fileName, String title, Scene scene) throws IOException, NullPointerException
+    {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
+        Parent root = loader.load();
+        Platform.runLater(() -> {
+            Stage dialog = new Stage();
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initOwner(scene.getWindow());
+            dialog.setScene(new Scene(root, scene.getWidth(), scene.getHeight()));
+            dialog.show();
+        });
+        return loader.getController();
     }
 }

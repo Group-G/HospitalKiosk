@@ -28,8 +28,6 @@ public class Main extends Application
     {
         JavaDBExample dbExample = new JavaDBExample();
         dbExample.connectDB();
-//        dbExample.createTables();
-//        dbExample.insertTables();
         HospitalData.publishDB();
 
         launch(args);

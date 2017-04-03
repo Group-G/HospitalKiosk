@@ -93,11 +93,12 @@ public class Person
     public String getSQL()
     {
         //(3001, 'Dr.', 'Hunter Peterson', 1112),
-        return "(" + id + ", " + title + ", " + name + ")";
+        return "(" + id + ", \'" + title + "\', \'" + name + "\')";
     }
     public List<String> getOfficesSQL(){
         //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER char(20), BUILDING_ID int, FILENAME varchar(20)
         ArrayList<String> result = new ArrayList<>();
+//        System.out.println("numOffices: "+ officeId.size());
         for (Integer anOfficeId : officeId)
         {
             String a = "(" + id + "," + anOfficeId + ")";
@@ -117,6 +118,12 @@ public class Person
     @Override
     public String toString()
     {
+        if (getTitle().equals(""))
+            return getName();
         return getName() + ", " + getTitle();
+    }
+
+    public void addLocation(int id2) {
+        officeId.add(id2);
     }
 }

@@ -103,4 +103,9 @@ class EditPersFineController implements Initializable
                                   }
                               });
     }
+
+    void setPerson(Person p)
+    {
+        this.pers = p;
+    }
 }

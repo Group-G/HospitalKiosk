@@ -9,9 +9,9 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Ryan Benasutti
@@ -46,10 +46,20 @@ class NodeListenerFactory
         {
             final ContextMenu contextMenu = new ContextMenu();
 
+            MenuItem changeName = new MenuItem("Change Name");
+            changeName.setOnAction(s -> {
+                try
+                {
+                    ResourceManager.getInstance().<ChangeNameDialogController>loadFXMLIntoDialog("/changeNameDialog.fxml", "Change Location Name", currentSelection.getScene()).setExistingText("test");
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            });
+
             Menu changeCat = new Menu("Change Category");
-            List<String> catsFromDB = HospitalData.getAllLocations().stream()
-                                                  .map(Location::getName)
-                                                  .collect(Collectors.toList());
+            List<String> catsFromDB = HospitalData.getCategories();
             catsFromDB.forEach(s ->
                                {
                                    MenuItem item = new MenuItem(s);
@@ -57,23 +67,14 @@ class NodeListenerFactory
                                    changeCat.getItems().add(item);
                                });
 
-            Menu changeLocs = new Menu("Change Location");
-            List<Location> locsFromDB = HospitalData.getLocationsByCategory(currentSelection.getCategory());
-            locsFromDB.forEach(locIn ->
-                               {
-                                   MenuItem item = new MenuItem(locIn.getName());
-                                   item.setOnAction(e -> currentSelection.setLocation(locIn));
-                                   changeLocs.getItems().add(item);
-                               });
-
             MenuItem remove = new MenuItem("Remove Node");
             remove.setOnAction(event1 ->
                                {
+                                   HospitalData.removeLocationById(currentSelection.getLocation().getID());
                                    AdminMainController.displayedShapes.remove(currentSelection);
-                                   System.out.println("Removed node with ID: " + currentSelection.getID());
                                });
 
-            contextMenu.getItems().addAll(changeCat, remove);
+            contextMenu.getItems().addAll(changeCat, changeName, remove);
 
             contextMenu.show(currentSelection, mouseX, mouseY);
         }
@@ -138,6 +139,8 @@ class NodeListenerFactory
                 UniqueNode p = ((UniqueNode) (t.getSource()));
                 p.setCenterX(newTranslateX);
                 p.setCenterY(newTranslateY);
+                p.getLocation().setX((int)newTranslateX);
+                p.getLocation().setY((int)newTranslateY);
             }
             else
             {
