@@ -28,14 +28,14 @@ public class WelcomeScreenController implements Initializable
     @FXML
     private MenuButton catDropdown;
     static Location requested;
+    private AutoCompleteTextField<Location> textField = new AutoCompleteTextField<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        AutoCompleteTextField<String> textField = new AutoCompleteTextField<>();
         textField.setMinWidth(200);
         textField.setPromptText("Search for something...");
-        textField.getEntries().add("TEST 1"); //TODO: Populate this from DB
+        textField.getEntries().addAll(HospitalData.getAllLocations());
 
         ObservableList<Node> children = FXCollections.observableArrayList(topHBox.getChildren());
         children.add(textField);
@@ -57,7 +57,7 @@ public class WelcomeScreenController implements Initializable
 
     public void onSearch(ActionEvent actionEvent)
     {
-        requested = null; //TODO: Get this from DB based on search text
+        requested = textField.getCurrentSelection();
 
         try
         {

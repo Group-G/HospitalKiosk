@@ -13,12 +13,23 @@ class UniqueNode extends Circle
 {
     private Integer ID;
     private LinkedList<UniqueNode> neighbors;
+    private static int IDCounter = 1;
 
-    UniqueNode(double radius, Integer ID)
+    UniqueNode(double radius, int ID, LinkedList<UniqueNode> neighbors)
     {
         super(radius);
-        this.ID = ID; //TODO: Make this unique
-        neighbors = new LinkedList<>();
+        this.ID = ID;
+        this.neighbors = neighbors;
+    }
+
+    UniqueNode(double radius, int ID)
+    {
+        this(radius, ID, new LinkedList<>());
+    }
+
+    UniqueNode(double radius)
+    {
+        this(radius, IDCounter++);
     }
 
     Integer getID()

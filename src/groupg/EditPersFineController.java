@@ -72,8 +72,15 @@ class EditPersFineController implements Initializable
                                {
                                    try
                                    {
-                                       //TODO: Push data to DB
                                        ResourceManager.getInstance().loadFXMLIntoScene("/editPers.fxml", "Edit Personnel", confirmBtn.getScene());
+                                       List<Location> locations = new ArrayList<>();
+                                       locations.addAll(locList.getItems());
+                                       HospitalData.setPerson(pers.getId(),
+                                                              new Person(nameField.getText(),
+                                                                         titleField.getText(),
+                                                                         locations.stream()
+                                                                                  .map(Location::getID)
+                                                                                  .collect(Collectors.toList()), 0));
                                    }
                                    catch (IOException e)
                                    {
@@ -94,7 +101,15 @@ class EditPersFineController implements Initializable
 
                                   if (numMatches == 0 && possibleLocs.contains(locField.getText()))
                                   {
-                                      locList.getItems().add(locField.getCurrentSelection()); //TODO: Update locs for this person in DB
+                                      locList.getItems().add(locField.getCurrentSelection());
+                                      List<Location> locations = new ArrayList<>();
+                                      locations.addAll(locList.getItems());
+                                      HospitalData.setPerson(pers.getId(),
+                                                             new Person(nameField.getText(),
+                                                                        titleField.getText(),
+                                                                        locations.stream()
+                                                                                 .map(Location::getID)
+                                                                                 .collect(Collectors.toList()), 0));
                                   }
                               });
     }

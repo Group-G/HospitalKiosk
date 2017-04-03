@@ -1,19 +1,14 @@
 package groupg;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Ryan Benasutti
@@ -48,29 +43,14 @@ class NodeListenerFactory
         {
             final ContextMenu contextMenu = new ContextMenu();
 
-            Menu changeType = new Menu("Change Type");
-            ObservableList<MenuItem> types = FXCollections.observableArrayList();
-            List<String> tempStringsFromDB = new ArrayList<>(); //TODO: Grab items from DB
-            tempStringsFromDB.add("Type 1");
-            tempStringsFromDB.add("Type 2");
-            tempStringsFromDB.forEach(s -> {
-                MenuItem item = new MenuItem(s);
-                item.setOnAction(e ->
-                                 {
-                                     System.out.println("Changed type for node " + currentSelection.getID() + " to " + s);
-                                 });
-                changeType.getItems().add(item);
-            });
-            changeType.getItems().addAll(types);
-
             MenuItem changeCat = new MenuItem("Change Category");
             MenuItem remove = new MenuItem("Remove Node");
             remove.setOnAction(event1 -> {
                 AdminMainController.displayedShapes.remove(currentSelection);
                 System.out.println("Removed node with ID: " + currentSelection.getID());
-            });
+            });//TODO: Add change location menu item
 
-            contextMenu.getItems().addAll(changeType, changeCat, remove);
+            contextMenu.getItems().addAll(changeCat, remove);
 
             contextMenu.show(currentSelection, mouseX, mouseY);
         }

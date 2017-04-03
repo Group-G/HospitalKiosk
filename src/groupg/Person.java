@@ -1,7 +1,6 @@
 package groupg;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,18 +25,22 @@ public class Person
     {
         this(name, title, officeId, idCounter++);
     }
+
     public Person(int id, String name, String title)
     {
-        this(name, title, new ArrayList<Integer>(), idCounter++);
+        this(name, title, new ArrayList<>(), id);
     }
 
-    public void setPerson(String name, String title, List<Integer> officeId){
+    public void setPerson(String name, String title, List<Integer> officeId)
+    {
         this.name = name;
         this.title = title;
         this.officeId = officeId;
         this.id = id;
     }
-    public void setPerson(Person p) {
+
+    public void setPerson(Person p)
+    {
         this.name = p.getName();
         this.title = p.getTitle();
         this.officeId = p.getLocations();
@@ -83,7 +86,8 @@ public class Person
         this.officeId = officeId;
     }
 
-    public List<Integer> getLocations() {
+    public List<Integer> getLocations()
+    {
         return officeId;
     }
 }
