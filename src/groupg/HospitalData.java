@@ -396,6 +396,7 @@ public class HospitalData {
                 return true;
             }
         }
+        addLocation(l);
         return false;
     }
 
