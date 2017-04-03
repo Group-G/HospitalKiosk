@@ -365,11 +365,12 @@ public class HospitalData {
         String floors = "";
         for(int i = 0; i < fls.size(); i++)
         {
-            if(i>0)
-            {
-                floors = floors + ",";
+            if(floors.indexOf(fls.get(i).getSQL()) == -1) {
+                if (i > 0) {
+                    floors = floors + ",";
+                }
+                floors = floors + fls.get(i).getSQL();
             }
-            floors = floors + fls.get(i).getSQL();
         }
         System.out.println("Floors: " + floors);
 
