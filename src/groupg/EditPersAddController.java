@@ -13,10 +13,8 @@ import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Ryan Benasutti
@@ -29,19 +27,19 @@ public class EditPersAddController implements Initializable
     @FXML
     private Button cancelBtn, confirmBtn, addLocBtn;
     @FXML
-    private ListView<String> locList;
+    private ListView<Location> locList;
     @FXML
     private HBox locHBox;
 
-    private AutoCompleteTextField<String> locField = new AutoCompleteTextField<>();
-    private Set<String> possibleLocs = new HashSet<>();
+    private AutoCompleteTextField<Location> locField = new AutoCompleteTextField<>();
+    private Set<Location> possibleLocs = new HashSet<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
         locField.setMinWidth(200);
         locField.setPromptText("Location");
-        possibleLocs.add("TEST 1"); //TODO: Populate this from DB
+        possibleLocs.addAll(HospitalData.getAllLocations());
         locField.getEntries().addAll(possibleLocs);
         ObservableList<Node> children = FXCollections.observableArrayList(locHBox.getChildren());
         children.add(locField);
@@ -63,9 +61,14 @@ public class EditPersAddController implements Initializable
 
     public void onConfirm(ActionEvent actionEvent)
     {
+        HospitalData.getAllPeople().add(new Person(nameField.getText(),
+                                                   titleField.getText(),
+                                                   locList.getItems()
+                                                          .stream()
+                                                          .map(Location::getID)
+                                                          .collect(Collectors.toList())));
         try
         {
-            //TODO: Push data to DB
             ResourceManager.getInstance().loadFXMLIntoScene("/editPers.fxml", "Edit Personnel", confirmBtn.getScene());
         }
         catch (IOException e)
@@ -76,9 +79,17 @@ public class EditPersAddController implements Initializable
 
     public void onAddLoc(ActionEvent actionEvent)
     {
-        if (!locList.getItems().contains(locField.getText()) && possibleLocs.contains(locField.getText()))
+        if (!locList.getItems()
+                    .stream()
+                    .map(Location::getName)
+                    .collect(Collectors.toList())
+                    .contains(locField.getText()) &&
+            possibleLocs.stream()
+                        .map(Location::getName)
+                        .collect(Collectors.toList())
+                        .contains(locField.getText()))
         {
-            locList.getItems().add(locField.getText()); //TODO: Update locs for this person in DB
+            locList.getItems().add(locField.getCurrentSelection());
         }
     }
 }
