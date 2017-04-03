@@ -158,8 +158,13 @@ public class Location implements Comparable
         ArrayList<String> result = new ArrayList<>();
         for(int i = 0; i < neighbors.size(); i++)
         {
-            String a = "(" + id+ ","+neighbors.get(i) +")";
-//            System.out.println(a);
+            String a;
+            if(id > neighbors.get(i)) {
+                a = "(" + id + "," + neighbors.get(i) + ")";
+            }
+            else{
+                a = "(" + neighbors.get(i) + "," + id + ")";
+            }
             result.add(a);
         }
 
