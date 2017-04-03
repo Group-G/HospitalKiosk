@@ -14,10 +14,10 @@ import java.util.List;
  */
 public class HospitalData {
 
-    List<Building> buildings = new LinkedList<>();
+    static List<Building> buildingsList = new LinkedList<>();
 
-    List<String> categories = new LinkedList<>();
-    List<Person> people = new ArrayList<>();
+    static List<String> categories = new LinkedList<>();
+    static List<Person> peopleList = new ArrayList<>();
     HospitalData() {
         if(pullDataFromDB()) {
             System.out.println("Successfully pulled data from DB");
@@ -64,23 +64,23 @@ public class HospitalData {
 
 
 
-    public Building getBuildingById(int id) {
-        for(int i = 0; i < this.buildings.size(); i++)
+    public static Building getBuildingById(int id) {
+        for(int i = 0; i < buildingsList.size(); i++)
         {
-            if(this.buildings.get(i).getId() == id)
+            if(buildingsList.get(i).getId() == id)
             {
-                return this.buildings.get(i);
+                return buildingsList.get(i);
             }
         }
         System.out.println("COULD NOT FIND BUILDING " + id);
         return null;
     }
 
-    public Floor getFloorById(int id) {
+    public static Floor getFloorById(int id) {
 
-        for(int i = 0; i < this.buildings.size(); i++)
+        for(int i = 0; i < buildingsList.size(); i++)
         {
-            ArrayList<Floor> floorList = this.buildings.get(i).getFloorList();
+            ArrayList<Floor> floorList = buildingsList.get(i).getFloorList();
             for(int f = 0; f < floorList.size(); f++) {
 
                 if (floorList.get(f).getId() == id) {
@@ -95,7 +95,7 @@ public class HospitalData {
 
 
 
-    private void addFloor(Floor f, int buildingId) {
+    private static void addFloor(Floor f, int buildingId) {
         Building b = getBuildingById(buildingId);
         if(b == null) {
             System.out.println("couldnt find building");
@@ -106,7 +106,7 @@ public class HospitalData {
         }
     }
 
-    private void addLocation(Location l, int floorId) {
+    private static void addLocation(Location l, int floorId) {
         Floor f = getFloorById(floorId);
         if(f == null) {
             System.out.println("couldnt find floor");
@@ -118,12 +118,12 @@ public class HospitalData {
     }
 
 
-    public List<Location> getAllLocations()
+    public static List<Location> getAllLocations()
     {
         List<Location> allNodes = new ArrayList<>();
 
-        for(int i = 0; i < this.buildings.size(); i++) {
-            ArrayList<Floor> floorList = this.buildings.get(i).getFloorList();
+        for(int i = 0; i < buildingsList.size(); i++) {
+            ArrayList<Floor> floorList = buildingsList.get(i).getFloorList();
 
 
             for(int f = 0; f < floorList.size(); f++) {
@@ -142,7 +142,7 @@ public class HospitalData {
     }
     //getLocationById
 
-    public Location getLocationById(int id)
+    public static Location getLocationById(int id)
     {
 //        System.out.println("looking for location " + id);
         List<Location> locations = getAllLocations();
@@ -158,11 +158,20 @@ public class HospitalData {
         return null;
 
     }
-    private void addConnection(int id1, int id2) {
+    private static void addConnection(int id1, int id2) {
         Location l1 = getLocationById(id1);
         Location l2 = getLocationById(id2);
-        l1.addNeighbor(id2);
-        l2.addNeighbor(id1);
+        if(l1 == null || l2 == null){
+            System.out.println("Invalid id's for connection");
+        }
+        else{
+            l1.addNeighbor(id2);
+            l2.addNeighbor(id1);
+        }
+    }
+    private static List<Person> getAllPeople()
+    {
+        return peopleList;
     }
 
 
@@ -173,7 +182,7 @@ public class HospitalData {
 
 
     /***************************************************************************/
-    private boolean pullBuildings(Statement stmt)
+    private static boolean pullBuildings(Statement stmt)
     {
         try {
             ResultSet buildings = stmt.executeQuery("SELECT * FROM BUILDING");
@@ -214,7 +223,7 @@ public class HospitalData {
                 }
 //                System.out.println("making building");
                 Building b = new Building(buildingId, buildingName, floorCount);
-                this.buildings.add(b);
+                buildingsList.add(b);
 
             }
             return true;
