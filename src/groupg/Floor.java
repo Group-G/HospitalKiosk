@@ -40,8 +40,19 @@ public class Floor{
 
     public String getSQL(){
         //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER char(20), BUILDING_ID int, FILENAME varchar(20)
-        String result = "(" + id + ", " + floorNumber + "," + buildingId+ "," + filename+")";
+        String result = "(" + id + ", \'" + floorNumber + "\'," + buildingId+ ",\'" + filename+"\')";
 //        System.out.println(result);
         return result;
+    }
+
+    public boolean removeLocationById(int id) {
+        for(int i = 0; i < floorLoc.size(); i++)
+        {
+            if(floorLoc.get(i).getID() == id) {
+                floorLoc.remove(i);
+                return true;
+            }
+        }
+        return false;
     }
 }

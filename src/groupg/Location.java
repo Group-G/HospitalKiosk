@@ -146,7 +146,7 @@ public class Location implements Comparable
     }
 
     public String getSQL(){
-        String result = "(" + id + ", " + name + "," + category  + "," + floor  + "," + x + "," + y + "," + building+ ")";
+        String result = "(" + id + ", \'" + name + "\',\'" + category  + "\'," + floor  + "," + x + "," + y + "," + building+ ")";
 //        System.out.println(result);
         return result;
     }
@@ -160,5 +160,9 @@ public class Location implements Comparable
         }
 
         return result;
+    }
+
+    public int getFloorId() {
+        return floor;
     }
 }

@@ -14,7 +14,9 @@ public class HospitalData {
 
     static List<String> categories = new LinkedList<>();
     static List<Person> peopleList = new ArrayList<>();
-    HospitalData() {
+    static JavaDBExample dbExample;
+    HospitalData(JavaDBExample dbExample) {
+        this.dbExample = dbExample;
         if(pullDataFromDB()) {
             System.out.println("Successfully pulled data from DB");
         } else {
@@ -41,7 +43,11 @@ public class HospitalData {
             if(pullBuildings(stmt) && pullFloors(stmt) && pullLocations(stmt)){
                 if (pullPeople(stmt)) {
                     if(pullConnections(stmt)){
-                        return true;
+                        if(pullOffices(stmt)) {
+                            if(pullCategories(stmt)) {
+                                return true;
+                            }
+                        }
                     }
                 }
             }
@@ -180,6 +186,41 @@ public class HospitalData {
         return null;
 
     }
+    public static boolean removeLocationById(int id)
+    {
+//        System.out.println("looking for location " + id);
+        List<Location> locations = getAllLocations();
+        for(int i = 0; i < locations.size(); i ++)
+        {
+//            System.out.println(locations.get(i).getID());
+            if(locations.get(i).getID() == id)
+            {
+//                System.out.println("found");
+                Floor f = getFloorById(locations.get(i).getFloorId());
+                if(f.removeLocationById(id)){
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
+    public static Person getPersonById(int id)
+    {
+//        System.out.println("looking for location " + id);
+        List<Person> persons = peopleList;
+        for(int i = 0; i < persons.size(); i ++)
+        {
+//            System.out.println(locations.get(i).getID());
+            if(persons.get(i).getId() == id)
+            {
+//                System.out.println("found");
+                return persons.get(i);
+            }
+        }
+        return null;
+
+    }
 
     public static List<Location> getLocationsByCategory(String category)
     {
@@ -211,6 +252,12 @@ public class HospitalData {
             l2.addNeighbor(id1);
         }
     }
+    private void addPersonLocation(int id1, int id2)
+    {
+        Person p = getPersonById(id1);
+        p.addLocation(id2);
+    }
+
     public static List<Person> getAllPeople()
     {
         return peopleList;
@@ -262,6 +309,8 @@ public class HospitalData {
 
     public static boolean publishDB()
     {
+
+        System.out.println("\nPushing the following to the database:");
         List<Location> locs = getAllLocations();
         String connections = "";
         String locations = "";
@@ -321,8 +370,40 @@ public class HospitalData {
             floors = floors + fls.get(i).getSQL();
         }
         System.out.println("Floors: " + floors);
+
+
+        List<Building> blds = buildingsList;
+        String building = "";
+        for(int i = 0; i < blds.size(); i++)
+        {
+            if(i>0)
+            {
+                building = building + ",";
+            }
+            building = building + blds.get(i).getSQL();
+        }
+        System.out.println("Buildings: " + building);
+
+
+        String cat = "";
+        for(int i = 0; i < categories.size(); i++)
+        {
+            if(i>0)
+            {
+                cat = cat + ",";
+            }
+            cat = cat + "(\'" + categories.get(i) + "\')";
+        }
+        System.out.println("Categories: " + cat);
+
+        String admins = "(\'admin\', \'guest\')";
+        System.out.println("Admins: " + admins);
+
+        dbExample.createTables();
+        dbExample.fillTable( locations, people, floors, building, connections, admins,  cat);
         return true;
     }
+
 
 
 
@@ -581,11 +662,70 @@ public class HospitalData {
             return false;
         }
     }
+    private boolean pullOffices(Statement stmt)
+    {
+        try {
+            ResultSet connections = stmt.executeQuery("SELECT * FROM PEOPLELOCATIONS");
+            ResultSetMetaData roomDataset = connections.getMetaData();
+            int roomColumns = roomDataset.getColumnCount();
 
 
+            int id1 = -1, id2 = -1;
+
+            while (connections.next()) {
+                System.out.println(" ");
+                for (int j = 1; j <= roomColumns; j++) {
+                    if(roomDataset.getColumnName(j).equals("PERSON_ID")){
+                        id1 = Integer.parseInt(connections.getString(j));
+                    }
+                    else if(roomDataset.getColumnName(j).equals("OFFICE_ID")){
+                        id2 = Integer.parseInt(connections.getString(j));
+                    }
+                }
+                addPersonLocation(id1, id2);
+
+            }
+            return true;
+        }
+        catch (SQLException e)
+        {
+
+            System.out.println("Failed to pull connections");
+
+            return false;
+        }
+    }
+    private boolean pullCategories(Statement stmt)
+    {
+        try {
+            ResultSet cats = stmt.executeQuery("SELECT * FROM CATEGORY");
+            ResultSetMetaData roomDataset = cats.getMetaData();
+            int roomColumns = roomDataset.getColumnCount();
 
 
+            String aCat = "FAILED TO PULL";
 
+            while (cats.next()) {
+                System.out.println(" ");
+                for (int j = 1; j <= roomColumns; j++) {
+                    if(roomDataset.getColumnName(j).equals("CATEGORY_NAME")){
+                        aCat = cats.getString(j);
+                    }
+
+                }
+                categories.add(aCat);
+
+            }
+            return true;
+        }
+        catch (SQLException e)
+        {
+
+            System.out.println("Failed to pull connections");
+
+            return false;
+        }
+    }
 
 
 
