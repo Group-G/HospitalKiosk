@@ -24,7 +24,7 @@ public class EditPersController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        persList.getItems().add(new Person("Ryan Benasutti", "Dr.", new Location("Daniels 3", 10, 10, )))); //TODO: Fill from DB
+        persList.getItems().addAll(HospitalData.getAllPeople()); //Add all people from DB to listview
     }
 
     public void onCancel(ActionEvent actionEvent)

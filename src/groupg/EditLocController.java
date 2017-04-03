@@ -24,6 +24,7 @@ public class EditLocController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        locList.getItems().addAll(HospitalData.getAllLocations()); //Add all locations from DB to listview
     }
 
     public void onCancel(ActionEvent actionEvent)
