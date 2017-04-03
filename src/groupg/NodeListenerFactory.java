@@ -9,10 +9,10 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Ryan Benasutti
@@ -36,18 +36,18 @@ class NodeListenerFactory
                                          node.setOnMousePressed(mousePressedHandler);
                                          node.setOnMouseDragged(mouseDraggedHandler);
                                          node.setOnMouseReleased(event -> {
-                                             try
-                                             {
-                                                 HospitalData.getAllLocations().stream()
-                                                             .filter(elem -> elem.getID() == currentSelection.getLocation().getID())
-                                                             .collect(Collectors.toList())
-                                                             .set(0, currentSelection.getLocation());
-                                             }
-                                             catch (IndexOutOfBoundsException e)
-                                             {
-                                                 System.out.println("DID NOT FIND LOC IN DB FOR ID: " + currentSelection.getLocation().getID());
-                                             }
+                                             HospitalData.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
                                              AdminMainController.drawConnections(currentSelection, AdminMainController.displayedShapes);
+                                             System.out.println("Num nodes in DB: " + HospitalData.getAllLocations().size());
+                                             int num = 0;
+                                             for (Shape s : AdminMainController.displayedShapes)
+                                             {
+                                                 if (s instanceof UniqueNode)
+                                                 {
+                                                     num++;
+                                                 }
+                                             }
+                                             System.out.println("Num nodes in Pane: " + num);
                                          });
                                          node.setOnContextMenuRequested(showContextMenu);
                                          node.setOnMouseMoved(trackMouseCoordinates);
@@ -82,19 +82,6 @@ class NodeListenerFactory
                                    item.setOnAction(e -> currentSelection.setCategory(s));
                                    changeCat.getItems().add(item);
                                });
-
-//            MenuItem selectNeighbors = new MenuItem("Select Neighbors");
-//            selectNeighbors.setOnAction(s ->
-//                                        {
-//                                            try
-//                                            {
-//                                                ResourceManager.getInstance().loadFXMLIntoDialog("/selectNeighbors.fxml", "Select Neighbors", currentSelection.getScene(), 150, 300);
-//                                            }
-//                                            catch (IOException e)
-//                                            {
-//                                                e.printStackTrace();
-//                                            }
-//                                        });
 
             MenuItem remove = new MenuItem("Remove Node");
             remove.setOnAction(event1 ->

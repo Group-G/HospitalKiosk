@@ -31,7 +31,7 @@ public class AdminMainController implements Initializable
     @FXML
     private GridPane canvasWrapper;
     private ResizableCanvas canvas = new ResizableCanvas(ResizableCanvas.DRAW_FLOOR_4);
-    private Pane overlay = new Pane();
+    private Pane overlay;
     static ObservableList<Shape> displayedShapes = FXCollections.observableArrayList();
     static double nodeOffset = 0;
 
@@ -39,6 +39,7 @@ public class AdminMainController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         //Clear shapes and fill from DB
+        overlay = new Pane();
         displayedShapes.clear();
         for (Location l : HospitalData.getAllLocations())
         {
