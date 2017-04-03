@@ -6,6 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 /**
  * @author Ryan Benasutti
  * @since 2017-03-23
@@ -28,8 +32,18 @@ public class Main extends Application
     public static void main(String[] args)
     {
         dbExample.connectDB();
-        dbExample.createTables();
-        dbExample.insertTables();
+
+        Path path = Paths.get("HospitalDatabase");
+        if (!Files.exists(path))
+        {
+            //Dummy data
+            dbExample.createTables();
+            dbExample.insertTables();
+            System.out.println("-------------------------------------");
+            System.out.println("GENERATED NEW DATABASE");
+            System.out.println("-------------------------------------");
+        }
+
         h = new HospitalData(dbExample);
         HospitalData.publishDB();
 

@@ -31,6 +31,26 @@ class NodeListenerFactory
                                      {
                                          node.setOnMousePressed(mousePressedHandler);
                                          node.setOnMouseDragged(mouseDraggedHandler);
+//                                         node.setOnMouseReleased(event -> {
+//                                             boolean didFindLoc = false;
+//                                             List<Location> allLocations = HospitalData.getAllLocations();
+//                                             for (int i = 0; i < allLocations.size(); i++)
+//                                             {
+//                                                 Location l = allLocations.get(i);
+//                                                 if (l.getID() == currentSelection.getLocation().getID())
+//                                                 {
+//                                                     HospitalData.getAllLocations().set(i, currentSelection.getLocation());
+//                                                     didFindLoc = true;
+//                                                     System.out.println("LOCATION UPDATED");
+//                                                     break;
+//                                                 }
+//                                             }
+//                                             if (!didFindLoc)
+//                                             {
+//                                                 HospitalData.getAllLocations().add(currentSelection.getLocation());
+//                                                 System.out.println("LOCATION ADDED");
+//                                             }
+//                                         });
                                          node.setOnContextMenuRequested(showContextMenu);
                                          node.setOnMouseMoved(trackMouseCoordinates);
                                      });

@@ -33,6 +33,13 @@ public class AdminMainController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        displayedShapes.clear();
+        for (Location l : HospitalData.getAllLocations())
+        {
+            displayedShapes.add(NodeFactory.getNode(l));
+        }
+        overlay.getChildren().setAll(displayedShapes);
+
         //Listener to remove displayedShapes when they are right-click deleted
         displayedShapes.addListener((ListChangeListener.Change<? extends Shape> in) -> {
             canvasWrapper.getChildren().clear();
