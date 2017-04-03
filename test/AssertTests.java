@@ -52,13 +52,13 @@ public class AssertTests {
         glist.add(5);
 
         //make locations
-        Location a = new Location("a", 0, 6, alist, "hallway", 0, 0, "Floor4", "Build1");
-        Location b = new Location("b", 0, 0, blist, "hallway", 0, 1, "Floor4", "Build1");
-        Location c = new Location("c", 3, 3, clist, "hallway", 0, 2, "Floor4", "Build1");
-        Location d = new Location("d", 5, 2, dlist, "hallway", 0, 3, "Floor4", "Build1");
-        Location e = new Location("e", 7, 4, elist, "hallway", 0, 4, "Floor4", "Build1");
-        Location f = new Location("f", 5, 5, flist, "hallway", 0, 5, "Floor4", "Build1");
-        Location g = new Location("g", 3, 13,glist, "hallway", 0, 6, "Floor4", "Build1");
+        Location a = new Location("a", 0, 6, alist, "hallway", 0, 0, 4, 1);
+        Location b = new Location("b", 0, 0, blist, "hallway", 0, 1, 4, 1);
+        Location c = new Location("c", 3, 3, clist, "hallway", 0, 2, 4, 1);
+        Location d = new Location("d", 5, 2, dlist, "hallway", 0, 3, 4, 1);
+        Location e = new Location("e", 7, 4, elist, "hallway", 0, 4, 4, 1);
+        Location f = new Location("f", 5, 5, flist, "hallway", 0, 5, 4, 1);
+        Location g = new Location("g", 3, 13,glist, "hallway", 0, 6, 4, 1);
 
         //add locations to list of all nodes
         nodes.add(a);
@@ -79,9 +79,9 @@ public class AssertTests {
     public void astarTest2() {
     LinkedList<Location> locations = new LinkedList<>();
     LinkedList<Integer> loc1N = new LinkedList<>(), loc2N = new LinkedList<>(), loc3N = new LinkedList<>();
-    Location location1 = new Location("test 1", 10, 10, loc1N, "", 0, 1, "", ""),
-            location2 = new Location("test 2", 100, 100, loc2N, "", 0, 2, "", ""),
-            location3 = new Location("test 3", 250, 100, loc3N, "", 0, 3, "", "");
+    Location location1 = new Location("test 1", 10, 10, loc1N, "", 0, 1, 4, 1),
+            location2 = new Location("test 2", 100, 100, loc2N, "", 0, 2, 4, 1),
+            location3 = new Location("test 3", 250, 100, loc3N, "", 0, 3, 4, 1);
         loc1N.add(2);
         loc2N.add(3);
         loc3N.add(1);
