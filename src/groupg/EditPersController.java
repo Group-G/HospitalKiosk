@@ -55,7 +55,7 @@ public class EditPersController implements Initializable
     {
         if (persList.getSelectionModel().getSelectedItem() != null)
         {
-            HospitalData.removePerson(persList.getSelectionModel().getSelectedItem().getId());
+            HospitalData.removePersonById(persList.getSelectionModel().getSelectedItem().getId());
             persList.getItems().remove(persList.getSelectionModel().getSelectedIndex());
         }
     }

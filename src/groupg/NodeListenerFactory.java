@@ -75,7 +75,7 @@ class NodeListenerFactory
                                    });
 
             Menu changeCat = new Menu("Change Category");
-            List<String> catsFromDB = HospitalData.getCategories();
+            List<String> catsFromDB = HospitalData.getAllCategories();
             catsFromDB.forEach(s ->
                                {
                                    MenuItem item = new MenuItem(s);
