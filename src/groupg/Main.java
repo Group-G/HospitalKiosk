@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 public class Main extends Application
 {
     private static JavaDBExample dbExample = new JavaDBExample();
-    private static HospitalData h = new HospitalData(dbExample);
+    private static HospitalData h;
 
     @Override
     public void start(Stage primaryStage) throws Exception
@@ -28,8 +28,9 @@ public class Main extends Application
     public static void main(String[] args)
     {
         dbExample.connectDB();
-//        dbExample.createTables();
-//        dbExample.insertTables();
+        dbExample.createTables();
+        dbExample.insertTables();
+        h = new HospitalData(dbExample);
         HospitalData.publishDB();
 
         launch(args);
