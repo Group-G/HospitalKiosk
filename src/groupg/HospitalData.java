@@ -129,7 +129,7 @@ public class HospitalData {
     }
     public static List<Location> getAllFloors()
     {
-//        List<Location> allNodes = new ArrayList<>();
+        List<Location> allNodes = new ArrayList<>();
 //
 //        for(int i = 0; i < buildingsList.size(); i++) {
 //            ArrayList<Floor> floorList = buildingsList.get(i).getFloorList();
@@ -146,7 +146,7 @@ public class HospitalData {
 //            }
 //        }
 ////        System.out.println(allNodes.size());
-//        return allNodes;
+        return allNodes;
 
     }
 
@@ -191,7 +191,7 @@ public class HospitalData {
 
     }
 
-    public static Location getLocationsByCategory(String category)
+    public static List<Location> getLocationsByCategory(String category)
     {
 //        System.out.println("looking for location " + id);
         List<Location> locations = getAllLocations();
@@ -203,7 +203,7 @@ public class HospitalData {
             {
 //                System.out.println("found");
 //                return locations.get(i);
-                correct.add(locations.get(i))
+                correct.add(locations.get(i));
             }
         }
         return correct;
