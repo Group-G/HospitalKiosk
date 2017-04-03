@@ -15,7 +15,12 @@ public class HospitalData {
     static List<String> categories = new LinkedList<>();
     static List<Person> peopleList = new ArrayList<>();
     static JavaDBExample dbExample;
+    static String[] login = new String[2];
+
+
     HospitalData(JavaDBExample dbExample) {
+        login[0] = "admin";
+        login[1] = "guest";
         this.dbExample = dbExample;
         if(pullDataFromDB()) {
             System.out.println("Successfully pulled data from DB");
@@ -391,7 +396,6 @@ public class HospitalData {
                 return true;
             }
         }
-        addLocation(l);
         return false;
     }
 
