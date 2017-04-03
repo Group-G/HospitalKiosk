@@ -12,7 +12,8 @@ import javafx.stage.Stage;
  */
 public class Main extends Application
 {
-    private static HospitalData h = new HospitalData();
+    private static JavaDBExample dbExample = new JavaDBExample();
+    private static HospitalData h = new HospitalData(dbExample);
 
     @Override
     public void start(Stage primaryStage) throws Exception
@@ -26,7 +27,6 @@ public class Main extends Application
 
     public static void main(String[] args)
     {
-        JavaDBExample dbExample = new JavaDBExample();
         dbExample.connectDB();
         HospitalData.publishDB();
 
