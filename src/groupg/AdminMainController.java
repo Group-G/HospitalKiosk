@@ -9,11 +9,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * @author Ryan Benasutti
@@ -33,6 +37,7 @@ public class AdminMainController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        //Clear shapes and fill from DB
         displayedShapes.clear();
         for (Location l : HospitalData.getAllLocations())
         {
@@ -41,15 +46,65 @@ public class AdminMainController implements Initializable
         overlay.getChildren().setAll(displayedShapes);
 
         //Listener to remove displayedShapes when they are right-click deleted
-        displayedShapes.addListener((ListChangeListener.Change<? extends Shape> in) -> {
-            canvasWrapper.getChildren().clear();
-            canvasWrapper.getChildren().add(canvas);
-            overlay.getChildren().setAll(displayedShapes);
-            canvasWrapper.getChildren().add(overlay);
-        });
+        displayedShapes.addListener((ListChangeListener.Change<? extends Shape> in) ->
+                                    {
+                                        canvasWrapper.getChildren().clear();
+                                        canvasWrapper.getChildren().add(canvas);
+                                        overlay.getChildren().setAll(displayedShapes);
+                                        canvasWrapper.getChildren().add(overlay);
+                                    });
 
+        //Add initial elements
         canvasWrapper.getChildren().add(canvas);
         canvasWrapper.getChildren().add(overlay);
+    }
+
+    static List<Location> drawConnections(UniqueNode node, ObservableList<Shape> nodes)
+    {
+        nodes.sort((n1, n2) ->
+                   {
+                       if (n1 instanceof UniqueNode && n2 instanceof UniqueNode)
+                       {
+                           double dist1 = node.getLocation().lengthTo(((UniqueNode) n1).getLocation());
+                           double dist2 = node.getLocation().lengthTo((((UniqueNode) n2).getLocation()));
+                           return Double.compare(dist1, dist2);
+                       }
+                       return 0;
+                   });
+
+        //Collect UniqueNodes into list
+        List<Location> out = new ArrayList<>();
+        int numUN = 0;
+        for (int i = 0; i < nodes.size(); i++)
+        {
+            if (numUN > 4)
+                break;
+
+            if (nodes.get(i) instanceof UniqueNode)
+            {
+                if (i != 0)
+                {
+                    out.add(((UniqueNode) nodes.get(i)).getLocation());
+                    numUN++;
+                }
+            }
+        }
+
+        //Clear lines
+        displayedShapes.setAll(displayedShapes.stream()
+                                              .filter(elem -> !(elem instanceof Line))
+                                              .collect(Collectors.toList()));
+
+        //Draw lines between the nodes
+        for (int i = 0; i < out.size() - 1; i++)
+        {
+            Location cur = out.get(i);
+            Location next = out.get(i + 1);
+            Line line = new Line(cur.getX(), cur.getY(), next.getX(), next.getY());
+            displayedShapes.add(line);
+        }
+
+        return out;
     }
 
     public void onLogout(ActionEvent actionEvent)

@@ -2,7 +2,10 @@ package groupg;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -31,26 +34,9 @@ class NodeListenerFactory
                                      {
                                          node.setOnMousePressed(mousePressedHandler);
                                          node.setOnMouseDragged(mouseDraggedHandler);
-//                                         node.setOnMouseReleased(event -> {
-//                                             boolean didFindLoc = false;
-//                                             List<Location> allLocations = HospitalData.getAllLocations();
-//                                             for (int i = 0; i < allLocations.size(); i++)
-//                                             {
-//                                                 Location l = allLocations.get(i);
-//                                                 if (l.getID() == currentSelection.getLocation().getID())
-//                                                 {
-//                                                     HospitalData.getAllLocations().set(i, currentSelection.getLocation());
-//                                                     didFindLoc = true;
-//                                                     System.out.println("LOCATION UPDATED");
-//                                                     break;
-//                                                 }
-//                                             }
-//                                             if (!didFindLoc)
-//                                             {
-//                                                 HospitalData.getAllLocations().add(currentSelection.getLocation());
-//                                                 System.out.println("LOCATION ADDED");
-//                                             }
-//                                         });
+                                         node.setOnMouseReleased(event -> {
+                                             AdminMainController.drawConnections(currentSelection, AdminMainController.displayedShapes);
+                                         });
                                          node.setOnContextMenuRequested(showContextMenu);
                                          node.setOnMouseMoved(trackMouseCoordinates);
                                      });
@@ -84,6 +70,19 @@ class NodeListenerFactory
                                    item.setOnAction(e -> currentSelection.setCategory(s));
                                    changeCat.getItems().add(item);
                                });
+
+//            MenuItem selectNeighbors = new MenuItem("Select Neighbors");
+//            selectNeighbors.setOnAction(s ->
+//                                        {
+//                                            try
+//                                            {
+//                                                ResourceManager.getInstance().loadFXMLIntoDialog("/selectNeighbors.fxml", "Select Neighbors", currentSelection.getScene(), 150, 300);
+//                                            }
+//                                            catch (IOException e)
+//                                            {
+//                                                e.printStackTrace();
+//                                            }
+//                                        });
 
             MenuItem remove = new MenuItem("Remove Node");
             remove.setOnAction(event1 ->
