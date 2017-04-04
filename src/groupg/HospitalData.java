@@ -1,6 +1,5 @@
 package groupg;
 
-import javax.management.DynamicMBean;
 import java.sql.*;
 
 import java.util.*;
@@ -10,12 +9,12 @@ import java.util.*;
  */
 public class HospitalData {
 
-    static List<Building> buildingsList = new LinkedList<>();
+    private static List<Building> buildingsList = new LinkedList<>();
 
-    static List<String> categories = new LinkedList<>();
-    static List<Person> peopleList = new ArrayList<>();
-    static JavaDBExample dbExample;
-    static String[] login = new String[2];
+    private static List<String> categories = new LinkedList<>();
+    private static List<Person> peopleList = new ArrayList<>();
+    private static JavaDBExample dbExample;
+    private static String[] login = new String[2];
 
 
     HospitalData(JavaDBExample dbExample) {
@@ -29,7 +28,10 @@ public class HospitalData {
         }
     }
 
-
+    /**
+     * Pulls all data from sql tables
+     * @return true if successful
+     */
     public boolean pullDataFromDB() {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -45,6 +47,8 @@ public class HospitalData {
             connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
             Statement stmt = connection.createStatement();
 
+
+            //Only return true if all pulls are successful
             if(pullBuildings(stmt) && pullFloors(stmt) && pullLocations(stmt)){
                 if (pullPeople(stmt)) {
                     if(pullConnections(stmt)){
@@ -68,6 +72,10 @@ public class HospitalData {
 
         return false;
     }
+    /**
+     * Pushes all data into the database
+     * @return
+     */
     public static boolean publishDB() {
 
         System.out.println("\nPushing the following to the database:");
@@ -167,7 +175,11 @@ public class HospitalData {
         return true;
     }
 
-
+    /**
+     * Finds a Building based on its id
+     * @param id The id of target building
+     * @return the building
+     */
     public static Building getBuildingById(int id) {
         for(int i = 0; i < buildingsList.size(); i++)
         {
@@ -179,6 +191,11 @@ public class HospitalData {
         System.out.println("COULD NOT FIND BUILDING " + id);
         return null;
     }
+    /**
+     * Finds a Floor based on its id
+     * @param id The id of target floor
+     * @return the floor
+     */
     public static Floor getFloorById(int id) {
 
         for(int i = 0; i < buildingsList.size(); i++)
@@ -194,6 +211,11 @@ public class HospitalData {
         System.out.println("COULD NOT FIND FLOOR " + id);
         return null;
     }
+    /**
+     * Finds a location based on its id
+     * @param id The id of target location
+     * @return the location
+     */
     public static Location getLocationById(int id) {
 //        System.out.println("looking for location " + id);
         List<Location> locations = getAllLocations();
@@ -208,6 +230,11 @@ public class HospitalData {
         }
         return null;
     }
+    /**
+     * Finds a Person based on its id
+     * @param id The id of target person
+     * @return the person
+     */
     public static Person getPersonById(int id) {
 //        System.out.println("looking for location " + id);
         List<Person> persons = peopleList;
@@ -224,6 +251,11 @@ public class HospitalData {
 
     }
 
+    /**
+     * Return all locations with given category
+     * @param category given category
+     * @return all locations with given category
+     */
     public static List<Location> getLocationsByCategory(String category) {
 //        System.out.println("looking for location " + id);
         List<Location> locations = getAllLocations();
@@ -242,6 +274,11 @@ public class HospitalData {
 
     }
 
+    /**
+     * Adds a floor to a given building
+     * @param f floor
+     * @param buildingId building
+     */
     private static void addFloor(Floor f, int buildingId) {
         Building b = getBuildingById(buildingId);
         if(b == null) {
@@ -252,6 +289,11 @@ public class HospitalData {
 
         }
     }
+    /**
+     * Adds location to given floor
+     * @param l Location
+     * @param floorId Floor id
+     */
     private static void addLocation(Location l, int floorId) {
         Floor f = getFloorById(floorId);
         if(f == null) {
@@ -262,6 +304,10 @@ public class HospitalData {
 //            System.out.println("added to floor" + floorId);
         }
     }
+    /**
+     * Adds location to db
+     * @param l
+     */
     private static void addLocation(Location l) {
         int floorId = l.getFloor();
         Floor f = getFloorById(floorId);
@@ -274,6 +320,10 @@ public class HospitalData {
         }
     }
 
+    /**
+     * Returns a list of all Floor
+     * @return list of all floors
+     */
     public static List<Floor> getAllFloors() {
         List<Floor> allFloors = new ArrayList<>();
 
@@ -289,6 +339,10 @@ public class HospitalData {
         return allFloors;
 
     }
+    /**
+     * Returns list of all locations
+     * @return
+     */
     public static List<Location> getAllLocations() {
         List<Location> allNodes = new ArrayList<>();
 
@@ -310,15 +364,28 @@ public class HospitalData {
         return allNodes;
 
     }
+    /**
+     * Returns all categories
+     * @return all categories
+     */
     public static List<String> getAllCategories()
     {
         return categories;
     }
+    /**
+     * returns all people
+     * @return
+     */
     public static List<Person> getAllPeople()
     {
         return peopleList;
     }
 
+    /**
+     * Removes a location with a given id
+     * @param id id of location to be removed
+     * @return true if it was successfully removed
+     */
     public static boolean removeLocationById(int id) {
 //        System.out.println("looking for location " + id);
         List<Location> locations = getAllLocations();
@@ -337,6 +404,11 @@ public class HospitalData {
         return false;
 
     }
+    /**
+     * Removes person by id
+     * @param id id of person to be removed
+     * @return true if person was successfuly removed
+     */
     public static boolean removePersonById(int id) {
 //        peopleList
         for(int i = 0; i < peopleList.size(); i++)
@@ -350,7 +422,11 @@ public class HospitalData {
     }
 
 
-
+    /**
+     * adds connections between 2 locations
+     * @param id1 id of first location
+     * @param id2 id of second location
+     */
     public static void addConnection(int id1, int id2) {
         Location l1 = getLocationById(id1);
         Location l2 = getLocationById(id2);
@@ -362,10 +438,22 @@ public class HospitalData {
             l2.addNeighbor(id1);
         }
     }
+
+    /**
+     * Adds a location that a person can be found
+     * @param id1 id of person
+     * @param id2  id of room (location)
+     */
     private void addPersonLocation(int id1, int id2) {
         Person p = getPersonById(id1);
         p.addLocation(id2);
     }
+
+    /**
+     * Adds a category to the category list
+     * @param newCategory name of new category
+     * @return true if it was added (not a duplicate)
+     */
     public static boolean addCategory(String newCategory) {
         if (!categories.contains(newCategory))
         {
@@ -467,7 +555,6 @@ public class HospitalData {
         }
 
     }
-
     /**
      * pullFloors
      * @param stmt SQL Statement
@@ -524,7 +611,6 @@ public class HospitalData {
             return false;
         }
     }
-
     /**
      * pullLocations
      * @param stmt SQL Statement
@@ -593,7 +679,6 @@ public class HospitalData {
             return false;
         }
     }
-
     /**
      * pullBuildings
      * @param stmt SQL Statement
@@ -641,7 +726,6 @@ public class HospitalData {
             return false;
         }
     }
-
     /**
      * pullConnections
      * @param stmt SQL Statement
@@ -679,7 +763,6 @@ public class HospitalData {
             return false;
         }
     }
-
     /**
      * pullOffices
      * @param stmt SQL Statement
@@ -716,7 +799,6 @@ public class HospitalData {
             return false;
         }
     }
-
     /**
      * pullCategories
      * @param stmt SQL Statement
