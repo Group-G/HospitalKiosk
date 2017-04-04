@@ -5,7 +5,7 @@ import java.sql.*;
 import java.util.*;
 
 /**
- * Created by svwoolf on 4/1/17.
+ * Created by  Alazar Genene, Saul Woolf, and Samantha Comeau on 4/1/17.
  */
 public class HospitalData {
 

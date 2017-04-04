@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by svwoolf on 4/2/17.
+ * Created by Alazar Genene, Saul Woolf, and Samantha Comeau on 4/2/17.
  */
 public class Person
 {

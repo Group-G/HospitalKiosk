@@ -3,23 +3,14 @@ package groupg;
 import java.sql.*;
 
 /**
- * @author Wilson Wong
- * @author Samanthe Comeau
- * @author Saul Woolf
- * @author Alazar Genene
- * @since 2017-04-01
+ * Created by  Alazar Genene, Saul Woolf, and Samantha Comeau on 4/1/17.
  */
 public class JavaDBExample
 {
-    /* connectDB
-        @params none
-        @return void
-        @functionality attempts to connect to HospitalDatabase, on fail it will print how to
-            connect and return
+    /**
+     * Connects to the DB
      */
-    void connectDB()
-    {
-//        System.out.println("-------Embedded Java DB Connection Testing --------");
+    void connectDB() {
         try
         {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -37,16 +28,15 @@ public class JavaDBExample
             return;
         }
 
-//        System.out.println("Java DB driver registered!");
-//        System.out.println("\nJava DB connection established!");
     }
 
-    /* createTables
+    /**
+     *  createTables
             @params none
             @return void
             @functionality attepts to connect to HospitalDatabase and drops/creates tables
                 on fail it will return
-         */
+     */
     void createTables(){
         try
         {
@@ -151,7 +141,8 @@ public class JavaDBExample
         }
     }
 
-    /* insertTables
+    /**
+     *  insertTables
         @params none
         @return void
         @functionality inserts dummy values into HospitalDatabase
@@ -246,71 +237,17 @@ public class JavaDBExample
     }
 
 
-
-    /* selectTables
-        @params none
-        @return void
-        @functionality attempts to connect to HospitalDatabase and select values (unimportant rn)
+    /**
+     * Fills database based on live data
+     * @param location String contain SQL of location
+     * @param personelle String contain SQL of personelle
+     * @param offices String contain SQL of offices
+     * @param floor String contain SQL of floor
+     * @param building String contain SQL of building
+     * @param connections String contain SQL of connections
+     * @param admin String contain SQL of admin
+     * @param category String contain SQL of category
      */
-    void selectTables(){
-        try{
-            // substitute your database name for myDB
-            Connection connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
-            Statement stmt = connection.createStatement();
-
-            /*
-            //New Line
-            System.out.println("\n");
-
-            //Description
-            System.out.println("Selecting everything from personelle.\n");
-
-            //Select everything from PERSONELLE
-            ResultSet personelle = stmt.executeQuery("SELECT * FROM PERSONELLE");
-            ResultSetMetaData personelleDataset = personelle.getMetaData();
-            int personelleColumns = personelleDataset.getColumnCount();
-            for (int i = 1; i <= personelleColumns; i++){
-                System.out.format("%20s", personelleDataset.getColumnName(i) +'|');
-            }
-            System.out.println(personelle);
-            while (personelle.next()) {
-                System.out.println(" ");
-                for (int j = 1; j <= personelleColumns; j++) {
-                    System.out.format("%20s", personelle.getString(j) + '|');
-                }
-            }
-
-            //New Line
-            System.out.println("\n");
-
-            //Description
-            System.out.println("Selecting the room ID's that are on floor 1.\n");
-
-            //Select room ID's that are on floor 1 from ROOM
-            ResultSet room = stmt.executeQuery("SELECT ROOM_ID FROM ROOM WHERE FLOOR_NUM=1");
-            ResultSetMetaData roomDataset = room.getMetaData();
-            int roomColumns = roomDataset.getColumnCount();
-            for (int i = 1; i <= roomColumns; i++){
-                System.out.format("%20s", roomDataset.getColumnName(i) +'|');
-            }
-            System.out.println(room);
-            while (room.next()) {
-                System.out.println(" ");
-                for (int j = 1; j <= roomColumns; j++) {
-                    System.out.format("%20s", room.getString(j) + '|');
-                }
-            }
-            */
-        }
-            catch (SQLException e)
-        {
-            System.out.println("Connection failed. Check output console.");
-            e.printStackTrace();
-        }
-    }
-
-
-
     void fillTable(String location, String personelle, String offices, String floor, String building, String connections, String admin,  String category){
         try {
             // substitute your database name for myDB
