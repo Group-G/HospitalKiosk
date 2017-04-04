@@ -47,6 +47,13 @@ public class DirectionScreenController implements Initializable
         startLocField.setCurrentSelection(new EmptyLocation());
         destField = new AutoCompleteTextField<>();
         destField.setCurrentSelection(new EmptyLocation());
+
+        List<Location> kioskLocs = HospitalData.getLocationsByCategory("Kiosk");
+        if (kioskLocs.size() > 0)
+        {
+            startLocField.setCurrentSelection(kioskLocs.get(0));
+            startLocField.setText(kioskLocs.get(0).getName());
+        }
     }
 
     @Override
@@ -113,6 +120,7 @@ public class DirectionScreenController implements Initializable
     void setDestination(Location destination)
     {
         destField.setCurrentSelection(destination);
+        destField.setText(destination.getName());
     }
 
     private void generateTextDirections(LinkedList<Location> locations)
