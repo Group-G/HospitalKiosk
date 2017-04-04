@@ -16,7 +16,7 @@ class NodeFactory
      */
     static UniqueNode getNode(double x, double y)
     {
-        UniqueNode circle = new UniqueNode(10);
+        UniqueNode circle = new UniqueNode(10, new Location(x, y, 1004, 1));
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.7));
         circle.setCenterX(x);
