@@ -18,11 +18,11 @@ class DrawLines
         if (locations.size() > 1)
         {
             Location from = locations.get(0);
-            double shortestConnection = from.lengthTo(locations.get(1)) + connectionBandwith;
+            double shortestConnection = from.lengthTo(locations.get(1));
             for (int i = 1; i < locations.size(); i++)
             {
                 Location current = locations.get(i);
-                if (from.lengthTo(current) <= shortestConnection)
+                if (from.lengthTo(current) <= shortestConnection + connectionBandwith)
                 {
                     displayedShapes.add(new Line(from.getX() + NODE_OFFSET, from.getY() + NODE_OFFSET,
                                                  current.getX() + NODE_OFFSET, current.getY() + NODE_OFFSET));
@@ -31,13 +31,19 @@ class DrawLines
         }
     }
 
-    static void drawLinesFromLocation(Location from, List<Location> locations)
+    static void drawLinesFromLocation(Location from, List<Location> locations, double connectionBandwith)
     {
-        for (int i = 0; i < locations.size() - 1; i++)
+        if (locations.size() > 0)
         {
-            Location current = locations.get(i);
-            displayedShapes.add(new Line(from.getX() + NODE_OFFSET, from.getY() + NODE_OFFSET,
-                                         current.getX() + NODE_OFFSET, current.getY() + NODE_OFFSET));
+            double shortestConnection = from.lengthTo(locations.get(0));
+            for (Location current : locations)
+            {
+                if (from.lengthTo(current) <= shortestConnection + connectionBandwith)
+                {
+                    displayedShapes.add(new Line(from.getX() + NODE_OFFSET, from.getY() + NODE_OFFSET,
+                                                 current.getX() + NODE_OFFSET, current.getY() + NODE_OFFSET));
+                }
+            }
         }
     }
 

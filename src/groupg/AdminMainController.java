@@ -82,8 +82,9 @@ public class AdminMainController implements Initializable
         //Collect UniqueNodes into list
         List<Location> out = new ArrayList<>();
         int numUN = 0;
-        for (Shape node1 : nodes)
+        for (int i = 0; i < nodes.size(); i++)
         {
+            Shape node1 = nodes.get(i);
             if (numUN >= 4)
             {
                 break;
@@ -91,8 +92,11 @@ public class AdminMainController implements Initializable
 
             if (node1 instanceof UniqueNode)
             {
-                out.add(((UniqueNode) node1).getLocation());
-                numUN++;
+                if (i != 0)
+                {
+                    out.add(((UniqueNode) node1).getLocation());
+                    numUN++;
+                }
             }
         }
 
@@ -101,7 +105,7 @@ public class AdminMainController implements Initializable
                                               .filter(elem -> !(elem instanceof Line))
                                               .collect(Collectors.toList()));
 
-        DrawLines.drawLinesFromLocation(out, CONNECTION_BANDWITH);
+        DrawLines.drawLinesFromLocation(node.getLocation(), out, CONNECTION_BANDWITH);
 
         return out;
     }
