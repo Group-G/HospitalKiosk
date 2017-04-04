@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class WelcomeScreenController implements Initializable
     private MenuButton catDropdown;
     static Location requested;
     private AutoCompleteTextField<Location> textField = new AutoCompleteTextField<>();
+    private String selectedCat;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -41,6 +43,19 @@ public class WelcomeScreenController implements Initializable
         children.add(textField);
         Collections.swap(children, 1, 2);
         topHBox.getChildren().setAll(children);
+
+        HospitalData.getAllCategories().forEach(elem ->
+                                                {
+                                                    MenuItem item = new MenuItem(elem);
+                                                    item.setOnAction(actionEvent ->
+                                                                     {
+                                                                         selectedCat = elem;
+                                                                         catDropdown.setText(elem);
+                                                                         textField.getEntries().clear();
+                                                                         textField.getEntries().addAll(HospitalData.getLocationsByCategory(elem));
+                                                                     });
+                                                    catDropdown.getItems().add(item);
+                                                });
     }
 
     public void onAdminLogin(ActionEvent actionEvent)
@@ -59,13 +74,11 @@ public class WelcomeScreenController implements Initializable
     {
         requested = textField.getCurrentSelection();
 
-        try
+        if (requested != null)
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/directionScreen.fxml", "Your Directions", searchBtn.getScene());
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
+            DirectionScreenController controller = new DirectionScreenController();
+            controller.setDestination(requested);
+            ResourceManager.getInstance().loadFXMLIntoSceneWithController("/directionScreen.fxml", "Your Directions", searchBtn.getScene(), controller);
         }
     }
 }

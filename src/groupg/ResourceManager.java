@@ -35,9 +35,10 @@ class ResourceManager
      * @throws IOException FXMLLoader.load may fail to retrieve file
      * @throws NullPointerException FXMLLoader.load may fail to retrieve file
      */
-    void loadFXMLIntoScene(String fileName, String title, Scene scene) throws IOException, NullPointerException
+    <T> T loadFXMLIntoScene(String fileName, String title, Scene scene) throws IOException, NullPointerException
     {
-        Parent root = FXMLLoader.load(getClass().getResource(fileName));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
+        Parent root = loader.load();
         Platform.runLater(() ->
                           {
                               Stage stage = (Stage) scene.getWindow();
@@ -45,6 +46,7 @@ class ResourceManager
                               stage.setScene(new Scene(root, scene.getWidth(), scene.getHeight()));
                               stage.show();
                           });
+        return loader.getController();
     }
 
     /**

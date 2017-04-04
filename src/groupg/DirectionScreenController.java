@@ -38,11 +38,17 @@ public class DirectionScreenController implements Initializable
     private Pane overlay = new Pane();
     static ObservableList<Shape> displayedShapes = FXCollections.observableArrayList();
 
-    private AutoCompleteTextField<Location> startLocField = new AutoCompleteTextField<>(), destField = new AutoCompleteTextField<>();
+    private AutoCompleteTextField<Location> startLocField, destField;
 
     private Astar astar;
     private LinkedList<Location> locations = new LinkedList<>();
     private LinkedList<Integer> loc1N = new LinkedList<>(), loc2N = new LinkedList<>(), loc3N = new LinkedList<>();
+
+    DirectionScreenController()
+    {
+        startLocField = new AutoCompleteTextField<>();
+        destField = new AutoCompleteTextField<>();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -105,6 +111,11 @@ public class DirectionScreenController implements Initializable
                 displayedShapes.add(line);
             }
         }
+    }
+
+    void setDestination(Location destination)
+    {
+        destField.getCurrentSelection().setLocation(destination);
     }
 
     private void generateTextDirections(LinkedList<Location> locations)

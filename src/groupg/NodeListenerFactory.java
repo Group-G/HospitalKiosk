@@ -70,7 +70,7 @@ class NodeListenerFactory
             catsFromDB.forEach(s ->
                                {
                                    MenuItem item = new MenuItem(s);
-                                   item.setOnAction(e -> currentSelection.setCategory(s));
+                                   item.setOnAction(e -> currentSelection.getLocation().setCategory(s));
                                    changeCat.getItems().add(item);
                                });
 

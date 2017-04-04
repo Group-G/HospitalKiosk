@@ -14,21 +14,19 @@ class UniqueNode extends Circle
     private Integer ID;
     private LinkedList<UniqueNode> neighbors;
     private static int IDCounter = 2004;
-    private String category;
     private Location location;
 
-    UniqueNode(double radius, int ID, LinkedList<UniqueNode> neighbors, String category, Location location)
+    UniqueNode(double radius, int ID, LinkedList<UniqueNode> neighbors, Location location)
     {
         super(radius);
         this.ID = ID;
         this.neighbors = neighbors;
-        this.category = category;
         this.location = location;
     }
 
     UniqueNode(double radius, int ID, LinkedList<UniqueNode> neighbors)
     {
-        this(radius, ID, neighbors, "", new Location("", 0, 0, "", 0, ID, 1005, 1));
+        this(radius, ID, neighbors, new Location("", 0, 0, "", 0, ID, 1005, 1));
     }
 
     UniqueNode(double radius, int ID)
@@ -38,7 +36,7 @@ class UniqueNode extends Circle
 
     UniqueNode(double radius, Location location)
     {
-        this(radius, IDCounter++, new LinkedList<>(), "", location);
+        this(radius, IDCounter++, new LinkedList<>(), location);
     }
 
     UniqueNode(double radius)
@@ -49,16 +47,6 @@ class UniqueNode extends Circle
     Integer getID()
     {
         return ID;
-    }
-
-    public String getCategory()
-    {
-        return category;
-    }
-
-    public void setCategory(String category)
-    {
-        this.category = category;
     }
 
     public Location getLocation()
