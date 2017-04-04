@@ -6,7 +6,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by Alazar Genene, Saul Woolf, and Samantha Comeau on 4/1/17.
+ * @author Dylan McKillip
+ * @author Alazar Genene
+ * @author Saul Woolf
+ * @author Samantha Comeau
+ * @since 2017-04-01
  */
 public class Location implements Comparable
 {
