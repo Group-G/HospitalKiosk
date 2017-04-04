@@ -12,7 +12,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
 import java.io.IOException;
@@ -66,6 +65,7 @@ public class DirectionScreenController implements Initializable
 
         //Add locations from DB
         locations.addAll(HospitalData.getAllLocations());
+        locations.forEach(elem -> System.out.println(elem.getNeighbors().size()));
         startLocField.getEntries().addAll(locations);
         destField.getEntries().addAll(locations);
 
@@ -88,20 +88,24 @@ public class DirectionScreenController implements Initializable
         searchBtn.setOnAction(event -> {
             if (startLocField.getCurrentSelection() != null && destField.getCurrentSelection() != null)
             {
-                astar = new Astar(locations);
-                LinkedList<Location> output = astar.run(startLocField.getCurrentSelection(), destField.getCurrentSelection());
-                List<Location> locs = new ArrayList<>();
-                locs.addAll(output);
+                LinkedList<Location> locsIn = new LinkedList<>();
+                locsIn.addAll(HospitalData.getAllLocations());
+                astar = new Astar(locsIn);
+                List<Location> output = new ArrayList<>();
+                output.addAll(astar.run(startLocField.getCurrentSelection(), destField.getCurrentSelection()));
 
-                //Draw locations
+//                //Draw locations
+//                displayedShapes.clear();
+//                for (int i = 0; i < output.size() - 1; i++)
+//                {
+//                    Location loc1 = output.get(i);
+//                    Location loc2 = output.get(i + 1);
+//                    Line line = new Line(loc1.getX(), loc1.getY(), loc2.getX(), loc2.getY());
+//                    displayedShapes.add(line);
+//                }
+
                 displayedShapes.clear();
-                for (int i = 0; i < locs.size() - 1; i++)
-                {
-                    Location loc1 = locs.get(i);
-                    Location loc2 = locs.get(i + 1);
-                    Line line = new Line(loc1.getX(), loc1.getY(), loc2.getX(), loc2.getY());
-                    displayedShapes.add(line);
-                }
+                DrawLines.drawLinesInOrder(output, displayedShapes);
             }
         });
     }

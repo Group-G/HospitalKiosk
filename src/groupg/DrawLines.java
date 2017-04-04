@@ -1,6 +1,7 @@
 package groupg;
 
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
 
 import java.util.List;
 
@@ -47,14 +48,19 @@ class DrawLines
         }
     }
 
-    static void drawLinesInOrder(List<Location> locations)
+    static void drawLinesInOrder(List<Location> locations, List<Shape> out)
     {
         for (int i = 0; i < locations.size() - 1; i++)
         {
             Location current = locations.get(i),
                     next = locations.get(i + 1);
-            displayedShapes.add(new Line(current.getX() + NODE_OFFSET, current.getY() + NODE_OFFSET,
+            out.add(new Line(current.getX() + NODE_OFFSET, current.getY() + NODE_OFFSET,
                                          next.getX() + NODE_OFFSET, next.getY() + NODE_OFFSET));
         }
+    }
+
+    static void drawLinesInOrder(List<Location> locations)
+    {
+        drawLinesInOrder(locations, displayedShapes);
     }
 }

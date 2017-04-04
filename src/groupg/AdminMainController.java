@@ -100,6 +100,9 @@ public class AdminMainController implements Initializable
             }
         }
 
+        node.getLocation().getNeighbors().clear();
+        node.getLocation().getNeighbors().addAll(out.stream().map(Location::getID).collect(Collectors.toList()));
+
         //Clear lines
         displayedShapes.setAll(displayedShapes.stream()
                                               .filter(elem -> !(elem instanceof Line))
