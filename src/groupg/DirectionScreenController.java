@@ -81,6 +81,8 @@ public class DirectionScreenController implements Initializable
         Collections.swap(children, 3, 4);
         toolBar.getItems().setAll(children);
 
+        drawPath();
+
         cancelBtn.setOnAction(event -> {
             try
             {
@@ -92,29 +94,24 @@ public class DirectionScreenController implements Initializable
             }
         });
 
-        searchBtn.setOnAction(event -> {
-            if (startLocField.getCurrentSelection() != null && destField.getCurrentSelection() != null)
-            {
-                LinkedList<Location> locsIn = new LinkedList<>();
-                locsIn.addAll(HospitalData.getAllLocations());
-                astar = new Astar(locsIn);
-                List<Location> output = new ArrayList<>();
-                output.addAll(astar.run(startLocField.getCurrentSelection(), destField.getCurrentSelection()));
+        searchBtn.setOnAction(event -> drawPath());
+    }
 
-//                //Draw locations
-//                displayedShapes.clear();
-//                for (int i = 0; i < output.size() - 1; i++)
-//                {
-//                    Location loc1 = output.get(i);
-//                    Location loc2 = output.get(i + 1);
-//                    Line line = new Line(loc1.getX(), loc1.getY(), loc2.getX(), loc2.getY());
-//                    displayedShapes.add(line);
-//                }
+    private void drawPath()
+    {
+        if (startLocField.getCurrentSelection() != null && destField.getCurrentSelection() != null)
+        {
+            LinkedList<Location> locsIn = new LinkedList<>();
+            locsIn.addAll(HospitalData.getAllLocations());
 
-                displayedShapes.clear();
-                DrawLines.drawLinesInOrder(output, displayedShapes);
-            }
-        });
+            astar = new Astar(locsIn);
+
+            List<Location> output = new ArrayList<>();
+            output.addAll(astar.run(startLocField.getCurrentSelection(), destField.getCurrentSelection()));
+
+            displayedShapes.clear();
+            DrawLines.drawLinesInOrder(output, displayedShapes);
+        }
     }
 
     void setDestination(Location destination)
