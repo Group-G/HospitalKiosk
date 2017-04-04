@@ -100,15 +100,17 @@ public class AdminMainController implements Initializable
             }
         }
 
-        node.getLocation().getNeighbors().clear();
-        node.getLocation().getNeighbors().addAll(out.stream().map(Location::getID).collect(Collectors.toList()));
-
         //Clear lines
         displayedShapes.setAll(displayedShapes.stream()
                                               .filter(elem -> !(elem instanceof Line))
                                               .collect(Collectors.toList()));
 
-        DrawLines.drawLinesFromLocation(node.getLocation(), out, CONNECTION_BANDWIDTH);
+        node.getLocation().getNeighbors().clear();
+        node.getLocation().getNeighbors().addAll(DrawLines.drawLinesFromLocation(node.getLocation(), out, CONNECTION_BANDWIDTH)
+                                                          .stream()
+                                                          .map(Location::getID)
+                                                          .collect(Collectors.toList()));
+        System.out.println("NCOUNT: " + node.getLocation().getNeighbors().size());
 
         return out;
     }

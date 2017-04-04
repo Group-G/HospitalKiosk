@@ -3,6 +3,7 @@ package groupg;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static groupg.AdminMainController.NODE_OFFSET;
@@ -32,8 +33,10 @@ class DrawLines
         }
     }
 
-    static void drawLinesFromLocation(Location from, List<Location> locations, double connectionBandwith)
+    static List<Location> drawLinesFromLocation(Location from, List<Location> locations, double connectionBandwith)
     {
+        List<Location> neighbors = new ArrayList<>();
+
         if (locations.size() > 0)
         {
             double shortestConnection = from.lengthTo(locations.get(0));
@@ -41,11 +44,14 @@ class DrawLines
             {
                 if (from.lengthTo(current) <= shortestConnection + connectionBandwith)
                 {
+                    neighbors.add(current);
                     displayedShapes.add(new Line(from.getX() + NODE_OFFSET, from.getY() + NODE_OFFSET,
                                                  current.getX() + NODE_OFFSET, current.getY() + NODE_OFFSET));
                 }
             }
         }
+
+        return neighbors;
     }
 
     static void drawLinesInOrder(List<Location> locations, List<Shape> out)
