@@ -15,7 +15,7 @@ public class Location implements Comparable
     private float weight;
     private int id, floor, building;
     private String name, category;
-    LinkedList<Integer> neighbors = new LinkedList<Integer>();
+    LinkedList<Integer> neighbors = new LinkedList<>();
     private double fcost;
     private Location parent;
 
