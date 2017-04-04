@@ -1,6 +1,5 @@
 package groupg;
 
-import javax.management.DynamicMBean;
 import java.sql.*;
 
 import java.util.*;
@@ -10,12 +9,12 @@ import java.util.*;
  */
 public class HospitalData {
 
-    static List<Building> buildingsList = new LinkedList<>();
+    private static List<Building> buildingsList = new LinkedList<>();
 
-    static List<String> categories = new LinkedList<>();
-    static List<Person> peopleList = new ArrayList<>();
-    static JavaDBExample dbExample;
-    static String[] login = new String[2];
+    private static List<String> categories = new LinkedList<>();
+    private static List<Person> peopleList = new ArrayList<>();
+    private static JavaDBExample dbExample;
+    private static String[] login = new String[2];
 
 
     HospitalData(JavaDBExample dbExample) {
@@ -556,7 +555,6 @@ public class HospitalData {
         }
 
     }
-
     /**
      * pullFloors
      * @param stmt SQL Statement
@@ -613,7 +611,6 @@ public class HospitalData {
             return false;
         }
     }
-
     /**
      * pullLocations
      * @param stmt SQL Statement
@@ -682,7 +679,6 @@ public class HospitalData {
             return false;
         }
     }
-
     /**
      * pullBuildings
      * @param stmt SQL Statement
@@ -730,7 +726,6 @@ public class HospitalData {
             return false;
         }
     }
-
     /**
      * pullConnections
      * @param stmt SQL Statement
@@ -768,7 +763,6 @@ public class HospitalData {
             return false;
         }
     }
-
     /**
      * pullOffices
      * @param stmt SQL Statement
@@ -805,7 +799,6 @@ public class HospitalData {
             return false;
         }
     }
-
     /**
      * pullCategories
      * @param stmt SQL Statement
