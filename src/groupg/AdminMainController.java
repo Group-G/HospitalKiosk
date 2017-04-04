@@ -66,7 +66,7 @@ public class AdminMainController implements Initializable
         canvasWrapper.getChildren().add(overlay);
     }
 
-    static List<Location> drawConnections(UniqueNode node, ObservableList<Shape> nodes)
+    static void drawConnections(UniqueNode node, ObservableList<Shape> nodes)
     {
         nodes.sort((n1, n2) ->
                    {
@@ -82,9 +82,8 @@ public class AdminMainController implements Initializable
         //Collect UniqueNodes into list
         List<Location> out = new ArrayList<>();
         int numUN = 0;
-        for (int i = 0; i < nodes.size(); i++)
+        for (Shape node1 : nodes)
         {
-            Shape node1 = nodes.get(i);
             if (numUN >= 4)
             {
                 break;
@@ -92,9 +91,10 @@ public class AdminMainController implements Initializable
 
             if (node1 instanceof UniqueNode)
             {
-                if (i != 0)
+                UniqueNode node2 = (UniqueNode) node1;
+                if (!node2.equals(node))
                 {
-                    out.add(((UniqueNode) node1).getLocation());
+                    out.add(node2.getLocation());
                     numUN++;
                 }
             }
@@ -110,9 +110,6 @@ public class AdminMainController implements Initializable
                                                           .stream()
                                                           .map(Location::getID)
                                                           .collect(Collectors.toList()));
-        System.out.println("NCOUNT: " + node.getLocation().getNeighbors().size());
-
-        return out;
     }
 
     public void onLogout(ActionEvent actionEvent)

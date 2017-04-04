@@ -36,6 +36,7 @@ class NodeListenerFactory
                                          node.setOnMouseDragged(mouseDraggedHandler);
                                          node.setOnMouseReleased(event ->
                                                                  {
+//                                                                     HospitalData.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
                                                                      AdminMainController.drawConnections(currentSelection, AdminMainController.displayedShapes);
                                                                      HospitalData.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
                                                                  });
