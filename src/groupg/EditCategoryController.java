@@ -58,7 +58,7 @@ public class EditCategoryController implements Initializable
 
     public void onDelete(ActionEvent actionEvent)
     {
-        //TODO: Remove cat from DB
+        HospitalData.removeCategory(catList.getSelectionModel().getSelectedItem());
         catList.getItems().remove(catList.getSelectionModel().getSelectedItem());
     }
 }
