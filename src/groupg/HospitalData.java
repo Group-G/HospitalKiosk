@@ -463,6 +463,23 @@ public class HospitalData {
         return false;
     }
 
+    /**
+     *Removes a category from categories
+     * @param removeCategory category to be removed
+     * @return true if successfully removed
+     */
+    public static boolean removeCategory(String removeCategory) {
+        for(int i = 0; i < categories.size();i++)
+        {
+            if(categories.get(i).equals(removeCategory))
+            {
+                categories.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * THis method sets a person's data based on their id
