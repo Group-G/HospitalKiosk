@@ -1,6 +1,5 @@
 package groupg;
 
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,33 +9,21 @@ import java.util.List;
  * @author Alazar Genene
  * @author Saul Woolf
  * @author Samantha Comeau
+ * @author Ryan Benasutti
  * @since 2017-04-01
  */
 public class Location implements Comparable
 {
-    private double x, y;
-
+    private double x, y, fcost;
     private float weight;
     private int id, floor, building;
+    private static int idCounter = 2004;
     private String name, category;
-    LinkedList<Integer> neighbors = new LinkedList<>();
-    private double fcost;
+    private LinkedList<Integer> neighbors = new LinkedList<>();
     private Location parent;
 
-    /*SETTERS*/
-    /**
-     * Constructor
-     * @param name
-     * @param x
-     * @param y
-     * @param neighbors
-     * @param category
-     * @param weight
-     * @param ID
-     * @param floor
-     * @param building
-     */
-    public Location(String name, double x, double y, LinkedList<Integer> neighbors, String category, float weight, int ID, int floor, int building) {
+    public Location(String name, double x, double y, LinkedList<Integer> neighbors, String category, float weight, int ID, int floor, int building)
+    {
         this.name = name;
         this.x = x;
         this.y = y;
@@ -46,276 +33,30 @@ public class Location implements Comparable
         this.floor = floor;
         this.building = building;
         this.id = ID;
-//        System.out.println("made location" + ID);
     }
 
-    /**
-     * Constructor
-     * @param name
-     * @param x
-     * @param y
-     * @param category
-     * @param weight
-     * @param ID
-     * @param floor
-     * @param building
-     */
-    public Location(String name, double x, double y, String category, float weight, int ID, int floor, int building) {
-        this.name = name;
-        this.x = x;
-        this.y = y;
-        this.category = category;
-        this.weight = weight;
-        this.floor = floor;
-        this.building = building;
-        this.id = ID;
-//        System.out.println("made location" + ID);
-    }
-
-    /**
-     * Setter for c
-     * @param x
-     */
-    public void setX(int x) {
-        this.x = x;
-
-    }
-
-    /**
-     * Setter for Y
-     * @param y
-     */
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    /**
-     * Setter for ID
-     * @param ID
-     */
-    public void setID(int ID) {
-        this.id = ID;
-    }
-
-    /**
-     * Setter for Category
-     * @param category
-     */
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    /**
-     * Setter for Floor
-     * @param floor
-     */
-    public void setFloor(int floor) {
-        this.floor = floor;
-    }
-
-    /**
-     * Setter for building
-     * @param building
-     */
-    public void setBuilding(int building) {
-        this.building = building;
-    }
-
-    /**
-     * Setter for name
-     * @param name
-     */
-    public void setName(String name)
+    public Location(String name, double x, double y, String category, float weight, int ID, int floor, int building)
     {
-        this.name = name;
-    }
-    /*END SETTERS*/
-
-
-
-
-    /*GETTERS*/
-
-    /**
-     * Getter for X
-     * @return
-     */
-    public double getX() {
-        return this.x;
+        this(name, x, y, new LinkedList<>(), category, weight, ID, floor, building);
     }
 
-    /**
-     * Getter for Y
-     * @return
-     */
-    public double getY() {
-        return this.y;
-    }
-
-    /**
-     * Getter for Floor
-     * @return
-     */
-    public int getFloor() {
-        return this.floor;
-    }
-
-    /**
-     * Getter for Building
-     * @return
-     */
-    public int getBuilding() {
-        return this.building;
-    }
-
-    /**
-     * Getter for ID
-     * @return
-     */
-    public int getID() {
-        return this.id;
-    }
-
-    /**
-     * Getter for Category
-     * @return
-     */
-    public String getCategory() {
-        return this.category;
-    }
-
-    /**
-     * Getter for Fcost
-     * @return
-     */
-    public double getFcost() {
-        return fcost;
-    }
-
-    /**
-     * Getter for neighbors
-     * @return
-     */
-    public LinkedList<Integer> getNeighbors() {
-        return neighbors;
-    }
-
-    /**
-     * Getter for name
-     * @return
-     */
-    public String getName() {
-        return name;
-    }
-    /*END GETTERS*/
-
-
-
-
-    //gets length between node and this node
-    public double lengthTo(Location other){
-        return Math.sqrt(Math.pow(Math.abs(this.getX() - other.getX()), 2)
-                         + Math.pow(Math.abs(this.getY() - other.getY()), 2));
-    }
-
-    /**
-     * ToString
-     * @return
-     */
-    @Override
-    public String toString()
+    public Location(String name, double x, double y, String category, int floor, int building)
     {
-        return getName();
+        this(name, x, y, category, 0, idCounter++, floor, building);
     }
 
-    /**
-     * Setter for FCost
-     * @param fcost
-     */
-    public void setFcost(double fcost) {
-        this.fcost = fcost;
-    }
-
-    /**
-     * Setter for parent
-     * @param parent
-     */
-    public void setParent(Location parent) {
-        this.parent = parent;
-    }
-
-    /**
-     * Getter for parent
-     * @return
-     */
-    public Location getParent() {
-        return this.parent;
-    }
-
-    /**
-     * CompareTo
-     * @param o
-     * @return
-     */
-    @Override
-     public int compareTo(Object o)
+    public Location(double x, double y, int floor, int building)
     {
-         return toString().compareTo(o.toString());
+        this("", x, y, "", floor, building);
     }
 
     /**
-     * AddNeighbor
-     * @param id
+     * Overwrites all the members of this Location except for ID
+     *
+     * @param l Location to copy from
      */
-    public void addNeighbor(int id)
+    public void setLocation(Location l)
     {
-        neighbors.add(id);
-    }
-
-    /**
-     * Returns a string that represents it DB value
-     * @return String of DB value
-     */
-    public String getSQL(){
-        String result = "(" + id + ", \'" + name + "\',\'" + category  + "\'," + floor  + "," + x + "," + y + "," + building+ ")";
-//        System.out.println(result);
-        return result;
-    }
-
-    /**
-     * Returns a string that represents it DB value of all connections
-     * @return String of DB value
-     */
-    public List<String> getConnectionsSQL(){
-        ArrayList<String> result = new ArrayList<>();
-        for(int i = 0; i < neighbors.size(); i++)
-        {
-            String a;
-            if(id > neighbors.get(i)) {
-                a = "(" + id + "," + neighbors.get(i) + ")";
-            }
-            else{
-                a = "(" + neighbors.get(i) + "," + id + ")";
-            }
-            result.add(a);
-        }
-
-        return result;
-    }
-
-    /**
-     * Getter for Floor
-     * @return
-     */
-    public int getFloorId() {
-        return floor;
-    }
-
-    /**
-     * Remake this one
-     * @param l
-     */
-    public void setLocation(Location l) {
         //String name, double x, double y, LinkedList<Integer> neighbors, String category, float weight, int ID, int floor, int building
         this.name = l.getName();
         this.x = l.getX();
@@ -325,14 +66,174 @@ public class Location implements Comparable
         this.weight = l.getWeight();
         this.floor = l.getFloor();
         this.building = l.getBuilding();
-
     }
 
     /**
-     * Getter for weight
-     * @return
+     * Returns the length to another Location
+     *
+     * @param other Other Location
+     * @return Length to other Location
      */
-    public float getWeight() {
+    double lengthTo(Location other)
+    {
+        return Math.sqrt(Math.pow(Math.abs(this.getX() - other.getX()), 2)
+                         + Math.pow(Math.abs(this.getY() - other.getY()), 2));
+    }
+
+    /**
+     * Returns a string that represents it DB value
+     *
+     * @return String of DB value
+     */
+    String getSQL()
+    {
+        return "(" + id + ", \'" + name + "\',\'" + category + "\'," + floor + "," + x + "," + y + "," + building + ")";
+    }
+
+    /**
+     * Returns a string that represents it DB value of all connections
+     *
+     * @return String of DB value
+     */
+    List<String> getConnectionsSQL()
+    {
+        ArrayList<String> result = new ArrayList<>();
+        for (Integer neighbor : neighbors)
+        {
+            String a;
+            if (id > neighbor)
+            {
+                a = "(" + id + "," + neighbor + ")";
+            }
+            else
+            {
+                a = "(" + neighbor + "," + id + ")";
+            }
+            result.add(a);
+        }
+
+        return result;
+    }
+
+    @Override
+    public int compareTo(Object o)
+    {
+        return toString().compareTo(o.toString());
+    }
+
+    @Override
+    public String toString()
+    {
+        return getName();
+    }
+
+    void setX(int x)
+    {
+        this.x = x;
+    }
+
+    void setY(int y)
+    {
+        this.y = y;
+    }
+
+    public void setID(int ID)
+    {
+        this.id = ID;
+    }
+
+    void setCategory(String category)
+    {
+        this.category = category;
+    }
+
+    public void setFloor(int floor)
+    {
+        this.floor = floor;
+    }
+
+    public void setBuilding(int building)
+    {
+        this.building = building;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    double getX()
+    {
+        return this.x;
+    }
+
+    double getY()
+    {
+        return this.y;
+    }
+
+    int getFloor()
+    {
+        return this.floor;
+    }
+
+    private int getBuilding()
+    {
+        return this.building;
+    }
+
+    int getID()
+    {
+        return this.id;
+    }
+
+    String getCategory()
+    {
+        return this.category;
+    }
+
+    double getFcost()
+    {
+        return fcost;
+    }
+
+    LinkedList<Integer> getNeighbors()
+    {
+        return neighbors;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    void setFcost(double fcost)
+    {
+        this.fcost = fcost;
+    }
+
+    void setParent(Location parent)
+    {
+        this.parent = parent;
+    }
+
+    Location getParent()
+    {
+        return this.parent;
+    }
+
+    void addNeighbor(int id)
+    {
+        neighbors.add(id);
+    }
+
+    int getFloorId()
+    {
+        return floor;
+    }
+
+    float getWeight()
+    {
         return weight;
     }
 }
