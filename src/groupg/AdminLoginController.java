@@ -1,22 +1,17 @@
 package groupg;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.awt.event.MouseListener;
-
-import static groupg.ResourceManager.getInstance;
 
 /**
  * @author Ryan Benasutti
@@ -58,26 +53,29 @@ public class AdminLoginController implements Initializable
 
     private void isInactive()
     {
-        inactiveTimeOut.schedule(new TimerTask() {
-            public void run() {
+        inactiveTimeOut.schedule(new TimerTask()
+        {
+            public void run()
+            {
                 System.out.println("time is up");
-                try {
-                    getInstance().loadFXMLIntoScene("/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
-                } catch (IOException e) {
+                try
+                {
+                    ResourceManager.getInstance().loadFXMLIntoScene("/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
+                }
+                catch (IOException e)
+                {
                     e.printStackTrace();
                 }
                 inactiveTimeOut.cancel();
             }
-        },seconds*1000);
+        }, seconds * 1000);
     }
-
-
 
     public void onCancel(ActionEvent actionEvent)
     {
         try
         {
-            getInstance().loadFXMLIntoScene("/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
         }
         catch (IOException e)
         {
@@ -104,7 +102,7 @@ public class AdminLoginController implements Initializable
 
             try
             {
-                getInstance().loadFXMLIntoScene("/adminMain.fxml", "Admin Main", cancelBtn.getScene());
+                ResourceManager.getInstance().loadFXMLIntoScene("/adminMain.fxml", "Admin Main", cancelBtn.getScene());
             }
             catch (IOException e)
             {
