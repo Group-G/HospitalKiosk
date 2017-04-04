@@ -256,18 +256,18 @@ public class HospitalData {
      * @param category given category
      * @return all locations with given category
      */
-    public static List<Location> getLocationsByCategory(String category) {
+    static List<Location> getLocationsByCategory(String category) {
 //        System.out.println("looking for location " + id);
         List<Location> locations = getAllLocations();
         List<Location> correct = new ArrayList<>();
-        for(int i = 0; i < locations.size(); i ++)
+        for (Location location : locations)
         {
 //            System.out.println(locations.get(i).getID());
-            if(locations.get(i).getCategory() == category)
+            if (Objects.equals(location.getCategory(), category))
             {
 //                System.out.println("found");
 //                return locations.get(i);
-                correct.add(locations.get(i));
+                correct.add(location);
             }
         }
         return correct;

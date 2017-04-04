@@ -53,6 +53,7 @@ public class WelcomeScreenController implements Initializable
                                                                          catDropdown.setText(elem);
                                                                          textField.getEntries().clear();
                                                                          textField.getEntries().addAll(HospitalData.getLocationsByCategory(elem));
+                                                                         HospitalData.getLocationsByCategory(elem).forEach(System.out::println);
                                                                      });
                                                     catDropdown.getItems().add(item);
                                                 });
