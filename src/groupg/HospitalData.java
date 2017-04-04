@@ -14,7 +14,7 @@ public class HospitalData {
     private static List<String> categories = new LinkedList<>();
     private static List<Person> peopleList = new ArrayList<>();
     private static JavaDBExample dbExample;
-    private static String[] login = new String[2];
+    public static String[] login = new String[2];
 
 
     HospitalData(JavaDBExample dbExample) {
