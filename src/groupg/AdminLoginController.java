@@ -16,6 +16,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.event.MouseListener;
 
+import static groupg.ResourceManager.getInstance;
+
 /**
  * @author Ryan Benasutti
  * @since 2017-03-30
@@ -37,32 +39,45 @@ public class AdminLoginController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         errorText.setVisible(false);
-        isInactive();
-    }
+        /*
+        cancelBtn.getScene().setOnMouseMoved(event -> {
+            System.out.println("mouse event triggered");
+            inactiveTimeOut.cancel();
+            isInactive();
+        });
 
+        cancelBtn.getScene().setOnKeyPressed(event -> {
+            System.out.println("key event triggered");
+            inactiveTimeOut.cancel();
+            isInactive();
+        });
+
+        isInactive();
+        */
+    }
 
     private void isInactive()
     {
-        class ReminderTask extends TimerTask {
+        inactiveTimeOut.schedule(new TimerTask() {
             public void run() {
                 System.out.println("time is up");
                 try {
-                    ResourceManager.getInstance().loadFXMLIntoScene("/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
+                    getInstance().loadFXMLIntoScene("/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 inactiveTimeOut.cancel();
             }
-        }
-        inactiveTimeOut = new Timer();
-        inactiveTimeOut.schedule(new ReminderTask(), seconds*1000);
+        },seconds*1000);
     }
+
+
 
     public void onCancel(ActionEvent actionEvent)
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
+            getInstance().loadFXMLIntoScene("/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
         }
         catch (IOException e)
         {
@@ -89,7 +104,7 @@ public class AdminLoginController implements Initializable
 
             try
             {
-                ResourceManager.getInstance().loadFXMLIntoScene("/adminMain.fxml", "Admin Main", cancelBtn.getScene());
+                getInstance().loadFXMLIntoScene("/adminMain.fxml", "Admin Main", cancelBtn.getScene());
             }
             catch (IOException e)
             {
