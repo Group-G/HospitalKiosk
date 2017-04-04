@@ -13,79 +13,123 @@ public class Person
     private int id;
     private static int idCounter = 3004;
 
-    public Person(String name, String title, List<Integer> officeId, int id)
-    {
+    /**
+     * Constructor
+     * @param name
+     * @param title
+     * @param officeId
+     * @param id
+     */
+    public Person(String name, String title, List<Integer> officeId, int id) {
         this.name = name;
         this.title = title;
         this.officeId = officeId;
         this.id = id;
     }
 
+    /**
+     * Constructor
+     * @param name
+     * @param title
+     * @param officeId
+     */
     public Person(String name, String title, List<Integer> officeId)
     {
         this(name, title, officeId, idCounter++);
     }
 
+    /**
+     * Constructor
+     * @param id
+     * @param name
+     * @param title
+     */
     public Person(int id, String name, String title)
     {
         this(name, title, new ArrayList<>(), id);
     }
 
-    public void setPerson(String name, String title, List<Integer> officeId)
-    {
+    /**
+     * Setter of person
+     * @param name
+     * @param title
+     * @param officeId
+     */
+    public void setPerson(String name, String title, List<Integer> officeId) {
         this.name = name;
         this.title = title;
         this.officeId = officeId;
         this.id = id;
     }
 
-    public void setPerson(Person p)
-    {
+    /**
+     * Setter of person
+     * @param p
+     */
+    public void setPerson(Person p) {
         this.name = p.getName();
         this.title = p.getTitle();
         this.officeId = p.getLocations();
     }
 
+    /**
+     * getter of Name
+     * @return
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Getter of titles
+     * @return
+     */
     public String getTitle()
     {
         return title;
     }
 
-    public List<Integer> getOfficeId()
-    {
-        return officeId;
-    }
-
+    /**
+     * Getter of id
+     * @return
+     */
     public int getId()
     {
         return id;
     }
 
+    /**
+     * Getter of idCounter
+     * @return
+     */
     public static int getIdCounter()
     {
         return idCounter;
     }
 
+    /**
+     * Setter of name
+     * @param name
+     */
     public void setName(String name)
     {
         this.name = name;
     }
 
+    /**
+     * Setter of titles
+     * @param title
+     */
     public void setTitle(String title)
     {
         this.title = title;
     }
 
-    public void setOfficeId(List<Integer> officeId)
-    {
-        this.officeId = officeId;
-    }
-
+    /**
+     * Getter for all office locations
+     * @return List of office Locations
+     */
     public List<Integer> getLocations()
     {
         return officeId;
@@ -118,20 +162,32 @@ public class Person
         return result;
     }
 
+    /**
+     * Equals of Person
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o)
     {
         return o instanceof Person && ((Person)o).getId() == getId();
     }
 
+    /**
+     * To String of Person
+     * @return String
+     */
     @Override
-    public String toString()
-    {
+    public String toString() {
         if (getTitle().equals(""))
             return getName();
         return getName() + ", " + getTitle();
     }
 
+    /**
+     * Adds a location to a person
+     * @param id2 id of the location being added
+     */
     public void addLocation(int id2) {
         officeId.add(id2);
     }

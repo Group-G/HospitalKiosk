@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 /**
  * Created by  Alazar Genene, Saul Woolf, and Samantha Comeau on 4/1/17.
-
  */
 public class Building{
 
@@ -12,22 +11,40 @@ public class Building{
     private int numFloors;
     private int id;
     private String name;
-    public Building(int id, String name, int numFloors)
-    {
+
+    /**
+     * Constructor
+     * @param id Id of building
+     * @param name Name of building
+     * @param numFloors Number of floors
+     */
+    public Building(int id, String name, int numFloors) {
         this.id = id;
         this.name = name;
         this.numFloors = numFloors;
     }
 
+    /**
+     * Getter for Id
+     * @return Id of building
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Add a floor to a building
+     * @param f Floor to be added
+     */
     public void addFloor(Floor f)
     {
         floorList.add(f);
     }
 
+    /**
+     * Getter for floorList
+     * @return List of floors
+     */
     public ArrayList<Floor> getFloorList() {
         return floorList;
     }
