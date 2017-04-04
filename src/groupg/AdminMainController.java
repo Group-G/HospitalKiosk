@@ -82,17 +82,17 @@ public class AdminMainController implements Initializable
         //Collect UniqueNodes into list
         List<Location> out = new ArrayList<>();
         int numUN = 0;
-        for (int i = 0; i < nodes.size(); i++)
+        for (Shape node1 : nodes)
         {
             if (numUN >= 4)
             {
                 break;
             }
 
-            if (nodes.get(i) instanceof UniqueNode)
+            if (node1 instanceof UniqueNode)
             {
-                    out.add(((UniqueNode) nodes.get(i)).getLocation());
-                    numUN++;
+                out.add(((UniqueNode) node1).getLocation());
+                numUN++;
             }
         }
 
