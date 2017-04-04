@@ -33,7 +33,9 @@ public class AdminMainController implements Initializable
     private ResizableCanvas canvas = new ResizableCanvas(ResizableCanvas.DRAW_FLOOR_4);
     private Pane overlay;
     static ObservableList<Shape> displayedShapes = FXCollections.observableArrayList();
-    static double nodeOffset = 0;
+
+    static final int CONNECTION_BANDWITH = 10;
+    static double NODE_OFFSET = 0.0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -82,18 +84,15 @@ public class AdminMainController implements Initializable
         int numUN = 0;
         for (int i = 0; i < nodes.size(); i++)
         {
-            if (numUN > 4)
+            if (numUN >= 4)
             {
                 break;
             }
 
             if (nodes.get(i) instanceof UniqueNode)
             {
-                if (i != 0)
-                {
                     out.add(((UniqueNode) nodes.get(i)).getLocation());
                     numUN++;
-                }
             }
         }
 
@@ -103,20 +102,22 @@ public class AdminMainController implements Initializable
                                               .collect(Collectors.toList()));
 
         //Draw lines between the nodes
-        if (out.size() > 0)
-        {
-            double shortest = node.getLocation().lengthTo(out.get(0));
-            for (Location current : out)
-            {
-                if (node.getLocation().lengthTo(current) <= shortest + 10)
-                {
-                    displayedShapes.add(new Line(node.getLocation().getX() + nodeOffset,
-                                                 node.getLocation().getY() + nodeOffset,
-                                                 current.getX() + nodeOffset,
-                                                 current.getY() + nodeOffset));
-                }
-            }
-        }
+//        if (out.size() > 0)
+//        {
+//            double shortest = node.getLocation().lengthTo(out.get(0));
+//            for (Location current : out)
+//            {
+//                if (node.getLocation().lengthTo(current) <= shortest + CONNECTION_BANDWITH)
+//                {
+//                    displayedShapes.add(new Line(node.getLocation().getX() + nodeOffset,
+//                                                 node.getLocation().getY() + nodeOffset,
+//                                                 current.getX() + nodeOffset,
+//                                                 current.getY() + nodeOffset));
+//                }
+//            }
+//        }
+//
+        DrawLines.drawLinesFromLocation(out, CONNECTION_BANDWITH);
 
         return out;
     }
