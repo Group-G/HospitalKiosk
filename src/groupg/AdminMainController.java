@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class AdminMainController implements Initializable
 {
     @FXML
-    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editLocsBtn;
+    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn;
 
     @FXML
     private GridPane canvasWrapper;
@@ -159,18 +159,6 @@ public class AdminMainController implements Initializable
         try
         {
             ResourceManager.getInstance().loadFXMLIntoScene("/editPers.fxml", "Edit Personnel", editCatBtn.getScene());
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void onEditLocs(ActionEvent event)
-    {
-        try
-        {
-            ResourceManager.getInstance().loadFXMLIntoScene("/editLocs.fxml", "Edit Locations", editLocsBtn.getScene());
         }
         catch (IOException e)
         {

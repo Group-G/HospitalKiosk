@@ -28,7 +28,6 @@
             <Button fx:id="addNodeBtn" mnemonicParsing="false" onAction="#onAddNode" text="Add Node" />
             <Button fx:id="editPersBtn" mnemonicParsing="false" onAction="#onEditPers" text="Edit Personnel" />
             <Button fx:id="editCatBtn" mnemonicParsing="false" onAction="#onEditCat" text="Edit Categories" />
-            <Button fx:id="editLocsBtn" mnemonicParsing="false" onAction="#onEditLocs" text="Edit Locations" />
         </items>
       </ToolBar>
       <GridPane fx:id="canvasWrapper" layoutX="1.0" layoutY="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
