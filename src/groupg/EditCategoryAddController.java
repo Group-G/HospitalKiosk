@@ -41,8 +41,7 @@ public class EditCategoryAddController implements Initializable
 
     public void onAdd(ActionEvent event)
     {
-        //TODO: Add cat to DB
-        System.out.println("Added category: " + catNameField.getText());
+        HospitalData.addCategory(catNameField.getText());
 
         try
         {
