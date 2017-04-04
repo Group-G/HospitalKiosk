@@ -34,10 +34,12 @@ class NodeListenerFactory
                                      {
                                          node.setOnMousePressed(mousePressedHandler);
                                          node.setOnMouseDragged(mouseDraggedHandler);
-                                         node.setOnMouseReleased(event -> {
-                                             HospitalData.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
-                                             AdminMainController.drawConnections(currentSelection, AdminMainController.displayedShapes);
-                                         });
+                                         node.setOnMouseReleased(event ->
+                                                                 {
+                                                                     HospitalData.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
+                                                                     AdminMainController.drawConnections(currentSelection, AdminMainController.displayedShapes)
+                                                                                        .forEach(elem -> currentSelection.getLocation().getNeighbors().add(elem.getID()));
+                                                                 });
                                          node.setOnContextMenuRequested(showContextMenu);
                                          node.setOnMouseMoved(trackMouseCoordinates);
                                      });

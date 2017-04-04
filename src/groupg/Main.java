@@ -24,7 +24,7 @@ public class Main extends Application
     {
         Parent root = FXMLLoader.load(getClass().getResource("/welcomeScreen.fxml"));
         primaryStage.setTitle("Welcome");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene(new Scene(root, 1755, 1000));
         primaryStage.show();
         primaryStage.setOnCloseRequest(event -> HospitalData.publishDB());
     }
