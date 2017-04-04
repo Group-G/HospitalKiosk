@@ -90,11 +90,20 @@ public class Person
     {
         return officeId;
     }
-    public String getSQL()
-    {
+
+    /**
+     * Returns a string that represents it DB value
+     * @return String of DB value
+     */
+    public String getSQL() {
         //(3001, 'Dr.', 'Hunter Peterson', 1112),
         return "(" + id + ", \'" + title + "\', \'" + name + "\')";
     }
+
+    /**
+     * Returns a string that represents it DB value of the locations that people have
+     * @return String of DB value
+     */
     public List<String> getOfficesSQL(){
         //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER char(20), BUILDING_ID int, FILENAME varchar(20)
         ArrayList<String> result = new ArrayList<>();

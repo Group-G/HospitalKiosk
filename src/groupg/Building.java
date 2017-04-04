@@ -14,7 +14,6 @@ public class Building{
     private String name;
     public Building(int id, String name, int numFloors)
     {
-//        System.out.println("New Building: id=" + id + " name=" + name + " numFloor=" + numFloors);
         this.id = id;
         this.name = name;
         this.numFloors = numFloors;
@@ -32,10 +31,13 @@ public class Building{
     public ArrayList<Floor> getFloorList() {
         return floorList;
     }
+
+    /**
+     * Returns a string that represents it DB value
+     * @return String of DB value
+     */
     public String getSQL(){
-        //(BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)
         String result = "(" + id + ", \'" + name + "\'," + numFloors+ ")";
-//        System.out.println(result);
         return result;
     }
 }

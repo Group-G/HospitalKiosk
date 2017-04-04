@@ -149,11 +149,20 @@ public class Location implements Comparable
         neighbors.add(id);
     }
 
+    /**
+     * Returns a string that represents it DB value
+     * @return String of DB value
+     */
     public String getSQL(){
         String result = "(" + id + ", \'" + name + "\',\'" + category  + "\'," + floor  + "," + x + "," + y + "," + building+ ")";
 //        System.out.println(result);
         return result;
     }
+
+    /**
+     * Returns a string that represents it DB value of all connections
+     * @return String of DB value
+     */
     public List<String> getConnectionsSQL(){
         ArrayList<String> result = new ArrayList<>();
         for(int i = 0; i < neighbors.size(); i++)

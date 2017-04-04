@@ -11,8 +11,15 @@ public class Floor{
     int buildingId;
     String filename;
     String floorNumber;
-    public Floor(int floorId, int buildingId, String fileName, String floorName)
-    {
+
+    /**
+     * Constructor
+     * @param floorId  Id of this floor
+     * @param buildingId Id of building its in
+     * @param fileName name of the file
+     * @param floorName Id of floor
+     */
+    public Floor(int floorId, int buildingId, String fileName, String floorName) {
 //        System.out.println("made floor" + floorId + ", " + buildingId + ", " + fileName + ", " + floorName);
         this.id = floorId;
         this.buildingId = buildingId;
@@ -20,24 +27,44 @@ public class Floor{
         this.floorNumber = floorName;
     }
 
+    /**
+     * Getter of id
+     * @return id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Adds a location to floor
+     * @param l new Location
+     */
     public void addLocation(Location l)
     {
         floorLoc.add(l);
     }
 
+    /**
+     * Getter for floornum
+     * @return floorNum
+     */
     public String getFloorNum() {
         return floorNumber;
 
     }
 
+    /**
+     * Getter for locations
+     * @return allLocations
+     */
     public ArrayList<Location> getLocations() {
         return floorLoc;
     }
 
+    /**
+     * Returns a string that represents it DB value
+     * @return String of DB value
+     */
     public String getSQL(){
         //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER char(20), BUILDING_ID int, FILENAME varchar(20)
         String result = "(" + id + ", \'" + floorNumber + "\'," + buildingId+ ",\'" + filename+"\')";
@@ -45,6 +72,11 @@ public class Floor{
         return result;
     }
 
+    /**
+     * Removes a location based on its id
+     * @param id Id of location to be removed
+     * @return true if successfully removed
+     */
     public boolean removeLocationById(int id) {
         for(int i = 0; i < floorLoc.size(); i++)
         {
