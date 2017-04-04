@@ -34,7 +34,7 @@ public class AdminMainController implements Initializable
     private Pane overlay;
     static ObservableList<Shape> displayedShapes = FXCollections.observableArrayList();
 
-    static final int CONNECTION_BANDWITH = 20;
+    static final int CONNECTION_BANDWIDTH = 10;
     static double NODE_OFFSET = 0.0;
 
     @Override
@@ -105,7 +105,7 @@ public class AdminMainController implements Initializable
                                               .filter(elem -> !(elem instanceof Line))
                                               .collect(Collectors.toList()));
 
-        DrawLines.drawLinesFromLocation(node.getLocation(), out, CONNECTION_BANDWITH);
+        DrawLines.drawLinesFromLocation(node.getLocation(), out, CONNECTION_BANDWIDTH);
 
         return out;
     }
