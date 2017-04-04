@@ -157,36 +157,36 @@ public class JavaDBExample
             //FORMAT
 
             //(LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_ID int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)
-            stmt.execute("INSERT INTO LOCATION VALUES " +
-                    "(2001, 'A111', 'WAITING_ROOM', 1001, 1, 1, 101), " +
-                    "(2002, 'A112', 'OFFICE', 1002, 1, 3, 102), " +
-                    "(2003, 'A113', 'OFFICE', 1002, 5, 4, 102) ");
+//            stmt.execute("INSERT INTO LOCATION VALUES " +
+//                    "(2001, 'A111', 'WAITING_ROOM', 1001, 1, 1, 101), " +
+//                    "(2002, 'A112', 'OFFICE', 1002, 1, 3, 102), " +
+//                    "(2003, 'A113', 'OFFICE', 1002, 5, 4, 102) ");
 
 
             //INSERT PERSONELLE
             //FORMAT
-            //(PERSONELLE_ID int NOT NULL Primary Key, PERSONELLE_NAME varchar(20) default NULL, OFFICE_NUMBER int)
-            stmt.execute("INSERT INTO PERSONELLE VALUES " +
-
-                    "(3001, 'Dr.', 'Hunter Peterson'), " +
-                    "(3002, 'Supreme Being', 'Jeff'), " +
-                    "(3003, 'Nurse', 'Bella Bee') ");
-
-            //INSERT PEOPLELOCATIONS
-            //FORMAT
-            //(int personId int officeID)
-            stmt.execute("INSERT INTO PEOPLELOCATIONS VALUES " +
-
-                    "(3001, 2002), " +
-                    "(3002, 2003) ");
+//            //(PERSONELLE_ID int NOT NULL Primary Key, PERSONELLE_NAME varchar(20) default NULL, OFFICE_NUMBER int)
+//            stmt.execute("INSERT INTO PERSONELLE VALUES " +
+//
+//                    "(3001, 'Dr.', 'Hunter Peterson'), " +
+//                    "(3002, 'Supreme Being', 'Jeff'), " +
+//                    "(3003, 'Nurse', 'Bella Bee') ");
+//
+//            //INSERT PEOPLELOCATIONS
+//            //FORMAT
+//            //(int personId int officeID)
+//            stmt.execute("INSERT INTO PEOPLELOCATIONS VALUES " +
+//
+//                    "(3001, 2002), " +
+//                    "(3002, 2003) ");
 
             //INSERT BUILDING
             //FORMAT
             //(BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)
             stmt.execute("INSERT INTO BUILDING VALUES " +
 
-                    "(101, 'Residential Services', 1), " +
-                    "(102, 'Morgan Hall', 4) ");
+                    "(101, 'Parking Garage', 1), " +
+                    "(102, 'Faulkner Hospital', 4) ");
 
 
             //INSERT FLOOR
@@ -198,15 +198,18 @@ public class JavaDBExample
                     "(1002, '1', 102, 'B1_F1_img'), " +
                     "(1003, '2', 102, 'B1_F2_img'), " +
                     "(1004, '3', 102, 'B1_F3_img'), " +
-                    "(1005, '4', 102, 'B1_F4_img') ");
+                    "(1005, '4', 102, 'B1_F4_img'), " +
+                    "(1003, '5', 102, 'B1_F5_img'), " +
+                    "(1004, '6', 102, 'B1_F6_img'), " +
+                    "(1005, '7', 102, 'B1_F7_img') " );
 
 
 
             //INSERT CONNECTIONS
             //FORMAT
             //(LOCATION_ONE int, LOCATION_TWO int)
-            stmt.execute("INSERT INTO CONNECTIONS VALUES " +
-                    "(2001, 2002)");
+//            stmt.execute("INSERT INTO CONNECTIONS VALUES " +
+//                    "(2001, 2002)");
 
 
             //INSERT ADMIN
@@ -224,6 +227,7 @@ public class JavaDBExample
                     "('Bathroom'), " +
                     "('Hall'), " +
                     "('Waiting Area'), " +
+                    "('Kiosk'), " +
                     "('Emergency Room') ");
 
             //Print

@@ -721,8 +721,6 @@ public class HospitalData {
                     }
 //
 //                    //make building and add it
-
-
                 }
                 Person p = new Person(id, name,title);
                 peopleList.add(p);
