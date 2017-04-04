@@ -100,4 +100,9 @@ class AutoCompleteTextField<T> extends TextField
     {
         return currentSelection;
     }
+
+    void setCurrentSelection(T currentSelection)
+    {
+        this.currentSelection = currentSelection;
+    }
 }

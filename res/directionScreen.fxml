@@ -8,12 +8,12 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="610.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.DirectionScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="610.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ToolBar fx:id="toolBar" layoutY="81.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
-            <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#onCancel" text="Cancel/Back" />
-            <Button fx:id="searchBtn" mnemonicParsing="false" onAction="#onSearch" text="Search Again" />
+            <Button fx:id="cancelBtn" mnemonicParsing="false" text="Cancel/Back" />
+            <Button fx:id="searchBtn" mnemonicParsing="false" text="Search Again" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Starting Location:" textAlignment="CENTER" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Destination:" textAlignment="CENTER" />
          </items>
