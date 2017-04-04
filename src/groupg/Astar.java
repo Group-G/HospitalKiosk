@@ -1,5 +1,7 @@
 package groupg;
 
+import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
+
 import java.util.LinkedList;
 
 /**
@@ -17,6 +19,18 @@ public class Astar {
 
     //main run method adds A* path to shortestPath
     public LinkedList<Location> run(Location start, Location goal){
+        LinkedList<Location> path = new LinkedList<>();
+        try {
+            path = runAStar(start,goal);
+        } catch (NullPointerException e) {
+            //e.printStackTrace();
+            System.out.println("Cannot find Path");
+            return new LinkedList<>();
+        }
+        return path;
+    }
+
+    private LinkedList<Location> runAStar(Location start, Location goal) throws NullPointerException{
         shortestPath.clear(); //clears previous path
         start.setFcost(0+start.lengthTo(goal));
         this.open.add(start);
