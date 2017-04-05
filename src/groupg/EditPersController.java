@@ -1,7 +1,5 @@
 package groupg;
 
-import groupg.DatabaseInterface.Location;
-import groupg.DatabaseInterface.Person;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +14,7 @@ import java.util.ResourceBundle;
  * @author Ryan Benasutti
  * @since 2017-03-30
  */
-public class EditPersController implements Initializable, Controller
+public class EditPersController implements Initializable
 {
     @FXML
     private Button cancelBtn, newBtn, editBtn, deleteBtn;
@@ -26,7 +24,7 @@ public class EditPersController implements Initializable, Controller
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        persList.getItems().add(new Person("Ryan Benasutti", "Dr.", new Location("Daniels 3"))); //TODO: Fill from DB
+        persList.getItems().setAll(HospitalData.getAllPeople()); //Add all people from DB to listview
     }
 
     public void onCancel(ActionEvent actionEvent)
@@ -45,7 +43,7 @@ public class EditPersController implements Initializable, Controller
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/editCategoryAdd.fxml", "Add New Category", newBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/editPersAdd.fxml", "Add New Person", newBtn.getScene());
         }
         catch (IOException e)
         {
@@ -55,8 +53,11 @@ public class EditPersController implements Initializable, Controller
 
     public void onDelete(ActionEvent actionEvent)
     {
-        //TODO: Remove cat from DB
-        persList.getItems().remove(persList.getSelectionModel().getSelectedItem());
+        if (persList.getSelectionModel().getSelectedItem() != null)
+        {
+            HospitalData.removePersonById(persList.getSelectionModel().getSelectedItem().getId());
+            persList.getItems().remove(persList.getSelectionModel().getSelectedIndex());
+        }
     }
 
     public void onEdit(ActionEvent event)

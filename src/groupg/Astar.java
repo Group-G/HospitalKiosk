@@ -11,18 +11,43 @@ public class Astar {
     LinkedList<Location> locations;  //list of all nodes for the search
     LinkedList<Location> shortestPath = new LinkedList<>();  //the shortest path from start to finish
 
-    Astar(LinkedList<Location> loc){
+    public Astar(LinkedList<Location> loc){
         this.locations = loc;
     }  //adds all nodes to locations
 
-    //main run method adds A* path to shortestPath
-    public void run(Location start, Location goal){
+    /**
+     * gets a LinkedList of shortest path or an empty list if there is an error
+     * @param start starting location
+     * @param goal ending location
+     * @return LinkedList of shortest path or an empty list if there is an error
+     */
+    public LinkedList<Location> run(Location start, Location goal){
+        LinkedList<Location> path = new LinkedList<>();
+        try {
+            path = runAStar(start,goal);
+        } catch (NullPointerException e) {
+            //e.printStackTrace();
+            System.out.println("Cannot find Path");
+            return new LinkedList<>();
+        }
+        return path;
+    }
+
+    /**
+     * returns shortest path between two points
+     * @param start starting location
+     * @param goal ending location
+     * @return Linkedlist of the shortest path starting with the start location
+     * @throws NullPointerException if a location has no neighbors (should never happen)
+     */
+    private LinkedList<Location> runAStar(Location start, Location goal) throws NullPointerException{
+        shortestPath.clear(); //clears previous path
         start.setFcost(0+start.lengthTo(goal));
-        open.add(start);
+        this.open.add(start);
         do{
             Location current = lowestF(open);
             closed.add(current);
-            open.remove(current);
+            this.open.remove(current);
             if(closed.contains(goal)){
                 break;
             }
@@ -55,9 +80,14 @@ public class Astar {
             itr = itr.getParent();
         }
         shortestPath.addFirst(start); //adds start to beginning of path
+        return shortestPath;
     }
 
-    //gets location with lowest score
+    /**
+     * gets location with the lowest score out of a list
+     * @param set list of locations
+     * @return Location with the lowest fcost
+     */
     public Location lowestF(LinkedList<Location> set){
         double bestScore = Double.MAX_VALUE;
         double currentScore;
@@ -72,7 +102,11 @@ public class Astar {
         return low;
     }
 
-    //returns all neighbors of node
+    /**
+     * function that gets all of the neighbors of a specific node
+     * @param loc a location
+     * @return All the neighbors of the given location
+     */
     public LinkedList<Location> getNeighbors(Location loc){
         LinkedList<Location> neigh = new LinkedList<>();
         for (Integer id:loc.getNeighbors()){
@@ -81,7 +115,11 @@ public class Astar {
         return neigh;
     }
 
-    //returns location with the given ID
+    /**
+     * getLocation returns the location for the specified ID
+     * @param id the id number of a specific location
+     * @return the Location with the given ID
+     */
     private Location getLocation(Integer id){
         Location idLoc = null;
         for (Location l:locations) {
@@ -92,7 +130,13 @@ public class Astar {
         return idLoc;
     }
 
-    //computes fCost for the current location given start and end
+    /**
+     * computes the fcost of the current location given the start and end
+     * @param curr current location
+     * @param strt start location
+     * @param end end location
+     * @return
+     */
     private double computeScore(Location curr, Location strt, Location end){
         double hscore = curr.lengthTo(end);
         double gscore = 0;

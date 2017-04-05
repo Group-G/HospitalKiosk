@@ -1,6 +1,5 @@
 package groupg;
 
-import groupg.DatabaseInterface.Person;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,25 +13,26 @@ import javafx.scene.layout.HBox;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-class EditPersFineController implements Initializable, Controller
+class EditPersFineController implements Initializable
 {
     @FXML
     private TextField nameField, titleField;
     @FXML
     private Button cancelBtn, confirmBtn, addLocBtn;
     @FXML
-    private ListView<String> locList;
+    private ListView<Location> locList;
     @FXML
     private HBox locHBox;
 
     private Person pers;
-    private AutoCompleteTextField locField;
-    private Set<String> possibleLocs = new HashSet<>();
+    private AutoCompleteTextField<Location> locField = new AutoCompleteTextField<>();
+    private Set<Location> possibleLocs = new HashSet<>();
 
     EditPersFineController(Person pers)
     {
@@ -44,46 +44,68 @@ class EditPersFineController implements Initializable, Controller
     {
         nameField.setText(pers.getName());
         titleField.setText(pers.getTitle());
-        locList.getItems().setAll(pers.getLocationsAsStrings());
-
-        locField = new AutoCompleteTextField();
+        locList.getItems().setAll(pers.getLocations().stream()
+                                      .map(HospitalData::getLocationById)
+                                      .collect(Collectors.toList())); //Add person's locs from DB
         locField.setMinWidth(200);
         locField.setPromptText("Location");
-        possibleLocs.add("TEST 1"); //TODO: Populate this from DB
+        possibleLocs.addAll(HospitalData.getAllLocations()); //Grab all locs from DB
         locField.getEntries().addAll(possibleLocs);
         ObservableList<Node> children = FXCollections.observableArrayList(locHBox.getChildren());
         children.add(locField);
-        Collections.swap(children, 0, 1);
         locHBox.getChildren().setAll(children);
 
-        cancelBtn.setOnAction(event -> {
-            try
-            {
-                ResourceManager.getInstance().loadFXMLIntoScene("/editPers.fxml", "Edit Personnel", cancelBtn.getScene());
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-        });
+        cancelBtn.setOnAction(event ->
+                              {
+                                  try
+                                  {
+                                      ResourceManager.getInstance().loadFXMLIntoScene("/editPers.fxml", "Edit Personnel", cancelBtn.getScene());
+                                  }
+                                  catch (IOException e)
+                                  {
+                                      e.printStackTrace();
+                                  }
+                              });
 
-        confirmBtn.setOnAction(event -> {
-            try
-            {
-                //TODO: Push data to DB
-                ResourceManager.getInstance().loadFXMLIntoScene("/editPers.fxml", "Edit Personnel", confirmBtn.getScene());
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-        });
+        confirmBtn.setOnAction(event ->
+                               {
+                                   try
+                                   {
+                                       ResourceManager.getInstance().loadFXMLIntoScene("/editPers.fxml", "Edit Personnel", confirmBtn.getScene());
+                                       List<Location> locations = new ArrayList<>();
+                                       locations.addAll(locList.getItems());
+                                       HospitalData.setPerson(pers.getId(),
+                                                              new Person(nameField.getText(),
+                                                                         titleField.getText(),
+                                                                         locations.stream()
+                                                                                  .map(Location::getID)
+                                                                                  .collect(Collectors.toList()), 0));
+                                   }
+                                   catch (IOException e)
+                                   {
+                                       e.printStackTrace();
+                                   }
+                               });
 
-        addLocBtn.setOnAction(event -> {
-            if (!locList.getItems().contains(locField.getText()) && possibleLocs.contains(locField.getText()))
-            {
-                locList.getItems().add(locField.getText()); //TODO: Update locs for this person in DB
-            }
-        });
+        addLocBtn.setOnAction(event ->
+                              {
+                                  if (!locList.getItems()
+                                              .stream()
+                                              .map(Location::getName)
+                                              .collect(Collectors.toList())
+                                              .contains(locField.getText()) &&
+                                      possibleLocs.stream()
+                                                  .map(Location::getName)
+                                                  .collect(Collectors.toList())
+                                                  .contains(locField.getText()))
+                                  {
+                                      locList.getItems().add(locField.getCurrentSelection());
+                                  }
+                              });
+    }
+
+    void setPerson(Person p)
+    {
+        this.pers = p;
     }
 }

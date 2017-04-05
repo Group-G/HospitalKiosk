@@ -1,17 +1,15 @@
 package groupg;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,6 +25,7 @@ class NodeListenerFactory
 
     /**
      * Makes Nodes draggable and clickable with a mouse listener
+     *
      * @param nodes Nodes to make draggable
      */
     static void makeDraggable(UniqueNode... nodes)
@@ -35,9 +34,14 @@ class NodeListenerFactory
                                      {
                                          node.setOnMousePressed(mousePressedHandler);
                                          node.setOnMouseDragged(mouseDraggedHandler);
+                                         node.setOnMouseReleased(event ->
+                                                                 {
+//                                                                     HospitalData.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
+                                                                     AdminMainController.drawConnections(currentSelection, AdminMainController.displayedShapes);
+                                                                     HospitalData.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
+                                                                 });
                                          node.setOnContextMenuRequested(showContextMenu);
                                          node.setOnMouseMoved(trackMouseCoordinates);
-                                         node.setOnMouseReleased(mouseDragReleaseHandler);
                                      });
     }
 
@@ -48,29 +52,36 @@ class NodeListenerFactory
         {
             final ContextMenu contextMenu = new ContextMenu();
 
-            Menu changeType = new Menu("Change Type");
-            ObservableList<MenuItem> types = FXCollections.observableArrayList();
-            List<String> tempStringsFromDB = new ArrayList<>(); //TODO: Grab items from DB
-            tempStringsFromDB.add("Type 1");
-            tempStringsFromDB.add("Type 2");
-            tempStringsFromDB.forEach(s -> {
-                MenuItem item = new MenuItem(s);
-                item.setOnAction(e ->
-                                 {
-                                     System.out.println("Changed type for node " + currentSelection.getID() + " to " + s);
-                                 });
-                changeType.getItems().add(item);
-            });
-            changeType.getItems().addAll(types);
+            MenuItem changeName = new MenuItem("Change Name");
+            changeName.setOnAction(s ->
+                                   {
+                                       TextInputDialog dialog = new TextInputDialog(currentSelection.getLocation().getName());
+                                       dialog.setTitle("Change Name");
+                                       dialog.setGraphic(null);
+                                       dialog.setHeaderText("Change Name");
+                                       dialog.setContentText("Please enter a new name:");
+                                       dialog.showAndWait()
+                                             .filter(result -> !result.equals(""))
+                                             .ifPresent(result -> currentSelection.getLocation().setName(result));
+                                   });
 
-            MenuItem changeCat = new MenuItem("Change Category");
+            Menu changeCat = new Menu("Change Category");
+            List<String> catsFromDB = HospitalData.getAllCategories();
+            catsFromDB.forEach(s ->
+                               {
+                                   MenuItem item = new MenuItem(s);
+                                   item.setOnAction(e -> currentSelection.getLocation().setCategory(s));
+                                   changeCat.getItems().add(item);
+                               });
+
             MenuItem remove = new MenuItem("Remove Node");
-            remove.setOnAction(event1 -> {
-                AdminMainController.displayedShapes.remove(currentSelection);
-                System.out.println("Removed node with ID: " + currentSelection.getID());
-            });
+            remove.setOnAction(event1 ->
+                               {
+                                   HospitalData.removeLocationById(currentSelection.getLocation().getID());
+                                   AdminMainController.displayedShapes.remove(currentSelection);
+                               });
 
-            contextMenu.getItems().addAll(changeType, changeCat, remove);
+            contextMenu.getItems().addAll(changeCat, changeName, remove);
 
             contextMenu.show(currentSelection, mouseX, mouseY);
         }
@@ -135,25 +146,14 @@ class NodeListenerFactory
                 UniqueNode p = ((UniqueNode) (t.getSource()));
                 p.setCenterX(newTranslateX);
                 p.setCenterY(newTranslateY);
+                p.getLocation().setX((int) newTranslateX);
+                p.getLocation().setY((int) newTranslateY);
             }
             else
             {
                 Node p = ((Node) (t.getSource()));
                 p.setTranslateX(newTranslateX);
                 p.setTranslateY(newTranslateY);
-            }
-        }
-    };
-
-    private static EventHandler<MouseEvent> mouseDragReleaseHandler = new EventHandler<MouseEvent>()
-    {
-        @Override
-        public void handle(MouseEvent t)
-        {
-            if (t.getSource() instanceof UniqueNode)
-            {
-                UniqueNode p = ((UniqueNode) (t.getSource()));
-                AdminMainController.displayedShapes.addAll(PathDrawer.getLinesForNode(p));
             }
         }
     };

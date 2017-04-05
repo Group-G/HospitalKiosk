@@ -2,21 +2,30 @@ package groupg;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-public class EditCategoryAddController implements Controller
+public class EditCategoryAddController implements Initializable
 {
     @FXML
     private Button cancelBtn, addBtn;
     @FXML
     private TextField catNameField;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
+
+    }
 
     public void onCancel(ActionEvent event)
     {
@@ -32,8 +41,7 @@ public class EditCategoryAddController implements Controller
 
     public void onAdd(ActionEvent event)
     {
-        //TODO: Add cat to DB
-        System.out.println("Added category: " + catNameField.getText());
+        HospitalData.addCategory(catNameField.getText());
 
         try
         {

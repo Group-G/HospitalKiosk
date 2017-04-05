@@ -11,19 +11,29 @@ import java.util.Objects;
  */
 class UniqueNode extends Circle
 {
-    private Integer ID;
     private LinkedList<UniqueNode> neighbors;
+    private Location location;
 
-    UniqueNode(double radius, Integer ID)
+    UniqueNode(double radius, Location location, LinkedList<UniqueNode> neighbors)
     {
         super(radius);
-        this.ID = ID; //TODO: Make this unique
-        neighbors = new LinkedList<>();
+        this.location = location;
+        this.neighbors = neighbors;
     }
 
-    Integer getID()
+    UniqueNode(double radius, Location location)
     {
-        return ID;
+        this(radius, location, new LinkedList<>());
+    }
+
+    public Location getLocation()
+    {
+        return location;
+    }
+
+    public void setLocation(Location location)
+    {
+        this.location = location;
     }
 
     public LinkedList<UniqueNode> getNeighbors()
@@ -34,6 +44,6 @@ class UniqueNode extends Circle
     @Override
     public boolean equals(Object obj)
     {
-        return obj instanceof UniqueNode && Objects.equals(getID(), ((UniqueNode) obj).getID());
+        return obj instanceof UniqueNode && Objects.equals(getLocation().getID(), ((UniqueNode) obj).getLocation().getID());
     }
 }

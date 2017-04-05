@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
  * @author Ryan Benasutti
  * @since 2017-03-30
  */
-public class EditCategoryController implements Initializable, Controller
+public class EditCategoryController implements Initializable
 {
     @FXML
     private Button cancelBtn, newBtn, deleteBtn;
@@ -29,9 +29,7 @@ public class EditCategoryController implements Initializable, Controller
     public void initialize(URL location, ResourceBundle resources)
     {
         cats.clear();
-        cats.add("Test cat 1");
-        cats.add("Test cat 2");
-        catList.getItems().setAll(cats); //TODO: Get cats from DB
+        catList.getItems().setAll(HospitalData.getAllCategories());
     }
 
     public void onCancel(ActionEvent actionEvent)
@@ -60,7 +58,7 @@ public class EditCategoryController implements Initializable, Controller
 
     public void onDelete(ActionEvent actionEvent)
     {
-        //TODO: Remove cat from DB
+        HospitalData.removeCategory(catList.getSelectionModel().getSelectedItem());
         catList.getItems().remove(catList.getSelectionModel().getSelectedItem());
     }
 }

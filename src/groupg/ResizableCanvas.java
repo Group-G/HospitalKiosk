@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
  */
 class ResizableCanvas extends Pane
 {
-    static final int EDIT_NODES_CANVAS = 1;
+    static final int DRAW_FLOOR_4 = 1;
 
     private final int id;
     private final Canvas canvas = new Canvas();
@@ -51,7 +51,7 @@ class ResizableCanvas extends Pane
 
             switch (id)
             {
-                case EDIT_NODES_CANVAS:
+                case DRAW_FLOOR_4:
                     gc.drawImage(new Image("/faulkner_4_cropped.png", w, h, false, true), 0, 0);
                     break;
             }

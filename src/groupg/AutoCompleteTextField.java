@@ -16,10 +16,11 @@ import java.util.stream.Collectors;
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-class AutoCompleteTextField extends TextField
+class AutoCompleteTextField<T> extends TextField
 {
-    private final SortedSet<String> entries;
+    private final SortedSet<T> entries;
     private ContextMenu entriesPopup;
+    private T currentSelection = null;
 
     AutoCompleteTextField()
     {
@@ -37,9 +38,9 @@ class AutoCompleteTextField extends TextField
                                        {
                                            if (entries.size() > 0)
                                            {
-                                               LinkedList<String> searchResult = new LinkedList<>();
+                                               LinkedList<T> searchResult = new LinkedList<>();
                                                searchResult.addAll(entries.stream()
-                                                                          .filter(e -> e.toLowerCase().contains(getText().toLowerCase()))
+                                                                          .filter(e -> e.toString().toLowerCase().contains(getText().toLowerCase()))
                                                                           .collect(Collectors.toList()));
 
                                                populatePopup(searchResult);
@@ -64,21 +65,23 @@ class AutoCompleteTextField extends TextField
      *
      * @param searchResult The set of matching strings.
      */
-    private void populatePopup(List<String> searchResult)
+    private void populatePopup(List<T> searchResult)
     {
         List<CustomMenuItem> menuItems = new LinkedList<>();
 
         int count = Math.min(searchResult.size(), 10);
         for (int i = 0; i < count; i++)
         {
-            String result = searchResult.get(i);
+            final T current = searchResult.get(i);
+            String result = current.toString();
             Label entryLabel = new Label(result);
 
             CustomMenuItem item = new CustomMenuItem(entryLabel, true);
             item.setOnAction(actionEvent ->
                              {
-                                 setText(result);
+                                 this.setText(result);
                                  entriesPopup.hide();
+                                 currentSelection = current;
                              });
 
             menuItems.add(item);
@@ -88,8 +91,18 @@ class AutoCompleteTextField extends TextField
         entriesPopup.getItems().addAll(menuItems);
     }
 
-    SortedSet<String> getEntries()
+    SortedSet<T> getEntries()
     {
         return entries;
+    }
+
+    T getCurrentSelection()
+    {
+        return currentSelection;
+    }
+
+    void setCurrentSelection(T currentSelection)
+    {
+        this.currentSelection = currentSelection;
     }
 }
