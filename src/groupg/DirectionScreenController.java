@@ -68,6 +68,11 @@ public class DirectionScreenController implements Initializable
                                         canvasWrapper.add(overlay, 0, 0);
                                     });
 
+        ObservableList<Node> children = FXCollections.observableArrayList(toolBar.getItems());
+        children.addAll(startLocField, destField);
+        Collections.swap(children, 3, 4);
+        toolBar.getItems().setAll(children);
+
         canvasWrapper.add(canvas, 0, 0);
         canvasWrapper.add(overlay, 0, 0);
 
@@ -101,11 +106,6 @@ public class DirectionScreenController implements Initializable
         destField.setCurrentSelection(destination);
         destField.setText(destination.getName());
         destField.getEntries().addAll(locations);
-
-        ObservableList<Node> children = FXCollections.observableArrayList(toolBar.getItems());
-        children.addAll(startLocField, destField);
-        Collections.swap(children, 3, 4);
-        toolBar.getItems().setAll(children);
     }
 
     private void generateTextDirections(LinkedList<Location> locations)
