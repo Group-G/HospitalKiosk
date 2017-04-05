@@ -17,7 +17,6 @@ public class Location implements Comparable
     private double x, y, fcost;
     private float weight;
     private int id, floor, building;
-    private static int idCounter = 2004;
     private String name, category;
     private LinkedList<Integer> neighbors = new LinkedList<>();
     private Location parent;
@@ -32,7 +31,8 @@ public class Location implements Comparable
         this.weight = weight;
         this.floor = floor;
         this.building = building;
-        this.id = ID;
+        this.id = HospitalData.getNewLocationID();
+//        System.out.println("made location" + ID);
     }
 
     public Location(String name, double x, double y, String category, float weight, int ID, int floor, int building)
@@ -42,7 +42,7 @@ public class Location implements Comparable
 
     public Location(String name, double x, double y, String category, int floor, int building)
     {
-        this(name, x, y, category, 0, idCounter++, floor, building);
+        this(name, x, y, category, 0, 0, floor, building);
     }
 
     public Location(double x, double y, int floor, int building)
@@ -135,6 +135,13 @@ public class Location implements Comparable
     void setY(int y)
     {
         this.y = y;
+        this.category = category;
+        this.weight = weight;
+        this.floor = floor;
+        this.building = building;
+        //this.id = ID;  //commented out in order to test the generation of a new id
+        this.id = HospitalData.getNewLocationID();
+//        System.out.println("made location" + ID);
     }
 
     public void setID(int ID)

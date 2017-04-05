@@ -1,5 +1,6 @@
 package groupg;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 
 import java.util.*;
@@ -15,6 +16,19 @@ public class HospitalData {
     private static List<Person> peopleList = new ArrayList<>();
     private static JavaDBExample dbExample;
     public static String[] login = new String[2];
+
+    //Values for TRACKIDS
+    public static int LOCATION_NEW;
+    public static int PERSONELLE_NEW;
+    public static int BUILDING_NEW;
+    public static int FLOOR_NEW;
+
+        /*
+         * 0: Location 2000+
+         * 1: Personelle 3000+ //change this in future in case there are a ton of location nodes
+         * 2: Building 100+
+         * 3: Floor 1000+
+         */
 
 
     HospitalData(JavaDBExample dbExample) {
@@ -54,7 +68,9 @@ public class HospitalData {
                     if(pullConnections(stmt)){
                         if(pullOffices(stmt)) {
                             if(pullCategories(stmt)) {
-                                return true;
+                                if(pullIDS(stmt)){
+                                    return true;
+                                }
                             }
                         }
                     }
@@ -167,11 +183,14 @@ public class HospitalData {
         }
         System.out.println("Categories: " + cat);
 
+        String trackids = "("+ LOCATION_NEW + ", " + PERSONELLE_NEW + ", " + BUILDING_NEW + ", " + FLOOR_NEW + ")";
+        System.out.println("Track IDS: " + trackids);
+
         String admins = "(\'admin\', \'guest\')";
         System.out.println("Admins: " + admins);
 
         dbExample.createTables();
-        dbExample.fillTable( locations, people, offices, floors, building, connections, admins,  cat);
+        dbExample.fillTable( locations, people, offices, floors, building, connections, admins,  cat, trackids);
         return true;
     }
 
@@ -517,7 +536,22 @@ public class HospitalData {
         return false;
     }
 
+    /*
 
+     */
+    public static int getNewLocationID(){
+        // get it from the table
+        int id = LOCATION_NEW;
+
+        // update it (increment by 1) for the next location
+        LOCATION_NEW = id + 1;
+
+        //testing
+        //System.out.println("GET NEW LOCATION ID IS GETTING VALUE : " + id);
+
+        // return the id
+        return id;
+    }
 
 
     /***************************************************************************/
@@ -836,6 +870,48 @@ public class HospitalData {
         {
 
             System.out.println("Failed to pull connections");
+
+            return false;
+        }
+    }
+
+
+    /**
+     * pullIDS
+     * @param stmt SQL Statement
+     * @return Whether the pull had any errors
+     */
+    private boolean pullIDS(Statement stmt) {
+        try {
+            ResultSet cats = stmt.executeQuery("SELECT * FROM TRACKID");
+            ResultSetMetaData Dataset = cats.getMetaData();
+            int Columns = Dataset.getColumnCount();
+
+
+            while (cats.next()) {
+                for (int j = 1; j <= Columns; j++) {
+                    if(Dataset.getColumnName(j).equals("NEW_LOCATION")){
+                        LOCATION_NEW = Integer.parseInt(cats.getString(j));
+                    } else if(Dataset.getColumnName(j).equals("NEW_PERSONELLE")){
+                        PERSONELLE_NEW = Integer.parseInt(cats.getString(j));
+                    } else if(Dataset.getColumnName(j).equals("NEW_BUILDING")){
+                        BUILDING_NEW = Integer.parseInt(cats.getString(j));
+                    } else if(Dataset.getColumnName(j).equals("NEW_FLOOR")){
+                        FLOOR_NEW = Integer.parseInt(cats.getString(j));
+                    } else {
+                        //wut
+                    }
+                    //IF NEEDED TEST THAT THE IDS ARE GETTING PULLED CORRECTLY HERE
+                    //System.out.println("PULLED VALUE : " + Integer.parseInt(cats.getString(j)));
+                }
+
+            }
+            return true;
+        }
+        catch (SQLException e)
+        {
+
+            System.out.println("Failed to pull ids");
 
             return false;
         }
