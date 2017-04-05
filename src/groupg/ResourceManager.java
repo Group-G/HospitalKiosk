@@ -9,6 +9,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 
 /**
  * Created by ryan on 3/31/17.
@@ -24,6 +25,30 @@ class ResourceManager
 
     private ResourceManager()
     {
+    }
+
+    /**
+     * Loads an FXML file into a Scene
+     *
+     * @param fileName Relative path for FXML file
+     * @param title    Title for Scene
+     * @param scene    Scene to load into
+     * @throws IOException FXMLLoader.load may fail to retrieve file
+     * @throws NullPointerException FXMLLoader.load may fail to retrieve file
+     */
+    <T> T loadFXMLIntoScene(String fileName, String title, Scene scene, Consumer<T> consumer) throws IOException, NullPointerException
+    {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
+        Parent root = loader.load();
+        Platform.runLater(() ->
+                          {
+                              Stage stage = (Stage) scene.getWindow();
+                              stage.setTitle(title);
+                              stage.setScene(new Scene(root, scene.getWidth(), scene.getHeight()));
+                              stage.show();
+                          });
+        consumer.accept(loader.getController());
+        return loader.getController();
     }
 
     /**

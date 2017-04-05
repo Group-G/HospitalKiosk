@@ -65,8 +65,17 @@ public class EditPersController implements Initializable
         Person out = persList.getSelectionModel().getSelectedItem();
         if (out != null)
         {
-            EditPersFineController controller = new EditPersFineController(persList.getSelectionModel().getSelectedItem());
-            ResourceManager.getInstance().loadFXMLIntoSceneWithController("/editPersFine.fxml", "Edit Person", editBtn.getScene(), controller);
+            try
+            {
+                ResourceManager.getInstance()
+                        .<EditPersFineController>loadFXMLIntoScene("/editPersFine.fxml", "Edit Person",
+                                                                   editBtn.getScene(),
+                                                                   (controllerIn) -> controllerIn.setPerson(out));
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 }
