@@ -38,7 +38,8 @@ class ResourceManager
      */
     <T> T loadFXMLIntoScene(String fileName, String title, Scene scene, Consumer<T> consumer) throws IOException, NullPointerException
     {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
+        FXMLLoader loader = new FXMLLoader(ResourceManager.getInstance().getClass().getResource(fileName));
+//        loader.setClassLoader(T.class.getClassLoader());
         Parent root = loader.load();
         Platform.runLater(() ->
                           {
