@@ -101,6 +101,29 @@ class AutoCompleteTextField<T> extends TextField
         return currentSelection;
     }
 
+    String getCurrentSelectionString()
+    {
+        if (currentSelection == null)
+        {
+            String out = "";
+
+            for (Location elem : HospitalData.getAllLocations())
+            {
+                if (elem.toString().equals(getText()))
+                {
+                    out = elem.toString();
+                    break;
+                }
+            }
+
+            return out;
+        }
+        else
+        {
+            return currentSelection.toString();
+        }
+    }
+
     void setCurrentSelection(T currentSelection)
     {
         this.currentSelection = currentSelection;
