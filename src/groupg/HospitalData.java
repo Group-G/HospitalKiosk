@@ -12,7 +12,6 @@ import java.util.Objects;
 public class HospitalData {
 
     private static List<Building> buildingsList = new LinkedList<>();
-
     private static List<String> categories = new LinkedList<>();
     private static List<Person> peopleList = new ArrayList<>();
     private static JavaDBExample dbExample;
