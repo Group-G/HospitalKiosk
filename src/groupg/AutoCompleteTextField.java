@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-class AutoCompleteTextField<T> extends TextField
+class AutoCompleteTextField extends TextField
 {
-    private final SortedSet<T> entries;
+    private final SortedSet<Location> entries;
     private ContextMenu entriesPopup;
-    private T currentSelection = null;
+    private Location currentSelection = null;
 
     AutoCompleteTextField()
     {
@@ -38,7 +38,7 @@ class AutoCompleteTextField<T> extends TextField
                                        {
                                            if (entries.size() > 0)
                                            {
-                                               LinkedList<T> searchResult = new LinkedList<>();
+                                               LinkedList<Location> searchResult = new LinkedList<>();
                                                searchResult.addAll(entries.stream()
                                                                           .filter(e -> e.toString().toLowerCase().contains(getText().toLowerCase()))
                                                                           .collect(Collectors.toList()));
@@ -65,14 +65,14 @@ class AutoCompleteTextField<T> extends TextField
      *
      * @param searchResult The set of matching strings.
      */
-    private void populatePopup(List<T> searchResult)
+    private void populatePopup(List<Location> searchResult)
     {
         List<CustomMenuItem> menuItems = new LinkedList<>();
 
         int count = Math.min(searchResult.size(), 10);
         for (int i = 0; i < count; i++)
         {
-            final T current = searchResult.get(i);
+            final Location current = searchResult.get(i);
             String result = current.toString();
             Label entryLabel = new Label(result);
 
@@ -91,40 +91,33 @@ class AutoCompleteTextField<T> extends TextField
         entriesPopup.getItems().addAll(menuItems);
     }
 
-    SortedSet<T> getEntries()
+    SortedSet<Location> getEntries()
     {
         return entries;
     }
 
-    T getCurrentSelection()
-    {
-        return currentSelection;
-    }
-
-    String getCurrentSelectionString()
+    Location getCurrentSelection()
     {
         if (currentSelection == null)
         {
-            String out = "";
+            Location out = null;
 
             for (Location elem : HospitalData.getAllLocations())
             {
                 if (elem.toString().equals(getText()))
                 {
-                    out = elem.toString();
+                    out = elem;
                     break;
                 }
             }
 
             return out;
         }
-        else
-        {
-            return currentSelection.toString();
-        }
+
+        return currentSelection;
     }
 
-    void setCurrentSelection(T currentSelection)
+    void setCurrentSelection(Location currentSelection)
     {
         this.currentSelection = currentSelection;
     }
