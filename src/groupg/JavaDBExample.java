@@ -246,7 +246,7 @@ public class JavaDBExample
             //FORMAT
             //(NEW_LOCATION int, NEW_PERSONELLE int, NEW_BUILDING int, NEW_FLOOR int")
             stmt.execute("INSERT INTO TRACKID VALUES " +
-                    "(2004, 3004, 103, 1006) ");
+                    "(1, 3004, 103, 1006) ");
 
 
             //Print

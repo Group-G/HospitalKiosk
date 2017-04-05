@@ -31,8 +31,7 @@ public class Location implements Comparable
         this.weight = weight;
         this.floor = floor;
         this.building = building;
-        this.id = HospitalData.getNewLocationID();
-//        System.out.println("made location" + ID);
+        this.id = ID;
     }
 
     public Location(String name, double x, double y, String category, float weight, int ID, int floor, int building)
@@ -42,7 +41,7 @@ public class Location implements Comparable
 
     public Location(String name, double x, double y, String category, int floor, int building)
     {
-        this(name, x, y, category, 0, 0, floor, building);
+        this(name, x, y, category, 0, HospitalData.getNewLocationID(), floor, building);
     }
 
     public Location(double x, double y, int floor, int building)
@@ -139,9 +138,7 @@ public class Location implements Comparable
         this.weight = weight;
         this.floor = floor;
         this.building = building;
-        //this.id = ID;  //commented out in order to test the generation of a new id
         this.id = HospitalData.getNewLocationID();
-//        System.out.println("made location" + ID);
     }
 
     public void setID(int ID)

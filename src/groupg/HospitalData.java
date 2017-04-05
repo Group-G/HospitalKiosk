@@ -1,9 +1,10 @@
 package groupg;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by  Alazar Genene, Saul Woolf, and Samantha Comeau on 4/1/17.
@@ -540,17 +541,7 @@ public class HospitalData {
 
      */
     public static int getNewLocationID(){
-        // get it from the table
-        int id = LOCATION_NEW;
-
-        // update it (increment by 1) for the next location
-        LOCATION_NEW = id + 1;
-
-        //testing
-        //System.out.println("GET NEW LOCATION ID IS GETTING VALUE : " + id);
-
-        // return the id
-        return id;
+        return ++LOCATION_NEW;
     }
 
 
