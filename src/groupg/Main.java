@@ -45,7 +45,7 @@ public class Main extends Application
         }
 
         h = new HospitalData(dbExample);
-        HospitalData.publishDB();
+//        HospitalData.publishDB();
 
         launch(args);
     }
