@@ -17,7 +17,6 @@ public class Location implements Comparable
     private double x, y, fcost;
     private float weight;
     private int id, floor, building;
-    private static int idCounter = 2004;
     private String name, category;
     private LinkedList<Integer> neighbors = new LinkedList<>();
     private Location parent;
@@ -42,7 +41,7 @@ public class Location implements Comparable
 
     public Location(String name, double x, double y, String category, int floor, int building)
     {
-        this(name, x, y, category, 0, idCounter++, floor, building);
+        this(name, x, y, category, 0, HospitalData.getNewLocationID(), floor, building);
     }
 
     public Location(double x, double y, int floor, int building)

@@ -117,6 +117,15 @@ public class JavaDBExample
                 System.out.println("Could not drop category.");
                 //e.printStackTrace();
             }
+
+            try {
+                stmt.execute("DROP TABLE TRACKID");
+            }
+            catch (SQLException e)
+            {
+                System.out.println("Could not drop track ids.");
+                //e.printStackTrace();
+            }
             //END DROP TABLES
 
             //CREATE TABLES
@@ -124,12 +133,15 @@ public class JavaDBExample
             stmt.execute("CREATE TABLE LOCATION (LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_ID int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)");
             stmt.execute("CREATE TABLE PERSONELLE (PERSONELLE_ID int NOT NULL Primary Key, TITLE varchar(20) default NULL, PERSONELLE_NAME varchar(20) default NULL)");
             stmt.execute("CREATE TABLE BUILDING (BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)");
-            stmt.execute("CREATE TABLE FLOOR(FLOOR_ID int NOT NULL, FLOOR_NUMBER char(20), BUILDING_ID int, FILENAME varchar(20))");
+            stmt.execute("CREATE TABLE FLOOR (FLOOR_ID int NOT NULL, FLOOR_NUMBER char(20), BUILDING_ID int, FILENAME varchar(20))");
 
             stmt.execute("CREATE TABLE CONNECTIONS(LOCATION_ONE int, LOCATION_TWO int)");
             stmt.execute("CREATE TABLE PEOPLELOCATIONS(PERSON_ID int, OFFICE_ID int)");
             stmt.execute("CREATE TABLE ADMIN(ADMIN_UN char(20) NOT NULL Primary Key, ADMIN_PW char(20))");
             stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(20))");
+
+            //track id will return the newest id that can be used then
+            stmt.execute("CREATE TABLE TRACKID(NEW_LOCATION int, NEW_PERSONELLE int, NEW_BUILDING int, NEW_FLOOR int)");
             //END CREATE TABLES
 
 //            System.out.println("Tables created!");
@@ -199,9 +211,9 @@ public class JavaDBExample
                     "(1003, '2', 102, 'B1_F2_img'), " +
                     "(1004, '3', 102, 'B1_F3_img'), " +
                     "(1005, '4', 102, 'B1_F4_img'), " +
-                    "(1003, '5', 102, 'B1_F5_img'), " +
-                    "(1004, '6', 102, 'B1_F6_img'), " +
-                    "(1005, '7', 102, 'B1_F7_img') " );
+                    "(1006, '5', 102, 'B1_F5_img'), " +
+                    "(1007, '6', 102, 'B1_F6_img'), " +
+                    "(1008, '7', 102, 'B1_F7_img') " );
 
 
 
@@ -216,7 +228,7 @@ public class JavaDBExample
             //FORMAT
             //(ADMIN_ID int, ADMIN_UN char(20), ADMIN_PW char(20))
             stmt.execute("INSERT INTO ADMIN VALUES " +
-                    "('admin', 'admin'), " +
+                    "('admin', 'guest'), " +
                     "('sjcomeau', 'sjc') ");
 
             //INSERT CATEGORY
@@ -229,6 +241,13 @@ public class JavaDBExample
                     "('Waiting Area'), " +
                     "('Kiosk'), " +
                     "('Emergency Room') ");
+
+            //INSERT TRACKIDS
+            //FORMAT
+            //(NEW_LOCATION int, NEW_PERSONELLE int, NEW_BUILDING int, NEW_FLOOR int")
+            stmt.execute("INSERT INTO TRACKID VALUES " +
+                    "(1, 3004, 103, 1006) ");
+
 
             //Print
 //            System.out.println("Tables inserted!");
@@ -252,7 +271,7 @@ public class JavaDBExample
      * @param admin String contain SQL of admin
      * @param category String contain SQL of category
      */
-    void fillTable(String location, String personelle, String offices, String floor, String building, String connections, String admin,  String category){
+    void fillTable(String location, String personelle, String offices, String floor, String building, String connections, String admin,  String category, String trackIDS){
         try {
             // substitute your database name for myDB
             Connection connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
@@ -325,6 +344,13 @@ public class JavaDBExample
             //(CATEGORY_NAME varchar(20))
             if(!category.equals("")) {
                 stmt.execute("INSERT INTO CATEGORY VALUES " + category);
+            }
+
+            //INSERT TRACKIDS
+            //FORMAT
+            //(NEW_LOCATION int, NEW_PERSONELLE int, NEW_BUILDING int, NEW_FLOOR int")
+            if(!category.equals("")) {
+                stmt.execute("INSERT INTO TRACKID VALUES " + trackIDS);
             }
 
             //Print

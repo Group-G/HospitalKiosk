@@ -2,6 +2,7 @@ package groupg;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-class EditPersFineController implements Initializable
+public class EditPersFineController implements Initializable
 {
     @FXML
     private TextField nameField, titleField;
@@ -34,19 +35,9 @@ class EditPersFineController implements Initializable
     private AutoCompleteTextField<Location> locField = new AutoCompleteTextField<>();
     private Set<Location> possibleLocs = new HashSet<>();
 
-    EditPersFineController(Person pers)
-    {
-        this.pers = pers;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        nameField.setText(pers.getName());
-        titleField.setText(pers.getTitle());
-        locList.getItems().setAll(pers.getLocations().stream()
-                                      .map(HospitalData::getLocationById)
-                                      .collect(Collectors.toList())); //Add person's locs from DB
         locField.setMinWidth(200);
         locField.setPromptText("Location");
         possibleLocs.addAll(HospitalData.getAllLocations()); //Grab all locs from DB
@@ -54,58 +45,63 @@ class EditPersFineController implements Initializable
         ObservableList<Node> children = FXCollections.observableArrayList(locHBox.getChildren());
         children.add(locField);
         locHBox.getChildren().setAll(children);
+    }
 
-        cancelBtn.setOnAction(event ->
-                              {
-                                  try
-                                  {
-                                      ResourceManager.getInstance().loadFXMLIntoScene("/editPers.fxml", "Edit Personnel", cancelBtn.getScene());
-                                  }
-                                  catch (IOException e)
-                                  {
-                                      e.printStackTrace();
-                                  }
-                              });
+    public void onAdd(ActionEvent actionEvent)
+    {
+        if (!locList.getItems()
+                    .stream()
+                    .map(Location::getName)
+                    .collect(Collectors.toList())
+                    .contains(locField.getText()) &&
+            possibleLocs.stream()
+                        .map(Location::getName)
+                        .collect(Collectors.toList())
+                        .contains(locField.getText()))
+        {
+            locList.getItems().add(locField.getCurrentSelection());
+        }
+    }
 
-        confirmBtn.setOnAction(event ->
-                               {
-                                   try
-                                   {
-                                       ResourceManager.getInstance().loadFXMLIntoScene("/editPers.fxml", "Edit Personnel", confirmBtn.getScene());
-                                       List<Location> locations = new ArrayList<>();
-                                       locations.addAll(locList.getItems());
-                                       HospitalData.setPerson(pers.getId(),
-                                                              new Person(nameField.getText(),
-                                                                         titleField.getText(),
-                                                                         locations.stream()
-                                                                                  .map(Location::getID)
-                                                                                  .collect(Collectors.toList()), 0));
-                                   }
-                                   catch (IOException e)
-                                   {
-                                       e.printStackTrace();
-                                   }
-                               });
+    public void onCancel(ActionEvent actionEvent)
+    {
+        try
+        {
+            ResourceManager.getInstance().loadFXMLIntoScene("/editPers.fxml", "Edit Personnel", cancelBtn.getScene());
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
-        addLocBtn.setOnAction(event ->
-                              {
-                                  if (!locList.getItems()
-                                              .stream()
-                                              .map(Location::getName)
-                                              .collect(Collectors.toList())
-                                              .contains(locField.getText()) &&
-                                      possibleLocs.stream()
-                                                  .map(Location::getName)
-                                                  .collect(Collectors.toList())
-                                                  .contains(locField.getText()))
-                                  {
-                                      locList.getItems().add(locField.getCurrentSelection());
-                                  }
-                              });
+    public void onConfirm(ActionEvent actionEvent)
+    {
+        try
+        {
+            ResourceManager.getInstance().loadFXMLIntoScene("/editPers.fxml", "Edit Personnel", confirmBtn.getScene());
+            List<Location> locations = new ArrayList<>();
+            locations.addAll(locList.getItems());
+            HospitalData.setPerson(pers.getId(),
+                                   new Person(nameField.getText(),
+                                              titleField.getText(),
+                                              locations.stream()
+                                                       .map(Location::getID)
+                                                       .collect(Collectors.toList()), 0));
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     void setPerson(Person p)
     {
         this.pers = p;
+        nameField.setText(pers.getName());
+        titleField.setText(pers.getTitle());
+        locList.getItems().setAll(pers.getLocations().stream()
+                                      .map(HospitalData::getLocationById)
+                                      .collect(Collectors.toList())); //Add person's locs from DB
     }
 }

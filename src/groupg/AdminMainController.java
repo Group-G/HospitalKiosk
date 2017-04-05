@@ -130,6 +130,7 @@ public class AdminMainController implements Initializable
     {
         UniqueNode node = NodeFactory.getNode(100, 100);
         displayedShapes.add(node);
+        HospitalData.setLocation(node.getLocation().getID(), node.getLocation());
     }
 
     public void onEditCat(ActionEvent event)
