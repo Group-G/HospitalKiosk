@@ -134,11 +134,6 @@ public class Location implements Comparable
     void setY(int y)
     {
         this.y = y;
-        this.category = category;
-        this.weight = weight;
-        this.floor = floor;
-        this.building = building;
-        this.id = HospitalData.getNewLocationID();
     }
 
     public void setID(int ID)
