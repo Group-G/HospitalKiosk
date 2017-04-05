@@ -4,7 +4,6 @@ package groupg;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -42,12 +41,15 @@ public class DirectionScreenController implements Initializable
     private Astar astar;
     private LinkedList<Location> locations = new LinkedList<>();
 
-    public DirectionScreenController()
+    public DirectionScreenController(Location destination)
     {
         startLocField = new AutoCompleteTextField();
         startLocField.setCurrentSelection(new EmptyLocation());
         destField = new AutoCompleteTextField();
         destField.setCurrentSelection(new EmptyLocation());
+
+        destField.setCurrentSelection(destination);
+        destField.setText(destination.getName());
 
         List<Location> kioskLocs = HospitalData.getLocationsByCategory("Kiosk");
         if (kioskLocs.size() > 0)
@@ -80,6 +82,20 @@ public class DirectionScreenController implements Initializable
         locations.addAll(HospitalData.getAllLocations());
         locations.forEach(elem -> System.out.println(elem.getNeighbors().size()));
         startLocField.getEntries().addAll(locations);
+        destField.getEntries().addAll(locations);
+
+        cancelBtn.setOnAction(event -> {
+            try
+            {
+                ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        });
+
+        searchBtn.setOnAction(event -> drawPath());
 
         drawPath();
     }
@@ -101,32 +117,8 @@ public class DirectionScreenController implements Initializable
         }
     }
 
-    void setDestination(Location destination)
-    {
-        destField.setCurrentSelection(destination);
-        destField.setText(destination.getName());
-        destField.getEntries().addAll(locations);
-    }
-
     private void generateTextDirections(LinkedList<Location> locations)
     {
         //Write directions to locList
-    }
-
-    public void onCancel(ActionEvent actionEvent)
-    {
-        try
-        {
-            ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void onSearch(ActionEvent actionEvent)
-    {
-        drawPath();
     }
 }

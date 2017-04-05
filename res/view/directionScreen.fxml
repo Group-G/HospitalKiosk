@@ -12,12 +12,12 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.DirectionScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ToolBar fx:id="toolBar" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#onCancel" text="Cancel/Back" />
-            <Button fx:id="searchBtn" mnemonicParsing="false" onAction="#onSearch" text="Search Again" />
+          <Button fx:id="cancelBtn" mnemonicParsing="false" text="Cancel/Back" />
+            <Button fx:id="searchBtn" mnemonicParsing="false" text="Search Again" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Starting Location:" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Destination:" />
         </items>

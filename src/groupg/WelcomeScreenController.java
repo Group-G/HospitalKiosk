@@ -77,17 +77,12 @@ public class WelcomeScreenController implements Initializable
 
         if (requested != null)
         {
-            try
-            {
-                ResourceManager.getInstance()
-                        .<DirectionScreenController>loadFXMLIntoScene("/view/directionScreen.fxml",
-                                                                      "Your Directions", searchBtn.getScene(),
-                                                                      (controllerIn) -> controllerIn.setDestination(requested));
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
+            DirectionScreenController controller = new DirectionScreenController(requested);
+            ResourceManager.getInstance()
+                           .loadFXMLIntoSceneWithController("/view/directionScreen.fxml",
+                                                            "Your Directions",
+                                                            searchBtn.getScene(),
+                                                            controller);
         }
     }
 }
