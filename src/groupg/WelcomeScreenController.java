@@ -29,7 +29,7 @@ public class WelcomeScreenController implements Initializable
     @FXML
     private MenuButton catDropdown;
     static Location requested;
-    private AutoCompleteTextField<Location> textField = new AutoCompleteTextField<>();
+    private AutoCompleteTextField textField = new AutoCompleteTextField();
     private String selectedCat;
 
     @Override

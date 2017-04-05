@@ -32,7 +32,7 @@ public class EditPersFineController implements Initializable
     private HBox locHBox;
 
     private Person pers;
-    private AutoCompleteTextField<Location> locField = new AutoCompleteTextField<>();
+    private AutoCompleteTextField locField = new AutoCompleteTextField();
     private Set<Location> possibleLocs = new HashSet<>();
 
     @Override

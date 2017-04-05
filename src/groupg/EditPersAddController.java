@@ -31,7 +31,7 @@ public class EditPersAddController implements Initializable
     @FXML
     private HBox locHBox;
 
-    private AutoCompleteTextField<Location> locField = new AutoCompleteTextField<>();
+    private AutoCompleteTextField locField = new AutoCompleteTextField();
     private Set<Location> possibleLocs = new HashSet<>();
 
     @Override

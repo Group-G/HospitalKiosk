@@ -37,16 +37,16 @@ public class DirectionScreenController implements Initializable
     private Pane overlay = new Pane();
     private static ObservableList<Shape> displayedShapes = FXCollections.observableArrayList();
 
-    private AutoCompleteTextField<Location> startLocField, destField;
+    private AutoCompleteTextField startLocField, destField;
 
     private Astar astar;
     private LinkedList<Location> locations = new LinkedList<>();
 
     public DirectionScreenController()
     {
-        startLocField = new AutoCompleteTextField<>();
+        startLocField = new AutoCompleteTextField();
         startLocField.setCurrentSelection(new EmptyLocation());
-        destField = new AutoCompleteTextField<>();
+        destField = new AutoCompleteTextField();
         destField.setCurrentSelection(new EmptyLocation());
 
         List<Location> kioskLocs = HospitalData.getLocationsByCategory("Kiosk");
