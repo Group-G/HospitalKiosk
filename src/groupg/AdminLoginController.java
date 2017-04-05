@@ -60,7 +60,7 @@ public class AdminLoginController implements Initializable
                 System.out.println("time is up");
                 try
                 {
-                    ResourceManager.getInstance().loadFXMLIntoScene("/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
+                    ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
                 }
                 catch (IOException e)
                 {
@@ -75,7 +75,7 @@ public class AdminLoginController implements Initializable
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
         }
         catch (IOException e)
         {
@@ -102,7 +102,7 @@ public class AdminLoginController implements Initializable
 
             try
             {
-                ResourceManager.getInstance().loadFXMLIntoScene("/adminMain.fxml", "Admin Main", cancelBtn.getScene());
+                ResourceManager.getInstance().loadFXMLIntoScene("/view/adminMain.fxml", "Admin Main", cancelBtn.getScene());
             }
             catch (IOException e)
             {

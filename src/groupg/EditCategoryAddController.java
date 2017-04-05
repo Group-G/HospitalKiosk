@@ -31,7 +31,7 @@ public class EditCategoryAddController implements Initializable
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/editCategory.fxml", "Edit Categories", cancelBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/editCategory.fxml", "Edit Categories", cancelBtn.getScene());
         }
         catch (IOException e)
         {
@@ -45,7 +45,7 @@ public class EditCategoryAddController implements Initializable
 
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/editCategory.fxml", "Edit Categories", addBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/editCategory.fxml", "Edit Categories", addBtn.getScene());
         }
         catch (IOException e)
         {

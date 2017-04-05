@@ -50,7 +50,7 @@ public class EditPersAddController implements Initializable
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/editPers.fxml", "Edit Personnel", cancelBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/editPers.fxml", "Edit Personnel", cancelBtn.getScene());
         }
         catch (IOException e)
         {
@@ -68,7 +68,7 @@ public class EditPersAddController implements Initializable
                                                           .collect(Collectors.toList())));
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/editPers.fxml", "Edit Personnel", confirmBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/editPers.fxml", "Edit Personnel", confirmBtn.getScene());
         }
         catch (IOException e)
         {

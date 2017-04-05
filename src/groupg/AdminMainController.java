@@ -118,7 +118,7 @@ public class AdminMainController implements Initializable
 
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/welcomeScreen.fxml", "Welcome", logoutBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", logoutBtn.getScene());
         }
         catch (IOException e)
         {
@@ -137,7 +137,7 @@ public class AdminMainController implements Initializable
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/editCategory.fxml", "Edit Categories", editCatBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/editCategory.fxml", "Edit Categories", editCatBtn.getScene());
         }
         catch (IOException e)
         {
@@ -149,7 +149,7 @@ public class AdminMainController implements Initializable
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/editPers.fxml", "Edit Personnel", editCatBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/editPers.fxml", "Edit Personnel", editCatBtn.getScene());
         }
         catch (IOException e)
         {

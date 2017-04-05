@@ -117,7 +117,7 @@ public class DirectionScreenController implements Initializable
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
         }
         catch (IOException e)
         {

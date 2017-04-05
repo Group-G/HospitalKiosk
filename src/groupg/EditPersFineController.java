@@ -67,7 +67,7 @@ public class EditPersFineController implements Initializable
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/editPers.fxml", "Edit Personnel", cancelBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/editPers.fxml", "Edit Personnel", cancelBtn.getScene());
         }
         catch (IOException e)
         {
@@ -79,7 +79,7 @@ public class EditPersFineController implements Initializable
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/editPers.fxml", "Edit Personnel", confirmBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/editPers.fxml", "Edit Personnel", confirmBtn.getScene());
             List<Location> locations = new ArrayList<>();
             locations.addAll(locList.getItems());
             HospitalData.setPerson(pers.getId(),

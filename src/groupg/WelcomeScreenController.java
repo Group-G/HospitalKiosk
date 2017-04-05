@@ -63,7 +63,7 @@ public class WelcomeScreenController implements Initializable
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/adminLogin.fxml", "Admin Login", adminBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/adminLogin.fxml", "Admin Login", adminBtn.getScene());
         }
         catch (IOException e)
         {
@@ -80,7 +80,7 @@ public class WelcomeScreenController implements Initializable
             try
             {
                 ResourceManager.getInstance()
-                        .<DirectionScreenController>loadFXMLIntoScene("/directionScreen.fxml",
+                        .<DirectionScreenController>loadFXMLIntoScene("/view/directionScreen.fxml",
                                                                       "Your Directions", searchBtn.getScene(),
                                                                       (controllerIn) -> controllerIn.setDestination(requested));
             }

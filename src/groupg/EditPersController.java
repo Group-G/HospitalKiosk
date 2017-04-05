@@ -31,7 +31,7 @@ public class EditPersController implements Initializable
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/adminMain.fxml", "Admin Main", cancelBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/adminMain.fxml", "Admin Main", cancelBtn.getScene());
         }
         catch (IOException e)
         {
@@ -43,7 +43,7 @@ public class EditPersController implements Initializable
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/editPersAdd.fxml", "Add New Person", newBtn.getScene());
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/editPersAdd.fxml", "Add New Person", newBtn.getScene());
         }
         catch (IOException e)
         {
@@ -68,7 +68,7 @@ public class EditPersController implements Initializable
             try
             {
                 ResourceManager.getInstance()
-                        .<EditPersFineController>loadFXMLIntoScene("/editPersFine.fxml", "Edit Person",
+                        .<EditPersFineController>loadFXMLIntoScene("/view/editPersFine.fxml", "Edit Person",
                                                                    editBtn.getScene(),
                                                                    (controllerIn) -> controllerIn.setPerson(out));
             }
