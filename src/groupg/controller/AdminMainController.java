@@ -10,6 +10,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -28,14 +30,15 @@ public class AdminMainController implements Initializable
 
     @FXML
     private GridPane canvasWrapper;
-    private ResizableCanvas canvas = new ResizableCanvas(ResizableCanvas.DRAW_FLOOR_4);
-    public static Pane nodeOverlay, lineOverlay;
+    public static Pane nodeOverlay, lineOverlay, imageViewPane;
+    private ImageView imageView;
     public static ObservableList<UniqueNode> displayedNodes = FXCollections.observableArrayList();
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+
         //Change listener for removed nodes
         displayedNodes.addListener((ListChangeListener<UniqueNode>) c -> nodeOverlay.getChildren().setAll(displayedNodes));
 
@@ -49,6 +52,9 @@ public class AdminMainController implements Initializable
         nodeOverlay.setPickOnBounds(false);
         lineOverlay = new Pane();
         lineOverlay.setPickOnBounds(false);
+        imageViewPane = new Pane();
+        imageViewPane.setPickOnBounds(false);
+        imageView = ImageViewFactory.getImageView(new Image("/image/faulkner_4_cropped.png", 2265, 1290, true, true), imageViewPane);
 
         //Fill list with nodes from DB
         displayedNodes.clear();
@@ -59,7 +65,8 @@ public class AdminMainController implements Initializable
         nodeOverlay.getChildren().setAll(displayedNodes);
 
         //Add layers
-        canvasWrapper.getChildren().addAll(canvas, nodeOverlay, lineOverlay);
+        imageViewPane.getChildren().add(imageView);
+        canvasWrapper.getChildren().addAll(imageViewPane, nodeOverlay, lineOverlay);
     }
 
     public static void drawConnections(UniqueNode node)
