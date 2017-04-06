@@ -1,5 +1,7 @@
-package groupg;
+package groupg.controller;
 
+import groupg.database.HospitalData;
+import groupg.jfx.ResourceManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

@@ -1,5 +1,7 @@
-package groupg;
+package groupg.jfx;
 
+import groupg.database.HospitalData;
+import groupg.database.Location;
 import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
@@ -16,13 +18,13 @@ import java.util.stream.Collectors;
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-class AutoCompleteTextField extends TextField
+public class AutoCompleteTextField extends TextField
 {
     private final SortedSet<Location> entries;
     private ContextMenu entriesPopup;
     private Location currentSelection = null;
 
-    AutoCompleteTextField()
+    public AutoCompleteTextField()
     {
         super();
         entries = new TreeSet<>();
@@ -91,12 +93,12 @@ class AutoCompleteTextField extends TextField
         entriesPopup.getItems().addAll(menuItems);
     }
 
-    SortedSet<Location> getEntries()
+    public SortedSet<Location> getEntries()
     {
         return entries;
     }
 
-    Location getCurrentSelection()
+    public Location getCurrentSelection()
     {
         if (currentSelection == null)
         {
@@ -117,7 +119,7 @@ class AutoCompleteTextField extends TextField
         return currentSelection;
     }
 
-    void setCurrentSelection(Location currentSelection)
+    public void setCurrentSelection(Location currentSelection)
     {
         this.currentSelection = currentSelection;
     }

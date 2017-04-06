@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.WelcomeScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.WelcomeScreenController">
    <children>
       <Button fx:id="adminBtn" layoutX="518.0" layoutY="23.0" mnemonicParsing="false" onAction="#onAdminLogin" text="Admin" AnchorPane.rightAnchor="31.0" />
       <VBox alignment="CENTER" layoutX="142.0" layoutY="55.0" spacing="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
@@ -37,7 +37,7 @@
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="68.0" layoutX="99.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../AdminPicture.png" />
+                              <Image url="@../image/AdminPicture.png" />
                            </image>
                         </ImageView>
                         <Label layoutX="88.0" layoutY="232.0" text="Find By Doctor" />
@@ -53,7 +53,7 @@
                      <children>
                         <ImageView fitHeight="68.0" fitWidth="68.0" layoutX="99.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Bathroom.png" />
+                              <Image url="@../image/Bathroom.png" />
                            </image>
                         </ImageView>
                         <Label layoutX="88.0" layoutY="342.0" text="Find Bathroom" />
@@ -67,7 +67,7 @@
                      <children>
                         <ImageView fitHeight="67.0" fitWidth="74.0" layoutX="270.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Directory.jpg" />
+                              <Image url="@../image/Directory.jpg" />
                            </image>
                         </ImageView>
                         <Label layoutX="262.0" layoutY="241.0" text="Wing Directory" />
@@ -77,7 +77,7 @@
                      <children>
                         <ImageView fitHeight="68.0" fitWidth="117.0" layoutX="267.0" layoutY="274.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../FoodImage.jpg" />
+                              <Image url="@../image/FoodImage.jpg" />
                            </image>
                         </ImageView>
                         <Label layoutX="270.0" layoutY="342.0" text="Find Food" />
@@ -91,7 +91,7 @@
                      <children>
                         <ImageView fitHeight="68.0" fitWidth="81.0" layoutX="448.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../HelpDesk.png" />
+                              <Image url="@../image/HelpDesk.png" />
                            </image>
                         </ImageView>
                         <Label layoutX="438.0" layoutY="241.0" text="Find Help Desk" />
@@ -101,7 +101,7 @@
                      <children>
                         <ImageView fitHeight="67.0" fitWidth="68.0" layoutX="451.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../ExitImage.png" />
+                              <Image url="@../image/ExitImage.png" />
                            </image>
                         </ImageView>
                         <Label layoutX="458.0" layoutY="342.0" text="Find Exit" />

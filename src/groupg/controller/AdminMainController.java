@@ -1,5 +1,8 @@
-package groupg;
+package groupg.controller;
 
+import groupg.database.HospitalData;
+import groupg.database.Location;
+import groupg.jfx.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -32,10 +35,10 @@ public class AdminMainController implements Initializable
     private GridPane canvasWrapper;
     private ResizableCanvas canvas = new ResizableCanvas(ResizableCanvas.DRAW_FLOOR_4);
     private Pane overlay;
-    static ObservableList<Shape> displayedShapes = FXCollections.observableArrayList();
+    public static ObservableList<Shape> displayedShapes = FXCollections.observableArrayList();
 
     static final int CONNECTION_BANDWIDTH = 10;
-    static double NODE_OFFSET = 0.0;
+    public static double NODE_OFFSET = 0.0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -66,7 +69,7 @@ public class AdminMainController implements Initializable
         canvasWrapper.getChildren().add(overlay);
     }
 
-    static void drawConnections(UniqueNode node, ObservableList<Shape> nodes)
+    public static void drawConnections(UniqueNode node, ObservableList<Shape> nodes)
     {
         nodes.sort((n1, n2) ->
                    {

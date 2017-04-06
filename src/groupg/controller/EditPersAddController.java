@@ -1,5 +1,10 @@
-package groupg;
+package groupg.controller;
 
+import groupg.database.HospitalData;
+import groupg.database.Location;
+import groupg.database.Person;
+import groupg.jfx.AutoCompleteTextField;
+import groupg.jfx.ResourceManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,7 +18,9 @@ import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.HashSet;
+import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**

@@ -1,4 +1,4 @@
-package groupg;
+package groupg.database;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -73,7 +73,7 @@ public class Location implements Comparable
      * @param other Other Location
      * @return Length to other Location
      */
-    double lengthTo(Location other)
+    public double lengthTo(Location other)
     {
         return Math.sqrt(Math.pow(Math.abs(this.getX() - other.getX()), 2)
                          + Math.pow(Math.abs(this.getY() - other.getY()), 2));
@@ -84,7 +84,7 @@ public class Location implements Comparable
      *
      * @return String of DB value
      */
-    String getSQL()
+    public String getSQL()
     {
         return "(" + id + ", \'" + name + "\',\'" + category + "\'," + floor + "," + x + "," + y + "," + building + ")";
     }
@@ -94,7 +94,7 @@ public class Location implements Comparable
      *
      * @return String of DB value
      */
-    List<String> getConnectionsSQL()
+    public List<String> getConnectionsSQL()
     {
         ArrayList<String> result = new ArrayList<>();
         for (Integer neighbor : neighbors)
@@ -126,12 +126,12 @@ public class Location implements Comparable
         return getName();
     }
 
-    void setX(int x)
+    public void setX(int x)
     {
         this.x = x;
     }
 
-    void setY(int y)
+    public void setY(int y)
     {
         this.y = y;
     }
@@ -141,7 +141,7 @@ public class Location implements Comparable
         this.id = ID;
     }
 
-    void setCategory(String category)
+    public void setCategory(String category)
     {
         this.category = category;
     }
@@ -161,17 +161,17 @@ public class Location implements Comparable
         this.name = name;
     }
 
-    double getX()
+    public double getX()
     {
         return this.x;
     }
 
-    double getY()
+    public double getY()
     {
         return this.y;
     }
 
-    int getFloor()
+    public int getFloor()
     {
         return this.floor;
     }
@@ -181,22 +181,22 @@ public class Location implements Comparable
         return this.building;
     }
 
-    int getID()
+    public int getID()
     {
         return this.id;
     }
 
-    String getCategory()
+    public String getCategory()
     {
         return this.category;
     }
 
-    double getFcost()
+    public double getFcost()
     {
         return fcost;
     }
 
-    LinkedList<Integer> getNeighbors()
+    public LinkedList<Integer> getNeighbors()
     {
         return neighbors;
     }
@@ -206,27 +206,27 @@ public class Location implements Comparable
         return name;
     }
 
-    void setFcost(double fcost)
+    public void setFcost(double fcost)
     {
         this.fcost = fcost;
     }
 
-    void setParent(Location parent)
+    public void setParent(Location parent)
     {
         this.parent = parent;
     }
 
-    Location getParent()
+    public Location getParent()
     {
         return this.parent;
     }
 
-    void addNeighbor(int id)
+    public void addNeighbor(int id)
     {
         neighbors.add(id);
     }
 
-    int getFloorId()
+    public int getFloorId()
     {
         return floor;
     }

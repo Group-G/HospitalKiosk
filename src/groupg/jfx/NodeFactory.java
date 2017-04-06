@@ -1,12 +1,13 @@
-package groupg;
+package groupg.jfx;
 
+import groupg.database.Location;
 import javafx.scene.paint.Color;
 
 /**
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-class NodeFactory
+public class NodeFactory
 {
     /**
      * Constructs a UniqueNode for a Node at a point
@@ -14,7 +15,7 @@ class NodeFactory
      * @param y Y coordinate
      * @return  Circle at (x,y) representing a Node
      */
-    static UniqueNode getNode(double x, double y)
+    public static UniqueNode getNode(double x, double y)
     {
         UniqueNode circle = new UniqueNode(10, new Location(x, y, 1004, 1));
         circle.setStroke(Color.BLACK);
@@ -30,7 +31,7 @@ class NodeFactory
      * @param location Location to use
      * @return UniqueNode at location representing a Node
      */
-    static UniqueNode getNode(Location location)
+    public static UniqueNode getNode(Location location)
     {
         UniqueNode circle = new UniqueNode(10, location);
         circle.setStroke(Color.BLACK);

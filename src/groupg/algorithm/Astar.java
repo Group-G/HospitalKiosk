@@ -1,4 +1,6 @@
-package groupg;
+package groupg.algorithm;
+
+import groupg.database.Location;
 
 import java.util.LinkedList;
 

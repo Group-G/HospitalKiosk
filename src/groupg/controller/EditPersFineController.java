@@ -1,5 +1,10 @@
-package groupg;
+package groupg.controller;
 
+import groupg.database.HospitalData;
+import groupg.database.Location;
+import groupg.database.Person;
+import groupg.jfx.AutoCompleteTextField;
+import groupg.jfx.ResourceManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

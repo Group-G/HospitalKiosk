@@ -1,6 +1,14 @@
 
-package groupg;
+package groupg.controller;
 
+import groupg.algorithm.Astar;
+import groupg.database.EmptyLocation;
+import groupg.database.HospitalData;
+import groupg.database.Location;
+import groupg.jfx.AutoCompleteTextField;
+import groupg.jfx.DrawLines;
+import groupg.jfx.ResizableCanvas;
+import groupg.jfx.ResourceManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;

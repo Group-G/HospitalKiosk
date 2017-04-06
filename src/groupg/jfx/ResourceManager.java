@@ -1,4 +1,4 @@
-package groupg;
+package groupg.jfx;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -14,11 +14,11 @@ import java.util.function.Consumer;
 /**
  * Created by ryan on 3/31/17.
  */
-class ResourceManager
+public class ResourceManager
 {
     private static ResourceManager ourInstance = new ResourceManager();
 
-    static ResourceManager getInstance()
+    public static ResourceManager getInstance()
     {
         return ourInstance;
     }
@@ -36,7 +36,7 @@ class ResourceManager
      * @throws IOException FXMLLoader.load may fail to retrieve file
      * @throws NullPointerException FXMLLoader.load may fail to retrieve file
      */
-    <T> T loadFXMLIntoScene(String fileName, String title, Scene scene, Consumer<T> consumer) throws IOException, NullPointerException
+    public <T> T loadFXMLIntoScene(String fileName, String title, Scene scene, Consumer<T> consumer) throws IOException, NullPointerException
     {
         FXMLLoader loader = new FXMLLoader(ResourceManager.getInstance().getClass().getResource(fileName));
 //        loader.setClassLoader(T.class.getClassLoader());
@@ -61,7 +61,7 @@ class ResourceManager
      * @throws IOException FXMLLoader.load may fail to retrieve file
      * @throws NullPointerException FXMLLoader.load may fail to retrieve file
      */
-    <T> T loadFXMLIntoScene(String fileName, String title, Scene scene) throws IOException, NullPointerException
+    public <T> T loadFXMLIntoScene(String fileName, String title, Scene scene) throws IOException, NullPointerException
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
         Parent root = loader.load();
@@ -83,7 +83,7 @@ class ResourceManager
      * @param scene      Scene to load into
      * @param controller Controller to use
      */
-    void loadFXMLIntoSceneWithController(String fileName, String title, Scene scene, Initializable controller)
+    public void loadFXMLIntoSceneWithController(String fileName, String title, Scene scene, Initializable controller)
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
         loader.setController(controller);
@@ -114,7 +114,7 @@ class ResourceManager
      * @throws IOException FXMLLoader.load may fail to retrieve file
      * @throws NullPointerException FXMLLoader.load may fail to retrieve file
      */
-    <T> T loadFXMLIntoDialog(String fileName, String title, Scene scene, double width, double height) throws IOException, NullPointerException
+    public <T> T loadFXMLIntoDialog(String fileName, String title, Scene scene, double width, double height) throws IOException, NullPointerException
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
         Parent root = loader.load();

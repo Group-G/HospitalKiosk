@@ -1,4 +1,4 @@
-package groupg;
+package groupg.database;
 
 import java.sql.*;
 
@@ -10,7 +10,7 @@ public class JavaDBExample
     /**
      * Connects to the DB
      */
-    void connectDB() {
+    public void connectDB() {
         try
         {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -37,7 +37,7 @@ public class JavaDBExample
             @functionality attepts to connect to HospitalDatabase and drops/creates tables
                 on fail it will return
      */
-    void createTables(){
+    public void createTables(){
         try
         {
             // substitute your database name for myDB
@@ -159,7 +159,7 @@ public class JavaDBExample
         @return void
         @functionality inserts dummy values into HospitalDatabase
      */
-    void insertTables(){
+    public void insertTables(){
         try {
             // substitute your database name for myDB
             Connection connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
@@ -271,7 +271,7 @@ public class JavaDBExample
      * @param admin String contain SQL of admin
      * @param category String contain SQL of category
      */
-    void fillTable(String location, String personelle, String offices, String floor, String building, String connections, String admin,  String category, String trackIDS){
+    public void fillTable(String location, String personelle, String offices, String floor, String building, String connections, String admin,  String category, String trackIDS){
         try {
             // substitute your database name for myDB
             Connection connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");

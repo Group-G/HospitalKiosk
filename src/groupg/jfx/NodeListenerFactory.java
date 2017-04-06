@@ -1,5 +1,7 @@
-package groupg;
+package groupg.jfx;
 
+import groupg.database.HospitalData;
+import groupg.controller.AdminMainController;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
@@ -17,7 +19,7 @@ import java.util.List;
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-class NodeListenerFactory
+public class NodeListenerFactory
 {
     private static double orgSceneX, orgSceneY, orgTranslateX, orgTranslateY;
     private static UniqueNode currentSelection = null;
@@ -28,7 +30,7 @@ class NodeListenerFactory
      *
      * @param nodes Nodes to make draggable
      */
-    static void makeDraggable(UniqueNode... nodes)
+    public static void makeDraggable(UniqueNode... nodes)
     {
         Arrays.stream(nodes).forEach(node ->
                                      {

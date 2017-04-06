@@ -1,4 +1,4 @@
-package groupg;
+package groupg.jfx;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -9,16 +9,16 @@ import javafx.scene.layout.Pane;
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-class ResizableCanvas extends Pane
+public class ResizableCanvas extends Pane
 {
-    static final int DRAW_FLOOR_4 = 1;
+    public static final int DRAW_FLOOR_4 = 1;
 
     private final int id;
     private final Canvas canvas = new Canvas();
 
     private double mouseX, mouseY;
 
-    ResizableCanvas(int id)
+    public ResizableCanvas(int id)
     {
         this.id = id;
         canvas.setOnMouseMoved(event ->
@@ -52,7 +52,7 @@ class ResizableCanvas extends Pane
             switch (id)
             {
                 case DRAW_FLOOR_4:
-                    gc.drawImage(new Image("/faulkner_4_cropped.png", w, h, false, true), 0, 0);
+                    gc.drawImage(new Image("/image/faulkner_4_cropped.png", w, h, false, true), 0, 0);
                     break;
             }
         }

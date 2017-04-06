@@ -1,4 +1,4 @@
-package groupg;
+package groupg.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

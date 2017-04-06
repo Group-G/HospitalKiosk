@@ -1,21 +1,22 @@
-package groupg;
+package groupg.jfx;
 
+import groupg.database.Location;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static groupg.AdminMainController.NODE_OFFSET;
-import static groupg.AdminMainController.displayedShapes;
+import static groupg.controller.AdminMainController.NODE_OFFSET;
+import static groupg.controller.AdminMainController.displayedShapes;
 
 /**
  * @author Ryan Benasutti
  * @since 2017-04-03
  */
-class DrawLines
+public class DrawLines
 {
-    static void drawLinesFromLocation(List<Location> locations, double connectionBandwith)
+    public static void drawLinesFromLocation(List<Location> locations, double connectionBandwith)
     {
         if (locations.size() > 1)
         {
@@ -33,7 +34,7 @@ class DrawLines
         }
     }
 
-    static List<Location> drawLinesFromLocation(Location from, List<Location> locations, double connectionBandwith)
+    public static List<Location> drawLinesFromLocation(Location from, List<Location> locations, double connectionBandwith)
     {
         List<Location> neighbors = new ArrayList<>();
 
@@ -54,7 +55,7 @@ class DrawLines
         return neighbors;
     }
 
-    static void drawLinesInOrder(List<Location> locations, List<Shape> out)
+    public static void drawLinesInOrder(List<Location> locations, List<Shape> out)
     {
         for (int i = 0; i < locations.size() - 1; i++)
         {
@@ -65,7 +66,7 @@ class DrawLines
         }
     }
 
-    static void drawLinesInOrder(List<Location> locations)
+    public static void drawLinesInOrder(List<Location> locations)
     {
         drawLinesInOrder(locations, displayedShapes);
     }

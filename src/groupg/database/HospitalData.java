@@ -1,4 +1,4 @@
-package groupg;
+package groupg.database;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class HospitalData {
          */
 
 
-    HospitalData(JavaDBExample dbExample) {
+    public HospitalData(JavaDBExample dbExample) {
         login[0] = "admin";
         login[1] = "guest";
         this.dbExample = dbExample;
@@ -275,7 +275,7 @@ public class HospitalData {
      * @param category given category
      * @return all locations with given category
      */
-    static List<Location> getLocationsByCategory(String category) {
+    public static List<Location> getLocationsByCategory(String category) {
 //        System.out.println("looking for location " + id);
         List<Location> locations = getAllLocations();
         List<Location> correct = new ArrayList<>();

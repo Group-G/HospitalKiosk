@@ -1,5 +1,6 @@
-package groupg;
+package groupg.jfx;
 
+import groupg.database.Location;
 import javafx.scene.shape.Circle;
 
 import java.util.LinkedList;
@@ -9,19 +10,19 @@ import java.util.Objects;
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-class UniqueNode extends Circle
+public class UniqueNode extends Circle
 {
     private LinkedList<UniqueNode> neighbors;
     private Location location;
 
-    UniqueNode(double radius, Location location, LinkedList<UniqueNode> neighbors)
+    public UniqueNode(double radius, Location location, LinkedList<UniqueNode> neighbors)
     {
         super(radius);
         this.location = location;
         this.neighbors = neighbors;
     }
 
-    UniqueNode(double radius, Location location)
+    public UniqueNode(double radius, Location location)
     {
         this(radius, location, new LinkedList<>());
     }

@@ -1,4 +1,4 @@
-package groupg;
+package groupg.database;
 
 import java.util.ArrayList;
 
