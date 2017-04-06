@@ -18,10 +18,10 @@ public class Location implements Comparable
     private float weight;
     private int id, floor, building;
     private String name, category;
-    private LinkedList<Integer> neighbors = new LinkedList<>();
+    private List<Location> neighbors = new LinkedList<>();
     private Location parent;
 
-    public Location(String name, double x, double y, LinkedList<Integer> neighbors, String category, float weight, int ID, int floor, int building)
+    public Location(String name, double x, double y, LinkedList<Location> neighbors, String category, float weight, int ID, int floor, int building)
     {
         this.name = name;
         this.x = x;
@@ -56,7 +56,6 @@ public class Location implements Comparable
      */
     public void setLocation(Location l)
     {
-        //String name, double x, double y, LinkedList<Integer> neighbors, String category, float weight, int ID, int floor, int building
         this.name = l.getName();
         this.x = l.getX();
         this.y = l.getY();
@@ -97,10 +96,10 @@ public class Location implements Comparable
     public List<String> getConnectionsSQL()
     {
         ArrayList<String> result = new ArrayList<>();
-        for (Integer neighbor : neighbors)
+        for (Location neighbor : neighbors)
         {
             String a;
-            if (id > neighbor)
+            if (id > neighbor.getID())
             {
                 a = "(" + id + "," + neighbor + ")";
             }
@@ -196,9 +195,14 @@ public class Location implements Comparable
         return fcost;
     }
 
-    public LinkedList<Integer> getNeighbors()
+    public List<Location> getNeighbors()
     {
         return neighbors;
+    }
+
+    public void setNeighbors(List<Location> neighbors)
+    {
+        this.neighbors = neighbors;
     }
 
     public String getName()
@@ -223,7 +227,12 @@ public class Location implements Comparable
 
     public void addNeighbor(int id)
     {
-        neighbors.add(id);
+        neighbors.add(HospitalData.getLocationById(id));
+    }
+
+    public void addNeighbor(Location loc)
+    {
+        neighbors.add(loc);
     }
 
     public int getFloorId()

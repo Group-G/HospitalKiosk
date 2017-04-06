@@ -22,7 +22,7 @@ public class NodeFactory
         circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.7));
         circle.setCenterX(x);
         circle.setCenterY(y);
-        NodeListenerFactory.makeDraggable(circle);
+        NodeListenerFactory.attachListeners(circle);
         return circle;
     }
 
@@ -38,7 +38,7 @@ public class NodeFactory
         circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.7));
         circle.setCenterX(location.getX());
         circle.setCenterY(location.getY());
-        NodeListenerFactory.makeDraggable(circle);
+        NodeListenerFactory.attachListeners(circle);
         return circle;
     }
 }

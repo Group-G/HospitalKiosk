@@ -111,8 +111,8 @@ public class Astar {
      */
     public LinkedList<Location> getNeighbors(Location loc){
         LinkedList<Location> neigh = new LinkedList<>();
-        for (Integer id:loc.getNeighbors()){
-            neigh.add(getLocation(id));
+        for (Location id:loc.getNeighbors()){
+            neigh.add(getLocation(id.getID()));
         }
         return neigh;
     }
