@@ -9,9 +9,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -57,8 +60,8 @@ public class AdminMainController implements Initializable
         imageViewPane.widthProperty().addListener((observable, oldValue, newValue) -> {
             displayedNodes.forEach(elem -> {
 //                elem.getLocation().setX((int)(elem.getLocation().getX() + (newValue.doubleValue()-oldValue.doubleValue())/oldValue.doubleValue()));
-                elem.getLocation().setX((int)(elem.getLocation().getX() - (newValue.doubleValue() - oldValue.doubleValue())/(2*2265)));
-                elem.setCenterX(elem.getLocation().getX());
+//                elem.getLocation().setX((int)(elem.getLocation().getX() - (2265)/(newValue.doubleValue() - oldValue.doubleValue())));
+//                elem.setCenterX(elem.getLocation().getX());
             });
         });
         imageView = ImageViewFactory.getImageView(new Image("/image/faulkner_4_cropped.png", 2265, 1290, true, true), imageViewPane);
@@ -73,7 +76,20 @@ public class AdminMainController implements Initializable
 
         //Add layers
         imageViewPane.getChildren().add(imageView);
-        canvasWrapper.getChildren().addAll(imageViewPane, nodeOverlay, lineOverlay);
+        Group zoomGroup = new Group(imageView, nodeOverlay, lineOverlay);
+        ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
+        pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        pane.addEventFilter(ScrollEvent.ANY, scrollEvent ->
+        {
+            if (scrollEvent.getDeltaY() > 0)
+            {
+                //
+            }
+            scrollEvent.consume();
+        });
+        pane.setPannable(true);
+        canvasWrapper.getChildren().addAll(pane);
     }
 
     public static void drawConnections(UniqueNode node)

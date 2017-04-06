@@ -1,16 +1,9 @@
 package groupg.jfx;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 /**
@@ -22,99 +15,88 @@ public class ImageViewFactory {
     public static ImageView getImageView(Image image, Pane pane){
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
-        reset(imageView, image.getWidth() / 2, image.getHeight() / 2);
+//        reset(imageView, image.getWidth() / 2, image.getHeight() / 2);
 
-        ObjectProperty<Point2D> mouseDown = new SimpleObjectProperty<>();
+//        ObjectProperty<Point2D> mouseDown = new SimpleObjectProperty<>();
 
-        imageView.setOnMousePressed(e -> {
+//        imageView.setOnMousePressed(e -> {
+//
+//            Point2D mousePress = imageViewToImage(imageView, new Point2D(e.getX(), e.getY()));
+//            mouseDown.set(mousePress);
+//        });
 
-            Point2D mousePress = imageViewToImage(imageView, new Point2D(e.getX(), e.getY()));
-            mouseDown.set(mousePress);
-        });
+//        imageView.setOnMouseDragged(e -> {
+//            Point2D dragPoint = imageViewToImage(imageView, new Point2D(e.getX(), e.getY()));
+//            shift(imageView, dragPoint.subtract(mouseDown.get()));
+//            mouseDown.set(imageViewToImage(imageView, new Point2D(e.getX(), e.getY())));
+//        });
 
-        imageView.setOnMouseDragged(e -> {
-            Point2D dragPoint = imageViewToImage(imageView, new Point2D(e.getX(), e.getY()));
-            shift(imageView, dragPoint.subtract(mouseDown.get()));
-            mouseDown.set(imageViewToImage(imageView, new Point2D(e.getX(), e.getY())));
-        });
+//        imageView.setOnScroll(e ->
+//        {
+//            double delta = e.getDeltaY();
+//            Rectangle2D viewport = imageView.getViewport();
+//
+//            double scale = clamp(Math.pow(1.005, delta),  // altered the value from 1.01to zoom slower
+//                    // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
+//                    Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
+//                    // don't scale so that we're bigger than image dimensions:
+//                    Math.max(image.getWidth() / viewport.getWidth(), image.getHeight() / viewport.getHeight())
+//            );
+//            if (scale != 1.0) {
+//                Point2D mouse = imageViewToImage(imageView, new Point2D(e.getX(), e.getY()));
+//
+//                double newWidth = viewport.getWidth();
+//                double newHeight = viewport.getHeight();
+//                double imageViewRatio = (imageView.getFitWidth() / imageView.getFitHeight());
+//                double viewportRatio = (newWidth / newHeight);
+//                if (viewportRatio < imageViewRatio) {
+//                    // adjust width to be proportional with height
+//                    newHeight = newHeight * scale;
+//                    newWidth = newHeight * imageViewRatio;
+//                    if (newWidth > image.getWidth()) {
+//                        newWidth = image.getWidth();
+//                    }
+//                } else {
+//                    // adjust height to be proportional with width
+//                    newWidth = newWidth * scale;
+//                    newHeight = newWidth / imageViewRatio;
+//                    if (newHeight > image.getHeight()) {
+//                        newHeight = image.getHeight();
+//                    }
+//                }
+//
+//                // To keep the visual point under the mouse from moving, we need
+//                // (x - newViewportMinX) / (x - currentViewportMinX) = scale
+//                // where x is the mouse X coordinate in the image
+//                // solving this for newViewportMinX gives
+//                // newViewportMinX = x - (x - currentViewportMinX) * scale
+//                // we then clamp this value so the image never scrolls out
+//                // of the imageview:
+//                double newMinX = 0;
+//                if (newWidth < image.getWidth()) {
+//                    newMinX = clamp(mouse.getX() - (mouse.getX() - viewport.getMinX()) * scale,
+//                            0, image.getWidth() - newWidth);
+//                }
+//                double newMinY = 0;
+//                if (newHeight < image.getHeight()) {
+//                    newMinY = clamp(mouse.getY() - (mouse.getY() - viewport.getMinY()) * scale,
+//                            0, image.getHeight() - newHeight);
+//                }
+//
+//                imageView.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
+//            }
+//        });
 
-        imageView.setOnScroll(e ->
-        {
-            double delta = e.getDeltaY();
-            Rectangle2D viewport = imageView.getViewport();
+//        imageView.setOnMouseClicked(e -> {
+//            if (e.getClickCount() == 2) {
+//                reset(imageView, image.getWidth(), image.getHeight());
+//            }
+//        });
 
-            double scale = clamp(Math.pow(1.005, delta),  // altered the value from 1.01to zoom slower
-                    // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
-                    Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
-                    // don't scale so that we're bigger than image dimensions:
-                    Math.max(image.getWidth() / viewport.getWidth(), image.getHeight() / viewport.getHeight())
-            );
-            if (scale != 1.0) {
-                Point2D mouse = imageViewToImage(imageView, new Point2D(e.getX(), e.getY()));
-
-                double newWidth = viewport.getWidth();
-                double newHeight = viewport.getHeight();
-                double imageViewRatio = (imageView.getFitWidth() / imageView.getFitHeight());
-                double viewportRatio = (newWidth / newHeight);
-                if (viewportRatio < imageViewRatio) {
-                    // adjust width to be proportional with height
-                    newHeight = newHeight * scale;
-                    newWidth = newHeight * imageViewRatio;
-                    if (newWidth > image.getWidth()) {
-                        newWidth = image.getWidth();
-                    }
-                } else {
-                    // adjust height to be proportional with width
-                    newWidth = newWidth * scale;
-                    newHeight = newWidth / imageViewRatio;
-                    if (newHeight > image.getHeight()) {
-                        newHeight = image.getHeight();
-                    }
-                }
-
-                // To keep the visual point under the mouse from moving, we need
-                // (x - newViewportMinX) / (x - currentViewportMinX) = scale
-                // where x is the mouse X coordinate in the image
-                // solving this for newViewportMinX gives
-                // newViewportMinX = x - (x - currentViewportMinX) * scale
-                // we then clamp this value so the image never scrolls out
-                // of the imageview:
-                double newMinX = 0;
-                if (newWidth < image.getWidth()) {
-                    newMinX = clamp(mouse.getX() - (mouse.getX() - viewport.getMinX()) * scale,
-                            0, image.getWidth() - newWidth);
-                }
-                double newMinY = 0;
-                if (newHeight < image.getHeight()) {
-                    newMinY = clamp(mouse.getY() - (mouse.getY() - viewport.getMinY()) * scale,
-                            0, image.getHeight() - newHeight);
-                }
-
-                imageView.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
-            }
-        });
-
-        imageView.setOnMouseClicked(e -> {
-            if (e.getClickCount() == 2) {
-                reset(imageView, image.getWidth(), image.getHeight());
-            }
-        });
-
-        imageView.fitWidthProperty().bind(pane.widthProperty());
-        imageView.fitHeightProperty().bind(pane.heightProperty());
+//        imageView.fitWidthProperty().bind(pane.widthProperty());
+//        imageView.fitHeightProperty().bind(pane.heightProperty());
 
         return imageView;
-    }
-
-    private static HBox createButtons(double width, double height, ImageView imageView) {
-        Button reset = new Button("Reset");
-        reset.setOnAction(e -> reset(imageView, width / 2, height / 2));
-        Button full = new Button("Full view");
-        full.setOnAction(e -> reset(imageView, width, height));
-        HBox buttons = new HBox(10, reset, full);
-        buttons.setAlignment(Pos.CENTER);
-        buttons.setPadding(new Insets(10));
-        return buttons;
     }
 
     // reset to the top left:
