@@ -177,6 +177,8 @@ public class NodeListenerFactory
                     p.setCenterY(newTranslateY);
                     p.getLocation().setX((int) newTranslateX);
                     p.getLocation().setY((int) newTranslateY);
+
+                    AdminMainController.drawConnections(currentSelection);
                 }
                 else
                 {
