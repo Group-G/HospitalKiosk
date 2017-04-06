@@ -8,6 +8,10 @@ import java.util.LinkedList;
  */
 public class EmptyLocation extends Location
 {
+    public EmptyLocation(double x, double y)
+    {
+        super("", x, y, new LinkedList<>(), "", 0, 0, 0, 0);
+    }
 
     public EmptyLocation()
     {

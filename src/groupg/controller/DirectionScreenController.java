@@ -42,7 +42,8 @@ public class DirectionScreenController implements Initializable
     private GridPane canvasWrapper;
     private ResizableCanvas canvas = new ResizableCanvas(ResizableCanvas.DRAW_FLOOR_4);
     private Pane overlay = new Pane();
-    private static ObservableList<Shape> displayedShapes = FXCollections.observableArrayList();
+    private ObservableList<Shape> displayedShapes = FXCollections.observableArrayList();
+    private Location closestLocToClick;
 
     private AutoCompleteTextField startLocField, destField;
 
@@ -82,6 +83,27 @@ public class DirectionScreenController implements Initializable
         children.addAll(startLocField, destField);
         Collections.swap(children, 3, 4);
         toolBar.getItems().setAll(children);
+
+        //Find closest location
+        overlay.setOnMouseClicked(event -> {
+            double shortest = Double.MAX_VALUE;
+            for (Location l : HospitalData.getAllLocations())
+            {
+                if (closestLocToClick == null)
+                {
+                    closestLocToClick = l;
+                }
+                else
+                {
+                    Double newShortest = l.lengthTo(new EmptyLocation(event.getX(), event.getY()));
+                    if (newShortest < shortest)
+                    {
+                        shortest = newShortest;
+                        closestLocToClick = l;
+                    }
+                }
+            }
+        });
 
         canvasWrapper.add(canvas, 0, 0);
         canvasWrapper.add(overlay, 0, 0);
