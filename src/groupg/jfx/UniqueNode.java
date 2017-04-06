@@ -3,7 +3,6 @@ package groupg.jfx;
 import groupg.database.Location;
 import javafx.scene.shape.Circle;
 
-import java.util.LinkedList;
 import java.util.Objects;
 
 /**
@@ -12,19 +11,12 @@ import java.util.Objects;
  */
 public class UniqueNode extends Circle
 {
-    private LinkedList<UniqueNode> neighbors;
     private Location location;
-
-    public UniqueNode(double radius, Location location, LinkedList<UniqueNode> neighbors)
-    {
-        super(radius);
-        this.location = location;
-        this.neighbors = neighbors;
-    }
 
     public UniqueNode(double radius, Location location)
     {
-        this(radius, location, new LinkedList<>());
+        super(radius);
+        this.location = location;
     }
 
     public Location getLocation()
@@ -35,11 +27,6 @@ public class UniqueNode extends Circle
     public void setLocation(Location location)
     {
         this.location = location;
-    }
-
-    public LinkedList<UniqueNode> getNeighbors()
-    {
-        return neighbors;
     }
 
     @Override

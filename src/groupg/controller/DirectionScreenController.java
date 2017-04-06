@@ -143,7 +143,7 @@ public class DirectionScreenController implements Initializable
             output.addAll(astar.run(startLocField.getCurrentSelection(), destField.getCurrentSelection()));
 
             displayedShapes.clear();
-            DrawLines.drawLinesInOrder(output, displayedShapes);
+            displayedShapes = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(output));
         }
     }
 
