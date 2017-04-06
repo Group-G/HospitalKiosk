@@ -16,6 +16,7 @@ public class HospitalData {
     private static List<Person> peopleList = new ArrayList<>();
     private static JavaDBExample dbExample;
     public static String[] login = new String[2];
+    public static ArrayList<Integer> allIds = new ArrayList<>();
 
     //Values for TRACKIDS
     public static int LOCATION_NEW;
@@ -69,6 +70,13 @@ public class HospitalData {
                         if(pullOffices(stmt)) {
                             if(pullCategories(stmt)) {
                                 if(pullIDS(stmt)){
+                                    System.out.println("hello??");
+                                    for(int i = 0; i < allIds.size(); i++)
+                                    {
+
+                                        System.out.print(allIds.get(i) + ", ");
+                                    }
+                                    System.out.println();
                                     return true;
                                 }
                             }
@@ -76,6 +84,7 @@ public class HospitalData {
                     }
                 }
             }
+
 
 
         }
@@ -587,6 +596,7 @@ public class HospitalData {
                         floorCount = Integer.parseInt(buildings.getString(j));
                     }
                 }
+                allIds.add(buildingId);
                 Building b = new Building(buildingId, buildingName, floorCount);
                 buildingsList.add(b);
 
@@ -637,12 +647,14 @@ public class HospitalData {
                     else if(roomDataset.getColumnName(j).equals("FLOOR_NUMBER")){
                         floorNumber = floors.getString(j).replaceAll("\\s+","");
                     }
+
 //
 //                    //make building and add it
 
 
 
                 }
+                allIds.add(floorId);
 //                System.out.println("adding floor " + floorId);
                 Floor f = new Floor(floorId, buildingId, fileName, floorNumber);
 //               FLOOR_ID FLOOR_NUMBER  BUILDING_ID  FILENAME varchar(20))
@@ -705,12 +717,14 @@ public class HospitalData {
                     {
                         System.out.println("Could not place " + locations.getString(j) +", " + roomDataset.getColumnName(j));
                     }
+
 //
 //                    //make building and add it
 
 
 
                 }
+                allIds.add(id);
                 Location l = new Location(locationName, x_coord, y_coord, category, 1, id, floorId, buildingID);
                 addLocation(l);
 
@@ -756,9 +770,11 @@ public class HospitalData {
                     } else {
                         System.out.println("Could not place " + people.getString(j) + ", " + roomDataset.getColumnName(j));
                     }
+
 //
 //                    //make building and add it
                 }
+                allIds.add(id);
                 Person p = new Person(id, name,title);
                 peopleList.add(p);
             }
