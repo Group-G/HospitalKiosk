@@ -19,7 +19,7 @@ public class NodeFactory
     {
         UniqueNode circle = new UniqueNode(10, new Location(x, y, 1004, 1));
         circle.setStroke(Color.BLACK);
-        circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.7));
+        circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
         circle.setCenterX(x);
         circle.setCenterY(y);
         NodeListenerFactory.attachListeners(circle);
@@ -35,7 +35,7 @@ public class NodeFactory
     {
         UniqueNode circle = new UniqueNode(10, location);
         circle.setStroke(Color.BLACK);
-        circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.7));
+        circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
         circle.setCenterX(location.getX());
         circle.setCenterY(location.getY());
         NodeListenerFactory.attachListeners(circle);

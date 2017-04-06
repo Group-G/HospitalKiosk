@@ -39,7 +39,6 @@ public class NodeListenerFactory
                                      {
                                          node.setOnMousePressed(mousePressedHandler);
                                          node.setOnMouseDragged(mouseDraggedHandler);
-                                         node.setOnMouseReleased(event -> AdminMainController.drawConnections(node));
                                          node.setOnContextMenuRequested(showContextMenu);
                                          node.setOnMouseMoved(trackMouseCoordinates);
                                      });
@@ -128,12 +127,15 @@ public class NodeListenerFactory
                     //Clear current highlight
                     if (currentSelection != null)
                     {
-                        currentSelection.setFill(Color.BLACK);
+                        currentSelection.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
                     }
 
                     //Set new highlight
                     currentSelection = p;
-                    p.setFill(Color.RED);
+                    p.setFill(Color.RED.deriveColor(1, 1, 1, 0.3));
+
+                    //Draw new connections
+                    AdminMainController.drawConnections(currentSelection);
                 }
                 else
                 {
@@ -147,12 +149,12 @@ public class NodeListenerFactory
                 //Clear current highlight
                 if (currentSelection != null)
                 {
-                    currentSelection.setFill(Color.BLACK);
+                    currentSelection.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
                 }
 
                 //Set new highlight
                 currentSelection = ((UniqueNode) (t.getSource()));
-                currentSelection.setFill(Color.RED);
+                currentSelection.setFill(Color.RED.deriveColor(1, 1, 1, 0.3));
             }
         }
     };
