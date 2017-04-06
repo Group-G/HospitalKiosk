@@ -12,7 +12,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Line;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,7 +29,7 @@ public class AdminMainController implements Initializable
     @FXML
     private GridPane canvasWrapper;
     private ResizableCanvas canvas = new ResizableCanvas(ResizableCanvas.DRAW_FLOOR_4);
-    private static Pane nodeOverlay, lineOverlay;
+    public static Pane nodeOverlay, lineOverlay;
     public static ObservableList<UniqueNode> displayedNodes = FXCollections.observableArrayList();
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
 
@@ -41,20 +40,23 @@ public class AdminMainController implements Initializable
         displayedNodes.addListener((ListChangeListener<UniqueNode>) c -> nodeOverlay.getChildren().setAll(displayedNodes));
 
         //Change listener for removed connections
-        displayedLines.addListener((ListChangeListener<Line>) c -> lineOverlay.getChildren().setAll(displayedLines));
+        displayedLines.addListener((ListChangeListener<UniqueLine>) c -> {
+            System.out.println("change listener");
+            lineOverlay.getChildren().setAll(displayedLines); //For some reason, this never gets called (except twice when I don't change the lines...)
+        });
 
-        //Clear nodes and fill from DB
         nodeOverlay = new Pane();
         nodeOverlay.setPickOnBounds(false);
+        lineOverlay = new Pane();
+        lineOverlay.setPickOnBounds(false);
+
+        //Fill list with nodes from DB
         displayedNodes.clear();
         for (Location l : HospitalData.getAllLocations())
         {
             displayedNodes.add(NodeFactory.getNode(l));
         }
         nodeOverlay.getChildren().setAll(displayedNodes);
-
-        lineOverlay = new Pane();
-        lineOverlay.setPickOnBounds(false);
 
         //Add layers
         canvasWrapper.getChildren().addAll(canvas, nodeOverlay, lineOverlay);

@@ -140,6 +140,18 @@ public class NodeListenerFactory
                     orgTranslateY = p.getTranslateY();
                 }
             }
+            else if (t.getSource() instanceof UniqueNode)
+            {
+                //Clear current highlight
+                if (currentSelection != null)
+                {
+                    currentSelection.setFill(Color.BLACK);
+                }
+
+                //Set new highlight
+                currentSelection = ((UniqueNode) (t.getSource()));
+                currentSelection.setFill(Color.RED);
+            }
         }
     };
 

@@ -22,7 +22,10 @@ public class LineListenerFactory
                                                                         {
                                                                             ContextMenu contextMenu = new ContextMenu();
                                                                             MenuItem remove = new MenuItem("Remove Connection");
-                                                                            remove.setOnAction(event1 -> AdminMainController.displayedLines.remove(line));
+                                                                            remove.setOnAction(event1 -> {
+                                                                                AdminMainController.displayedLines.remove(line);
+                                                                                AdminMainController.lineOverlay.getChildren().setAll(AdminMainController.displayedLines);
+                                                                            });
                                                                             contextMenu.getItems().add(remove);
                                                                             contextMenu.show(line, mouseX, mouseY);
                                                                         });

@@ -15,7 +15,7 @@ public class UniqueLine extends Line
     public UniqueLine(double x1, double y1, double x2, double y2)
     {
         super(x1, y1, x2, y2);
-        customID = idCounter;
+        customID = idCounter++;
     }
 
     public UniqueLine(Location from, Location to)
@@ -31,7 +31,6 @@ public class UniqueLine extends Line
     @Override
     public boolean equals(Object obj)
     {
-        System.out.println("equals?");
         return obj instanceof UniqueLine && ((UniqueLine)obj).getCustomID() == getCustomID();
     }
 }
