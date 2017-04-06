@@ -25,6 +25,10 @@ public class LineListenerFactory
                                                                             remove.setOnAction(event1 -> {
                                                                                 AdminMainController.displayedLines.remove(line);
                                                                                 AdminMainController.lineOverlay.getChildren().setAll(AdminMainController.displayedLines);
+                                                                                if (NodeListenerFactory.currentSelection != null)
+                                                                                {
+                                                                                    NodeListenerFactory.currentSelection.getLocation().getNeighbors().remove(line.getTo());
+                                                                                }
                                                                             });
                                                                             contextMenu.getItems().add(remove);
                                                                             contextMenu.show(line, mouseX, mouseY);

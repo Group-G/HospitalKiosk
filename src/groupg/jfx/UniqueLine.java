@@ -11,21 +11,29 @@ public class UniqueLine extends Line
 {
     private int customID;
     private static int idCounter = 0;
-
-    public UniqueLine(double x1, double y1, double x2, double y2)
-    {
-        super(x1, y1, x2, y2);
-        customID = idCounter++;
-    }
+    private Location from, to;
 
     public UniqueLine(Location from, Location to)
     {
-        this(from.getX(), from.getY(), to.getX(), to.getY());
+        super(from.getX(), from.getY(), to.getX(), to.getY());
+        customID = idCounter++;
+        this.from = from;
+        this.to = to;
     }
 
     public int getCustomID()
     {
         return customID;
+    }
+
+    public Location getFrom()
+    {
+        return from;
+    }
+
+    public Location getTo()
+    {
+        return to;
     }
 
     @Override

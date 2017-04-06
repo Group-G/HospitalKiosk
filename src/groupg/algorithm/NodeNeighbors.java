@@ -54,8 +54,7 @@ public class NodeNeighbors
                                   if (from.lengthTo(current) <= shortestConnection + CONNECTION_BANDWIDTH)
                                   {
                                       neighbors.add(current);
-                                      AdminMainController.displayedLines.add(new UniqueLine(from.getX(), from.getY(),
-                                                                                            current.getX(), current.getY()));
+                                      AdminMainController.displayedLines.add(new UniqueLine(from, current));
                                   }
                               });
         }

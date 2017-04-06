@@ -25,7 +25,7 @@ import java.util.List;
 public class NodeListenerFactory
 {
     private static double orgSceneX, orgSceneY, orgTranslateX, orgTranslateY;
-    private static UniqueNode currentSelection = null;
+    public static UniqueNode currentSelection = null;
     private static double mouseX, mouseY;
 
     /**
@@ -39,17 +39,7 @@ public class NodeListenerFactory
                                      {
                                          node.setOnMousePressed(mousePressedHandler);
                                          node.setOnMouseDragged(mouseDraggedHandler);
-                                         node.setOnMouseReleased(event ->
-                                                                 {
-                                                                     //Generate neighbors for this node
-                                                                     List<Location> neighbors = NodeNeighbors.generateNeighbors(node, AdminMainController.displayedNodes);
-
-                                                                     //Clear all of this node's neighbors and save new ones
-                                                                     node.getLocation().setNeighbors(neighbors);
-
-                                                                     HospitalData.setLocation(node.getLocation().getID(), node.getLocation());
-                                                                     AdminMainController.drawConnections(node);
-                                                                 });
+                                         node.setOnMouseReleased(event -> AdminMainController.drawConnections(node));
                                          node.setOnContextMenuRequested(showContextMenu);
                                          node.setOnMouseMoved(trackMouseCoordinates);
                                      });
@@ -91,7 +81,19 @@ public class NodeListenerFactory
                                    AdminMainController.displayedNodes.remove(currentSelection);
                                });
 
-            contextMenu.getItems().addAll(changeCat, changeName, remove);
+            MenuItem autogen = new MenuItem("Generate Connections");
+            autogen.setOnAction(event1 -> {
+                //Generate neighbors for this node
+                List<Location> neighbors = NodeNeighbors.generateNeighbors(currentSelection, AdminMainController.displayedNodes);
+
+                //Clear all of this node's neighbors and save new ones
+                currentSelection.getLocation().setNeighbors(neighbors);
+
+                HospitalData.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
+                AdminMainController.drawConnections(currentSelection);
+            });
+
+            contextMenu.getItems().addAll(changeName, changeCat, autogen, remove);
 
             contextMenu.show(currentSelection, mouseX, mouseY);
         }
