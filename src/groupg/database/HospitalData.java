@@ -24,6 +24,8 @@ public class HospitalData {
     public static int BUILDING_NEW;
     public static int FLOOR_NEW;
 
+    public static int NEW_ID;
+
         /*
          * 0: Location 0
          * 1: Personelle 0
@@ -202,6 +204,19 @@ public class HospitalData {
         dbExample.fillTable( locations, people, offices, floors, building, connections, admins,  cat, trackids);
         return true;
     }
+
+
+    public static int generateId(){
+        NEW_ID++;
+        if(allIds.contains(NEW_ID)){
+            return generateId();
+        }
+        else{
+            return NEW_ID;
+        }
+    }
+
+
 
     /**
      * Finds a Building based on its id
@@ -549,19 +564,19 @@ public class HospitalData {
 
      */
     public static int getNewLocationID(){
-        return ++LOCATION_NEW;
+        return generateId();
     }
 
     public static int getNewPersonelleID(){
-        return ++PERSONELLE_NEW;
+        return generateId();
     }
 
     public static int getNewBuildingID(){
-        return ++BUILDING_NEW;
+        return generateId();
     }
 
     public static int getNewFloorID(){
-        return ++FLOOR_NEW;
+        return generateId();
     }
 
 
