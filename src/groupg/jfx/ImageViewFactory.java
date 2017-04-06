@@ -19,7 +19,7 @@ import javafx.scene.layout.Pane;
 public class ImageViewFactory {
     private static final int MIN_PIXELS = 100;
 
-    public static ImageView getImageView(Image image, Pane node){
+    public static ImageView getImageView(Image image, Pane pane){
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
         reset(imageView, image.getWidth() / 2, image.getHeight() / 2);
@@ -100,8 +100,8 @@ public class ImageViewFactory {
             }
         });
 
-        imageView.fitWidthProperty().bind(node.widthProperty());
-        imageView.fitHeightProperty().bind(node.heightProperty());
+        imageView.fitWidthProperty().bind(pane.widthProperty());
+        imageView.fitHeightProperty().bind(pane.heightProperty());
 
         return imageView;
     }

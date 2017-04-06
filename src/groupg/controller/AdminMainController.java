@@ -54,6 +54,13 @@ public class AdminMainController implements Initializable
         lineOverlay.setPickOnBounds(false);
         imageViewPane = new Pane();
         imageViewPane.setPickOnBounds(false);
+        imageViewPane.widthProperty().addListener((observable, oldValue, newValue) -> {
+            displayedNodes.forEach(elem -> {
+//                elem.getLocation().setX((int)(elem.getLocation().getX() + (newValue.doubleValue()-oldValue.doubleValue())/oldValue.doubleValue()));
+                elem.getLocation().setX((int)(elem.getLocation().getX() - (newValue.doubleValue() - oldValue.doubleValue())/(2*2265)));
+                elem.setCenterX(elem.getLocation().getX());
+            });
+        });
         imageView = ImageViewFactory.getImageView(new Image("/image/faulkner_4_cropped.png", 2265, 1290, true, true), imageViewPane);
 
         //Fill list with nodes from DB

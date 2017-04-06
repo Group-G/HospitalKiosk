@@ -125,14 +125,16 @@ public class Location implements Comparable
         return getName();
     }
 
-    public void setX(int x)
+    public double setX(int x)
     {
         this.x = x;
+        return this.x;
     }
 
-    public void setY(int y)
+    public double setY(int y)
     {
         this.y = y;
+        return this.y;
     }
 
     public void setID(int ID)
