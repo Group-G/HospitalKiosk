@@ -63,3 +63,4 @@ classes/
 .idea/dbnavigator.xml
 derby.log
 HospitalDatabase/
+.idea/codeStyleSettings.xml
