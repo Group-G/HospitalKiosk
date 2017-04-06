@@ -24,10 +24,10 @@ public class HospitalData {
     public static int FLOOR_NEW;
 
         /*
-         * 0: Location 2000+
-         * 1: Personelle 3000+ //change this in future in case there are a ton of location nodes
-         * 2: Building 100+
-         * 3: Floor 1000+
+         * 0: Location 0
+         * 1: Personelle 0
+         * 2: Building 0
+         * 3: Floor 0
          */
 
 
@@ -543,6 +543,18 @@ public class HospitalData {
         return ++LOCATION_NEW;
     }
 
+    public static int getNewPersonelleID(){
+        return ++PERSONELLE_NEW;
+    }
+
+    public static int getNewBuildingID(){
+        return ++BUILDING_NEW;
+    }
+
+    public static int getNewFloorID(){
+        return ++FLOOR_NEW;
+    }
+
 
     /***************************************************************************/
     /**
@@ -617,6 +629,7 @@ public class HospitalData {
                     }
                     else if(roomDataset.getColumnName(j).equals("BUILDING_ID")){
                         buildingId = Integer.parseInt(floors.getString(j).replaceAll("\\s+",""));
+                        System.out.println("BUILDING ID : " + buildingId + "FOR FLOOR : " + floorId);
                     }
                     else if(roomDataset.getColumnName(j).equals("FILENAME")){
                         fileName = floors.getString(j);

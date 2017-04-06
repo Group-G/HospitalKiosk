@@ -197,8 +197,8 @@ public class JavaDBExample
             //(BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)
             stmt.execute("INSERT INTO BUILDING VALUES " +
 
-                    "(101, 'Parking Garage', 1), " +
-                    "(102, 'Faulkner Hospital', 4) ");
+                    "(0, 'Parking Garage', 1), " +
+                    "(1, 'Faulkner Hospital', 4) ");
 
 
             //INSERT FLOOR
@@ -206,14 +206,14 @@ public class JavaDBExample
             //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID int, FILENAME varchar(20))
             stmt.execute("INSERT INTO FLOOR VALUES " +
 
-                    "(1001, '1', 101, 'B0_F1_img'), " +
-                    "(1002, '1', 102, 'B1_F1_img'), " +
-                    "(1003, '2', 102, 'B1_F2_img'), " +
-                    "(1004, '3', 102, 'B1_F3_img'), " +
-                    "(1005, '4', 102, 'B1_F4_img'), " +
-                    "(1006, '5', 102, 'B1_F5_img'), " +
-                    "(1007, '6', 102, 'B1_F6_img'), " +
-                    "(1008, '7', 102, 'B1_F7_img') " );
+                    "(0, '1', 0, 'B0_F1_img'), " +
+                    "(1, '1', 1, 'B1_F1_img'), " +
+                    "(2, '2', 1, 'B1_F2_img'), " +
+                    "(3, '3', 1, 'B1_F3_img'), " +
+                    "(4, '4', 1, 'B1_F4_img'), " +
+                    "(5, '5', 1, 'B1_F5_img'), " +
+                    "(6, '6', 1, 'B1_F6_img'), " +
+                    "(7, '7', 1, 'B1_F7_img') " );
 
 
 
@@ -246,7 +246,7 @@ public class JavaDBExample
             //FORMAT
             //(NEW_LOCATION int, NEW_PERSONELLE int, NEW_BUILDING int, NEW_FLOOR int")
             stmt.execute("INSERT INTO TRACKID VALUES " +
-                    "(1, 3004, 103, 1006) ");
+                    "(0, 0, 2, 8) ");
 
 
             //Print

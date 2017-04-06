@@ -11,7 +11,6 @@ public class Person
     private String name, title;
     private List<Integer> officeId;
     private int id;
-    private static int idCounter = 3004;
 
     /**
      * Constructor
@@ -24,6 +23,7 @@ public class Person
         this.name = name;
         this.title = title;
         this.officeId = officeId;
+        //this.id = HospitalData.getNewPersonelleID();
         this.id = id;
     }
 
@@ -35,7 +35,9 @@ public class Person
      */
     public Person(String name, String title, List<Integer> officeId)
     {
-        this(name, title, officeId, idCounter++);
+        this.name = name;
+        this.title = title;
+        this.officeId = officeId;
     }
 
     /**
@@ -97,15 +99,6 @@ public class Person
     public int getId()
     {
         return id;
-    }
-
-    /**
-     * Getter of idCounter
-     * @return
-     */
-    public static int getIdCounter()
-    {
-        return idCounter;
     }
 
     /**
