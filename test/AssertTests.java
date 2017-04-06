@@ -1,5 +1,5 @@
-import groupg.Astar;
-import groupg.Location;
+import groupg.algorithm.Astar;
+import groupg.database.Location;
 import org.junit.Test;
 
 import java.util.LinkedList;
