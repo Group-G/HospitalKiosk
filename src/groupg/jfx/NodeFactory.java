@@ -19,7 +19,7 @@ public class NodeFactory
      */
     public static UniqueNode getNode(double x, double y)
     {
-        UniqueNode circle = new UniqueNode(10, new Location("", x, y, new LinkedList<>(),"",0, 4, 1));
+        UniqueNode circle = new UniqueNode(8, new Location("", x, y, new LinkedList<>(),"",0, 4, 1));
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
         circle.setCenterX(x);
