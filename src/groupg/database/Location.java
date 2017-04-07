@@ -130,11 +130,11 @@ public class Location implements Comparable
             String a;
             if (id > neighbor.getID())
             {
-                a = "(" + id + "," + neighbor + ")";
+                a = "(" + id + "," + neighbor.getID() + ")";
             }
             else
             {
-                a = "(" + neighbor + "," + id + ")";
+                a = "(" + neighbor.getID() + "," + id + ")";
             }
             result.add(a);
         }

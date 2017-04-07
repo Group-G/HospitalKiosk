@@ -98,6 +98,7 @@ public class NodeListenerFactory
                 for (Location neighbor : neighbors) {
                     currentSelection.getLocation().addNeighbor(neighbor);
                     neighbor.addNeighbor(currentSelection.getLocation());
+                    HospitalData.addConnection(currentSelection.getLocation().getID(), neighbor.getID());
                 }
 
                 HospitalData.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
@@ -127,7 +128,7 @@ public class NodeListenerFactory
                     orgTranslateX = p.getCenterX();
                     orgTranslateY = p.getCenterY();
 
-                    if (t.isShiftDown()) {
+                    if (t.isShiftDown() && p != currentSelection) {
                         //Add to neighbors
                         currentSelection.getLocation().addNeighbor(p.getLocation());
                         p.getLocation().addNeighbor(currentSelection.getLocation());
