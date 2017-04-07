@@ -654,7 +654,6 @@ public class HospitalData {
                     }
                     else if(roomDataset.getColumnName(j).equals("BUILDING_ID")){
                         buildingId = Integer.parseInt(floors.getString(j).replaceAll("\\s+",""));
-                        System.out.println("BUILDING ID : " + buildingId + "FOR FLOOR : " + floorId);
                     }
                     else if(roomDataset.getColumnName(j).equals("FILENAME")){
                         fileName = floors.getString(j);
