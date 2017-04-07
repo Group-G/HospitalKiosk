@@ -94,7 +94,7 @@ public class AdminMainController implements Initializable {
     }
 
     public void onAddNode(ActionEvent actionEvent) {
-        UniqueNode node = NodeFactory.getNode(100, 100);
+        UniqueNode node = NodeFactory.getNode(300, 300);
         HospitalData.setLocation(node.getLocation().getID(), node.getLocation());
         displayedNodes.add(node);
         nodeOverlay.getChildren().setAll(displayedNodes);

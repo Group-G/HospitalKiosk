@@ -71,10 +71,11 @@ public class NodeListenerFactory
             catsFromDB.forEach(s ->
                                {
                                    MenuItem item = new MenuItem(s);
-                                   item.setOnAction(e -> currentSelection.getLocation().setCategory(s));
+                                   item.setOnAction(e -> {
+                                       currentSelection.getLocation().setCategory(s);
+                                       AdminMainController.updateNodePD();
+                                   });
                                    changeCat.getItems().add(item);
-
-                                   AdminMainController.updateNodePD();
                                });
 
             MenuItem remove = new MenuItem("Remove Node");

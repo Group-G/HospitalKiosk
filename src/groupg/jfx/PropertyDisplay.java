@@ -89,7 +89,7 @@ public class PropertyDisplay extends Pane {
         updateDisplay();
     }
 
-    public void updateDisplay()
+    private void updateDisplay()
     {
         textVBox.getChildren().clear();
         keys.forEach(elem -> {
