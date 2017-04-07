@@ -141,7 +141,6 @@ public class JavaDBExample
             stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(20), PERMISIONS INT)");
 
             //track id will return the newest id that can be used then
-            stmt.execute("CREATE TABLE TRACKID(NEW_LOCATION int, NEW_PERSONELLE int, NEW_BUILDING int, NEW_FLOOR int)");
             //END CREATE TABLES
 
 //            System.out.println("Tables created!");
@@ -271,7 +270,7 @@ public class JavaDBExample
      * @param admin String contain SQL of admin
      * @param category String contain SQL of category
      */
-    public void fillTable(String location, String personelle, String offices, String floor, String building, String connections, String admin,  String category, String trackIDS){
+    public void fillTable(String location, String personelle, String offices, String floor, String building, String connections, String admin, String category){
         try {
             // substitute your database name for myDB
             Connection connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
@@ -346,12 +345,6 @@ public class JavaDBExample
                 stmt.execute("INSERT INTO CATEGORY VALUES " + category);
             }
 
-            //INSERT TRACKIDS
-            //FORMAT
-            //(NEW_LOCATION int, NEW_PERSONELLE int, NEW_BUILDING int, NEW_FLOOR int")
-            if(!category.equals("")) {
-                stmt.execute("INSERT INTO TRACKID VALUES " + trackIDS);
-            }
 
             //Print
 //            System.out.println("Tables inserted!");
