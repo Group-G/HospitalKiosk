@@ -19,7 +19,8 @@ public class Building{
      * @param numFloors Number of floors
      */
     public Building(int id, String name, int numFloors) {
-        this.id = id;
+        //this.id = id;
+        this.id = HospitalData.getNewBuildingID();
         this.name = name;
         this.numFloors = numFloors;
     }

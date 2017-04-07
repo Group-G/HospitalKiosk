@@ -21,7 +21,8 @@ public class Floor{
      */
     public Floor(int floorId, int buildingId, String fileName, String floorName) {
 //        System.out.println("made floor" + floorId + ", " + buildingId + ", " + fileName + ", " + floorName);
-        this.id = floorId;
+        //this.id = floorId;
+        this.id = HospitalData.getNewFloorID();
         this.buildingId = buildingId;
         this.filename = fileName;
         this.floorNumber = floorName;
