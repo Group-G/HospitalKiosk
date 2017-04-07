@@ -169,10 +169,10 @@ public class JavaDBExample
             //FORMAT
 
             //(LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_ID int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)
-//            stmt.execute("INSERT INTO LOCATION VALUES " +
-//                    "(2001, 'A111', 'WAITING_ROOM', 1001, 1, 1, 101), " +
-//                    "(2002, 'A112', 'OFFICE', 1002, 1, 3, 102), " +
-//                    "(2003, 'A113', 'OFFICE', 1002, 5, 4, 102) ");
+            stmt.execute("INSERT INTO LOCATION VALUES " +
+                    "(0, 'A111', 'Office', 4, 920, 127, 0), " +
+                    "(1, 'A112', 'Office', 4, 840, 124, 0), " +
+                    "(2, 'A113', 'Office', 4, 856, 396, 0) ");
 
 
             //INSERT PERSONELLE
@@ -206,14 +206,14 @@ public class JavaDBExample
             //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID int, FILENAME varchar(20))
             stmt.execute("INSERT INTO FLOOR VALUES " +
 
-                    "(2, '1', 0, 'B0_F1_img'), " +
-                    "(3, '1', 1, 'B1_F1_img'), " +
-                    "(4, '2', 1, 'B1_F2_img'), " +
-                    "(5, '3', 1, 'B1_F3_img'), " +
-                    "(6, '4', 1, 'B1_F4_img'), " +
-                    "(7, '5', 1, 'B1_F5_img'), " +
-                    "(8, '6', 1, 'B1_F6_img'), " +
-                    "(9, '7', 1, 'B1_F7_img') " );
+                    "(0, '1', 0, 'B0_F1_img'), " +
+                    "(1, '1', 1, 'B1_F1_img'), " +
+                    "(2, '2', 1, 'B1_F2_img'), " +
+                    "(3, '3', 1, 'B1_F3_img'), " +
+                    "(4, '4', 1, 'B1_F4_img'), " +
+                    "(5, '5', 1, 'B1_F5_img'), " +
+                    "(6, '6', 1, 'B1_F6_img'), " +
+                    "(7, '7', 1, 'B1_F7_img') " );
 
 
 

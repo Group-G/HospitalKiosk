@@ -10,11 +10,11 @@ public class EmptyLocation extends Location
 {
     public EmptyLocation(double x, double y)
     {
-        super("", x, y, new LinkedList<>(), "", 0, 0, 0, 0);
+        super("", x, y,  new LinkedList<>(), "", 0, 0, 0, 0);
     }
 
     public EmptyLocation()
     {
-        super("", 0, 0, new LinkedList<>(), "", 0, 0, 0, 0);
+        super("", 0, 0,  new LinkedList<>(),"", 0, 0, 0, 0);
     }
 }

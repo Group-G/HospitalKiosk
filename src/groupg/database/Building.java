@@ -17,9 +17,23 @@ public class Building{
      * @param id Id of building
      * @param name Name of building
      * @param numFloors Number of floors
+     * This constructor can only be used when you are pulling from the database.
+     *                  avoid setting the id of items when creating them through
+     *                  the UI.
      */
     public Building(int id, String name, int numFloors) {
-        //this.id = id;
+        this.id = id;
+        this.name = name;
+        this.numFloors = numFloors;
+    }
+
+    /**
+     * Constructor
+     * @param name Name of building
+     * @param numFloors Number of floors
+     * This constructor is used for interactions with the UI.
+     */
+    public Building(String name, int numFloors) {
         this.id = HospitalData.getNewBuildingID();
         this.name = name;
         this.numFloors = numFloors;

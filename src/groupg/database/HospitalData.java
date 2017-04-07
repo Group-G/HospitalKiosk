@@ -654,7 +654,6 @@ public class HospitalData {
                     }
                     else if(roomDataset.getColumnName(j).equals("BUILDING_ID")){
                         buildingId = Integer.parseInt(floors.getString(j).replaceAll("\\s+",""));
-                        System.out.println("BUILDING ID : " + buildingId + "FOR FLOOR : " + floorId);
                     }
                     else if(roomDataset.getColumnName(j).equals("FILENAME")){
                         fileName = floors.getString(j);
@@ -740,7 +739,7 @@ public class HospitalData {
 
                 }
                 allIds.add(id);
-                Location l = new Location(locationName, x_coord, y_coord, category, 1, id, floorId, buildingID);
+                Location l = new Location(locationName, x_coord, y_coord, new LinkedList<>(), category, 1, id, floorId, buildingID);
                 addLocation(l);
 
             }
