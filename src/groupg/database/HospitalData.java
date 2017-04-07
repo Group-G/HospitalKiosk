@@ -465,6 +465,9 @@ public class HospitalData {
         if(l1 == null || l2 == null){
             System.out.println("Invalid id's for connection");
         }
+        else if(id1 == id2){
+            System.out.println("YOU FUCKING WANKER");
+        }
         else{
             l1.addNeighbor(id2);
             l2.addNeighbor(id1);
