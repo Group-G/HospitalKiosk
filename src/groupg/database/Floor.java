@@ -18,10 +18,25 @@ public class Floor{
      * @param buildingId Id of building its in
      * @param fileName name of the file
      * @param floorName Id of floor
+     * This constructor can only be used when you are pulling from the database.
+     *                  avoid setting the id of items when creating them through
+     *                  the UI.
      */
     public Floor(int floorId, int buildingId, String fileName, String floorName) {
-//        System.out.println("made floor" + floorId + ", " + buildingId + ", " + fileName + ", " + floorName);
-        //this.id = floorId;
+        this.id = floorId;
+        this.buildingId = buildingId;
+        this.filename = fileName;
+        this.floorNumber = floorName;
+    }
+
+    /**
+     * Constructor
+     * @param buildingId Id of building its in
+     * @param fileName name of the file
+     * @param floorName Id of floor
+     * This constructor can only be used when interacting with the UI.
+     */
+    public Floor(int buildingId, String fileName, String floorName) {
         this.id = HospitalData.getNewFloorID();
         this.buildingId = buildingId;
         this.filename = fileName;
