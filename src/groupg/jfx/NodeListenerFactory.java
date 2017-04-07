@@ -97,9 +97,7 @@ public class NodeListenerFactory
                 currentSelection.getLocation().getNeighbors().clear();
                 for (Location neighbor : neighbors) {
                     currentSelection.getLocation().addNeighbor(neighbor);
-                    Location possibleNeighbor = HospitalData.getLocationById(neighbor.getID());
-                    if (possibleNeighbor != null)
-                        possibleNeighbor.addNeighbor(currentSelection.getLocation());
+                    neighbor.addNeighbor(currentSelection.getLocation());
                 }
 
                 HospitalData.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
