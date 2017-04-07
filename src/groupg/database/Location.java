@@ -3,6 +3,7 @@ package groupg.database;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Dylan McKillip
@@ -277,5 +278,9 @@ public class Location implements Comparable
     float getWeight()
     {
         return weight;
+    }
+
+    public List<Integer> getNeighborsIDs() {
+        return neighbors.stream().map(Location::getID).collect(Collectors.toList());
     }
 }
