@@ -138,7 +138,7 @@ public class JavaDBExample
             stmt.execute("CREATE TABLE CONNECTIONS(LOCATION_ONE int, LOCATION_TWO int)");
             stmt.execute("CREATE TABLE PEOPLELOCATIONS(PERSON_ID int, OFFICE_ID int)");
             stmt.execute("CREATE TABLE ADMIN(ADMIN_UN char(20) NOT NULL Primary Key, ADMIN_PW char(20))");
-            stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(20))");
+            stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(20), PERMISIONS INT)");
 
             //track id will return the newest id that can be used then
             stmt.execute("CREATE TABLE TRACKID(NEW_LOCATION int, NEW_PERSONELLE int, NEW_BUILDING int, NEW_FLOOR int)");

@@ -260,14 +260,41 @@ public class Location implements Comparable
         return this.parent;
     }
 
-    public void addNeighbor(int id)
+    public boolean addNeighbor(int id)
     {
+        for(Location n :neighbors)
+        {
+            if(n.getID() == id)
+            {
+                return false;
+            }
+        }
+        if(this.getID() == id)
+        {
+            return false;
+        }
+
         neighbors.add(HospitalData.getLocationById(id));
+        return true;
     }
 
-    public void addNeighbor(Location loc)
+    public boolean addNeighbor(Location loc)
     {
+        int id = loc.getID();
+        for(Location n :neighbors)
+        {
+            if(n.getID() == id)
+            {
+                return false;
+            }
+        }
+        if(this.getID() == id)
+        {
+            return false;
+        }
+
         neighbors.add(loc);
+        return true;
     }
 
     public int getFloorId()

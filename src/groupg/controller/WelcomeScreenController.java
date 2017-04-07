@@ -48,12 +48,7 @@ public class WelcomeScreenController implements Initializable
         Collections.swap(children, 1, 2);
         topHBox.getChildren().setAll(children);
 
-        HospitalData.getAllCategories().forEach(elem ->
-                                                {
-                                                    MenuItem item = new MenuItem(elem);
-                                                    item.setOnAction(actionEvent ->
-                                                                     {
-                                                                         selectedCat = elem;
+        HospitalData.
                                                                          catDropdown.setText(elem);
                                                                          textField.getEntries().clear();
                                                                          textField.getEntries().addAll(HospitalData.getLocationsByCategory(elem));
