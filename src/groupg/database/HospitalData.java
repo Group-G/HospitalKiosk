@@ -459,6 +459,7 @@ public class HospitalData {
      * @param id2 id of second location
      */
     public static void addConnection(int id1, int id2) {
+        System.out.println("ADDING A FRIGGIN CONNECTION " + id1 + ", " + id2);
         Location l1 = getLocationById(id1);
         Location l2 = getLocationById(id2);
         if(l1 == null || l2 == null){
