@@ -46,11 +46,11 @@ public class Astar {
     private LinkedList<Location> runAStar(Location start, Location goal) throws NullPointerException{
         shortestPath.clear(); //clears previous path
         start.setFcost(0+start.lengthTo(goal));
-        this.open.add(start);
+        open.add(start);
         do{
             Location current = lowestF(open);
             closed.add(current);
-            this.open.remove(current);
+            open.remove(current);
             if(closed.contains(goal)){
                 break;
             }

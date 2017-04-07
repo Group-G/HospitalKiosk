@@ -465,6 +465,9 @@ public class HospitalData {
         if(l1 == null || l2 == null){
             System.out.println("Invalid id's for connection");
         }
+        if(l1.getID() == l2.getID()){
+            System.out.println("YOU CANT CONNECT A NODE TO ITSELF");
+        }
         else{
             l1.addNeighbor(id2);
             l2.addNeighbor(id1);
@@ -643,6 +646,7 @@ public class HospitalData {
                     }
                     else if(roomDataset.getColumnName(j).equals("BUILDING_ID")){
                         buildingId = Integer.parseInt(floors.getString(j).replaceAll("\\s+",""));
+                        System.out.println("BUILDING ID : " + buildingId + "FOR FLOOR : " + floorId);
                     }
                     else if(roomDataset.getColumnName(j).equals("FILENAME")){
                         fileName = floors.getString(j);
