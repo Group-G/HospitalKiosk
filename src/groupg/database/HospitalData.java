@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.HashMap;
 
 /**
  * Created by  Alazar Genene, Saul Woolf, and Samantha Comeau on 4/1/17.
@@ -17,6 +18,7 @@ public class HospitalData {
     private static JavaDBExample dbExample;
     public static String[] login = new String[2];
     public static ArrayList<Integer> allIds = new ArrayList<>();
+    //private static HashMap<Integer, Integer> connections = new LinkedList<>();
 
     //Values for TRACKIDS
     public static int LOCATION_NEW;
@@ -332,21 +334,7 @@ public class HospitalData {
 
         }
     }
-    /**
-     * Adds location to given floor
-     * @param l Location
-     * @param floorId Floor id
-     */
-    private static void addLocation(Location l, int floorId) {
-        Floor f = getFloorById(floorId);
-        if(f == null) {
-            System.out.println("couldnt find floor");
-        }
-        else{
-            f.addLocation(l);
-//            System.out.println("added to floor" + floorId);
-        }
-    }
+
     /**
      * Adds location to db
      * @param l
