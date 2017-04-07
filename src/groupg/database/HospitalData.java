@@ -740,7 +740,7 @@ public class HospitalData {
 
                 }
                 allIds.add(id);
-                Location l = new Location(locationName, x_coord, y_coord, category, 1, id, floorId, buildingID);
+                Location l = new Location(locationName, x_coord, y_coord, new LinkedList<>(), category, 1, id, floorId, buildingID);
                 addLocation(l);
 
             }
