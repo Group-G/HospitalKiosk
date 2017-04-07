@@ -120,6 +120,11 @@ public class Location implements Comparable
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Location && ((Location)obj).getID() == getID();
+    }
+
+    @Override
     public String toString()
     {
         return getName();
