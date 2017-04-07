@@ -18,14 +18,12 @@ import java.util.stream.Collectors;
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-public class AutoCompleteTextField extends TextField
-{
+public class AutoCompleteTextField extends TextField {
     private final SortedSet<Location> entries;
     private ContextMenu entriesPopup;
     private Location currentSelection = null;
 
-    public AutoCompleteTextField()
-    {
+    public AutoCompleteTextField() {
         super();
         entries = new TreeSet<>();
         entriesPopup = new ContextMenu();
@@ -33,13 +31,9 @@ public class AutoCompleteTextField extends TextField
                                    {
                                        String text = getText();
                                        if (text.length() == 0)
-                                       {
                                            entriesPopup.hide();
-                                       }
-                                       else
-                                       {
-                                           if (entries.size() > 0)
-                                           {
+                                       else {
+                                           if (entries.size() > 0) {
                                                LinkedList<Location> searchResult = new LinkedList<>();
                                                searchResult.addAll(entries.stream()
                                                                           .filter(e -> e.toString().toLowerCase().contains(getText().toLowerCase()))
@@ -48,14 +42,10 @@ public class AutoCompleteTextField extends TextField
                                                populatePopup(searchResult);
 
                                                if (!entriesPopup.isShowing())
-                                               {
                                                    entriesPopup.show(AutoCompleteTextField.this, Side.BOTTOM, 0, 0);
-                                               }
                                            }
                                            else
-                                           {
                                                entriesPopup.hide();
-                                           }
                                        }
                                    });
 
@@ -67,13 +57,11 @@ public class AutoCompleteTextField extends TextField
      *
      * @param searchResult The set of matching strings.
      */
-    private void populatePopup(List<Location> searchResult)
-    {
+    private void populatePopup(List<Location> searchResult) {
         List<CustomMenuItem> menuItems = new LinkedList<>();
 
         int count = Math.min(searchResult.size(), 10);
-        for (int i = 0; i < count; i++)
-        {
+        for (int i = 0; i < count; i++) {
             final Location current = searchResult.get(i);
             String result = current.toString();
             Label entryLabel = new Label(result);
@@ -93,25 +81,19 @@ public class AutoCompleteTextField extends TextField
         entriesPopup.getItems().addAll(menuItems);
     }
 
-    public SortedSet<Location> getEntries()
-    {
+    public SortedSet<Location> getEntries() {
         return entries;
     }
 
-    public Location getCurrentSelection()
-    {
-        if (currentSelection == null)
-        {
+    public Location getCurrentSelection() {
+        if (currentSelection == null) {
             Location out = null;
 
             for (Location elem : HospitalData.getAllLocations())
-            {
-                if (elem.toString().equals(getText()))
-                {
+                if (elem.toString().equals(getText())) {
                     out = elem;
                     break;
                 }
-            }
 
             return out;
         }
@@ -119,8 +101,7 @@ public class AutoCompleteTextField extends TextField
         return currentSelection;
     }
 
-    public void setCurrentSelection(Location currentSelection)
-    {
+    public void setCurrentSelection(Location currentSelection) {
         this.currentSelection = currentSelection;
     }
 }

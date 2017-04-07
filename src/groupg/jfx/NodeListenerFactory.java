@@ -62,6 +62,8 @@ public class NodeListenerFactory
                                        dialog.showAndWait()
                                              .filter(result -> !result.equals(""))
                                              .ifPresent(result -> currentSelection.getLocation().setName(result));
+
+                                       AdminMainController.updateNodePD();
                                    });
 
             Menu changeCat = new Menu("Change Category");
@@ -71,6 +73,8 @@ public class NodeListenerFactory
                                    MenuItem item = new MenuItem(s);
                                    item.setOnAction(e -> currentSelection.getLocation().setCategory(s));
                                    changeCat.getItems().add(item);
+
+                                   AdminMainController.updateNodePD();
                                });
 
             MenuItem remove = new MenuItem("Remove Node");
@@ -78,6 +82,8 @@ public class NodeListenerFactory
                                {
                                    HospitalData.removeLocationById(currentSelection.getLocation().getID());
                                    AdminMainController.displayedNodes.remove(currentSelection);
+
+                                   AdminMainController.updateNodePD();
                                });
 
             MenuItem autogen = new MenuItem("Generate Connections");
@@ -136,6 +142,7 @@ public class NodeListenerFactory
 
                     //Draw new connections
                     AdminMainController.drawConnections(currentSelection);
+                    AdminMainController.updateNodePD();
                 }
                 else
                 {
@@ -181,6 +188,7 @@ public class NodeListenerFactory
                     p.getLocation().setY((int) newTranslateY);
 
                     AdminMainController.drawConnections(currentSelection);
+                    AdminMainController.updateNodePD();
                 }
                 else
                 {
