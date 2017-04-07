@@ -39,7 +39,6 @@ public class NodeListenerFactory
                                      {
                                          node.setOnMousePressed(mousePressedHandler);
                                          node.setOnMouseDragged(mouseDraggedHandler);
-                                         node.setOnMouseReleased(event -> AdminMainController.drawConnections(node));
                                          node.setOnContextMenuRequested(showContextMenu);
                                          node.setOnMouseMoved(trackMouseCoordinates);
                                      });
@@ -63,6 +62,8 @@ public class NodeListenerFactory
                                        dialog.showAndWait()
                                              .filter(result -> !result.equals(""))
                                              .ifPresent(result -> currentSelection.getLocation().setName(result));
+
+                                       AdminMainController.updateNodePD();
                                    });
 
             Menu changeCat = new Menu("Change Category");
@@ -70,7 +71,10 @@ public class NodeListenerFactory
             catsFromDB.forEach(s ->
                                {
                                    MenuItem item = new MenuItem(s);
-                                   item.setOnAction(e -> currentSelection.getLocation().setCategory(s));
+                                   item.setOnAction(e -> {
+                                       currentSelection.getLocation().setCategory(s);
+                                       AdminMainController.updateNodePD();
+                                   });
                                    changeCat.getItems().add(item);
                                });
 
@@ -79,6 +83,8 @@ public class NodeListenerFactory
                                {
                                    HospitalData.removeLocationById(currentSelection.getLocation().getID());
                                    AdminMainController.displayedNodes.remove(currentSelection);
+
+                                   AdminMainController.updateNodePD();
                                });
 
             MenuItem autogen = new MenuItem("Generate Connections");
@@ -86,8 +92,13 @@ public class NodeListenerFactory
                 //Generate neighbors for this node
                 List<Location> neighbors = NodeNeighbors.generateNeighbors(currentSelection, AdminMainController.displayedNodes);
 
-                //Clear all of this node's neighbors and save new ones
-                currentSelection.getLocation().setNeighbors(neighbors);
+                currentSelection.getLocation().getNeighbors().clear();
+                for (Location neighbor : neighbors) {
+                    currentSelection.getLocation().addNeighbor(neighbor);
+                    Location possibleNeighbor = HospitalData.getLocationById(neighbor.getID());
+                    if (possibleNeighbor != null)
+                        possibleNeighbor.addNeighbor(currentSelection.getLocation());
+                }
 
                 HospitalData.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
                 AdminMainController.drawConnections(currentSelection);
@@ -96,16 +107,6 @@ public class NodeListenerFactory
             contextMenu.getItems().addAll(changeName, changeCat, autogen, remove);
 
             contextMenu.show(currentSelection, mouseX, mouseY);
-        }
-    };
-
-    private static EventHandler<MouseEvent> trackMouseCoordinates = new EventHandler<MouseEvent>()
-    {
-        @Override
-        public void handle(MouseEvent event)
-        {
-            mouseX = event.getScreenX();
-            mouseY = event.getScreenY();
         }
     };
 
@@ -125,15 +126,26 @@ public class NodeListenerFactory
                     orgTranslateX = p.getCenterX();
                     orgTranslateY = p.getCenterY();
 
-                    //Clear current highlight
-                    if (currentSelection != null)
-                    {
-                        currentSelection.setFill(Color.BLACK);
+                    if (t.isShiftDown()) {
+                        //Add to neighbors
+                        currentSelection.getLocation().addNeighbor(p.getLocation());
+                        p.getLocation().addNeighbor(currentSelection.getLocation());
+                    }
+                    else {
+                        //Clear current highlight
+                        if (currentSelection != null)
+                        {
+                            currentSelection.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
+                        }
+
+                        //Set new highlight
+                        currentSelection = p;
+                        p.setFill(Color.RED.deriveColor(1, 1, 1, 0.3));
+
+                        AdminMainController.updateNodePD();
                     }
 
-                    //Set new highlight
-                    currentSelection = p;
-                    p.setFill(Color.RED);
+                    AdminMainController.drawConnections(currentSelection);
                 }
                 else
                 {
@@ -147,12 +159,12 @@ public class NodeListenerFactory
                 //Clear current highlight
                 if (currentSelection != null)
                 {
-                    currentSelection.setFill(Color.BLACK);
+                    currentSelection.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
                 }
 
                 //Set new highlight
                 currentSelection = ((UniqueNode) (t.getSource()));
-                currentSelection.setFill(Color.RED);
+                currentSelection.setFill(Color.RED.deriveColor(1, 1, 1, 0.3));
             }
         }
     };
@@ -177,6 +189,9 @@ public class NodeListenerFactory
                     p.setCenterY(newTranslateY);
                     p.getLocation().setX((int) newTranslateX);
                     p.getLocation().setY((int) newTranslateY);
+
+                    AdminMainController.drawConnections(currentSelection);
+                    AdminMainController.updateNodePD();
                 }
                 else
                 {
@@ -185,6 +200,16 @@ public class NodeListenerFactory
                     p.setTranslateY(newTranslateY);
                 }
             }
+        }
+    };
+
+    private static EventHandler<MouseEvent> trackMouseCoordinates = new EventHandler<MouseEvent>()
+    {
+        @Override
+        public void handle(MouseEvent event)
+        {
+            mouseX = event.getScreenX();
+            mouseY = event.getScreenY();
         }
     };
 }
