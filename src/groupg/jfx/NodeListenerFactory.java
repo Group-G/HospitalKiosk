@@ -128,7 +128,7 @@ public class NodeListenerFactory
                     orgTranslateX = p.getCenterX();
                     orgTranslateY = p.getCenterY();
 
-                    if (t.isShiftDown()) {
+                    if (t.isShiftDown() && p != currentSelection) {
                         //Add to neighbors
                         currentSelection.getLocation().addNeighbor(p.getLocation());
                         p.getLocation().addNeighbor(currentSelection.getLocation());
