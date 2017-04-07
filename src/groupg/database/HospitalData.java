@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class HospitalData {
 
     private static List<Building> buildingsList = new LinkedList<>();
-    private static List<String> categories = new LinkedList<>();
+    private static List<Category> categories = new LinkedList<>();
     private static List<Person> peopleList = new ArrayList<>();
     private static JavaDBExample dbExample;
     public static String[] login = new String[2];
@@ -399,7 +399,7 @@ public class HospitalData {
      * Returns all categories
      * @return all categories
      */
-    public static List<String> getAllCategories()
+    public static List<Category> getAllCategories()
     {
         return categories;
     }
@@ -486,12 +486,15 @@ public class HospitalData {
      * @param newCategory name of new category
      * @return true if it was added (not a duplicate)
      */
-    public static boolean addCategory(String newCategory) {
-        if (!categories.contains(newCategory))
-        {
-            categories.add(newCategory);
-            return true;
+    public static boolean addCategory(String newCategory, int permission) {
+        for(Category c : categories){
+            if(c.getCategory() == newCategory)
+            {
+                return false;
+            }
         }
+
+        categories.add(new Category(newCategory, permission));
         return false;
     }
 
@@ -875,15 +878,18 @@ public class HospitalData {
 
 
             String aCat = "FAILED TO PULL";
-
+            int permission = -1;
             while (cats.next()) {
                 for (int j = 1; j <= roomColumns; j++) {
-                    if(roomDataset.getColumnName(j).equals("CATEGORY_NAME")){
+                    if (roomDataset.getColumnName(j).equals("CATEGORY_NAME")) {
                         aCat = cats.getString(j);
+                    }
+                    if (roomDataset.getColumnName(j).equals("PERMISSION")) {
+                        permission = Integer.parseInt(cats.getString(j));
                     }
 
                 }
-                categories.add(aCat);
+                categories.add(new Category(aCat, permission));
 
             }
             return true;
