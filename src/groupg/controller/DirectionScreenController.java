@@ -30,8 +30,7 @@ import java.util.*;
  * @author Ryan Benasutti
  * @since 2017-03-30
  */
-public class DirectionScreenController implements Initializable
-{
+public class DirectionScreenController implements Initializable {
     @FXML
     private ToolBar toolBar;
     @FXML
@@ -50,8 +49,7 @@ public class DirectionScreenController implements Initializable
     private Astar astar;
     private LinkedList<Location> locations = new LinkedList<>();
 
-    public DirectionScreenController(Location destination)
-    {
+    public DirectionScreenController(Location destination) {
         startLocField = new AutoCompleteTextField();
         startLocField.setCurrentSelection(new EmptyLocation());
         destField = new AutoCompleteTextField();
@@ -61,16 +59,14 @@ public class DirectionScreenController implements Initializable
         destField.setText(destination.getName());
 
         List<Location> kioskLocs = HospitalData.getLocationsByCategory("Kiosk");
-        if (kioskLocs.size() > 0)
-        {
+        if (kioskLocs.size() > 0) {
             startLocField.setCurrentSelection(kioskLocs.get(0));
             startLocField.setText(kioskLocs.get(0).getName());
         }
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
-    {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         displayedShapes.addListener((ListChangeListener.Change<? extends Shape> in) ->
                                     {
                                         canvasWrapper.getChildren().clear();
@@ -87,17 +83,13 @@ public class DirectionScreenController implements Initializable
         //Find closest location
         overlay.setOnMouseClicked(event -> {
             double shortest = Double.MAX_VALUE;
-            for (Location l : HospitalData.getAllLocations())
-            {
-                if (closestLocToClick == null)
-                {
+            for (Location l : HospitalData.getAllLocations()) {
+                if (closestLocToClick == null) {
                     closestLocToClick = l;
                 }
-                else
-                {
+                else {
                     Double newShortest = l.lengthTo(new EmptyLocation(event.getX(), event.getY()));
-                    if (newShortest < shortest)
-                    {
+                    if (newShortest < shortest) {
                         shortest = newShortest;
                         closestLocToClick = l;
                     }
@@ -115,12 +107,9 @@ public class DirectionScreenController implements Initializable
         destField.getEntries().addAll(locations);
 
         cancelBtn.setOnAction(event -> {
-            try
-            {
+            try {
                 ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });
@@ -130,10 +119,8 @@ public class DirectionScreenController implements Initializable
         drawPath();
     }
 
-    private void drawPath()
-    {
-        if (startLocField.getCurrentSelection() != null && destField.getCurrentSelection() != null)
-        {
+    private void drawPath() {
+        if (startLocField.getCurrentSelection() != null && destField.getCurrentSelection() != null) {
             LinkedList<Location> locsIn = new LinkedList<>();
             locsIn.addAll(HospitalData.getAllLocations());
 
@@ -147,8 +134,7 @@ public class DirectionScreenController implements Initializable
         }
     }
 
-    private void generateTextDirections(LinkedList<Location> locations)
-    {
+    private void generateTextDirections(LinkedList<Location> locations) {
         //Write directions to locList
     }
 }

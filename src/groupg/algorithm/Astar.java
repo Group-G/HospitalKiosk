@@ -3,6 +3,7 @@ package groupg.algorithm;
 import groupg.database.Location;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Dylan on 4/1/17.
@@ -53,7 +54,7 @@ public class Astar {
             if(closed.contains(goal)){
                 break;
             }
-            LinkedList<Location> neighbors = getNeighbors(current);
+            List<Location> neighbors = current.getNeighbors();//getNeighbors(current);
             for (Location l:neighbors) {
                 if(closed.contains(l)) {
                     //Do Nothing
@@ -104,33 +105,33 @@ public class Astar {
         return low;
     }
 
-    /**
-     * function that gets all of the neighbors of a specific node
-     * @param loc a location
-     * @return All the neighbors of the given location
-     */
-    public LinkedList<Location> getNeighbors(Location loc){
-        LinkedList<Location> neigh = new LinkedList<>();
-        for (Location id:loc.getNeighbors()){
-            neigh.add(getLocation(id.getID()));
-        }
-        return neigh;
-    }
-
-    /**
-     * getLocation returns the location for the specified ID
-     * @param id the id number of a specific location
-     * @return the Location with the given ID
-     */
-    private Location getLocation(Integer id){
-        Location idLoc = null;
-        for (Location l:locations) {
-            if(l.getID()==id){
-                idLoc = l;
-            }
-        }
-        return idLoc;
-    }
+//    /**
+//     * function that gets all of the neighbors of a specific node
+//     * @param loc a location
+//     * @return All the neighbors of the given location
+//     */
+//    public LinkedList<Location> getNeighbors(Location loc){
+//        LinkedList<Location> neigh = new LinkedList<>();
+//        for (Location id:loc.getNeighbors()){
+//            neigh.add(getLocation(id.getID()));
+//        }
+//        return neigh;
+//    }
+//
+//    /**
+//     * getLocation returns the location for the specified ID
+//     * @param id the id number of a specific location
+//     * @return the Location with the given ID
+//     */
+//    private Location getLocation(Integer id){
+//        Location idLoc = null;
+//        for (Location l:locations) {
+//            if(l.getID()==id){
+//                idLoc = l;
+//            }
+//        }
+//        return idLoc;
+//    }
 
     /**
      * computes the fcost of the current location given the start and end
