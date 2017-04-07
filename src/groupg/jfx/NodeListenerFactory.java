@@ -92,8 +92,13 @@ public class NodeListenerFactory
                 //Generate neighbors for this node
                 List<Location> neighbors = NodeNeighbors.generateNeighbors(currentSelection, AdminMainController.displayedNodes);
 
-                //Clear all of this node's neighbors and save new ones
-                currentSelection.getLocation().setNeighbors(neighbors);
+                currentSelection.getLocation().getNeighbors().clear();
+                for (Location neighbor : neighbors) {
+                    currentSelection.getLocation().addNeighbor(neighbor);
+                    Location possibleNeighbor = HospitalData.getLocationById(neighbor.getID());
+                    if (possibleNeighbor != null)
+                        possibleNeighbor.addNeighbor(currentSelection.getLocation());
+                }
 
                 HospitalData.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
                 AdminMainController.drawConnections(currentSelection);
@@ -102,16 +107,6 @@ public class NodeListenerFactory
             contextMenu.getItems().addAll(changeName, changeCat, autogen, remove);
 
             contextMenu.show(currentSelection, mouseX, mouseY);
-        }
-    };
-
-    private static EventHandler<MouseEvent> trackMouseCoordinates = new EventHandler<MouseEvent>()
-    {
-        @Override
-        public void handle(MouseEvent event)
-        {
-            mouseX = event.getScreenX();
-            mouseY = event.getScreenY();
         }
     };
 
@@ -131,19 +126,26 @@ public class NodeListenerFactory
                     orgTranslateX = p.getCenterX();
                     orgTranslateY = p.getCenterY();
 
-                    //Clear current highlight
-                    if (currentSelection != null)
-                    {
-                        currentSelection.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
+                    if (t.isShiftDown()) {
+                        //Add to neighbors
+                        currentSelection.getLocation().addNeighbor(p.getLocation());
+                        p.getLocation().addNeighbor(currentSelection.getLocation());
+                    }
+                    else {
+                        //Clear current highlight
+                        if (currentSelection != null)
+                        {
+                            currentSelection.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
+                        }
+
+                        //Set new highlight
+                        currentSelection = p;
+                        p.setFill(Color.RED.deriveColor(1, 1, 1, 0.3));
+
+                        AdminMainController.updateNodePD();
                     }
 
-                    //Set new highlight
-                    currentSelection = p;
-                    p.setFill(Color.RED.deriveColor(1, 1, 1, 0.3));
-
-                    //Draw new connections
                     AdminMainController.drawConnections(currentSelection);
-                    AdminMainController.updateNodePD();
                 }
                 else
                 {
@@ -198,6 +200,16 @@ public class NodeListenerFactory
                     p.setTranslateY(newTranslateY);
                 }
             }
+        }
+    };
+
+    private static EventHandler<MouseEvent> trackMouseCoordinates = new EventHandler<MouseEvent>()
+    {
+        @Override
+        public void handle(MouseEvent event)
+        {
+            mouseX = event.getScreenX();
+            mouseY = event.getScreenY();
         }
     };
 }

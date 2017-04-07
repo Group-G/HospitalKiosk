@@ -1,8 +1,6 @@
 package groupg.algorithm;
 
-import groupg.controller.AdminMainController;
 import groupg.database.Location;
-import groupg.jfx.UniqueLine;
 import groupg.jfx.UniqueNode;
 
 import java.util.ArrayList;
@@ -54,7 +52,6 @@ public class NodeNeighbors
                                   if (from.lengthTo(current) <= shortestConnection + CONNECTION_BANDWIDTH)
                                   {
                                       neighbors.add(current);
-                                      AdminMainController.displayedLines.add(new UniqueLine(from, current));
                                   }
                               });
         }
