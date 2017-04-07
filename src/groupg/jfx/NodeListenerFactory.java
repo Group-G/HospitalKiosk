@@ -81,10 +81,12 @@ public class NodeListenerFactory
             MenuItem remove = new MenuItem("Remove Node");
             remove.setOnAction(event1 ->
                                {
+                                   currentSelection.getLocation().getNeighbors().forEach(elem -> elem.getNeighbors().remove(currentSelection.getLocation()));
                                    HospitalData.removeLocationById(currentSelection.getLocation().getID());
                                    AdminMainController.displayedNodes.remove(currentSelection);
 
                                    AdminMainController.updateNodePD();
+                                   AdminMainController.lineOverlay.getChildren().clear();
                                });
 
             MenuItem autogen = new MenuItem("Generate Connections");
@@ -95,13 +97,12 @@ public class NodeListenerFactory
                 currentSelection.getLocation().getNeighbors().clear();
                 for (Location neighbor : neighbors) {
                     currentSelection.getLocation().addNeighbor(neighbor);
-                    Location possibleNeighbor = HospitalData.getLocationById(neighbor.getID());
-                    if (possibleNeighbor != null)
-                        possibleNeighbor.addNeighbor(currentSelection.getLocation());
+                    neighbor.addNeighbor(currentSelection.getLocation());
                 }
 
                 HospitalData.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
                 AdminMainController.drawConnections(currentSelection);
+                AdminMainController.updateNodePD();
             });
 
             contextMenu.getItems().addAll(changeName, changeCat, autogen, remove);
@@ -141,11 +142,10 @@ public class NodeListenerFactory
                         //Set new highlight
                         currentSelection = p;
                         p.setFill(Color.RED.deriveColor(1, 1, 1, 0.3));
-
-                        AdminMainController.updateNodePD();
                     }
 
                     AdminMainController.drawConnections(currentSelection);
+                    AdminMainController.updateNodePD();
                 }
                 else
                 {

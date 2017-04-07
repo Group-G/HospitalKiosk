@@ -78,6 +78,7 @@ public class AdminMainController implements Initializable {
         pd.setProperty("Y value", "" + NodeListenerFactory.currentSelection.getLocation().getY());
         pd.setProperty("Name", NodeListenerFactory.currentSelection.getLocation().getName());
         pd.setProperty("Category", NodeListenerFactory.currentSelection.getLocation().getCategory());
+        pd.setProperty("# of Neighbors", NodeListenerFactory.currentSelection.getLocation().getNeighbors().size() + "");
         displayedPanels.set(0, pd);
         AdminMainController.infoOverlay.getChildren().clear();
         AdminMainController.infoOverlay.getChildren().addAll(displayedPanels);
@@ -98,6 +99,7 @@ public class AdminMainController implements Initializable {
         HospitalData.setLocation(node.getLocation().getID(), node.getLocation());
         displayedNodes.add(node);
         nodeOverlay.getChildren().setAll(displayedNodes);
+        updateNodePD();
     }
 
     public void onEditCat(ActionEvent event) {

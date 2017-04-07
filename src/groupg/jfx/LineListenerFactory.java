@@ -26,6 +26,7 @@ public class LineListenerFactory {
                                                                                 if (NodeListenerFactory.currentSelection != null) {
                                                                                     NodeListenerFactory.currentSelection.getLocation().getNeighbors().remove(line.getTo());
                                                                                     line.getTo().getNeighbors().remove(NodeListenerFactory.currentSelection.getLocation());
+                                                                                    AdminMainController.updateNodePD();
                                                                                 }
                                                                             });
                                                                             contextMenu.getItems().add(remove);
