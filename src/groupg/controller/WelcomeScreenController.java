@@ -127,10 +127,7 @@ public class WelcomeScreenController implements Initializable {
             output.addAll(astar.run(startField.getCurrentSelection(), endField.getCurrentSelection()));
             displayedLines.clear();
             displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(output));
-//            canvasWrapper.getChildren().clear();
-//            canvasWrapper.add(canvas, 0, 0);
             lineOverlay.getChildren().setAll(displayedLines);
-//            canvasWrapper.add(lineOverlay, 0, 0);
         }
     }
 

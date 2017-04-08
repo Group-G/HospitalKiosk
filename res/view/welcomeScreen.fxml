@@ -9,9 +9,36 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1262.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.WelcomeScreenController">
    <children>
-      <HBox layoutX="3.0" layoutY="105.0" prefHeight="581.0" prefWidth="1249.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="10.0">
+      <HBox layoutX="-1.0" layoutY="2.0" prefHeight="100.0" prefWidth="1261.0">
          <children>
-            <Region prefHeight="581.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+            <Region prefHeight="100.0" prefWidth="25.0" HBox.hgrow="NEVER" />
+            <MenuButton mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Language">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+            </MenuButton>
+            <Region prefHeight="100.0" prefWidth="194.0" HBox.hgrow="NEVER" />
+            <ImageView fitHeight="89.0" fitWidth="558.0" pickOnBounds="true" preserveRatio="true" smooth="false" HBox.hgrow="ALWAYS">
+               <image>
+                  <Image url="@../image/BWFH_Logo.png" />
+               </image>
+            </ImageView>
+            <Region prefHeight="100.0" prefWidth="210.0" HBox.hgrow="NEVER" />
+            <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#onLogin" prefHeight="38.0" prefWidth="144.0" text="Login">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+            </Button>
+         </children></HBox>
+      <HBox layoutX="3.0" layoutY="105.0" prefHeight="581.0" prefWidth="1249.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="116.0">
+         <children>
             <VBox prefHeight="581.0" prefWidth="235.0">
                <children>
                   <HBox fx:id="startFieldHBox" alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="301.0">
@@ -97,8 +124,7 @@
                   </Accordion>
                </children>
             </VBox>
-            <Region prefHeight="581.0" prefWidth="30.0" HBox.hgrow="NEVER" />
-            <StackPane>
+            <StackPane HBox.hgrow="ALWAYS">
                <children>
                   <TabPane prefHeight="581.0" prefWidth="886.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
@@ -131,43 +157,16 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextArea fx:id="dirList" prefHeight="541.0" prefWidth="106.0" />
+                  <TextArea fx:id="dirList" prefHeight="550.0" />
                </children>
                <padding>
-                  <Insets left="10.0" />
+                  <Insets left="10.0" right="10.0" />
                </padding>
             </VBox>
-
-            <Region prefHeight="581.0" prefWidth="21.0" HBox.hgrow="ALWAYS" />
          </children>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
       </HBox>
-      <HBox layoutX="-1.0" layoutY="2.0" prefHeight="100.0" prefWidth="1261.0">
-         <children>
-            <Region prefHeight="100.0" prefWidth="25.0" HBox.hgrow="NEVER" />
-            <MenuButton mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Language">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
-              </items>
-               <HBox.margin>
-                  <Insets top="10.0" />
-               </HBox.margin>
-            </MenuButton>
-            <Region prefHeight="100.0" prefWidth="194.0" HBox.hgrow="NEVER" />
-            <ImageView fitHeight="89.0" fitWidth="558.0" pickOnBounds="true" preserveRatio="true" smooth="false" HBox.hgrow="ALWAYS">
-               <image>
-                  <Image url="@../image/BWFH_Logo.png" />
-               </image>
-            </ImageView>
-            <Region prefHeight="100.0" prefWidth="210.0" HBox.hgrow="NEVER" />
-            <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#onLogin" prefHeight="38.0" prefWidth="144.0" text="Login">
-               <font>
-                  <Font size="20.0" />
-               </font>
-               <HBox.margin>
-                  <Insets top="10.0" />
-               </HBox.margin>
-            </Button>
-         </children></HBox>
    </children>
 </AnchorPane>
