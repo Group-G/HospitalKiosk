@@ -205,7 +205,7 @@ public class HospitalData {
 
     public static Admin getAdminByUsername(String username){
         for(Admin admin:adminList){
-            if(admin.getUsername() == username){
+            if(admin.getUsername().equals(username)){
                 return admin;
             }
         }

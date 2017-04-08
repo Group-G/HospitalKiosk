@@ -97,11 +97,8 @@ public class AdminLoginController implements Initializable
 
     private void attemptLogin(ActionEvent actionEvent)
     {
-        if (usernameField.getText().equals(HospitalData.login[0]) &&
-            passField.getText().equals(HospitalData.login[1]))
+        if (HospitalData.getAdminByUsername(usernameField.getText()).getPassword().equals(passField.getText()))
         {
-            //System.out.println(HospitalData.getAdminByUsername(usernameField.getText()).getUsername() + " : " + HospitalData.getAdminByUsername(usernameField.getText()).getPassword());
-            //this ^^ is throwing errors
             errorText.setVisible(false);
 
             try
