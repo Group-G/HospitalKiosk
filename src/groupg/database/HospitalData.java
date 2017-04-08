@@ -16,6 +16,7 @@ public class HospitalData {
     private static List<Building> buildingsList = new LinkedList<>();
     private static List<Category> categories = new LinkedList<>();
     private static List<Person> peopleList = new ArrayList<>();
+    private static List<Admin> adminList = new ArrayList<>();
     private static JavaDBExample dbExample;
     public static String[] login = new String[2];
     //private static HashMap<Integer, Integer> connections = new LinkedList<>();
@@ -65,7 +66,9 @@ public class HospitalData {
                         if(pullOffices(stmt)) {
                             if(pullCategories(stmt)) {
                                 if(pullTrackIDS(stmt)){
-                                    return true;
+                                    if(pullAdmins(stmt)){
+                                        return true;
+                                    }
                                 }
                             }
                         }
@@ -180,16 +183,34 @@ public class HospitalData {
         }
         System.out.println("Categories: " + cat);
 
+        String admin = "";
+        for(int i = 0; i < adminList.size(); i++)
+        {
+            if(i>0)
+            {
+                admin = admin + ",";
+            }
+            admin = admin + "(\'" + adminList.get(i).getUsername() + "\', \'" + adminList.get(i).getPassword() + "\')";
+        }
+        System.out.println("Admins: " + admin);
 
-        String admins = "(\'admin\', \'guest\')";
-        System.out.println("Admins: " + admins);
+        String trackID_push = "";
+        trackID_push = "(" + LOCATION_NEW + ", " + PERSONELLE_NEW + ", " + BUILDING_NEW + ", " + FLOOR_NEW + ")";
+        System.out.println("Track IDS: " + trackID_push);
 
         dbExample.createTables();
-        dbExample.fillTable( locations, people, offices, floors, building, connections, admins,  cat);
+        dbExample.fillTable(locations, people, offices, floors, building, connections, admin, cat, trackID_push);
         return true;
     }
 
-
+    public static Admin getAdminByUsername(String username){
+        for(Admin admin:adminList){
+            if(admin.getUsername() == username){
+                return admin;
+            }
+        }
+        return null;
+    }
 
 
     /**
@@ -875,7 +896,7 @@ public class HospitalData {
 
 
     /**
-     * pullCategories
+     * pullTrackIDS
      * @param stmt SQL Statement
      * @return Whether the pull had any errors
      */
@@ -885,7 +906,6 @@ public class HospitalData {
             ResultSetMetaData roomDataset = cats.getMetaData();
             int roomColumns = roomDataset.getColumnCount();
 
-            int permission = -1;
             while (cats.next()) {
                 for (int j = 1; j <= roomColumns; j++) {
                     if (roomDataset.getColumnName(j).equals("LOCATION_ID")) {
@@ -904,11 +924,41 @@ public class HospitalData {
             }
             return true;
         }
-        catch (SQLException e)
-        {
-
+        catch (SQLException e){
             System.out.println("Failed to pull track IDs");
+            return false;
+        }
+    }
 
+    /**
+     * pullAdmins
+     * @param stmt SQL Statement
+     * @return Whether the pull had any errors
+     */
+    private boolean pullAdmins(Statement stmt) {
+        try {
+            ResultSet admins = stmt.executeQuery("SELECT * FROM ADMINS");
+            ResultSetMetaData roomDataset = admins.getMetaData();
+            int roomColumns = roomDataset.getColumnCount();
+
+            String un = "", pw = "";
+            while (admins.next()) {
+                for (int j = 1; j <= roomColumns; j++) {
+                    if (roomDataset.getColumnName(j).equals("ADMIN_UN")) {
+                        un = admins.getString(j);
+                    } else if (roomDataset.getColumnName(j).equals("ADMIN_PW")) {
+                        pw = admins.getString(j);
+                    } else {
+                        //doesnt exist
+                    }
+                }
+                adminList.add(new Admin(un, pw));
+            }
+
+            return true;
+        }
+        catch (SQLException e){
+            System.out.println("Failed to pull track IDs");
             return false;
         }
     }

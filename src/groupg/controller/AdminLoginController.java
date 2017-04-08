@@ -100,6 +100,8 @@ public class AdminLoginController implements Initializable
         if (usernameField.getText().equals(HospitalData.login[0]) &&
             passField.getText().equals(HospitalData.login[1]))
         {
+            //System.out.println(HospitalData.getAdminByUsername(usernameField.getText()).getUsername() + " : " + HospitalData.getAdminByUsername(usernameField.getText()).getPassword());
+            //this ^^ is throwing errors
             errorText.setVisible(false);
 
             try
