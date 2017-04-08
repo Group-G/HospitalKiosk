@@ -47,38 +47,43 @@ public class ResizableCanvas extends Pane {
         if (w != canvas.getWidth() || h != canvas.getHeight()) {
             canvas.setWidth(w);
             canvas.setHeight(h);
-            GraphicsContext gc = canvas.getGraphicsContext2D();
-            gc.clearRect(0, 0, w, h);
+            redrawBackground();
+        }
+    }
 
-            switch (ID) {
-                case DRAW_FLOOR_1:
-                    gc.drawImage(new Image("/image/faulkner_1_cropped.png", w, h, true, true), 0, 0);
-                    break;
+    public void redrawBackground() {
+        double w = getWidth(), h = getHeight();
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, w, h);
 
-                case DRAW_FLOOR_2:
-                    gc.drawImage(new Image("/image/faulkner_2_cropped.png", w, h, true, true), 0, 0);
-                    break;
+        switch (ID) {
+            case DRAW_FLOOR_1:
+                gc.drawImage(new Image("/image/faulkner_1_cropped.png", w, h, true, true), 0, 0);
+                break;
 
-                case DRAW_FLOOR_3:
-                    gc.drawImage(new Image("/image/faulkner_3_cropped.png", w, h, true, true), 0, 0);
-                    break;
+            case DRAW_FLOOR_2:
+                gc.drawImage(new Image("/image/faulkner_2_cropped.png", w, h, true, true), 0, 0);
+                break;
 
-                case DRAW_FLOOR_4:
-                    gc.drawImage(new Image("/image/faulkner_4_cropped.png", w, h, true, true), 0, 0);
-                    break;
+            case DRAW_FLOOR_3:
+                gc.drawImage(new Image("/image/faulkner_3_cropped.png", w, h, true, true), 0, 0);
+                break;
 
-                case DRAW_FLOOR_5:
-                    gc.drawImage(new Image("/image/faulkner_5_cropped.png", w, h, true, true), 0, 0);
-                    break;
+            case DRAW_FLOOR_4:
+                gc.drawImage(new Image("/image/faulkner_4_cropped.png", w, h, true, true), 0, 0);
+                break;
 
-                case DRAW_FLOOR_6:
-                    gc.drawImage(new Image("/image/faulkner_6_cropped.png", w, h, true, true), 0, 0);
-                    break;
+            case DRAW_FLOOR_5:
+                gc.drawImage(new Image("/image/faulkner_5_cropped.png", w, h, true, true), 0, 0);
+                break;
 
-                case DRAW_FLOOR_7:
-                    gc.drawImage(new Image("/image/faulkner_7_cropped.png", w, h, true, true), 0, 0);
-                    break;
-            }
+            case DRAW_FLOOR_6:
+                gc.drawImage(new Image("/image/faulkner_6_cropped.png", w, h, true, true), 0, 0);
+                break;
+
+            case DRAW_FLOOR_7:
+                gc.drawImage(new Image("/image/faulkner_7_cropped.png", w, h, true, true), 0, 0);
+                break;
         }
     }
 

@@ -134,30 +134,58 @@ public class WelcomeScreenController implements Initializable {
     }
 
     public void onFloor1(Event event) {
-        canvas.setID(ResizableCanvas.DRAW_FLOOR_1);
+        if (canvas.getID() != ResizableCanvas.DRAW_FLOOR_1)
+        {
+            canvas.setID(ResizableCanvas.DRAW_FLOOR_1);
+            canvas.redrawBackground();
+        }
     }
 
     public void onFloor2(Event event) {
-        canvas.setID(ResizableCanvas.DRAW_FLOOR_2);
+        if (canvas.getID() != ResizableCanvas.DRAW_FLOOR_2)
+        {
+            canvas.setID(ResizableCanvas.DRAW_FLOOR_2);
+            canvas.redrawBackground();
+        }
     }
 
     public void onFloor3(Event event) {
-        canvas.setID(ResizableCanvas.DRAW_FLOOR_3);
+        if (canvas.getID() != ResizableCanvas.DRAW_FLOOR_3)
+        {
+            canvas.setID(ResizableCanvas.DRAW_FLOOR_3);
+            canvas.redrawBackground();
+        }
     }
 
     public void onFloor4(Event event) {
-        canvas.setID(ResizableCanvas.DRAW_FLOOR_4);
+        if (canvas.getID() != ResizableCanvas.DRAW_FLOOR_4)
+        {
+            canvas.setID(ResizableCanvas.DRAW_FLOOR_4);
+            canvas.redrawBackground();
+        }
     }
 
     public void onFloor5(Event event) {
-        canvas.setID(ResizableCanvas.DRAW_FLOOR_5);
+        if (canvas.getID() != ResizableCanvas.DRAW_FLOOR_5)
+        {
+            canvas.setID(ResizableCanvas.DRAW_FLOOR_5);
+            canvas.redrawBackground();
+        }
     }
 
     public void onFloor6(Event event) {
-        canvas.setID(ResizableCanvas.DRAW_FLOOR_6);
+        if (canvas.getID() != ResizableCanvas.DRAW_FLOOR_6)
+        {
+            canvas.setID(ResizableCanvas.DRAW_FLOOR_6);
+            canvas.redrawBackground();
+        }
     }
 
     public void onFloor7(Event event) {
-        canvas.setID(ResizableCanvas.DRAW_FLOOR_7);
+        if (canvas.getID() != ResizableCanvas.DRAW_FLOOR_7)
+        {
+            canvas.setID(ResizableCanvas.DRAW_FLOOR_7);
+            canvas.redrawBackground();
+        }
     }
 }
