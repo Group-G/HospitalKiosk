@@ -85,7 +85,7 @@ public class Location implements Comparable
      */
     public String getSQL()
     {
-        return "(" + id + ", \'" + name + "\',\'" + category + "\'," + floor + "," + x + "," + y + "," + building + ")";
+        return "(" + id + ", \'" + name + "\',\'" + category.getCategory() + "\'," + floor + "," + x + "," + y + "," + building + ")";
     }
 
     /**
