@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -7,6 +8,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
@@ -20,7 +22,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.text.TextFlow?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1262.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -36,7 +37,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="searchBtn"  prefHeight="34.0" prefWidth="170.0" />
+                        <TextField fx:id="searchBtn" prefHeight="34.0" prefWidth="170.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="34.0" prefWidth="301.0">
@@ -270,6 +271,19 @@
                   </Tab>
               </tabs>
             </TabPane>
+            <VBox prefHeight="581.0" prefWidth="126.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Directions:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <TextArea prefHeight="541.0" prefWidth="106.0" />
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </VBox>
 
             <Region prefHeight="581.0" prefWidth="21.0" HBox.hgrow="ALWAYS" />
          </children>
@@ -277,7 +291,7 @@
       <HBox layoutX="-1.0" layoutY="2.0" prefHeight="100.0" prefWidth="1261.0">
          <children>
             <Region prefHeight="100.0" prefWidth="25.0" HBox.hgrow="NEVER" />
-            <MenuButton mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="English">
+            <MenuButton mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Language">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
                 <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -293,7 +307,7 @@
                </image>
             </ImageView>
             <Region prefHeight="100.0" prefWidth="210.0" HBox.hgrow="NEVER" />
-            <Button fx:id="adminBtn" mnemonicParsing="false"  prefHeight="38.0" prefWidth="144.0" text="Login">
+            <Button fx:id="adminBtn" mnemonicParsing="false" prefHeight="38.0" prefWidth="144.0" text="Login">
                <font>
                   <Font size="20.0" />
                </font>
@@ -301,7 +315,6 @@
                   <Insets top="10.0" />
                </HBox.margin>
             </Button>
-            <Region prefHeight="100.0" prefWidth="54.0" HBox.hgrow="NEVER" />
          </children></HBox>
    </children>
 </AnchorPane>
