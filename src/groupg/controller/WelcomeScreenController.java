@@ -1,92 +1,163 @@
+
 package groupg.controller;
 
+import groupg.algorithm.Astar;
+import groupg.database.EmptyLocation;
 import groupg.database.HospitalData;
 import groupg.database.Location;
 import groupg.jfx.AutoCompleteTextField;
+import groupg.jfx.DrawLines;
+import groupg.jfx.ResizableCanvas;
 import groupg.jfx.ResourceManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Shape;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
  * @author Ryan Benasutti
- * @since 2017-03-23
+ * @since 2017-03-30
  */
-public class WelcomeScreenController implements Initializable
-{
+public class WelcomeScreenController implements Initializable {
     @FXML
-    private Button adminBtn, searchBtn;
+    private Button loginBtn, searchBtn;
     @FXML
-    private HBox topHBox;
+    private HBox startFieldHBox, endFieldHBox;
     @FXML
-    private MenuButton catDropdown;
-    static Location requested;
-    private AutoCompleteTextField textField = new AutoCompleteTextField();
-    private String selectedCat;
+    private TextArea dirList;
+    @FXML
+    private GridPane canvasWrapper;
+    private ResizableCanvas canvas = new ResizableCanvas();
+    private Pane overlay = new Pane();
+    private ObservableList<Shape> displayedShapes = FXCollections.observableArrayList();
+    private Location closestLocToClick;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
-        textField.setMinWidth(200);
-        textField.setPromptText("Search for something...");
-        textField.getEntries().addAll(HospitalData.getAllLocations());
+    private AutoCompleteTextField startField, endField;
 
-        ObservableList<Node> children = FXCollections.observableArrayList(topHBox.getChildren());
-        children.add(textField);
-        Collections.swap(children, 1, 2);
-        topHBox.getChildren().setAll(children);
+    private Astar astar;
+    private LinkedList<Location> locations = new LinkedList<>();
 
-        HospitalData.getAllCategories().forEach(elem ->
-                                                {
-                                                    MenuItem item = new MenuItem(elem.getCategory());
-                                                    item.setOnAction(actionEvent ->
-                                                                     {
-                                                                         selectedCat = elem.getCategory();
-                                                                         catDropdown.setText(elem.getCategory());
-                                                                         textField.getEntries().clear();
-                                                                         textField.getEntries().addAll(HospitalData.getLocationsByCategory(elem.getCategory()));
-                                                                         HospitalData.getLocationsByCategory(elem.getCategory()).forEach(System.out::println);
-                                                                     });
-                                                    catDropdown.getItems().add(item);
-                                                });
+    public WelcomeScreenController() {
+        startField = new AutoCompleteTextField();
+        startField.setCurrentSelection(new EmptyLocation());
+        endField = new AutoCompleteTextField();
+        endField.setCurrentSelection(new EmptyLocation());
+
+        List<Location> kioskLocs = HospitalData.getLocationsByCategory("Kiosk");
+        if (kioskLocs.size() > 0) {
+            startField.setCurrentSelection(kioskLocs.get(0));
+            startField.setText(kioskLocs.get(0).getName());
+        }
     }
 
-    public void onAdminLogin(ActionEvent actionEvent)
-    {
-        try
-        {
-            ResourceManager.getInstance().loadFXMLIntoScene("/view/adminLogin.fxml", "Admin Login", adminBtn.getScene());
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        startFieldHBox.getChildren().add(startField);
+        endFieldHBox.getChildren().add(endField);
+
+        //Find closest location
+        overlay.setOnMouseClicked(event -> {
+            double shortest = Double.MAX_VALUE;
+            for (Location l : HospitalData.getAllLocations()) {
+                if (closestLocToClick == null) {
+                    closestLocToClick = l;
+                }
+                else {
+                    Double newShortest = l.lengthTo(new EmptyLocation(event.getX(), event.getY()));
+                    if (newShortest < shortest) {
+                        shortest = newShortest;
+                        closestLocToClick = l;
+                    }
+                }
+            }
+        });
+
+        canvasWrapper.add(canvas, 0, 0);
+        canvasWrapper.add(overlay, 0, 0);
+
+        //Add locations from DB
+        locations.addAll(HospitalData.getAllLocations());
+        locations.forEach(elem -> System.out.println(elem.getName() + "has" + elem.getNeighbors().size() + "neighbors"));
+        startField.getEntries().addAll(locations);
+        endField.getEntries().addAll(locations);
+
+        drawPath();
+    }
+
+    private void drawPath() {
+        if (startField.getCurrentSelection() != null && endField.getCurrentSelection() != null) {
+            LinkedList<Location> locsIn = new LinkedList<>();
+            locsIn.addAll(HospitalData.getAllLocations());
+
+            astar = new Astar(locsIn);
+
+            List<Location> output = new ArrayList<>();
+            output.addAll(astar.run(startField.getCurrentSelection(), endField.getCurrentSelection()));
+            displayedShapes.clear();
+            displayedShapes = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(output));
+            canvasWrapper.getChildren().clear();
+            canvasWrapper.add(canvas, 0, 0);
+            overlay.getChildren().setAll(displayedShapes);
+            canvasWrapper.add(overlay, 0, 0);
         }
-        catch (IOException e)
-        {
+    }
+
+    private void generateTextDirections(LinkedList<Location> locations) {
+        //Write directions to locList
+    }
+
+    public void onLogin(ActionEvent actionEvent) {
+        try {
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/adminLogin.fxml", "Login", loginBtn.getScene());
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void onSearch(ActionEvent actionEvent)
-    {
-        requested = textField.getCurrentSelection();
+    public void onSearch(ActionEvent actionEvent) {
+        drawPath();
+    }
 
-        if (requested != null)
-        {
-            DirectionScreenController controller = new DirectionScreenController(requested);
-            ResourceManager.getInstance()
-                           .loadFXMLIntoSceneWithController("/view/directionScreen.fxml",
-                                                            "Your Directions",
-                                                            searchBtn.getScene(),
-                                                            controller);
-        }
+    public void onFloor1(Event event) {
+        canvas.setID(ResizableCanvas.DRAW_FLOOR_1);
+    }
+
+    public void onFloor2(Event event) {
+        canvas.setID(ResizableCanvas.DRAW_FLOOR_2);
+    }
+
+    public void onFloor3(Event event) {
+        canvas.setID(ResizableCanvas.DRAW_FLOOR_3);
+    }
+
+    public void onFloor4(Event event) {
+        canvas.setID(ResizableCanvas.DRAW_FLOOR_4);
+    }
+
+    public void onFloor5(Event event) {
+        canvas.setID(ResizableCanvas.DRAW_FLOOR_5);
+    }
+
+    public void onFloor6(Event event) {
+        canvas.setID(ResizableCanvas.DRAW_FLOOR_6);
+    }
+
+    public void onFloor7(Event event) {
+        canvas.setID(ResizableCanvas.DRAW_FLOOR_7);
     }
 }
