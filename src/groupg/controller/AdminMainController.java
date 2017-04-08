@@ -9,7 +9,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -55,8 +59,16 @@ public class AdminMainController implements Initializable {
         displayedPanels.add(new PropertyDisplay(150, 120));
 
         //Add layers
-        canvas.setID(ResizableCanvas.DRAW_FLOOR_4);
-        canvasWrapper.getChildren().addAll(canvas, lineOverlay, nodeOverlay, infoOverlay);
+//        canvas.setID(ResizableCanvas.DRAW_FLOOR_4);
+        Group zoomGroup = new Group(imageView, nodeOverlay, lineOverlay);
+        ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
+        pane.setPannable(true);
+        zoomGroup.addEventHandler(MouseEvent.ANY, event -> {
+            if (event.getButton() != MouseButton.MIDDLE)
+                event.consume();
+        });
+        canvasWrapper.getChildren().addAll(pane);
+//        canvasWrapper.getChildren().addAll(canvas, lineOverlay, nodeOverlay, infoOverlay);
     }
 
     /**
