@@ -34,7 +34,7 @@ public class AdminMainController implements Initializable {
     @FXML
     private GridPane canvasWrapper;
     private ResizableCanvas canvas = new ResizableCanvas();
-    public static Pane nodeOverlay, lineOverlay, infoOverlay, imageViewPane;
+    public static Pane imageViewPane, nodeOverlay, lineOverlay, infoOverlay;
     public static ObservableList<UniqueNode> displayedNodes = FXCollections.observableArrayList();
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
     public static ObservableList<PropertyDisplay> displayedPanels = FXCollections.observableArrayList();
@@ -70,7 +70,7 @@ public class AdminMainController implements Initializable {
             if (event.getButton() != MouseButton.MIDDLE)
                 event.consume();
         });
-        canvasWrapper.getChildren().addAll(pane);
+        canvasWrapper.getChildren().addAll(pane, infoOverlay);
 //        canvasWrapper.getChildren().addAll(canvas, lineOverlay, nodeOverlay, infoOverlay);
     }
 
