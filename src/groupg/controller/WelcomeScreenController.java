@@ -45,9 +45,10 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private GridPane canvasWrapper;
     private ResizableCanvas canvas = new ResizableCanvas();
-    public static Pane imageViewPane, lineOverlay;
+    private Pane lineOverlay;
     private ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
     private Location closestLocToClick;
+    private ImageView imageView;
 
     private AutoCompleteTextField startField, endField;
 
@@ -69,7 +70,7 @@ public class WelcomeScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        imageViewPane = new Pane();
+        Pane imageViewPane = new Pane();
         imageViewPane.setPickOnBounds(true);
         lineOverlay = new Pane();
         lineOverlay.setPickOnBounds(true);
@@ -94,7 +95,7 @@ public class WelcomeScreenController implements Initializable {
             }
         });
 
-        ImageView imageView = ImageViewFactory.getImageView(new Image("/image/faulkner_4.png", 2265, 1290, true, true), imageViewPane);
+        imageView = ImageViewFactory.getImageView(new Image("/image/faulkner_4.png", 2265, 1290, true, true), imageViewPane);
         Group zoomGroup = new Group(imageView, lineOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setPannable(true);
@@ -148,58 +149,51 @@ public class WelcomeScreenController implements Initializable {
     }
 
     public void onFloor1(Event event) {
-        if (canvas.getID() != ResizableCanvas.DRAW_FLOOR_1)
-        {
-            canvas.setID(ResizableCanvas.DRAW_FLOOR_1);
-            canvas.redrawBackground();
+        try {
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_1.png"));
+        } catch (NullPointerException e) {
         }
     }
 
     public void onFloor2(Event event) {
-        if (canvas.getID() != ResizableCanvas.DRAW_FLOOR_2)
-        {
-            canvas.setID(ResizableCanvas.DRAW_FLOOR_2);
-            canvas.redrawBackground();
+        try {
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_2.png"));
+        } catch (NullPointerException e) {
         }
     }
 
     public void onFloor3(Event event) {
-        if (canvas.getID() != ResizableCanvas.DRAW_FLOOR_3)
-        {
-            canvas.setID(ResizableCanvas.DRAW_FLOOR_3);
-            canvas.redrawBackground();
+        try {
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_3.png"));
+        } catch (NullPointerException e) {
         }
     }
 
     public void onFloor4(Event event) {
-        if (canvas.getID() != ResizableCanvas.DRAW_FLOOR_4)
-        {
-            canvas.setID(ResizableCanvas.DRAW_FLOOR_4);
-            canvas.redrawBackground();
+        try {
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_4.png"));
+        } catch (NullPointerException e) {
         }
     }
 
     public void onFloor5(Event event) {
-        if (canvas.getID() != ResizableCanvas.DRAW_FLOOR_5)
-        {
-            canvas.setID(ResizableCanvas.DRAW_FLOOR_5);
-            canvas.redrawBackground();
+        try {
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_5.png"));
+        } catch (NullPointerException e) {
         }
     }
 
     public void onFloor6(Event event) {
-        if (canvas.getID() != ResizableCanvas.DRAW_FLOOR_6)
-        {
-            canvas.setID(ResizableCanvas.DRAW_FLOOR_6);
-            canvas.redrawBackground();
+        try {
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_6.png"));
+        } catch (NullPointerException e) {
         }
     }
 
     public void onFloor7(Event event) {
-        if (canvas.getID() != ResizableCanvas.DRAW_FLOOR_7)
-        {
-            canvas.setID(ResizableCanvas.DRAW_FLOOR_7);
-            canvas.redrawBackground();
+        try {
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_7.png"));
+        } catch (NullPointerException e) {
         }
     }
 }

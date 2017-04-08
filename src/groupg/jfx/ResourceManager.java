@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -127,5 +128,17 @@ public class ResourceManager
             dialog.show();
         });
         return loader.getController();
+    }
+
+    public Image loadImage(String fileName, int width, int height, boolean preserveRatio, boolean smooth) {
+        return new Image(fileName, width, height, preserveRatio, smooth);
+    }
+
+    public Image loadImage(String fileName, int width, int height) {
+        return loadImage(fileName, width, height, true, true);
+    }
+
+    public Image loadImage(String fileName) {
+        return loadImage(fileName, 2265, 1290);
     }
 }
