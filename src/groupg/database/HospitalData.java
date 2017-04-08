@@ -183,7 +183,7 @@ public class HospitalData {
             {
                 cat = cat + ",";
             }
-            cat = cat + "(\'" + categories.get(i) + "\')";
+            cat = cat + "(\'" + categories.get(i).getCategory() + "\', " + categories.get(i).getPermission() +  ")";
         }
         System.out.println("Categories: " + cat);
 
@@ -878,7 +878,7 @@ public class HospitalData {
                     if (roomDataset.getColumnName(j).equals("CATEGORY_NAME")) {
                         aCat = cats.getString(j);
                     }
-                    if (roomDataset.getColumnName(j).equals("PERMISSION")) {
+                    if (roomDataset.getColumnName(j).equals("PERMISSIONS")) {
                         permission = Integer.parseInt(cats.getString(j));
                     }
 

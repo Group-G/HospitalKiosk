@@ -138,7 +138,7 @@ public class JavaDBExample
             stmt.execute("CREATE TABLE CONNECTIONS(LOCATION_ONE int, LOCATION_TWO int)");
             stmt.execute("CREATE TABLE PEOPLELOCATIONS(PERSON_ID int, OFFICE_ID int)");
             stmt.execute("CREATE TABLE ADMIN(ADMIN_UN char(20) NOT NULL Primary Key, ADMIN_PW char(20))");
-            stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(20), PERMISIONS INT)");
+            stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(20), PERMISSIONS INT)");
 
             //track id will return the newest id that can be used then
             //END CREATE TABLES
@@ -234,12 +234,13 @@ public class JavaDBExample
             //FORMAT
             //(CATEGORY_NAME varchar(20))
             stmt.execute("INSERT INTO CATEGORY VALUES " +
-                    "('Office'), " +
-                    "('Bathroom'), " +
-                    "('Hall'), " +
-                    "('Waiting Area'), " +
-                    "('Kiosk'), " +
-                    "('Emergency Room') ");
+                    "('Office', 0), " +
+                    "('Bathroom', 0), " +
+                    "('Hall', 0), " +
+                    "('Waiting Area', 0), " +
+                    "('Break Room', 1), " +
+                    "('Kiosk', 0), " +
+                    "('Emergency Room', 0) ");
 
             //INSERT TRACKIDS
             //FORMAT
