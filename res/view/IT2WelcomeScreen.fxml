@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
@@ -22,10 +23,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1262.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1262.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane>
    <children>
-      <HBox layoutX="3.0" layoutY="105.0" prefHeight="581.0" prefWidth="1249.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="10.0">
+      <HBox layoutX="3.0" layoutY="105.0" prefHeight="581.0" prefWidth="1249.0">
          <children>
             <Region prefHeight="581.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
             <VBox prefHeight="581.0" prefWidth="235.0">
@@ -271,7 +272,7 @@
                   </Tab>
               </tabs>
             </TabPane>
-            <VBox prefHeight="581.0" prefWidth="126.0">
+            <VBox prefHeight="581.0" prefWidth="126.0" HBox.hgrow="NEVER">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Directions:">
                      <font>
@@ -291,7 +292,7 @@
       <HBox layoutX="-1.0" layoutY="2.0" prefHeight="100.0" prefWidth="1261.0">
          <children>
             <Region prefHeight="100.0" prefWidth="25.0" HBox.hgrow="NEVER" />
-            <MenuButton mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Language">
+            <MenuButton mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Language" HBox.hgrow="ALWAYS">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
                 <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -306,8 +307,8 @@
                   <Image url="@../image/BWFH_Logo.png" />
                </image>
             </ImageView>
-            <Region prefHeight="100.0" prefWidth="210.0" HBox.hgrow="NEVER" />
-            <Button fx:id="adminBtn" mnemonicParsing="false" prefHeight="38.0" prefWidth="144.0" text="Login">
+            <Region prefHeight="100.0" prefWidth="248.0" HBox.hgrow="NEVER" />
+            <Button fx:id="adminBtn" mnemonicParsing="false" prefHeight="16.0" prefWidth="90.0" text="Login" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="20.0" />
                </font>
@@ -316,5 +317,7 @@
                </HBox.margin>
             </Button>
          </children></HBox>
+
    </children>
 </AnchorPane>
+</ScrollPane>
