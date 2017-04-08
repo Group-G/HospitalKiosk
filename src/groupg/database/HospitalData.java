@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.HashMap;
 
 /**
  * Created by  Alazar Genene, Saul Woolf, and Samantha Comeau on 4/1/17.
@@ -506,7 +505,7 @@ public class HospitalData {
      * @param removeCategory category to be removed
      * @return true if successfully removed
      */
-    public static boolean removeCategory(String removeCategory) {
+    public static boolean removeCategory(Category removeCategory) {
         for(int i = 0; i < categories.size();i++)
         {
             if(categories.get(i).equals(removeCategory))
@@ -696,7 +695,8 @@ public class HospitalData {
 //            System.out.println();
 
             int id = -1, x_coord = -1, y_coord = -1, buildingID = -1, floorId = -1;
-            String category = "FAILED TO PULL", locationName = "FAILED TO PULL";
+            Category category = new Category("FAILED TO PULL", 0);
+            String locationName = "FAILED TO PULL";
 
 
             while (locations.next()) {
@@ -715,7 +715,7 @@ public class HospitalData {
                         locationName = locations.getString(j);
                     }
                     else if(roomDataset.getColumnName(j).equals("LOCATION_CATEGORY")){
-                        category = locations.getString(j);
+                        category.setCategory(locations.getString(j));
                     }
                     else if(roomDataset.getColumnName(j).equals("FLOOR_NUM") || roomDataset.getColumnName(j).equals("FLOOR_ID")){
                         floorId = Integer.parseInt(locations.getString(j));

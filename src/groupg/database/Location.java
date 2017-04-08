@@ -18,11 +18,12 @@ public class Location implements Comparable
     private double x, y, fcost;
     private float weight;
     private int id, floor, building;
-    private String name, category;
+    private String name;
+    private Category category;
     private List<Location> neighbors = new LinkedList<>();
     private Location parent;
 
-    public Location(String name, double x, double y, LinkedList<Location> neighbors, String category, float weight, int ID, int floor, int building)
+    public Location(String name, double x, double y, LinkedList<Location> neighbors, Category category, float weight, int ID, int floor, int building)
     {
         this.name = name;
         this.x = x;
@@ -35,7 +36,7 @@ public class Location implements Comparable
         this.id = ID;
     }
 
-    public Location(String name, double x, double y, LinkedList<Location> neighbors, String category, float weight, int floor, int building)
+    public Location(String name, double x, double y, LinkedList<Location> neighbors, Category category, float weight, int floor, int building)
     {
         this.name = name;
         this.x = x;
@@ -47,37 +48,6 @@ public class Location implements Comparable
         this.building = building;
         this.id = HospitalData.getNewLocationID();
     }
-
-    /*public Location(String name, double x, double y, String category, float weight, int ID, int floor, int building)
-    {
-        this.name = name;
-        this.x = x;
-        this.y = y;
-        this.neighbors = neighbors;
-        this.category = category;
-        this.weight = weight;
-        this.floor = floor;
-        this.building = building;
-        this.id = ID;
-    }*/
-
-    /*public Location(String name, double x, double y, String category, int floor, int building)
-    {
-        this.name = name;
-        this.x = x;
-        this.y = y;
-        this.neighbors = neighbors;
-        this.category = category;
-        this.weight = weight;
-        this.floor = floor;
-        this.building = building;
-        this.id = ID;
-    }*/
-
-    /*public Location(double x, double y, int floor, int building)
-    {
-        this("", x, y, "", floor, building);
-    }*/
 
     /**
      * Overwrites all the members of this Location except for ID
@@ -175,7 +145,7 @@ public class Location implements Comparable
         this.id = ID;
     }
 
-    public void setCategory(String category)
+    public void setCategory(Category category)
     {
         this.category = category;
     }
@@ -220,7 +190,7 @@ public class Location implements Comparable
         return this.id;
     }
 
-    public String getCategory()
+    public Category getCategory()
     {
         return this.category;
     }

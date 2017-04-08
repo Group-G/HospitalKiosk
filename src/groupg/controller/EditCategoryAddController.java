@@ -43,7 +43,7 @@ public class EditCategoryAddController implements Initializable
 
     public void onAdd(ActionEvent event)
     {
-        HospitalData.addCategory(catNameField.getText());
+        HospitalData.addCategory(catNameField.getText(), 0);
 
         try
         {

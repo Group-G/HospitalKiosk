@@ -1,5 +1,6 @@
 package groupg.controller;
 
+import groupg.database.Category;
 import groupg.database.HospitalData;
 import groupg.jfx.ResourceManager;
 import javafx.collections.FXCollections;
@@ -23,7 +24,7 @@ public class EditCategoryController implements Initializable
     @FXML
     private Button cancelBtn, newBtn, deleteBtn;
     @FXML
-    private ListView<String> catList;
+    private ListView<Category> catList;
 
     private ObservableList<String> cats = FXCollections.observableArrayList();
 

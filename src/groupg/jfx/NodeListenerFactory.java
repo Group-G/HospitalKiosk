@@ -2,6 +2,7 @@ package groupg.jfx;
 
 import groupg.algorithm.NodeNeighbors;
 import groupg.controller.AdminMainController;
+import groupg.database.Category;
 import groupg.database.HospitalData;
 import groupg.database.Location;
 import javafx.event.EventHandler;
@@ -67,10 +68,10 @@ public class NodeListenerFactory
                                    });
 
             Menu changeCat = new Menu("Change Category");
-            List<String> catsFromDB = HospitalData.getAllCategories();
+            List<Category> catsFromDB = HospitalData.getAllCategories();
             catsFromDB.forEach(s ->
                                {
-                                   MenuItem item = new MenuItem(s);
+                                   MenuItem item = new MenuItem(s.getCategory());
                                    item.setOnAction(e -> {
                                        currentSelection.getLocation().setCategory(s);
                                        AdminMainController.updateNodePD();

@@ -1,25 +1,30 @@
 package groupg.database;
 
 /**
- * Created by svwoolf on 4/7/17.
+ * @author Saul Woolf
+ * @since 2017-04-07
  */
 public class Category {
-    String category = "";
-    int permission = -1;
+    private String category = "";
+    private int permission = -1;
 
-    public Category(String category, int permission){
+    public Category(String category, int permission) {
         this.category = category;
         this.permission = permission;
     }
 
-
-    public int getPermission() {
-        return permission;
+    @Override
+    public String toString() {
+        return category;
     }
 
-    public void setPermission(int permission) {
-        this.permission = permission;
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Category &&
+               ((Category) o).getCategory().equals(getCategory()) &&
+               ((Category) o).getPermission() == getPermission();
     }
+
     public String getCategory() {
         return category;
     }
@@ -28,4 +33,11 @@ public class Category {
         this.category = category;
     }
 
+    public int getPermission() {
+        return permission;
+    }
+
+    public void setPermission(int permission) {
+        this.permission = permission;
+    }
 }
