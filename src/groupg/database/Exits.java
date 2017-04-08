@@ -13,8 +13,9 @@ public class Exits extends Location{
         this.allsFloors = allsFloors;
     }
 
-    public Exits(String name, double x, double y, LinkedList<Location> neighbors, String category, float weight, int floor, int building, LinkedList<Floor> allsFloors) {
-        super(name, x, y, neighbors, category, weight, floor, building);
-        this.allsFloors = allsFloors;
+    public void addFloors(Floor addFloor){
+        this.allsFloors.add(addFloor);
     }
+
+
 }
