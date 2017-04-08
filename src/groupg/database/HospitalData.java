@@ -20,10 +20,6 @@ public class HospitalData {
     //private static HashMap<Integer, Integer> connections = new LinkedList<>();
 
     //Values for TRACKIDS
-    public static int LOCATION_NEW;
-    public static int PERSONELLE_NEW;
-    public static int BUILDING_NEW;
-    public static int FLOOR_NEW;
 
     public static int NEW_ID;
 
@@ -72,16 +68,12 @@ public class HospitalData {
                     if(pullConnections(stmt)){
                         if(pullOffices(stmt)) {
                             if(pullCategories(stmt)) {
-                                if(pullIDS(stmt)){
-                                    System.out.println("hello??");
-                                    for(int i = 0; i < allIds.size(); i++)
-                                    {
-
-                                        System.out.print(allIds.get(i) + ", ");
-                                    }
-                                    System.out.println();
-                                    return true;
+                                System.out.println("hello??");
+                                for(int i = 0; i < allIds.size(); i++) {
+                                    System.out.print(allIds.get(i) + ", ");
                                 }
+                                System.out.println();
+                                return true;
                             }
                         }
                     }
@@ -195,14 +187,12 @@ public class HospitalData {
         }
         System.out.println("Categories: " + cat);
 
-        String trackids = "("+ LOCATION_NEW + ", " + PERSONELLE_NEW + ", " + BUILDING_NEW + ", " + FLOOR_NEW + ")";
-        System.out.println("Track IDS: " + trackids);
 
         String admins = "(\'admin\', \'guest\')";
         System.out.println("Admins: " + admins);
 
         dbExample.createTables();
-        dbExample.fillTable( locations, people, offices, floors, building, connections, admins,  cat, trackids);
+        dbExample.fillTable( locations, people, offices, floors, building, connections, admins,  cat);
         return true;
     }
 
@@ -906,49 +896,4 @@ public class HospitalData {
             return false;
         }
     }
-
-
-    /**
-     * pullIDS
-     * @param stmt SQL Statement
-     * @return Whether the pull had any errors
-     */
-    private boolean pullIDS(Statement stmt) {
-        try {
-            ResultSet cats = stmt.executeQuery("SELECT * FROM TRACKID");
-            ResultSetMetaData Dataset = cats.getMetaData();
-            int Columns = Dataset.getColumnCount();
-
-
-            while (cats.next()) {
-                for (int j = 1; j <= Columns; j++) {
-                    if(Dataset.getColumnName(j).equals("NEW_LOCATION")){
-                        LOCATION_NEW = Integer.parseInt(cats.getString(j));
-                    } else if(Dataset.getColumnName(j).equals("NEW_PERSONELLE")){
-                        PERSONELLE_NEW = Integer.parseInt(cats.getString(j));
-                    } else if(Dataset.getColumnName(j).equals("NEW_BUILDING")){
-                        BUILDING_NEW = Integer.parseInt(cats.getString(j));
-                    } else if(Dataset.getColumnName(j).equals("NEW_FLOOR")){
-                        FLOOR_NEW = Integer.parseInt(cats.getString(j));
-                    } else {
-                        //wut
-                    }
-                    //IF NEEDED TEST THAT THE IDS ARE GETTING PULLED CORRECTLY HERE
-                    //System.out.println("PULLED VALUE : " + Integer.parseInt(cats.getString(j)));
-                }
-
-            }
-            return true;
-        }
-        catch (SQLException e)
-        {
-
-            System.out.println("Failed to pull ids");
-
-            return false;
-        }
-    }
-
-
-
 }
