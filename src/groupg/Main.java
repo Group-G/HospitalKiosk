@@ -25,7 +25,7 @@ public class Main extends Application
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/view/welcomeScreen.fxml"));
         primaryStage.setTitle("Welcome");
-        primaryStage.setScene(new Scene(root, 1755, 1000));
+        primaryStage.setScene(new Scene(root, 1404, 800));
         primaryStage.show();
         primaryStage.setOnCloseRequest(event -> HospitalData.publishDB());
     }
