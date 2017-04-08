@@ -12,6 +12,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -32,7 +34,7 @@ public class AdminMainController implements Initializable {
     @FXML
     private GridPane canvasWrapper;
     private ResizableCanvas canvas = new ResizableCanvas();
-    public static Pane nodeOverlay, lineOverlay, infoOverlay;
+    public static Pane nodeOverlay, lineOverlay, infoOverlay, imageViewPane;
     public static ObservableList<UniqueNode> displayedNodes = FXCollections.observableArrayList();
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
     public static ObservableList<PropertyDisplay> displayedPanels = FXCollections.observableArrayList();
@@ -60,6 +62,7 @@ public class AdminMainController implements Initializable {
 
         //Add layers
 //        canvas.setID(ResizableCanvas.DRAW_FLOOR_4);
+        ImageView imageView = ImageViewFactory.getImageView(new Image("/image/faulkner_4_cropped.png", 2265, 1290, true, true), imageViewPane);
         Group zoomGroup = new Group(imageView, nodeOverlay, lineOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setPannable(true);
