@@ -16,7 +16,6 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -95,7 +94,7 @@ public class WelcomeScreenController implements Initializable {
             }
         });
 
-        imageView = ImageViewFactory.getImageView(new Image("/image/faulkner_4.png", 2265, 1290, true, true), imageViewPane);
+        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1.png"), imageViewPane);
         Group zoomGroup = new Group(imageView, lineOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setPannable(true);

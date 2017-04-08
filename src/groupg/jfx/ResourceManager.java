@@ -10,6 +10,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
 
 /**
@@ -18,6 +22,7 @@ import java.util.function.Consumer;
 public class ResourceManager
 {
     private static ResourceManager ourInstance = new ResourceManager();
+    private static ConcurrentMap<String, Image> images;
 
     public static ResourceManager getInstance()
     {
@@ -26,6 +31,16 @@ public class ResourceManager
 
     private ResourceManager()
     {
+        images = new ConcurrentHashMap<>(7);
+        List<String> imageNames = new ArrayList<>();
+        imageNames.add("/image/faulkner_1.png");
+        imageNames.add("/image/faulkner_2.png");
+        imageNames.add("/image/faulkner_3.png");
+        imageNames.add("/image/faulkner_4.png");
+        imageNames.add("/image/faulkner_5.png");
+        imageNames.add("/image/faulkner_6.png");
+        imageNames.add("/image/faulkner_7.png");
+        new Thread(() -> imageNames.parallelStream().forEach(elem -> images.put(elem, loadImage(elem)))).start();
     }
 
     /**
@@ -130,7 +145,14 @@ public class ResourceManager
         return loader.getController();
     }
 
+    public Image reloadImage(String fileName, int width, int height, boolean preserveRatio, boolean smooth) {
+        images.put(fileName, new Image(fileName, width, height, preserveRatio, smooth));
+        return images.get(fileName);
+    }
+
     public Image loadImage(String fileName, int width, int height, boolean preserveRatio, boolean smooth) {
+        if (images.containsKey(fileName))
+            return images.get(fileName);
         return new Image(fileName, width, height, preserveRatio, smooth);
     }
 
