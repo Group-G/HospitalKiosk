@@ -5,22 +5,24 @@ import groupg.algorithm.Astar;
 import groupg.database.EmptyLocation;
 import groupg.database.HospitalData;
 import groupg.database.Location;
-import groupg.jfx.AutoCompleteTextField;
-import groupg.jfx.DrawLines;
-import groupg.jfx.ResizableCanvas;
-import groupg.jfx.ResourceManager;
+import groupg.jfx.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Shape;
 
 import java.io.IOException;
 import java.net.URL;
@@ -43,8 +45,8 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private GridPane canvasWrapper;
     private ResizableCanvas canvas = new ResizableCanvas();
-    private Pane overlay = new Pane();
-    private ObservableList<Shape> displayedShapes = FXCollections.observableArrayList();
+    public static Pane imageViewPane, lineOverlay;
+    private ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
     private Location closestLocToClick;
 
     private AutoCompleteTextField startField, endField;
@@ -67,11 +69,16 @@ public class WelcomeScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        imageViewPane = new Pane();
+        imageViewPane.setPickOnBounds(true);
+        lineOverlay = new Pane();
+        lineOverlay.setPickOnBounds(true);
+
         startFieldHBox.getChildren().add(startField);
         endFieldHBox.getChildren().add(endField);
 
         //Find closest location
-        overlay.setOnMouseClicked(event -> {
+        imageViewPane.setOnMouseClicked(event -> {
             double shortest = Double.MAX_VALUE;
             for (Location l : HospitalData.getAllLocations()) {
                 if (closestLocToClick == null) {
@@ -87,8 +94,18 @@ public class WelcomeScreenController implements Initializable {
             }
         });
 
-        canvasWrapper.add(canvas, 0, 0);
-        canvasWrapper.add(overlay, 0, 0);
+        ImageView imageView = ImageViewFactory.getImageView(new Image("/image/faulkner_4.png", 2265, 1290, true, true), imageViewPane);
+        Group zoomGroup = new Group(imageView, lineOverlay);
+        ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
+        pane.setPannable(true);
+        zoomGroup.addEventHandler(MouseEvent.ANY, event -> {
+            if (event.getButton() != MouseButton.MIDDLE)
+                event.consume();
+        });
+        canvasWrapper.getChildren().addAll(pane);
+
+//        canvasWrapper.add(canvas, 0, 0);
+//        canvasWrapper.add(overlay, 0, 0);
 
         //Add locations from DB
         locations.addAll(HospitalData.getAllLocations());
@@ -108,12 +125,12 @@ public class WelcomeScreenController implements Initializable {
 
             List<Location> output = new ArrayList<>();
             output.addAll(astar.run(startField.getCurrentSelection(), endField.getCurrentSelection()));
-            displayedShapes.clear();
-            displayedShapes = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(output));
-            canvasWrapper.getChildren().clear();
-            canvasWrapper.add(canvas, 0, 0);
-            overlay.getChildren().setAll(displayedShapes);
-            canvasWrapper.add(overlay, 0, 0);
+            displayedLines.clear();
+            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(output));
+//            canvasWrapper.getChildren().clear();
+//            canvasWrapper.add(canvas, 0, 0);
+            lineOverlay.getChildren().setAll(displayedLines);
+//            canvasWrapper.add(lineOverlay, 0, 0);
         }
     }
 
