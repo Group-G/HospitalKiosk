@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -271,21 +270,7 @@
                   </Tab>
               </tabs>
             </TabPane>
-            <VBox prefHeight="581.0" prefWidth="162.0">
-               <children>
-                  <TextFlow prefHeight="64.0" prefWidth="145.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Location:">
-                           <font>
-                              <Font size="19.0" />
-                           </font>
-                        </Text>
-                     </children>
-                     <children />
-                  </TextFlow>
-                  <TextFlow prefHeight="510.0" prefWidth="97.0" />
-               </children>
-            </VBox>
+
             <Region prefHeight="581.0" prefWidth="21.0" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
