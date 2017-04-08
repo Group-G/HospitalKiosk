@@ -14,7 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -78,17 +79,11 @@ public class AdminMainController implements Initializable
         imageViewPane.getChildren().add(imageView);
         Group zoomGroup = new Group(imageView, nodeOverlay, lineOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
-        pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        pane.addEventFilter(ScrollEvent.ANY, scrollEvent ->
-        {
-            if (scrollEvent.getDeltaY() > 0)
-            {
-                //
-            }
-            scrollEvent.consume();
-        });
         pane.setPannable(true);
+        zoomGroup.addEventHandler(MouseEvent.ANY, event -> {
+            if (event.getButton() != MouseButton.MIDDLE)
+                event.consume();
+        });
         canvasWrapper.getChildren().addAll(pane);
     }
 
