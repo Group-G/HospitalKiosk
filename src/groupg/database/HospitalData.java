@@ -1,5 +1,7 @@
 package groupg.database;
 
+import org.omg.PortableInterceptor.LOCATION_FORWARD;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -14,21 +16,16 @@ public class HospitalData {
     private static List<Building> buildingsList = new LinkedList<>();
     private static List<Category> categories = new LinkedList<>();
     private static List<Person> peopleList = new ArrayList<>();
+    private static List<Admin> adminList = new ArrayList<>();
     private static JavaDBExample dbExample;
     public static String[] login = new String[2];
-    public static ArrayList<Integer> allIds = new ArrayList<>();
     //private static HashMap<Integer, Integer> connections = new LinkedList<>();
 
     //Values for TRACKIDS
-
-    public static int NEW_ID;
-
-        /*
-         * 0: Location 0
-         * 1: Personelle 0
-         * 2: Building 0
-         * 3: Floor 0
-         */
+    public static int LOCATION_NEW;
+    public static int PERSONELLE_NEW;
+    public static int BUILDING_NEW;
+    public static int FLOOR_NEW;
 
 
     public HospitalData(JavaDBExample dbExample) {
@@ -68,12 +65,11 @@ public class HospitalData {
                     if(pullConnections(stmt)){
                         if(pullOffices(stmt)) {
                             if(pullCategories(stmt)) {
-                                System.out.println("hello??");
-                                for(int i = 0; i < allIds.size(); i++) {
-                                    System.out.print(allIds.get(i) + ", ");
+                                if(pullTrackIDS(stmt)){
+                                    if(pullAdmins(stmt)){
+                                        return true;
+                                    }
                                 }
-                                System.out.println();
-                                return true;
                             }
                         }
                     }
@@ -187,26 +183,34 @@ public class HospitalData {
         }
         System.out.println("Categories: " + cat);
 
+        String admin = "";
+        for(int i = 0; i < adminList.size(); i++)
+        {
+            if(i>0)
+            {
+                admin = admin + ",";
+            }
+            admin = admin + "(\'" + adminList.get(i).getUsername() + "\', \'" + adminList.get(i).getPassword() + "\')";
+        }
+        System.out.println("Admins: " + admin);
 
-        String admins = "(\'admin\', \'guest\')";
-        System.out.println("Admins: " + admins);
+        String trackID_push = "";
+        trackID_push = "(" + LOCATION_NEW + ", " + PERSONELLE_NEW + ", " + BUILDING_NEW + ", " + FLOOR_NEW + ")";
+        System.out.println("Track IDS: " + trackID_push);
 
         dbExample.createTables();
-        dbExample.fillTable( locations, people, offices, floors, building, connections, admins,  cat);
+        dbExample.fillTable(locations, people, offices, floors, building, connections, admin, cat, trackID_push);
         return true;
     }
 
-
-    public static int generateId(){
-        NEW_ID++;
-        if(allIds.contains(NEW_ID)){
-            return generateId();
+    public static Admin getAdminByUsername(String username){
+        for(Admin admin:adminList){
+            if(admin.getUsername().equals(username)){
+                return admin;
+            }
         }
-        else{
-            return NEW_ID;
-        }
+        return null;
     }
-
 
 
     /**
@@ -548,19 +552,19 @@ public class HospitalData {
 
      */
     public static int getNewLocationID(){
-        return generateId();
+        return ++LOCATION_NEW;
     }
 
     public static int getNewPersonelleID(){
-        return generateId();
+        return ++PERSONELLE_NEW;
     }
 
     public static int getNewBuildingID(){
-        return generateId();
+        return ++BUILDING_NEW;
     }
 
     public static int getNewFloorID(){
-        return generateId();
+        return ++FLOOR_NEW;
     }
 
 
@@ -595,7 +599,6 @@ public class HospitalData {
                         floorCount = Integer.parseInt(buildings.getString(j));
                     }
                 }
-                allIds.add(buildingId);
                 Building b = new Building(buildingId, buildingName, floorCount);
                 buildingsList.add(b);
 
@@ -638,7 +641,7 @@ public class HospitalData {
                     }
                     else if(roomDataset.getColumnName(j).equals("BUILDING_ID")){
                         buildingId = Integer.parseInt(floors.getString(j).replaceAll("\\s+",""));
-                        System.out.println("BUILDING ID : " + buildingId + "FOR FLOOR : " + floorId);
+                        //System.out.println("BUILDING ID : " + buildingId + "FOR FLOOR : " + floorId);
                     }
                     else if(roomDataset.getColumnName(j).equals("FILENAME")){
                         fileName = floors.getString(j);
@@ -653,7 +656,6 @@ public class HospitalData {
 
 
                 }
-                allIds.add(floorId);
 //                System.out.println("adding floor " + floorId);
                 Floor f = new Floor(floorId, buildingId, fileName, floorNumber);
 //               FLOOR_ID FLOOR_NUMBER  BUILDING_ID  FILENAME varchar(20))
@@ -724,7 +726,6 @@ public class HospitalData {
 
 
                 }
-                allIds.add(id);
                 Location l = new Location(locationName, x_coord, y_coord, new LinkedList<>(), category, 1, id, floorId, buildingID);
                 addLocation(l);
 
@@ -774,8 +775,7 @@ public class HospitalData {
 //
 //                    //make building and add it
                 }
-                allIds.add(id);
-                Person p = new Person(id, name,title);
+                Person p = new Person(name, title, id);
                 peopleList.add(p);
             }
             return true;
@@ -851,11 +851,8 @@ public class HospitalData {
             }
             return true;
         }
-        catch (SQLException e)
-        {
-
+        catch (SQLException e) {
             System.out.println("Failed to pull connections");
-
             return false;
         }
     }
@@ -893,6 +890,75 @@ public class HospitalData {
 
             System.out.println("Failed to pull connections");
 
+            return false;
+        }
+    }
+
+
+    /**
+     * pullTrackIDS
+     * @param stmt SQL Statement
+     * @return Whether the pull had any errors
+     */
+    private boolean pullTrackIDS(Statement stmt) {
+        try {
+            ResultSet cats = stmt.executeQuery("SELECT * FROM TRACKID");
+            ResultSetMetaData roomDataset = cats.getMetaData();
+            int roomColumns = roomDataset.getColumnCount();
+
+            while (cats.next()) {
+                for (int j = 1; j <= roomColumns; j++) {
+                    if (roomDataset.getColumnName(j).equals("LOCATION_ID")) {
+                        LOCATION_NEW = Integer.parseInt(cats.getString(j));
+                    } else if (roomDataset.getColumnName(j).equals("PERSONELLE_ID")) {
+                        PERSONELLE_NEW = Integer.parseInt(cats.getString(j));
+                    } else if (roomDataset.getColumnName(j).equals("BUILDING_ID")) {
+                        BUILDING_NEW = Integer.parseInt(cats.getString(j));
+                    } else if (roomDataset.getColumnName(j).equals("FLOOR_ID")) {
+                        FLOOR_NEW = Integer.parseInt(cats.getString(j));
+                    } else {
+                        //wut
+                    }
+
+                }
+            }
+            return true;
+        }
+        catch (SQLException e){
+            System.out.println("Failed to pull track IDs");
+            return false;
+        }
+    }
+
+    /**
+     * pullAdmins
+     * @param stmt SQL Statement
+     * @return Whether the pull had any errors
+     */
+    private boolean pullAdmins(Statement stmt) {
+        try {
+            ResultSet admins = stmt.executeQuery("SELECT * FROM ADMINS");
+            ResultSetMetaData roomDataset = admins.getMetaData();
+            int roomColumns = roomDataset.getColumnCount();
+
+            String un = "", pw = "";
+            while (admins.next()) {
+                for (int j = 1; j <= roomColumns; j++) {
+                    if (roomDataset.getColumnName(j).equals("ADMIN_UN")) {
+                        un = admins.getString(j);
+                    } else if (roomDataset.getColumnName(j).equals("ADMIN_PW")) {
+                        pw = admins.getString(j);
+                    } else {
+                        //doesnt exist
+                    }
+                }
+                adminList.add(new Admin(un, pw));
+            }
+
+            return true;
+        }
+        catch (SQLException e){
+            System.out.println("Failed to pull track IDs");
             return false;
         }
     }

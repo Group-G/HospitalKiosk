@@ -33,24 +33,22 @@ public class Person
      * @param title
      * @param officeId
      */
-    public Person(String name, String title, List<Integer> officeId)
-    {
+    public Person(String name, String title, List<Integer> officeId) {
         this.name = name;
         this.title = title;
         this.officeId = officeId;
+        this.id = HospitalData.getNewPersonelleID();
+        //this.id = id;
     }
 
-    /**
-     * Constructor
-     * @param id
-     * @param name
-     * @param title
-     */
-    public Person(int id, String name, String title)
-    {
-        this(name, title, new ArrayList<>(), id);
+    //REMOVE THIS AND FIX PEOPLE LOCATIONS
+    public Person(String name, String title, int id) {
+        this.name = name;
+        this.title = title;
+        this.id = id;
+        this.officeId = new ArrayList<>();
+        //this.id = id;
     }
-
     /**
      * Setter of person
      * @param name

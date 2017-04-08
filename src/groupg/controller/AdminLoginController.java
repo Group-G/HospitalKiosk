@@ -97,8 +97,7 @@ public class AdminLoginController implements Initializable
 
     private void attemptLogin(ActionEvent actionEvent)
     {
-        if (usernameField.getText().equals(HospitalData.login[0]) &&
-            passField.getText().equals(HospitalData.login[1]))
+        if (HospitalData.getAdminByUsername(usernameField.getText()).getPassword().equals(passField.getText()))
         {
             errorText.setVisible(false);
 

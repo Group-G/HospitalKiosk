@@ -85,7 +85,7 @@ public class JavaDBExample
 
 
             try {
-                stmt.execute("DROP TABLE ADMIN");
+                stmt.execute("DROP TABLE ADMINS");
             }
             catch (SQLException e)
             {
@@ -137,10 +137,11 @@ public class JavaDBExample
 
             stmt.execute("CREATE TABLE CONNECTIONS(LOCATION_ONE int, LOCATION_TWO int)");
             stmt.execute("CREATE TABLE PEOPLELOCATIONS(PERSON_ID int, OFFICE_ID int)");
-            stmt.execute("CREATE TABLE ADMIN(ADMIN_UN char(20) NOT NULL Primary Key, ADMIN_PW char(20))");
+            stmt.execute("CREATE TABLE ADMINS(ADMIN_UN varchar(20) NOT NULL Primary Key, ADMIN_PW varchar(20))");
             stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(20), PERMISSIONS INT)");
 
-            //track id will return the newest id that can be used then
+            stmt.execute("CREATE TABLE TRACKID(LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)");
+
             //END CREATE TABLES
 
 //            System.out.println("Tables created!");
@@ -176,20 +177,20 @@ public class JavaDBExample
 
             //INSERT PERSONELLE
             //FORMAT
-//            //(PERSONELLE_ID int NOT NULL Primary Key, PERSONELLE_NAME varchar(20) default NULL, OFFICE_NUMBER int)
-//            stmt.execute("INSERT INTO PERSONELLE VALUES " +
-//
-//                    "(3001, 'Dr.', 'Hunter Peterson'), " +
-//                    "(3002, 'Supreme Being', 'Jeff'), " +
-//                    "(3003, 'Nurse', 'Bella Bee') ");
-//
+            //(PERSONELLE_ID int NOT NULL Primary Key, TITLE varchar(20) default NULL, PERSONELLE_NAME varchar(20) default NULL)
+            stmt.execute("INSERT INTO PERSONELLE VALUES " +
+
+                    "(0, 'Dr.', 'Hunter Peterson'), " +
+                    "(1, 'Supreme Being', 'Jeff'), " +
+                    "(2, 'Nurse', 'Bella Bee') ");
+
 //            //INSERT PEOPLELOCATIONS
 //            //FORMAT
-//            //(int personId int officeID)
-//            stmt.execute("INSERT INTO PEOPLELOCATIONS VALUES " +
-//
-//                    "(3001, 2002), " +
-//                    "(3002, 2003) ");
+//            //(int PERSON_ID int OFFICE_ID)
+            stmt.execute("INSERT INTO PEOPLELOCATIONS VALUES " +
+
+                    "(0, 0), " +
+                    "(0, 1) ");
 
             //INSERT BUILDING
             //FORMAT
@@ -226,13 +227,13 @@ public class JavaDBExample
             //INSERT ADMIN
             //FORMAT
             //(ADMIN_ID int, ADMIN_UN char(20), ADMIN_PW char(20))
-            stmt.execute("INSERT INTO ADMIN VALUES " +
+            stmt.execute("INSERT INTO ADMINS VALUES " +
                     "('admin', 'guest'), " +
-                    "('sjcomeau', 'sjc') ");
+                    "('sjcomeau', 'sjc')");
 
             //INSERT CATEGORY
             //FORMAT
-            //(CATEGORY_NAME varchar(20))
+            //(CATEGORY_NAME varchar(20), PERMISSIONS INT)
             stmt.execute("INSERT INTO CATEGORY VALUES " +
                     "('Office', 0), " +
                     "('Bathroom', 0), " +
@@ -244,9 +245,9 @@ public class JavaDBExample
 
             //INSERT TRACKIDS
             //FORMAT
-            //(NEW_LOCATION int, NEW_PERSONELLE int, NEW_BUILDING int, NEW_FLOOR int")
+            //(LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)
             stmt.execute("INSERT INTO TRACKID VALUES " +
-                    "(0, 0, 2, 8) ");
+                    "(3, 3, 2, 8) ");
 
 
             //Print
@@ -271,7 +272,7 @@ public class JavaDBExample
      * @param admin String contain SQL of admin
      * @param category String contain SQL of category
      */
-    public void fillTable(String location, String personelle, String offices, String floor, String building, String connections, String admin, String category){
+    public void fillTable(String location, String personelle, String offices, String floor, String building, String connections, String admin, String category, String trackIDS){
         try {
             // substitute your database name for myDB
             Connection connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
@@ -336,7 +337,7 @@ public class JavaDBExample
             //FORMAT
             //(ADMIN_ID int, ADMIN_UN char(20), ADMIN_PW char(20))
             if(!admin.equals("")) {
-                stmt.execute("INSERT INTO ADMIN VALUES " + admin);
+                stmt.execute("INSERT INTO ADMINS VALUES " + admin);
             }
 
             //INSERT CATEGORY
@@ -344,6 +345,13 @@ public class JavaDBExample
             //(CATEGORY_NAME varchar(20))
             if(!category.equals("")) {
                 stmt.execute("INSERT INTO CATEGORY VALUES " + category);
+            }
+
+            //INSERT TRACKIDS
+            //FORMAT
+            //(LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)
+            if(!category.equals("")) {
+                stmt.execute("INSERT INTO TRACKID VALUES " + trackIDS);
             }
 
 
