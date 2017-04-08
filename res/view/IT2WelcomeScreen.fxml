@@ -37,7 +37,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="searchBtn" onKeyTyped="#onSearch" prefHeight="34.0" prefWidth="170.0" />
+                        <TextField fx:id="searchBtn"  prefHeight="34.0" prefWidth="170.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="34.0" prefWidth="301.0">
@@ -308,7 +308,7 @@
                </image>
             </ImageView>
             <Region prefHeight="100.0" prefWidth="210.0" HBox.hgrow="NEVER" />
-            <Button fx:id="adminBtn" mnemonicParsing="false" onAction="#onAdminLogin" prefHeight="38.0" prefWidth="144.0" text="Login">
+            <Button fx:id="adminBtn" mnemonicParsing="false"  prefHeight="38.0" prefWidth="144.0" text="Login">
                <font>
                   <Font size="20.0" />
                </font>
