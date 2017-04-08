@@ -67,13 +67,6 @@ public class DirectionScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        displayedShapes.addListener((ListChangeListener.Change<? extends Shape> in) ->
-                                    {
-                                        canvasWrapper.getChildren().clear();
-                                        canvasWrapper.add(canvas, 0, 0);
-                                        overlay.getChildren().setAll(displayedShapes);
-                                        canvasWrapper.add(overlay, 0, 0);
-                                    });
 
         ObservableList<Node> children = FXCollections.observableArrayList(toolBar.getItems());
         children.addAll(startLocField, destField);
@@ -102,7 +95,7 @@ public class DirectionScreenController implements Initializable {
 
         //Add locations from DB
         locations.addAll(HospitalData.getAllLocations());
-        locations.forEach(elem -> System.out.println(elem.getNeighbors().size()));
+        locations.forEach(elem -> System.out.println(elem.getName() + "has" + elem.getNeighbors().size() + "neighbors"));
         startLocField.getEntries().addAll(locations);
         destField.getEntries().addAll(locations);
 
@@ -128,9 +121,12 @@ public class DirectionScreenController implements Initializable {
 
             List<Location> output = new ArrayList<>();
             output.addAll(astar.run(startLocField.getCurrentSelection(), destField.getCurrentSelection()));
-
             displayedShapes.clear();
             displayedShapes = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(output));
+            canvasWrapper.getChildren().clear();
+            canvasWrapper.add(canvas, 0, 0);
+            overlay.getChildren().setAll(displayedShapes);
+            canvasWrapper.add(overlay, 0, 0);
         }
     }
 
