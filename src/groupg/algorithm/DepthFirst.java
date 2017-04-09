@@ -46,7 +46,7 @@ public class DepthFirst{
         for (Location neighbor: strt.getNeighbors()) {
             if (!searched.contains(neighbor)){
                 if(isReachable(neighbor, goal)){
-                    path.add(neighbor);
+                    path.addFirst(neighbor);
                 }
             }
         }
