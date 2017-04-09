@@ -33,13 +33,13 @@ public class ResourceManager
     {
         images = new ConcurrentHashMap<>(7);
         List<String> imageNames = new ArrayList<>();
-        imageNames.add("/image/faulkner_1.png");
-        imageNames.add("/image/faulkner_2.png");
-        imageNames.add("/image/faulkner_3.png");
-        imageNames.add("/image/faulkner_4.png");
-        imageNames.add("/image/faulkner_5.png");
-        imageNames.add("/image/faulkner_6.png");
-        imageNames.add("/image/faulkner_7.png");
+        imageNames.add("/image/faulkner_1_cropped.png");
+        imageNames.add("/image/faulkner_2_cropped.png");
+        imageNames.add("/image/faulkner_3_cropped.png");
+        imageNames.add("/image/faulkner_4_cropped.png");
+        imageNames.add("/image/faulkner_5_cropped.png");
+        imageNames.add("/image/faulkner_6_cropped.png");
+        imageNames.add("/image/faulkner_7_cropped.png");
         new Thread(() -> imageNames.parallelStream().forEach(elem -> images.put(elem, loadImage(elem)))).start();
     }
 
