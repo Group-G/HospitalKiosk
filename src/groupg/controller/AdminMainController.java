@@ -42,6 +42,7 @@ public class AdminMainController implements Initializable {
     public static ObservableList<PropertyDisplay> displayedPanels = FXCollections.observableArrayList();
     private ImageView imageView;
     private Floor currentFloor;
+    private ScrollPane pane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -64,7 +65,19 @@ public class AdminMainController implements Initializable {
             Tab tab = new Tab(floor.getFloorNum());
             tab.setOnSelectionChanged(event -> {
                 imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename()));
-                currentFloor.setID(floor.getID());
+                currentFloor.setFloor(floor);
+
+                //Set new nodes for this floor
+                displayedNodes.clear();
+                displayedNodes.addAll(floor.getLocations().stream().map(NodeFactory::getNode).collect(Collectors.toList()));
+                nodeOverlay.getChildren().setAll(displayedNodes);
+
+                //Clear lines
+                displayedLines.clear();
+                lineOverlay.getChildren().clear();
+
+                //Clear current selection
+                NodeListenerFactory.currentSelection = null;
             });
             tabPane.getTabs().add(tab);
         });
@@ -80,7 +93,7 @@ public class AdminMainController implements Initializable {
 
         //Add layers
         Group zoomGroup = new Group(imageView, nodeOverlay, lineOverlay);
-        ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
+        pane = new ScrollPane(new Pane(zoomGroup));
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setPannable(true);
@@ -132,7 +145,8 @@ public class AdminMainController implements Initializable {
     }
 
     public void onAddNode(ActionEvent actionEvent) {
-        UniqueNode node = NodeFactory.getNode(300, 300);
+        UniqueNode node = NodeFactory.getNode(imageView.getImage().widthProperty().doubleValue()/2.0,
+                                              imageView.getImage().heightProperty().doubleValue()/2.0);
         HospitalData.setLocation(node.getLocation().getID(), node.getLocation());
         displayedNodes.add(node);
         nodeOverlay.getChildren().setAll(displayedNodes);
