@@ -18,24 +18,24 @@ public class DepthFirst{
 
     public LinkedList<Location> run(Location start, Location end){
         LinkedList<Location> dfpath = new LinkedList<>();
-        try{
-            dfpath = runDepthFirst(start, end);
-        }
-        catch(NullPointerException e){
+        dfpath = runDepthFirst(start, end);
+        if(dfpath.isEmpty()) {
             System.out.println("Path not found");
             return new LinkedList<>();
         }
-        return dfpath;
+        else {
+            return dfpath;
+        }
     }
 
-    private LinkedList<Location> runDepthFirst(Location start, Location end) throws NullPointerException{
+    private LinkedList<Location> runDepthFirst(Location start, Location end){
         path.clear();
         searched.clear();
         searched.add(start);
         if(isReachable(start, end)){
             return path;
         }
-        else throw new NullPointerException();
+        else return new LinkedList<>();
     }
 
     private boolean isReachable(Location strt, Location goal){
