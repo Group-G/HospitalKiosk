@@ -197,8 +197,8 @@ public class JavaDBExample
             //(BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)
             stmt.execute("INSERT INTO BUILDING VALUES " +
 
-                    "(0, 'Parking Garage', 1), " +
-                    "(1, 'Faulkner Hospital', 4) ");
+                    "(0, 'Belkin House', 4), " +
+                    "(1, 'Faulkner Hospital', 7) ");
 
 
             //INSERT FLOOR
@@ -206,14 +206,17 @@ public class JavaDBExample
             //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID int, FILENAME varchar(20))
             stmt.execute("INSERT INTO FLOOR VALUES " +
 
-                    "(0, '1', 0, 'B0_F1_img'), " +
-                    "(1, '1', 1, 'B1_F1_img'), " +
-                    "(2, '2', 1, 'B1_F2_img'), " +
-                    "(3, '3', 1, 'B1_F3_img'), " +
-                    "(4, '4', 1, 'B1_F4_img'), " +
-                    "(5, '5', 1, 'B1_F5_img'), " +
-                    "(6, '6', 1, 'B1_F6_img'), " +
-                    "(7, '7', 1, 'B1_F7_img') " );
+                    "(0, 'Belkin Floor 1', 0, 'belkin_1_cropped'), " +
+                    "(0, 'Belkin Floor 2', 0, 'belkin_1_cropped'), " +
+                    "(0, 'Belkin Floor 3', 0, 'belkin_1_cropped'), " +
+                    "(0, 'Belkin Floor 4', 0, 'belkin_1_cropped'), " +
+                    "(1, 'Floor 1', 1, 'faulkner_1_cropped'), " +
+                    "(2, 'Floor 2', 1, 'faulkner_2_cropped'), " +
+                    "(3, 'Floor 3', 1, 'faulkner_3_cropped'), " +
+                    "(4, 'Floor 4', 1, 'faulkner_4_cropped'), " +
+                    "(5, 'Floor 5', 1, 'faulkner_5_cropped'), " +
+                    "(6, 'Floor 6', 1, 'faulkner_6_cropped'), " +
+                    "(7, 'Floor 7', 1, 'faulkner_7_cropped') " );
 
 
 
