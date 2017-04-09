@@ -1,5 +1,6 @@
 package groupg.database;
 
+import groupg.controller.WelcomeScreenController;
 import org.omg.PortableInterceptor.LOCATION_FORWARD;
 
 import java.sql.*;

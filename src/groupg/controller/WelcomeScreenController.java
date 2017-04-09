@@ -2,6 +2,7 @@
 package groupg.controller;
 
 import groupg.algorithm.Astar;
+import groupg.database.Category;
 import groupg.database.EmptyLocation;
 import groupg.database.HospitalData;
 import groupg.database.Location;
@@ -134,7 +135,70 @@ public class WelcomeScreenController implements Initializable {
         }
     }
 
-    private void generateTextDirections(LinkedList<Location> locations) {
+
+    public static void testTextDirections(){
+        LinkedList<Location> locations = new LinkedList<Location>();
+        String name = "a";
+        double x = 50.0;
+        double y = 50.0;
+        int permission = 0;
+        String category = "Bathroom";
+        Category a = new Category(category, permission);
+        float b = (float) 2.0;
+        int id = 1;
+        int floor = 1;
+        int building = 1;
+        Location c = new Location(name, x, y, locations, a, b, id, floor, building);
+        locations.add(c);
+        String name2 = "b";
+        double x2 = 77.0;
+        double y2 = 119.0;
+        int permission2 = 0;
+        String category2 = "Bathroom";
+        Category a2 = new Category(category2, permission2);
+        float b2 = (float) 2.0;
+        int id2 = 1;
+        int floor2 = 1;
+        int building2 = 1;
+        Location c2 = new Location(name2, x2, y2, locations, a2, b2, id2,floor2, building2);
+        locations.add(c2);
+        generateTextDirections(locations);
+    }
+
+
+
+    public static void generateTextDirections(LinkedList<Location> locations) {
+        LinkedList<Double> angles = new LinkedList<>();
+        for(int i = 0; i < locations.size()-1; i++) {
+            double lengthBetweenXs = Math.abs(locations.get(i).getX() - locations.get(i+1).getX());
+            double lengthBetweenYs = Math.abs(locations.get(i).getY() - locations.get(i+1).getY());
+            double angle = Math.atan2(lengthBetweenXs, lengthBetweenYs);
+            angles.add(angle);
+            System.out.print(angle);
+            System.out.print(angles);
+        }
+        for(Double angle1: angles){
+            if(angle1 < .900 && angle1 > .450){
+                System.out.print("You will have to take a right turn at the next node\n");
+            }
+            if(angle1 < .450 && angle1 > .010){
+                System.out.println("You will have to take a slight right at the next node\n");
+            }
+            if(angle1 > .900 && angle1 < 1.350){
+                System.out.println("You will have to take a slight left at the next node\n");
+            }
+            if(angle1 > 1.350 && angle1 < 1.800){
+                System.out.println("You will have to take a left at the next node\n");
+            }
+            if(angle1 == 2.700){
+                System.out.println("You will have to go backwards to reach the next node\n");
+            }
+            if(angle1 == null)
+                break;
+            else
+                System.out.print("You will have to keep going straight for the next node\n");
+
+        }
         //Write directions to locList
     }
 

@@ -32,6 +32,8 @@ public class ResizableCanvas extends Pane {
         getChildren().add(canvas);
     }
 
+
+
     @Override
     protected void layoutChildren() {
         final int top = (int) snappedTopInset();
