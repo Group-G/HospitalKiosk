@@ -210,13 +210,13 @@ public class JavaDBExample
                     "(0, 'Belkin Floor 2', 0, 'belkin_1_cropped'), " +
                     "(0, 'Belkin Floor 3', 0, 'belkin_1_cropped'), " +
                     "(0, 'Belkin Floor 4', 0, 'belkin_1_cropped'), " +
-                    "(1, 'Floor 1', 1, 'faulkner_1_cropped'), " +
-                    "(2, 'Floor 2', 1, 'faulkner_2_cropped'), " +
-                    "(3, 'Floor 3', 1, 'faulkner_3_cropped'), " +
-                    "(4, 'Floor 4', 1, 'faulkner_4_cropped'), " +
-                    "(5, 'Floor 5', 1, 'faulkner_5_cropped'), " +
-                    "(6, 'Floor 6', 1, 'faulkner_6_cropped'), " +
-                    "(7, 'Floor 7', 1, 'faulkner_7_cropped') " );
+                    "(1, 'Faulker Floor 1', 1, 'faulkner_1_cropped'), " +
+                    "(2, 'Faulker Floor 2', 1, 'faulkner_2_cropped'), " +
+                    "(3, 'Faulker Floor 3', 1, 'faulkner_3_cropped'), " +
+                    "(4, 'Faulker Floor 4', 1, 'faulkner_4_cropped'), " +
+                    "(5, 'Faulker Floor 5', 1, 'faulkner_5_cropped'), " +
+                    "(6, 'Faulker Floor 6', 1, 'faulkner_6_cropped'), " +
+                    "(7, 'Faulker Floor 7', 1, 'faulkner_7_cropped') " );
 
 
 
