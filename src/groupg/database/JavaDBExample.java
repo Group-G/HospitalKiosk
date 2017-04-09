@@ -206,17 +206,17 @@ public class JavaDBExample
             //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID int, FILENAME varchar(20))
             stmt.execute("INSERT INTO FLOOR VALUES " +
 
-                    "(0, 'Belkin Floor 1', 0, 'belkin_1_cropped'), " +
-                    "(0, 'Belkin Floor 2', 0, 'belkin_1_cropped'), " +
-                    "(0, 'Belkin Floor 3', 0, 'belkin_1_cropped'), " +
-                    "(0, 'Belkin Floor 4', 0, 'belkin_1_cropped'), " +
-                    "(1, 'Faulker Floor 1', 1, 'faulkner_1_cropped'), " +
-                    "(2, 'Faulker Floor 2', 1, 'faulkner_2_cropped'), " +
-                    "(3, 'Faulker Floor 3', 1, 'faulkner_3_cropped'), " +
-                    "(4, 'Faulker Floor 4', 1, 'faulkner_4_cropped'), " +
-                    "(5, 'Faulker Floor 5', 1, 'faulkner_5_cropped'), " +
-                    "(6, 'Faulker Floor 6', 1, 'faulkner_6_cropped'), " +
-                    "(7, 'Faulker Floor 7', 1, 'faulkner_7_cropped') " );
+                    "(0, 'Belkin Floor 1', 0, '/image/belkin_1_cropped.png'), " +
+                    "(0, 'Belkin Floor 2', 0, '/image/belkin_1_cropped.png'), " +
+                    "(0, 'Belkin Floor 3', 0, '/image/belkin_1_cropped.png'), " +
+                    "(0, 'Belkin Floor 4', 0, '/image/belkin_1_cropped.png'), " +
+                    "(1, 'Faulker Floor 1', 1, '/image/faulkner_1_cropped.png'), " +
+                    "(2, 'Faulker Floor 2', 1, '/image/faulkner_2_cropped.png'), " +
+                    "(3, 'Faulker Floor 3', 1, '/image/faulkner_3_cropped.png'), " +
+                    "(4, 'Faulker Floor 4', 1, '/image/faulkner_4_cropped.png'), " +
+                    "(5, 'Faulker Floor 5', 1, '/image/faulkner_5_cropped.png'), " +
+                    "(6, 'Faulker Floor 6', 1, '/image/faulkner_6_cropped.png'), " +
+                    "(7, 'Faulker Floor 7', 1, '/image/faulkner_7_cropped.png') " );
 
 
 
