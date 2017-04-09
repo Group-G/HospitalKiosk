@@ -43,10 +43,6 @@ public class AdminMainController implements Initializable {
     private ImageView imageView;
     private Floor currentFloor;
 
-    public AdminMainController() {
-        currentFloor = new Floor(0, 0, "", "");
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Change listener for removed nodes
@@ -59,18 +55,19 @@ public class AdminMainController implements Initializable {
         infoOverlay = new Pane();
         infoOverlay.setPickOnBounds(false);
 
+        //Default current floor
+        if (HospitalData.getAllFloors().size() > 0)
+            currentFloor = (HospitalData.getAllFloors().get(0));
+        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/belkin_1_cropped.png"), imageViewPane);
+
         HospitalData.getAllFloors().forEach(floor -> {
             Tab tab = new Tab(floor.getFloorNum());
             tab.setOnSelectionChanged(event -> {
-                System.out.println(floor.getFilename());
                 imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename()));
                 currentFloor.setID(floor.getID());
             });
             tabPane.getTabs().add(tab);
         });
-
-        if (HospitalData.getAllFloors().size() > 0)
-            currentFloor = (HospitalData.getAllFloors().get(0));
 
         //Fill list with nodes from DB
         displayedNodes.clear();
@@ -81,7 +78,6 @@ public class AdminMainController implements Initializable {
         displayedPanels.add(new PropertyDisplay(150, 120));
 
         //Add layers
-        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"), imageViewPane);
         Group zoomGroup = new Group(imageView, nodeOverlay, lineOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);

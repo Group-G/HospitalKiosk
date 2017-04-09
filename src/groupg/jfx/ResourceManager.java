@@ -40,6 +40,10 @@ public class ResourceManager
         imageNames.add("/image/faulkner_5_cropped.png");
         imageNames.add("/image/faulkner_6_cropped.png");
         imageNames.add("/image/faulkner_7_cropped.png");
+        imageNames.add("/image/belkin_1_cropped.png");
+        imageNames.add("/image/belkin_2_cropped.png");
+        imageNames.add("/image/belkin_3_cropped.png");
+        imageNames.add("/image/belkin_4_cropped.png");
         new Thread(() -> imageNames.parallelStream().forEach(elem -> images.put(elem, loadImage(elem)))).start();
     }
 
