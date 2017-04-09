@@ -34,7 +34,6 @@ public class HospitalData {
         login[1] = "guest";
         this.dbExample = dbExample;
         if(pullDataFromDB()) {
-            WelcomeScreenController.testTextDirections();
             System.out.println("Successfully pulled data from DB");
         } else {
             System.out.println("Failed to pull data from DB");
