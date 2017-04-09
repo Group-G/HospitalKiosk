@@ -18,7 +18,7 @@ public class Building{
      * @param name Name of building
      * @param numFloors Number of floors
      * This constructor can only be used when you are pulling from the database.
-     *                  avoid setting the id of items when creating them through
+     *                  avoid setting the ID of items when creating them through
      *                  the UI.
      */
     public Building(int id, String name, int numFloors) {

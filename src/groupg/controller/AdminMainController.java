@@ -7,12 +7,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -30,7 +31,8 @@ import java.util.ResourceBundle;
 public class AdminMainController implements Initializable {
     @FXML
     private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn;
-
+    @FXML
+    private TabPane tabPane;
     @FXML
     private GridPane canvasWrapper;
     public static Pane imageViewPane, nodeOverlay, lineOverlay, infoOverlay;
@@ -50,6 +52,12 @@ public class AdminMainController implements Initializable {
         lineOverlay.setPickOnBounds(false);
         infoOverlay = new Pane();
         infoOverlay.setPickOnBounds(false);
+
+        HospitalData.getAllFloors().forEach(floor -> {
+            Tab tab = new Tab(floor.getFloorNum());
+            tab.setOnSelectionChanged(event -> imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename())));
+            tabPane.getTabs().add(tab);
+        });
 
         //Fill list with nodes from DB
         displayedNodes.clear();
@@ -77,6 +85,7 @@ public class AdminMainController implements Initializable {
 
     /**
      * Draws connections between a node and its neighbors
+     *
      * @param node Node to draw from
      */
     public static void drawConnections(UniqueNode node) {
@@ -134,55 +143,6 @@ public class AdminMainController implements Initializable {
             ResourceManager.getInstance().loadFXMLIntoScene("/view/editPers.fxml", "Edit Personnel", editCatBtn.getScene());
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void onFloor1(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor2(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_2_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor3(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_3_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor4(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_4_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor5(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_5_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor6(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_6_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor7(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_7_cropped.png"));
-        } catch (NullPointerException e) {
         }
     }
 }

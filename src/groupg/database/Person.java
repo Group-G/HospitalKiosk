@@ -23,7 +23,7 @@ public class Person
         this.name = name;
         this.title = title;
         this.officeId = officeId;
-        //this.id = HospitalData.getNewPersonelleID();
+        //this.ID = HospitalData.getNewPersonelleID();
         this.id = id;
     }
 
@@ -38,7 +38,7 @@ public class Person
         this.title = title;
         this.officeId = officeId;
         this.id = HospitalData.getNewPersonelleID();
-        //this.id = id;
+        //this.ID = ID;
     }
 
     //REMOVE THIS AND FIX PEOPLE LOCATIONS
@@ -47,7 +47,7 @@ public class Person
         this.title = title;
         this.id = id;
         this.officeId = new ArrayList<>();
-        //this.id = id;
+        //this.ID = ID;
     }
     /**
      * Setter of person
@@ -91,7 +91,7 @@ public class Person
     }
 
     /**
-     * Getter of id
+     * Getter of ID
      * @return
      */
     public int getId()
@@ -177,7 +177,7 @@ public class Person
 
     /**
      * Adds a location to a person
-     * @param id2 id of the location being added
+     * @param id2 ID of the location being added
      */
     public void addLocation(int id2) {
         officeId.add(id2);

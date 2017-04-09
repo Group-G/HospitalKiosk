@@ -1,16 +1,15 @@
 package groupg.database;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by  Alazar Genene, Saul Woolf, and Samantha Comeau on 4/1/17.
  */
-public class Floor{
-    ArrayList<Location> floorLoc = new ArrayList<Location>();
-    int id;
-    int buildingId;
-    String filename;
-    String floorNumber;
+public class Floor {
+    private List<Location> floorLoc = new ArrayList<>();
+    private int ID, buildingId;
+    private String filename, floorNumber;
 
     /**
      * Constructor
@@ -19,11 +18,11 @@ public class Floor{
      * @param fileName name of the file
      * @param floorName Id of floor
      * This constructor can only be used when you are pulling from the database.
-     *                  avoid setting the id of items when creating them through
+     *                  avoid setting the ID of items when creating them through
      *                  the UI.
      */
     public Floor(int floorId, int buildingId, String fileName, String floorName) {
-        this.id = floorId;
+        this.ID = floorId;
         this.buildingId = buildingId;
         this.filename = fileName;
         this.floorNumber = floorName;
@@ -37,18 +36,18 @@ public class Floor{
      * This constructor can only be used when interacting with the UI.
      */
     public Floor(int buildingId, String fileName, String floorName) {
-        this.id = HospitalData.getNewFloorID();
+        this.ID = HospitalData.getNewFloorID();
         this.buildingId = buildingId;
         this.filename = fileName;
         this.floorNumber = floorName;
     }
 
     /**
-     * Getter of id
-     * @return id
+     * Getter of ID
+     * @return ID
      */
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
     /**
@@ -66,14 +65,17 @@ public class Floor{
      */
     public String getFloorNum() {
         return floorNumber;
+    }
 
+    public String getFilename() {
+        return filename;
     }
 
     /**
      * Getter for locations
      * @return allLocations
      */
-    public ArrayList<Location> getLocations() {
+    public List<Location> getLocations() {
         return floorLoc;
     }
 
@@ -83,13 +85,13 @@ public class Floor{
      */
     public String getSQL(){
         //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER char(20), BUILDING_ID int, FILENAME varchar(20)
-        String result = "(" + id + ", \'" + floorNumber + "\'," + buildingId+ ",\'" + filename+"\')";
+        String result = "(" + ID + ", \'" + floorNumber + "\'," + buildingId + ",\'" + filename + "\')";
 //        System.out.println(result);
         return result;
     }
 
     /**
-     * Removes a location based on its id
+     * Removes a location based on its ID
      * @param id Id of location to be removed
      * @return true if successfully removed
      */

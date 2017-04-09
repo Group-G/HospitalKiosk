@@ -1,8 +1,5 @@
 package groupg.database;
 
-import groupg.controller.WelcomeScreenController;
-import org.omg.PortableInterceptor.LOCATION_FORWARD;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -215,8 +212,8 @@ public class HospitalData {
 
 
     /**
-     * Finds a Building based on its id
-     * @param id The id of target building
+     * Finds a Building based on its ID
+     * @param id The ID of target building
      * @return the building
      */
     public static Building getBuildingById(int id) {
@@ -231,8 +228,8 @@ public class HospitalData {
         return null;
     }
     /**
-     * Finds a Floor based on its id
-     * @param id The id of target floor
+     * Finds a Floor based on its ID
+     * @param id The ID of target floor
      * @return the floor
      */
     public static Floor getFloorById(int id) {
@@ -242,7 +239,7 @@ public class HospitalData {
             ArrayList<Floor> floorList = buildingsList.get(i).getFloorList();
             for(int f = 0; f < floorList.size(); f++) {
 
-                if (floorList.get(f).getId() == id) {
+                if (floorList.get(f).getID() == id) {
                     return floorList.get(f);
                 }
             }
@@ -251,12 +248,12 @@ public class HospitalData {
         return null;
     }
     /**
-     * Finds a location based on its id
-     * @param id The id of target location
+     * Finds a location based on its ID
+     * @param id The ID of target location
      * @return the location
      */
     public static Location getLocationById(int id) {
-//        System.out.println("looking for location " + id);
+//        System.out.println("looking for location " + ID);
         List<Location> locations = getAllLocations();
         for(int i = 0; i < locations.size(); i ++)
         {
@@ -270,12 +267,12 @@ public class HospitalData {
         return null;
     }
     /**
-     * Finds a Person based on its id
-     * @param id The id of target person
+     * Finds a Person based on its ID
+     * @param id The ID of target person
      * @return the person
      */
     public static Person getPersonById(int id) {
-//        System.out.println("looking for location " + id);
+//        System.out.println("looking for location " + ID);
         List<Person> persons = peopleList;
         for(int i = 0; i < persons.size(); i ++)
         {
@@ -296,7 +293,7 @@ public class HospitalData {
      * @return all locations with given category
      */
     public static List<Location> getLocationsByCategory(String category) {
-//        System.out.println("looking for location " + id);
+//        System.out.println("looking for location " + ID);
         List<Location> locations = getAllLocations();
         List<Location> correct = new ArrayList<>();
         for (Location location : locations)
@@ -407,12 +404,12 @@ public class HospitalData {
     }
 
     /**
-     * Removes a location with a given id
-     * @param id id of location to be removed
+     * Removes a location with a given ID
+     * @param id ID of location to be removed
      * @return true if it was successfully removed
      */
     public static boolean removeLocationById(int id) {
-//        System.out.println("looking for location " + id);
+//        System.out.println("looking for location " + ID);
         List<Location> locations = getAllLocations();
         for(int i = 0; i < locations.size(); i ++)
         {
@@ -430,8 +427,8 @@ public class HospitalData {
 
     }
     /**
-     * Removes person by id
-     * @param id id of person to be removed
+     * Removes person by ID
+     * @param id ID of person to be removed
      * @return true if person was successfuly removed
      */
     public static boolean removePersonById(int id) {
@@ -449,15 +446,15 @@ public class HospitalData {
 
     /**
      * adds connections between 2 locations
-     * @param id1 id of first location
-     * @param id2 id of second location
+     * @param id1 ID of first location
+     * @param id2 ID of second location
      */
     public static void addConnection(int id1, int id2) {
         System.out.println("ADDING A FRIGGIN CONNECTION " + id1 + ", " + id2);
         Location l1 = getLocationById(id1);
         Location l2 = getLocationById(id2);
         if(l1 == null || l2 == null){
-            System.out.println("Invalid id's for connection");
+            System.out.println("Invalid ID's for connection");
         }
         if(l1.getID() == l2.getID()){
             System.out.println("YOU CANT CONNECT A NODE TO ITSELF");
@@ -470,8 +467,8 @@ public class HospitalData {
 
     /**
      * Adds a location that a person can be found
-     * @param id1 id of person
-     * @param id2  id of room (location)
+     * @param id1 ID of person
+     * @param id2  ID of room (location)
      */
     private void addPersonLocation(int id1, int id2) {
         Person p = getPersonById(id1);
@@ -514,8 +511,8 @@ public class HospitalData {
 
 
     /**
-     * THis method sets a person's data based on their id
-     * @param id id of person you want to modify
+     * THis method sets a person's data based on their ID
+     * @param id ID of person you want to modify
      * @param p person object with data
      * @return true if the person is being replaced
      */
@@ -532,7 +529,7 @@ public class HospitalData {
 
     /**
      * setLocation
-     * @param id id of location you want to change
+     * @param id ID of location you want to change
      * @param l location object with data you want
      * @return true if it already exsited, false if not
      */

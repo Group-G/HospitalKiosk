@@ -12,6 +12,8 @@ import java.util.LinkedList;
  */
 public class NodeFactory
 {
+    private static final int NODE_RADIUS = 8;
+
     /**
      * Constructs a UniqueNode for a Node at a point
      * @param x X coordinate
@@ -20,7 +22,7 @@ public class NodeFactory
      */
     public static UniqueNode getNode(double x, double y)
     {
-        UniqueNode circle = new UniqueNode(8, new Location("", x, y, new LinkedList<>(), new Category("", 0), 0, 4, 1, 1));
+        UniqueNode circle = new UniqueNode(NODE_RADIUS, new Location("", x, y, new LinkedList<>(), new Category("", 0), 0, 4, 1, 1));
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
         circle.setCenterX(x);
@@ -36,7 +38,7 @@ public class NodeFactory
      */
     public static UniqueNode getNode(Location location)
     {
-        UniqueNode circle = new UniqueNode(10, location);
+        UniqueNode circle = new UniqueNode(NODE_RADIUS, location);
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
         circle.setCenterX(location.getX());
