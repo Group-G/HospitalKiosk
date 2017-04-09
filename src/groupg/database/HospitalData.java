@@ -313,6 +313,25 @@ public class HospitalData {
 
     }
 
+    public static List<Location> getLocationsByFloor(String floorNum) {
+        List<Location> locations = getAllLocations();
+        List<Location> correct = new ArrayList<>();
+        for (Location location : locations)
+        {
+            String floorNum2 =  getFloorById(location.getFloorId()).getFloorNum();
+            if (floorNum.equals(floorNum2))
+            {
+                correct.add(location);
+            }
+        }
+        return correct;
+
+    }
+
+
+
+
+
     /**
      * Adds a floor to a given building
      * @param f floor
