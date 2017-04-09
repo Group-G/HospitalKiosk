@@ -9,10 +9,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1262.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.WelcomeScreenController">
    <children>
-      <HBox layoutX="-1.0" layoutY="2.0" prefHeight="100.0" prefWidth="1261.0">
+      <HBox alignment="CENTER" layoutX="-1.0" layoutY="2.0" prefHeight="100.0" prefWidth="1261.0" spacing="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Region prefHeight="100.0" prefWidth="25.0" HBox.hgrow="NEVER" />
-            <MenuButton mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Language">
+            <MenuButton mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" text="Language">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
                 <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -20,15 +19,16 @@
                <HBox.margin>
                   <Insets top="10.0" />
                </HBox.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
             </MenuButton>
-            <Region prefHeight="100.0" prefWidth="194.0" HBox.hgrow="NEVER" />
             <ImageView fitHeight="89.0" fitWidth="558.0" pickOnBounds="true" preserveRatio="true" smooth="false" HBox.hgrow="ALWAYS">
                <image>
                   <Image url="@../image/BWFH_Logo.png" />
                </image>
             </ImageView>
-            <Region prefHeight="100.0" prefWidth="210.0" HBox.hgrow="NEVER" />
-            <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#onLogin" prefHeight="38.0" prefWidth="144.0" text="Login">
+            <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#onLogin" prefHeight="38.0" prefWidth="150.0" text="Login">
                <font>
                   <Font size="20.0" />
                </font>
@@ -66,7 +66,7 @@
                      <children>
                         <Button fx:id="searchBtn" mnemonicParsing="false" onAction="#onSearch" prefHeight="30.0" text="Search">
                            <font>
-                              <Font size="14.0" />
+                              <Font size="18.0" />
                            </font>
                         </Button>
                      </children>
@@ -150,11 +150,11 @@
                   </GridPane>
                </children>
             </StackPane>
-            <VBox prefHeight="581.0" prefWidth="126.0">
+            <VBox alignment="TOP_CENTER" maxWidth="200.0" prefHeight="581.0" prefWidth="170.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Directions:">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Directions">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="20.0" />
                      </font>
                   </Text>
                   <TextArea fx:id="dirList" prefHeight="550.0" />
