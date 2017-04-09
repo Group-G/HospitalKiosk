@@ -664,15 +664,14 @@ public class HospitalData {
                         fileName = floors.getString(j);
                     }
                     else if(roomDataset.getColumnName(j).equals("FLOOR_NUMBER")){
-                        floorNumber = floors.getString(j).replaceAll("\\s+","");
+                        floorNumber = floors.getString(j);
                     }
 
 //
 //                    //make building and add it
 
-
-
                 }
+                System.out.println(floorNumber);
 //                System.out.println("adding floor " + floorId);
                 Floor f = new Floor(floorId, buildingId, fileName, floorNumber);
 //               FLOOR_ID FLOOR_NUMBER  BUILDING_ID  FILENAME varchar(20))
