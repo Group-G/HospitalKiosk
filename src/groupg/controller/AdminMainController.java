@@ -68,6 +68,7 @@ public class AdminMainController implements Initializable {
             });
             tabPane.getTabs().add(tab);
         });
+        tabPane.setPickOnBounds(false);
 
         //Fill list with nodes from DB
         displayedNodes.clear();
