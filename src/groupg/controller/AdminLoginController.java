@@ -1,5 +1,6 @@
 package groupg.controller;
 
+import groupg.database.Admin;
 import groupg.database.HospitalData;
 import groupg.jfx.ResourceManager;
 import javafx.event.ActionEvent;
@@ -19,8 +20,7 @@ import java.util.TimerTask;
  * @author Ryan Benasutti
  * @since 2017-03-30
  */
-public class AdminLoginController implements Initializable
-{
+public class AdminLoginController implements Initializable {
     @FXML
     private Button cancelBtn, loginBtn;
     @FXML
@@ -33,8 +33,7 @@ public class AdminLoginController implements Initializable
     private int seconds = 10;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
-    {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         errorText.setVisible(false);
         /*
         cancelBtn.getScene().setOnMouseMoved(event -> {
@@ -53,19 +52,13 @@ public class AdminLoginController implements Initializable
         */
     }
 
-    private void isInactive()
-    {
-        inactiveTimeOut.schedule(new TimerTask()
-        {
-            public void run()
-            {
+    private void isInactive() {
+        inactiveTimeOut.schedule(new TimerTask() {
+            public void run() {
                 System.out.println("time is up");
-                try
-                {
+                try {
                     ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
-                }
-                catch (IOException e)
-                {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
                 inactiveTimeOut.cancel();
@@ -73,46 +66,36 @@ public class AdminLoginController implements Initializable
         }, seconds * 1000);
     }
 
-    public void onCancel(ActionEvent actionEvent)
-    {
-        try
-        {
+    public void onCancel(ActionEvent actionEvent) {
+        try {
             ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void onLogin(ActionEvent actionEvent)
-    {
+    public void onLogin(ActionEvent actionEvent) {
         attemptLogin(actionEvent);
     }
 
-    public void onEnterKey(ActionEvent actionEvent)
-    {
+    public void onEnterKey(ActionEvent actionEvent) {
         attemptLogin(actionEvent);
     }
 
-    private void attemptLogin(ActionEvent actionEvent)
-    {
-        if (HospitalData.getAdminByUsername(usernameField.getText()).getPassword().equals(passField.getText()))
-        {
-            errorText.setVisible(false);
+    private void attemptLogin(ActionEvent actionEvent) {
+        Admin admin = HospitalData.getAdminByUsername(usernameField.getText());
+        if (admin != null) {
+            if (admin.getPassword().equals(passField.getText())) {
+                errorText.setVisible(false);
 
-            try
-            {
-                ResourceManager.getInstance().loadFXMLIntoScene("/view/adminMain.fxml", "Admin Main", cancelBtn.getScene());
+                try {
+                    ResourceManager.getInstance().loadFXMLIntoScene("/view/adminMain.fxml", "Admin Main", cancelBtn.getScene());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-        }
-        else
-        {
-            errorText.setVisible(true);
+            else
+                errorText.setVisible(true);
         }
     }
 }
