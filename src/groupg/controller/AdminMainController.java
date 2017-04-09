@@ -1,7 +1,7 @@
 package groupg.controller;
 
+import groupg.database.Floor;
 import groupg.database.HospitalData;
-import groupg.database.Location;
 import groupg.jfx.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -23,6 +23,7 @@ import javafx.scene.layout.Pane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * @author Ryan Benasutti
@@ -40,6 +41,11 @@ public class AdminMainController implements Initializable {
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
     public static ObservableList<PropertyDisplay> displayedPanels = FXCollections.observableArrayList();
     private ImageView imageView;
+    private Floor currentFloor;
+
+    public AdminMainController() {
+        currentFloor = new Floor(0, 0, "", "");
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -55,14 +61,20 @@ public class AdminMainController implements Initializable {
 
         HospitalData.getAllFloors().forEach(floor -> {
             Tab tab = new Tab(floor.getFloorNum());
-            tab.setOnSelectionChanged(event -> imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename())));
+            tab.setOnSelectionChanged(event -> {
+                System.out.println(floor.getFilename());
+                imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename()));
+                currentFloor.setID(floor.getID());
+            });
             tabPane.getTabs().add(tab);
         });
 
+        if (HospitalData.getAllFloors().size() > 0)
+            currentFloor = (HospitalData.getAllFloors().get(0));
+
         //Fill list with nodes from DB
         displayedNodes.clear();
-        for (Location l : HospitalData.getAllLocations())
-            displayedNodes.add(NodeFactory.getNode(l));
+        displayedNodes.addAll(currentFloor.getLocations().stream().map(NodeFactory::getNode).collect(Collectors.toList()));
         nodeOverlay.getChildren().setAll(displayedNodes);
 
         //Add node pd to list
