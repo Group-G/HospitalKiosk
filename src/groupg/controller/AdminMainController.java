@@ -7,12 +7,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -33,11 +33,11 @@ public class AdminMainController implements Initializable {
 
     @FXML
     private GridPane canvasWrapper;
-    private ResizableCanvas canvas = new ResizableCanvas();
     public static Pane imageViewPane, nodeOverlay, lineOverlay, infoOverlay;
     public static ObservableList<UniqueNode> displayedNodes = FXCollections.observableArrayList();
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
     public static ObservableList<PropertyDisplay> displayedPanels = FXCollections.observableArrayList();
+    private ImageView imageView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -61,8 +61,7 @@ public class AdminMainController implements Initializable {
         displayedPanels.add(new PropertyDisplay(150, 120));
 
         //Add layers
-//        canvas.setID(ResizableCanvas.DRAW_FLOOR_4);
-        ImageView imageView = ImageViewFactory.getImageView(new Image("/image/faulkner_4_cropped.png", 2265, 1290, true, true), imageViewPane);
+        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"), imageViewPane);
         Group zoomGroup = new Group(imageView, nodeOverlay, lineOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -74,7 +73,6 @@ public class AdminMainController implements Initializable {
                 event.consume();
         });
         canvasWrapper.getChildren().addAll(pane, infoOverlay);
-//        canvasWrapper.getChildren().addAll(canvas, lineOverlay, nodeOverlay, infoOverlay);
     }
 
     /**
@@ -91,16 +89,18 @@ public class AdminMainController implements Initializable {
      * Updates the node property display
      */
     public static void updateNodePD() {
-        //Update property display
-        PropertyDisplay pd = displayedPanels.get(0);
-        pd.setProperty("X value", "" + NodeListenerFactory.currentSelection.getLocation().getX());
-        pd.setProperty("Y value", "" + NodeListenerFactory.currentSelection.getLocation().getY());
-        pd.setProperty("Name", NodeListenerFactory.currentSelection.getLocation().getName());
-        pd.setProperty("Category", NodeListenerFactory.currentSelection.getLocation().getCategory().getCategory());
-        pd.setProperty("# of Neighbors", NodeListenerFactory.currentSelection.getLocation().getNeighbors().size() + "");
-        displayedPanels.set(0, pd);
-        AdminMainController.infoOverlay.getChildren().clear();
-        AdminMainController.infoOverlay.getChildren().addAll(displayedPanels);
+        if (NodeListenerFactory.currentSelection != null) {
+            //Update property display
+            PropertyDisplay pd = displayedPanels.get(0);
+            pd.setProperty("X value", "" + NodeListenerFactory.currentSelection.getLocation().getX());
+            pd.setProperty("Y value", "" + NodeListenerFactory.currentSelection.getLocation().getY());
+            pd.setProperty("Name", NodeListenerFactory.currentSelection.getLocation().getName());
+            pd.setProperty("Category", NodeListenerFactory.currentSelection.getLocation().getCategory().getCategory());
+            pd.setProperty("# of Neighbors", NodeListenerFactory.currentSelection.getLocation().getNeighbors().size() + "");
+            displayedPanels.set(0, pd);
+            AdminMainController.infoOverlay.getChildren().clear();
+            AdminMainController.infoOverlay.getChildren().addAll(displayedPanels);
+        }
     }
 
     public void onLogout(ActionEvent actionEvent) {
@@ -134,6 +134,55 @@ public class AdminMainController implements Initializable {
             ResourceManager.getInstance().loadFXMLIntoScene("/view/editPers.fxml", "Edit Personnel", editCatBtn.getScene());
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void onFloor1(Event event) {
+        try {
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"));
+        } catch (NullPointerException e) {
+        }
+    }
+
+    public void onFloor2(Event event) {
+        try {
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_2_cropped.png"));
+        } catch (NullPointerException e) {
+        }
+    }
+
+    public void onFloor3(Event event) {
+        try {
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_3_cropped.png"));
+        } catch (NullPointerException e) {
+        }
+    }
+
+    public void onFloor4(Event event) {
+        try {
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_4_cropped.png"));
+        } catch (NullPointerException e) {
+        }
+    }
+
+    public void onFloor5(Event event) {
+        try {
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_5_cropped.png"));
+        } catch (NullPointerException e) {
+        }
+    }
+
+    public void onFloor6(Event event) {
+        try {
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_6_cropped.png"));
+        } catch (NullPointerException e) {
+        }
+    }
+
+    public void onFloor7(Event event) {
+        try {
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_7_cropped.png"));
+        } catch (NullPointerException e) {
         }
     }
 }

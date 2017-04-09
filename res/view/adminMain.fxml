@@ -30,13 +30,31 @@
             <Button fx:id="editCatBtn" mnemonicParsing="false" onAction="#onEditCat" text="Edit Categories" />
         </items>
       </ToolBar>
-      <GridPane fx:id="canvasWrapper" layoutX="1.0" layoutY="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
+      <StackPane layoutY="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+         <children>
+            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab onSelectionChanged="#onFloor1" text="Floor 1" />
+                <Tab onSelectionChanged="#onFloor2" text="Floor 2" />
+                  <Tab onSelectionChanged="#onFloor3" text="Floor 3" />
+                  <Tab onSelectionChanged="#onFloor4" text="Floor 4" />
+                  <Tab onSelectionChanged="#onFloor5" text="Floor 5" />
+                  <Tab onSelectionChanged="#onFloor6" text="Floor 6" />
+                  <Tab onSelectionChanged="#onFloor7" text="Floor 7" />
+              </tabs>
+            </TabPane>
+            <GridPane fx:id="canvasWrapper" layoutX="1.0" layoutY="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <StackPane.margin>
+                  <Insets top="30.0" />
+               </StackPane.margin>
+            </GridPane>
+         </children>
+      </StackPane>
    </children>
 </AnchorPane>
