@@ -97,9 +97,12 @@ public class WelcomeScreenController implements Initializable {
         imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1.png"), imageViewPane);
         Group zoomGroup = new Group(imageView, lineOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
+        pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setPannable(true);
         zoomGroup.addEventHandler(MouseEvent.ANY, event -> {
-            if (event.getButton() != MouseButton.MIDDLE)
+            if (event.getButton() != MouseButton.MIDDLE &&
+                !(event.getButton() == MouseButton.PRIMARY && event.isControlDown()))
                 event.consume();
         });
         canvasWrapper.getChildren().addAll(pane);

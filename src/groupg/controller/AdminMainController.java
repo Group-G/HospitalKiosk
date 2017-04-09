@@ -65,9 +65,12 @@ public class AdminMainController implements Initializable {
         ImageView imageView = ImageViewFactory.getImageView(new Image("/image/faulkner_4_cropped.png", 2265, 1290, true, true), imageViewPane);
         Group zoomGroup = new Group(imageView, nodeOverlay, lineOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
+        pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setPannable(true);
         zoomGroup.addEventHandler(MouseEvent.ANY, event -> {
-            if (event.getButton() != MouseButton.MIDDLE)
+            if (event.getButton() != MouseButton.MIDDLE &&
+                !(event.getButton() == MouseButton.PRIMARY && event.isControlDown()))
                 event.consume();
         });
         canvasWrapper.getChildren().addAll(pane, infoOverlay);
