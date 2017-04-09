@@ -84,18 +84,15 @@ public class AdminLoginController implements Initializable {
 
     private void attemptLogin(ActionEvent actionEvent) {
         Admin admin = HospitalData.getAdminByUsername(usernameField.getText());
-        if (admin != null) {
-            if (admin.getPassword().equals(passField.getText())) {
-                errorText.setVisible(false);
-
-                try {
-                    ResourceManager.getInstance().loadFXMLIntoScene("/view/adminMain.fxml", "Admin Main", cancelBtn.getScene());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        if (admin != null && admin.getPassword().equals(passField.getText())) {
+            errorText.setVisible(false);
+            try {
+                ResourceManager.getInstance().loadFXMLIntoScene("/view/adminMain.fxml", "Admin Main", cancelBtn.getScene());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            else
-                errorText.setVisible(true);
+        } else {
+            errorText.setVisible(true);
         }
     }
 }
