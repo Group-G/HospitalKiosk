@@ -671,11 +671,21 @@ public class HospitalData {
 //                    //make building and add it
 
                 }
-                System.out.println(floorNumber);
+                boolean goodToGo = true;
+                List<Floor> allFloors = getAllFloors();
+                for(Floor f : allFloors){
+                    if(f.getFloorNum().equals(floorNumber)){
+                        System.out.println("Floor \'" + floorNumber + "\' already exists");
+                        goodToGo =  false;
+                    }
+                }
+                if(goodToGo) {
+                    System.out.println("FLoor: " + floorNumber);
 //                System.out.println("adding floor " + floorId);
-                Floor f = new Floor(floorId, buildingId, fileName, floorNumber);
+                    Floor f = new Floor(floorId, buildingId, fileName, floorNumber);
 //               FLOOR_ID FLOOR_NUMBER  BUILDING_ID  FILENAME varchar(20))
-                addFloor(f, buildingId);
+                    addFloor(f, buildingId);
+                }
 
             }
             return true;
