@@ -10,10 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -42,6 +39,7 @@ public class AdminMainController implements Initializable {
     public static ObservableList<PropertyDisplay> displayedPanels = FXCollections.observableArrayList();
     private ImageView imageView;
     private static Floor currentFloor;
+    private static Tab selectedTab;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -55,19 +53,18 @@ public class AdminMainController implements Initializable {
         infoOverlay = new Pane();
         infoOverlay.setPickOnBounds(false);
 
+        //Default current floor to first floor available
         if (currentFloor == null)
             currentFloor = HospitalData.getAllFloors().get(0);
 
         imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage(currentFloor.getFilename()), imageViewPane);
 
-        tabPane.getTabs().clear();
-        tabPane.getSelectionModel().clearSelection();
+        //Add tabs for each floor
         HospitalData.getAllFloors().forEach(floor -> {
             Tab tab = new Tab(floor.getFloorNum());
             tab.setOnSelectionChanged(event -> {
                 imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename()));
-                if (currentFloor != null)
-                    currentFloor.setFloor(floor);
+                currentFloor = floor;
 
                 //Set new nodes for this floor
                 displayedNodes.clear();
@@ -85,13 +82,18 @@ public class AdminMainController implements Initializable {
         });
         tabPane.setPickOnBounds(false);
 
-        System.out.println(tabPane.getTabs().size());
-        tabPane.getSelectionModel().select(tabPane.getTabs()
-                                                  .stream()
-                                                  .filter(tab -> tab.getText().equals(currentFloor.getFloorNum()))
-                                                  .collect(Collectors.toList())
-                                                  .get(0));
-        System.out.println(tabPane.getTabs().size());
+        //Listener for tab selection change
+        tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> selectedTab = newTab);
+
+        //Select previous tab
+        if (selectedTab != null) {
+            for (Tab child : tabPane.getTabs()) {
+                if (child.getText().equals(selectedTab.getText())) {
+                    tabPane.getSelectionModel().select(child);
+                    break;
+                }
+            }
+        }
 
         //Fill list with nodes from DB
         displayedNodes.clear();
