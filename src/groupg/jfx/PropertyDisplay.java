@@ -20,13 +20,15 @@ import java.util.List;
  */
 public class PropertyDisplay extends Pane {
     private List<String> keys, vals;
+    private String longestVal;
     private Rectangle window;
     private StackPane pane;
     private VBox textVBox;
-    private double orgSceneX, orgSceneY, orgTranslateX, orgTranslateY, mouseX, mouseY;
+    private double orgSceneX, orgSceneY, orgTranslateX, orgTranslateY;
 
-    public PropertyDisplay(double width, double height) {
-        window = new Rectangle(width, height, Color.GRAY.deriveColor(1, 1, 1, 0.7));
+    public PropertyDisplay() {
+        longestVal = "";
+        window = new Rectangle(10, 10, Color.GRAY.deriveColor(1, 1, 1, 0.7));
         window.setStroke(Color.BLACK);
         keys = new ArrayList<>();
         vals = new ArrayList<>();
@@ -36,18 +38,13 @@ public class PropertyDisplay extends Pane {
         pane.getChildren().add(textVBox);
 
         //Listeners
-        setOnMouseMoved(event -> {
-            mouseX = event.getScreenX();
-            mouseY = event.getScreenY();
-        });
-
         setOnMousePressed(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 orgSceneX = event.getSceneX();
                 orgSceneY = event.getSceneY();
 
                 if (event.getSource() instanceof PropertyDisplay) {
-                    PropertyDisplay pd = (PropertyDisplay)event.getSource();
+                    PropertyDisplay pd = (PropertyDisplay) event.getSource();
                     orgTranslateX = pd.getTranslateX();
                     orgTranslateY = pd.getTranslateY();
                 }
@@ -63,7 +60,7 @@ public class PropertyDisplay extends Pane {
                         newTranslateY = orgTranslateY + offsetY;
 
                 if (event.getSource() instanceof PropertyDisplay) {
-                    PropertyDisplay pd = (PropertyDisplay)event.getSource();
+                    PropertyDisplay pd = (PropertyDisplay) event.getSource();
                     pd.setTranslateX(newTranslateX);
                     pd.setTranslateY(newTranslateY);
                 }
@@ -72,12 +69,18 @@ public class PropertyDisplay extends Pane {
     }
 
     public void setProperty(String key, String val) {
-        if (keys.contains(key))
+        if (keys.contains(key)) {
             vals.set(keys.indexOf(key), val);
-        else {
+            if (val.length() > longestVal.length())
+                longestVal = val;
+        } else {
             keys.add(key);
             vals.add(val);
+            if (val.length() > longestVal.length())
+                longestVal = val;
         }
+        window.setHeight(22 * keys.size());
+        window.setWidth(longestVal.length() * 25);
         updateDisplay();
     }
 
@@ -89,8 +92,7 @@ public class PropertyDisplay extends Pane {
         updateDisplay();
     }
 
-    private void updateDisplay()
-    {
+    private void updateDisplay() {
         textVBox.getChildren().clear();
         keys.forEach(elem -> {
             Text text = new Text(elem + ": " + vals.get(keys.indexOf(elem)));

@@ -89,7 +89,7 @@ public class AdminMainController implements Initializable {
         nodeOverlay.getChildren().setAll(displayedNodes);
 
         //Add node pd to list
-        displayedPanels.add(new PropertyDisplay(150, 120));
+        displayedPanels.add(new PropertyDisplay());
 
         //Add layers
         Group zoomGroup = new Group(imageView, nodeOverlay, lineOverlay);
