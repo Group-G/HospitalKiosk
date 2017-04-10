@@ -18,12 +18,14 @@ public class HospitalData {
     private static JavaDBExample dbExample;
     public static String[] login = new String[2];
     //private static HashMap<Integer, Integer> connections = new LinkedList<>();
+    public static ArrayList<Integer> allIds = new ArrayList<>();
 
     //Values for TRACKIDS
     public static int LOCATION_NEW;
     public static int PERSONELLE_NEW;
     public static int BUILDING_NEW;
     public static int FLOOR_NEW;
+//    public s
 
 
     public HospitalData(JavaDBExample dbExample) {
@@ -352,6 +354,7 @@ public class HospitalData {
      * @param l
      */
     private static void addLocation(Location l) {
+        System.out.println("adding location" + l.getSQL());
         int floorId = l.getFloor();
         Floor f = getFloorById(floorId);
         if(f == null) {
@@ -362,6 +365,8 @@ public class HospitalData {
 //            System.out.println("added to floor" + floorId);
         }
     }
+
+
 
     /**
      * Returns a list of all Floor
@@ -567,23 +572,50 @@ public class HospitalData {
         return false;
     }
 
-    /*
 
-     */
+//    public static int getNewId(){
+//
+//    }
+
     public static int getNewLocationID(){
-        return ++LOCATION_NEW;
+
+        LOCATION_NEW++;
+        for(Location l :getAllLocations()){
+            if(l.getID() == LOCATION_NEW){
+                return getNewLocationID();
+            }
+        }
+        return LOCATION_NEW;
     }
 
     public static int getNewPersonelleID(){
-        return ++PERSONELLE_NEW;
+        PERSONELLE_NEW++;
+        for(Person p :getAllPeople()){
+            if(p.getId() == PERSONELLE_NEW){
+                return getNewPersonelleID();
+            }
+        }
+        return PERSONELLE_NEW;
     }
 
     public static int getNewBuildingID(){
-        return ++BUILDING_NEW;
+        BUILDING_NEW++;
+        for(Building p :buildingsList){
+            if(p.getId() == BUILDING_NEW){
+                return getNewBuildingID();
+            }
+        }
+        return BUILDING_NEW;
     }
 
     public static int getNewFloorID(){
-        return ++FLOOR_NEW;
+        FLOOR_NEW++;
+        for(Floor f :getAllFloors()){
+            if(f.getID() == FLOOR_NEW){
+                return getNewFloorID();
+            }
+        }
+        return FLOOR_NEW;
     }
 
 
