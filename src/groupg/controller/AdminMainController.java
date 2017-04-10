@@ -60,7 +60,7 @@ public class AdminMainController implements Initializable {
         if (HospitalData.getAllFloors().size() > 0)
             currentFloor = (HospitalData.getAllFloors().get(0));
         imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/belkin_1_cropped.png"), imageViewPane);
-
+        tabPane.getTabs().clear();
         HospitalData.getAllFloors().forEach(floor -> {
             Tab tab = new Tab(floor.getFloorNum());
             tab.setOnSelectionChanged(event -> {
@@ -147,7 +147,8 @@ public class AdminMainController implements Initializable {
 
     public void onAddNode(ActionEvent actionEvent) {
         UniqueNode node = NodeFactory.getNode(imageView.getImage().widthProperty().doubleValue()/2.0,
-                                              imageView.getImage().heightProperty().doubleValue()/2.0);
+                                              imageView.getImage().heightProperty().doubleValue()/2.0,
+                                              currentFloor.getID());
         HospitalData.setLocation(node.getLocation().getID(), node.getLocation());
         displayedNodes.add(node);
         nodeOverlay.getChildren().setAll(displayedNodes);

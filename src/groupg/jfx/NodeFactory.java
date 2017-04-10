@@ -20,9 +20,9 @@ public class NodeFactory
      * @param y Y coordinate
      * @return  Circle at (x,y) representing a Node
      */
-    public static UniqueNode getNode(double x, double y)
+    public static UniqueNode getNode(double x, double y, int floorID)
     {
-        UniqueNode circle = new UniqueNode(NODE_RADIUS, new Location("", x, y, new LinkedList<>(), new Category("", 0), 0, 1, 1));
+        UniqueNode circle = new UniqueNode(NODE_RADIUS, new Location("", x, y, new LinkedList<>(), new Category("", 0), 0, floorID, 1));
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
         circle.setCenterX(x);
