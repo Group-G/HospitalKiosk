@@ -96,21 +96,23 @@ public class HospitalData {
         List<Location> locs = getAllLocations();
         String connections = "";
         String locations = "";
+        ArrayList<Integer> locIds = new ArrayList<Integer>();
         for(int i = 0; i < locs.size(); i++)
         {
-            if(i>0)
-            {
-                locations = locations + ",";
-            }
-            locations = locations + locs.get(i).getSQL();
-            List<String> newConnections = locs.get(i).getConnectionsSQL();
-            for(int j = 0; j < newConnections.size(); j++)
-            {
-                if(connections.indexOf(newConnections.get(j)) == -1) {
-                    if (!connections.equals("")) {
-                        connections = connections + ",";
+            if(!locIds.contains(locs.get(i).getID())) {
+                locIds.add(locs.get(i).getID());
+                if (i > 0) {
+                    locations = locations + ",";
+                }
+                locations = locations + locs.get(i).getSQL();
+                List<String> newConnections = locs.get(i).getConnectionsSQL();
+                for (int j = 0; j < newConnections.size(); j++) {
+                    if (connections.indexOf(newConnections.get(j)) == -1) {
+                        if (!connections.equals("")) {
+                            connections = connections + ",";
+                        }
+                        connections = connections + newConnections.get(j);
                     }
-                    connections = connections + newConnections.get(j);
                 }
             }
 
