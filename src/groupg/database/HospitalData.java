@@ -707,7 +707,11 @@ public class HospitalData {
                     }
                     else if(roomDataset.getColumnName(j).equals("FLOOR_NUMBER")){
                         floorNumber = floors.getString(j);
-
+                        int index = floorNumber.length()-1;
+                        while(floorNumber.charAt(index) == ' '){
+                            floorNumber = floorNumber.substring(0, index);
+                            index--;
+                        }
 
 
 
