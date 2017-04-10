@@ -23,8 +23,7 @@ import java.util.List;
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-public class NodeListenerFactory
-{
+public class NodeListenerFactory {
     private static double orgSceneX, orgSceneY, orgTranslateX, orgTranslateY;
     public static UniqueNode currentSelection = null;
     private static double mouseX, mouseY;
@@ -34,8 +33,7 @@ public class NodeListenerFactory
      *
      * @param nodes Nodes to make draggable
      */
-    public static void attachListeners(UniqueNode... nodes)
-    {
+    public static void attachListeners(UniqueNode... nodes) {
         Arrays.stream(nodes).forEach(node ->
                                      {
                                          node.setOnMousePressed(mousePressedHandler);
@@ -45,11 +43,11 @@ public class NodeListenerFactory
                                      });
     }
 
-    private static EventHandler<ContextMenuEvent> showContextMenu = new EventHandler<ContextMenuEvent>()
-    {
+    private static EventHandler<ContextMenuEvent> showContextMenu = new EventHandler<ContextMenuEvent>() {
         @Override
-        public void handle(ContextMenuEvent event)
-        {
+        public void handle(ContextMenuEvent event) {
+            AdminMainController.updateNodePD();
+
             ContextMenu contextMenu = new ContextMenu();
 
             MenuItem changeName = new MenuItem("Change Name");
@@ -113,18 +111,14 @@ public class NodeListenerFactory
         }
     };
 
-    private static EventHandler<MouseEvent> mousePressedHandler = new EventHandler<MouseEvent>()
-    {
+    private static EventHandler<MouseEvent> mousePressedHandler = new EventHandler<MouseEvent>() {
         @Override
-        public void handle(MouseEvent t)
-        {
-            if (t.getButton() == MouseButton.PRIMARY)
-            {
+        public void handle(MouseEvent t) {
+            if (t.getButton() == MouseButton.PRIMARY) {
                 orgSceneX = t.getSceneX();
                 orgSceneY = t.getSceneY();
 
-                if (t.getSource() instanceof UniqueNode)
-                {
+                if (t.getSource() instanceof UniqueNode) {
                     UniqueNode p = ((UniqueNode) (t.getSource()));
                     orgTranslateX = p.getCenterX();
                     orgTranslateY = p.getCenterY();
@@ -133,70 +127,42 @@ public class NodeListenerFactory
                         //Add to neighbors
                         currentSelection.getLocation().addNeighbor(p.getLocation());
                         p.getLocation().addNeighbor(currentSelection.getLocation());
-                    }
-                    else {
-                        //Clear current highlight
-                        if (currentSelection != null)
-                        {
-                            currentSelection.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
-                        }
-
-                        //Set new highlight
-                        currentSelection = p;
-                        p.setFill(Color.RED.deriveColor(1, 1, 1, 0.3));
+                    } else {
+                        updateSelection(p);
                     }
 
                     AdminMainController.drawConnections(currentSelection);
                     AdminMainController.updateNodePD();
-                }
-                else
-                {
+                } else {
                     Node p = ((Node) (t.getSource()));
                     orgTranslateX = p.getTranslateX();
                     orgTranslateY = p.getTranslateY();
                 }
-            }
-            else if (t.getSource() instanceof UniqueNode)
-            {
-                //Clear current highlight
-                if (currentSelection != null)
-                {
-                    currentSelection.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
-                }
-
-                //Set new highlight
-                currentSelection = ((UniqueNode) (t.getSource()));
-                currentSelection.setFill(Color.RED.deriveColor(1, 1, 1, 0.3));
+            } else if (t.getSource() instanceof UniqueNode) {
+                updateSelection((UniqueNode) t.getSource());
             }
         }
     };
 
-    private static EventHandler<MouseEvent> mouseDraggedHandler = new EventHandler<MouseEvent>()
-    {
+    private static EventHandler<MouseEvent> mouseDraggedHandler = new EventHandler<MouseEvent>() {
         @Override
-        public void handle(MouseEvent t)
-        {
-            if (t.getButton() == MouseButton.PRIMARY)
-            {
+        public void handle(MouseEvent t) {
+            if (t.getButton() == MouseButton.PRIMARY) {
                 double offsetX = t.getSceneX() - orgSceneX;
                 double offsetY = t.getSceneY() - orgSceneY;
 
                 double newTranslateX = orgTranslateX + offsetX;
                 double newTranslateY = orgTranslateY + offsetY;
 
-                if (t.getSource() instanceof UniqueNode)
-                {
+                if (t.getSource() instanceof UniqueNode) {
                     UniqueNode p = ((UniqueNode) (t.getSource()));
                     p.setCenterX(newTranslateX);
                     p.setCenterY(newTranslateY);
                     p.getLocation().setX((int) newTranslateX);
                     p.getLocation().setY((int) newTranslateY);
 
-                    AdminMainController.drawConnections(currentSelection);
-                    AdminMainController.updateNodePD();
-                }
-                else
-                {
+                    updateSelection(p);
+                } else {
                     Node p = ((Node) (t.getSource()));
                     p.setTranslateX(newTranslateX);
                     p.setTranslateY(newTranslateY);
@@ -205,13 +171,27 @@ public class NodeListenerFactory
         }
     };
 
-    private static EventHandler<MouseEvent> trackMouseCoordinates = new EventHandler<MouseEvent>()
-    {
+    private static EventHandler<MouseEvent> trackMouseCoordinates = new EventHandler<MouseEvent>() {
         @Override
-        public void handle(MouseEvent event)
-        {
+        public void handle(MouseEvent event) {
             mouseX = event.getScreenX();
             mouseY = event.getScreenY();
         }
     };
+
+    /**
+     * Updates the current selection; redraws highlight, connections, and node PD
+     *
+     * @param node New selection
+     */
+    private static void updateSelection(UniqueNode node) {
+        //Clear highlight
+        if (currentSelection != null)
+            currentSelection.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
+
+        currentSelection = node;
+        currentSelection.setFill(Color.RED.deriveColor(1, 1, 1, 0.3));
+        AdminMainController.drawConnections(currentSelection);
+        AdminMainController.updateNodePD();
+    }
 }

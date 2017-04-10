@@ -8,12 +8,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * @author Ryan Benasutti
@@ -24,6 +27,8 @@ public class EditIFCAddController implements Initializable {
     private Button addBtn, remBtn, cancelBtn;
     @FXML
     private ListView<Location> availConList, curConList;
+    @FXML
+    private VBox titleVBox;
     private Location location;
 
     @Override
@@ -57,10 +62,13 @@ public class EditIFCAddController implements Initializable {
 
     void setInputLocation(Location loc) {
         location = loc;
-        curConList.getItems().addAll(loc.getNeighbors());
+        titleVBox.getChildren().addAll(new Text(loc.getName()));
+        curConList.getItems().setAll(loc.getNeighbors());
         List<Location> potential = new ArrayList<>();
-        potential.addAll(HospitalData.getLocationsByCategory("Elevator"));
-        potential.addAll(HospitalData.getLocationsByCategory("Stairs"));
-        availConList.getItems().addAll(potential);
+        potential.addAll(HospitalData.getLocationsByCategory("Elevator") //Filter out this location from potentials
+                                     .stream()
+                                     .filter(elem -> !elem.equals(loc))
+                                     .collect(Collectors.toList()));
+        availConList.getItems().setAll(potential);
     }
 }
