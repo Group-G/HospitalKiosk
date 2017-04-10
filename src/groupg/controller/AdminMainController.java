@@ -41,8 +41,7 @@ public class AdminMainController implements Initializable {
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
     public static ObservableList<PropertyDisplay> displayedPanels = FXCollections.observableArrayList();
     private ImageView imageView;
-    private Floor currentFloor;
-    private ScrollPane pane;
+    private static Floor currentFloor;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -56,16 +55,19 @@ public class AdminMainController implements Initializable {
         infoOverlay = new Pane();
         infoOverlay.setPickOnBounds(false);
 
-        //Default current floor
-        if (HospitalData.getAllFloors().size() > 0)
-            currentFloor = (HospitalData.getAllFloors().get(0));
-        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/belkin_1_cropped.png"), imageViewPane);
+        if (currentFloor == null)
+            currentFloor = HospitalData.getAllFloors().get(0);
+
+        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage(currentFloor.getFilename()), imageViewPane);
+
         tabPane.getTabs().clear();
+        tabPane.getSelectionModel().clearSelection();
         HospitalData.getAllFloors().forEach(floor -> {
             Tab tab = new Tab(floor.getFloorNum());
             tab.setOnSelectionChanged(event -> {
                 imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename()));
-                currentFloor.setFloor(floor);
+                if (currentFloor != null)
+                    currentFloor.setFloor(floor);
 
                 //Set new nodes for this floor
                 displayedNodes.clear();
@@ -83,6 +85,14 @@ public class AdminMainController implements Initializable {
         });
         tabPane.setPickOnBounds(false);
 
+        System.out.println(tabPane.getTabs().size());
+        tabPane.getSelectionModel().select(tabPane.getTabs()
+                                                  .stream()
+                                                  .filter(tab -> tab.getText().equals(currentFloor.getFloorNum()))
+                                                  .collect(Collectors.toList())
+                                                  .get(0));
+        System.out.println(tabPane.getTabs().size());
+
         //Fill list with nodes from DB
         displayedNodes.clear();
         displayedNodes.addAll(currentFloor.getLocations().stream().map(NodeFactory::getNode).collect(Collectors.toList()));
@@ -93,7 +103,7 @@ public class AdminMainController implements Initializable {
 
         //Add layers
         Group zoomGroup = new Group(imageView, nodeOverlay, lineOverlay);
-        pane = new ScrollPane(new Pane(zoomGroup));
+        ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setPannable(true);
