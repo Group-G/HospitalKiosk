@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  */
 public class AdminMainController implements Initializable {
     @FXML
-    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn;
+    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn;
     @FXML
     private TabPane tabPane;
     @FXML
@@ -164,6 +164,14 @@ public class AdminMainController implements Initializable {
     public void onEditPers(ActionEvent event) {
         try {
             ResourceManager.getInstance().loadFXMLIntoScene("/view/editPers.fxml", "Edit Personnel", editCatBtn.getScene());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onEditIFC(ActionEvent event) {
+        try {
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/editIFC.fxml", "Edit Inter-Floor Connections", editIFCBtn.getScene());
         } catch (IOException e) {
             e.printStackTrace();
         }

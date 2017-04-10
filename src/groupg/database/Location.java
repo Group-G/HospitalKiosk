@@ -267,4 +267,16 @@ public class Location implements Comparable
     public List<Integer> getNeighborsIDs() {
         return neighbors.stream().map(Location::getID).collect(Collectors.toList());
     }
+
+    public void removeNeighbor(Location toRem) {
+        neighbors.remove(toRem);
+    }
+
+    public void removeNeighbors(List<Location> toRem) {
+        toRem.forEach(this::removeNeighbor);
+    }
+
+    public void addNeighbors(List<Location> toAdd) {
+        toAdd.forEach(this::addNeighbor);
+    }
 }
