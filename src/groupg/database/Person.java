@@ -23,7 +23,6 @@ public class Person
         this.name = name;
         this.title = title;
         this.officeId = officeId;
-        //this.ID = HospitalData.getNewPersonelleID();
         this.id = id;
     }
 
@@ -38,7 +37,6 @@ public class Person
         this.title = title;
         this.officeId = officeId;
         this.id = HospitalData.getNewPersonelleID();
-        //this.ID = ID;
     }
 
     //REMOVE THIS AND FIX PEOPLE LOCATIONS

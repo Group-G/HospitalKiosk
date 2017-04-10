@@ -36,6 +36,19 @@ public class Location implements Comparable
         this.id = ID;
     }
 
+    public Location(String name, double x, double y, LinkedList<Location> neighbors, Category category, float weight, int floor, int building)
+    {
+        this.name = name;
+        this.x = x;
+        this.y = y;
+        this.neighbors = neighbors;
+        this.category = category;
+        this.weight = weight;
+        this.floor = floor;
+        this.building = building;
+        this.id = HospitalData.getNewFloorID();
+    }
+
     /**
      * Overwrites all the members of this Location except for ID
      *
