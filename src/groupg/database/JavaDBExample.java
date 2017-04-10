@@ -206,10 +206,10 @@ public class JavaDBExample
             //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID int, FILENAME varchar(20))
             stmt.execute("INSERT INTO FLOOR VALUES " +
 
-                    "(0, 'Belkin Floor 1', 0, '/image/belkin_1_cropped.png'), " +
-                    "(0, 'Belkin Floor 2', 0, '/image/belkin_2_cropped.png'), " +
-                    "(0, 'Belkin Floor 3', 0, '/image/belkin_3_cropped.png'), " +
-                    "(0, 'Belkin Floor 4', 0, '/image/belkin_4_cropped.png'), " +
+                    "(8, 'Belkin Floor 1', 0, '/image/belkin_1_cropped.png'), " +
+                    "(9, 'Belkin Floor 2', 0, '/image/belkin_2_cropped.png'), " +
+                    "(10, 'Belkin Floor 3', 0, '/image/belkin_3_cropped.png'), " +
+                    "(11, 'Belkin Floor 4', 0, '/image/belkin_4_cropped.png'), " +
                     "(1, 'Faulker Floor 1', 1, '/image/faulkner_1_cropped.png'), " +
                     "(2, 'Faulker Floor 2', 1, '/image/faulkner_2_cropped.png'), " +
                     "(3, 'Faulker Floor 3', 1, '/image/faulkner_3_cropped.png'), " +
