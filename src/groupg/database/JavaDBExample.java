@@ -241,6 +241,8 @@ public class JavaDBExample
                     "('Office', 0), " +
                     "('Bathroom', 0), " +
                     "('Hall', 0), " +
+                     "('Elevator', 0), " +
+                     "('Stairs', 0), " +
                     "('Waiting Area', 0), " +
                     "('Break Room', 1), " +
                     "('Kiosk', 0), " +

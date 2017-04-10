@@ -301,7 +301,7 @@ public class HospitalData {
         for (Location location : locations)
         {
 //            System.out.println(locations.get(i).getID());
-            if (Objects.equals(location.getCategory(), category))
+            if (Objects.equals(location.getCategory().getCategory(), category))
             {
 //                System.out.println("found");
 //                return locations.get(i);
