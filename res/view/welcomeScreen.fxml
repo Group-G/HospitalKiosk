@@ -27,10 +27,12 @@
    <children>
       <HBox alignment="CENTER" layoutX="-1.0" layoutY="2.0" prefHeight="100.0" prefWidth="1261.0" spacing="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <MenuButton minWidth="180.0" mnemonicParsing="false" text="Language">
+            <MenuButton fx:id="language" minWidth="180.0" mnemonicParsing="false" text="Language">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
+                <MenuItem fx:id="english" mnemonicParsing="false" onAction="#changelangE" text="English" />
+                <MenuItem fx:id="spanish" mnemonicParsing="false" onAction="#changelangS" text="Español" />
+                  <MenuItem fx:id="portugues" mnemonicParsing="false" onAction="#changelangP" text="Português" />
+                  <MenuItem fx:id="chinese" mnemonicParsing="false" onAction="#changelangC" text="中文" />
               </items>
                <HBox.margin>
                   <Insets right="10.0" top="10.0" />
@@ -62,7 +64,7 @@
                <children>
                   <HBox fx:id="startFieldHBox" alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="301.0">
                      <children>
-                        <Label prefHeight="40.0" prefWidth="64.0" text="Start:">
+                        <Label fx:id="start" prefHeight="40.0" prefWidth="64.0" text="Start:">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -71,7 +73,7 @@
                   </HBox>
                   <HBox fx:id="endFieldHBox" prefHeight="34.0" prefWidth="301.0">
                      <children>
-                        <Label prefHeight="40.0" prefWidth="64.0" text="End:">
+                        <Label fx:id="end" prefHeight="40.0" prefWidth="64.0" text="End:">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -92,7 +94,7 @@
                   </HBox>
                   <Accordion prefHeight="474.0" prefWidth="297.0">
                     <panes>
-                      <TitledPane animated="false" prefHeight="360.0" prefWidth="242.0" text="Waiting Areas">
+                      <TitledPane fx:id="WArea" animated="false" prefHeight="360.0" prefWidth="242.0" text="Waiting Areas">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="325.0" prefWidth="282.0">
                                  <children>
@@ -104,7 +106,7 @@
                               <Font size="17.0" />
                            </font>
                       </TitledPane>
-                      <TitledPane animated="false" text="Bathrooms">
+                      <TitledPane fx:id="Bath" animated="false" text="Bathrooms">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         </content>
@@ -112,7 +114,7 @@
                               <Font size="17.0" />
                            </font>
                       </TitledPane>
-                        <TitledPane animated="false" text="Help Desks">
+                        <TitledPane fx:id="Hdesk" animated="false" text="Help Desks">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                            </content>
@@ -120,7 +122,7 @@
                               <Font size="17.0" />
                            </font>
                         </TitledPane>
-                        <TitledPane animated="false" text="Exits">
+                        <TitledPane fx:id="exit" animated="false" text="Exits">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                            </content>
@@ -128,7 +130,7 @@
                               <Font size="17.0" />
                            </font>
                         </TitledPane>
-                      <TitledPane animated="false" prefHeight="364.0" prefWidth="301.0" text="Doctors">
+                      <TitledPane fx:id="doc" animated="false" prefHeight="364.0" prefWidth="301.0" text="Doctors">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         </content>
@@ -147,13 +149,13 @@
                <children>
                   <TabPane prefHeight="581.0" prefWidth="886.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
-                      <Tab onSelectionChanged="#onFloor1" text="Floor 1" />
-                      <Tab onSelectionChanged="#onFloor2" text="Floor 2" />
-                        <Tab onSelectionChanged="#onFloor3" text="Floor 3" />
-                        <Tab onSelectionChanged="#onFloor4" text="Floor 4" />
-                        <Tab onSelectionChanged="#onFloor5" text="Floor 5" />
-                        <Tab onSelectionChanged="#onFloor6" text="Floor 6" />
-                        <Tab onSelectionChanged="#onFloor7" text="Floor 7" />
+                      <Tab fx:id="fl1" onSelectionChanged="#onFloor1" text="Floor 1" />
+                      <Tab fx:id="fl2" onSelectionChanged="#onFloor2" text="Floor 2" />
+                        <Tab fx:id="fl3" onSelectionChanged="#onFloor3" text="Floor 3" />
+                        <Tab fx:id="fl4" onSelectionChanged="#onFloor4" text="Floor 4" />
+                        <Tab fx:id="fl5" onSelectionChanged="#onFloor5" text="Floor 5" />
+                        <Tab fx:id="fl6" onSelectionChanged="#onFloor6" text="Floor 6" />
+                        <Tab fx:id="fl7" onSelectionChanged="#onFloor7" text="Floor 7" />
                     </tabs>
                   </TabPane>
                   <GridPane fx:id="canvasWrapper">
@@ -171,7 +173,7 @@
             </StackPane>
             <VBox alignment="TOP_CENTER" maxWidth="200.0" prefHeight="581.0" prefWidth="170.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Directions">
+                  <Text fx:id="directions" strokeType="OUTSIDE" strokeWidth="0.0" text="Directions">
                      <font>
                         <Font size="20.0" />
                      </font>
