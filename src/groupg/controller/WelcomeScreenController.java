@@ -128,7 +128,6 @@ public class WelcomeScreenController implements Initializable {
 
         //Add locations from DB
         locations.addAll(HospitalData.getAllLocations());
-        locations.forEach(elem -> System.out.println(elem.getName() + "has" + elem.getNeighbors().size() + "neighbors"));
         startField.getEntries().addAll(locations);
         endField.getEntries().addAll(locations);
 
@@ -149,74 +148,82 @@ public class WelcomeScreenController implements Initializable {
             displayedLines.clear();
             displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(output));
             lineOverlay.getChildren().setAll(displayedLines);
+
+            generateTextDirections(output);
         }
     }
+    // TODO check for adjacent nodes before instructing a turn
 
+    private void generateTextDirections(List<Location> locations) {
+        String directions = "";
 
-    public static void testTextDirections(){
-        LinkedList<Location> locations = new LinkedList<Location>();
-        String name = "a";
-        double x = 50.0;
-        double y = 50.0;
-        int permission = 0;
-        String category = "Bathroom";
-        Category a = new Category(category, permission);
-        float b = (float) 2.0;
-        int id = 1;
-        int floor = 1;
-        int building = 1;
-        Location c = new Location(name, x, y, locations, a, b, id, floor, building);
-        locations.add(c);
-        String name2 = "b";
-        double x2 = 77.0;
-        double y2 = 119.0;
-        int permission2 = 0;
-        String category2 = "Bathroom";
-        Category a2 = new Category(category2, permission2);
-        float b2 = (float) 2.0;
-        int id2 = 1;
-        int floor2 = 1;
-        int building2 = 1;
-        Location c2 = new Location(name2, x2, y2, locations, a2, b2, id2,floor2, building2);
-        locations.add(c2);
-        generateTextDirections(locations);
+        dirList.setWrapText(true);
+
+        if (locations.size() < 2) {
+            dirList.setText("please enter a start and end location to display locations");
+        } else {
+            dirList.setText("printing directions...\n\n");
+            //dirList.setText(directions);
+            double preAngle = 90; // start facing top of the map
+            double curaAngle = 0;
+            double turn = 0;
+            for (int loc = 0; loc < locations.size(); loc++) {
+                if (loc == locations.size()-1){
+                    directions += "you have reached your destination\n";
+                }
+                else {
+                    curaAngle = getAngle(locations.get(loc), locations.get(loc+1));
+                    turn = (curaAngle - preAngle + 360 + 90) % 360;
+                    directions += getTurn(turn);
+                }
+                preAngle = curaAngle;
+            }
+            dirList.setText(directions);
+        }
+    }
+    /*
+    0 right
+    45 slight right
+    90 straight
+    135 slight left
+    180 left
+    225 backwards slight left
+    270 backwards
+    315 backwards slight right
+
+    */
+    private String getTurn(double turn){
+        if(turn > 315+22.5 || turn <= 22.5){
+            return "take right \n";
+        }
+        if(turn > 22.5 && turn <= 45+22.5){
+            return "take slight right \n";
+        }
+        if(turn > 45+22.5 && turn <= 90+22.5){
+            return "go straight \n";
+        }
+        if(turn > 90+22.5 && turn <= 135+22.5){
+            return "take slight left \n";
+        }
+        if(turn > 135+22.5 && turn <= 180+22.5){
+            return "take left \n";
+        }
+        if(turn > 180+22.5 && turn <= 225+22.5){
+            return "back and slight left \n";
+        }
+        if(turn > 225+22.5 && turn <= 270+22.5){
+            return "go backwards \n";
+        }
+        if(turn > 270+22.5 && turn <= 315+22.5){
+            return "back and slight right \n";
+        }
+        // should never reach here
+        return "i dont know which direciotn you should go please seek help imediatly!!!! \n";
     }
 
-
-
-    public static void generateTextDirections(LinkedList<Location> locations) {
-        LinkedList<Double> angles = new LinkedList<>();
-        for(int i = 0; i < locations.size()-1; i++) {
-            double lengthBetweenXs = Math.abs(locations.get(i).getX() - locations.get(i+1).getX());
-            double lengthBetweenYs = Math.abs(locations.get(i).getY() - locations.get(i+1).getY());
-            double angle = Math.atan2(lengthBetweenXs, lengthBetweenYs);
-            angles.add(angle);
-            System.out.print(angle);
-            System.out.print(angles);
-        }
-        for(Double angle1: angles){
-            if(angle1 < .900 && angle1 > .450){
-                System.out.print("You will have to take a right turn at the next node\n");
-            }
-            if(angle1 < .450 && angle1 > .010){
-                System.out.println("You will have to take a slight right at the next node\n");
-            }
-            if(angle1 > .900 && angle1 < 1.350){
-                System.out.println("You will have to take a slight left at the next node\n");
-            }
-            if(angle1 > 1.350 && angle1 < 1.800){
-                System.out.println("You will have to take a left at the next node\n");
-            }
-            if(angle1 == 2.700){
-                System.out.println("You will have to go backwards to reach the next node\n");
-            }
-            if(angle1 == null)
-                break;
-            else
-                System.out.print("You will have to keep going straight for the next node\n");
-
-        }
-        //Write directions to locList
+    private double getAngle(Location curNode, Location nextNode) {
+        double angle = (((Math.atan2(curNode.getY()-nextNode.getY(), nextNode.getX()-curNode.getX()))*180/Math.PI)+360)%360;
+        return angle;
     }
 
     public void onLogin(ActionEvent actionEvent) {
