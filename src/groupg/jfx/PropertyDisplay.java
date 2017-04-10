@@ -12,6 +12,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -19,19 +21,19 @@ import java.util.List;
  * @since 2017-04-06
  */
 public class PropertyDisplay extends Pane {
-    private List<String> keys, vals;
-    private String longestVal;
+    private List<String> keys, vals, paired;
     private Rectangle window;
     private StackPane pane;
     private VBox textVBox;
     private double orgSceneX, orgSceneY, orgTranslateX, orgTranslateY;
+    private boolean collectionUpdated = false;
 
     public PropertyDisplay() {
-        longestVal = "";
         window = new Rectangle(10, 10, Color.GRAY.deriveColor(1, 1, 1, 0.7));
         window.setStroke(Color.BLACK);
         keys = new ArrayList<>();
         vals = new ArrayList<>();
+        paired = new ArrayList<>();
         pane = new StackPane();
         setPickOnBounds(false);
         textVBox = new VBox(5);
@@ -71,16 +73,14 @@ public class PropertyDisplay extends Pane {
     public void setProperty(String key, String val) {
         if (keys.contains(key)) {
             vals.set(keys.indexOf(key), val);
-            if (val.length() > longestVal.length())
-                longestVal = val;
+            paired.set(keys.indexOf(key), key + ": " + val);
         } else {
             keys.add(key);
             vals.add(val);
-            if (val.length() > longestVal.length())
-                longestVal = val;
+            paired.add(key + ": " + val);
         }
-        window.setHeight(22 * keys.size());
-        window.setWidth(longestVal.length() * 25);
+
+        collectionUpdated = true;
         updateDisplay();
     }
 
@@ -89,13 +89,23 @@ public class PropertyDisplay extends Pane {
             vals.remove(keys.indexOf(key));
             keys.remove(key);
         }
+
+        collectionUpdated = true;
         updateDisplay();
     }
 
     private void updateDisplay() {
+        if (collectionUpdated) {
+            window.setHeight(22 * keys.size());
+            Text longest = new Text(Collections.max(paired, Comparator.comparingInt(String::length)));
+            longest.applyCss();
+            window.setWidth(longest.getLayoutBounds().getWidth() + 35);
+            collectionUpdated = false;
+        }
+
         textVBox.getChildren().clear();
-        keys.forEach(elem -> {
-            Text text = new Text(elem + ": " + vals.get(keys.indexOf(elem)));
+        paired.forEach(elem -> {
+            Text text = new Text(elem);
             text.setFont(Font.font(null, FontWeight.BOLD, 14));
             text.setFontSmoothingType(FontSmoothingType.LCD);
             text.setFill(Color.WHITE);
