@@ -338,15 +338,23 @@ public class HospitalData {
      * @param f floor
      * @param buildingId building
      */
-    private static void addFloor(Floor f, int buildingId) {
+    private static boolean addFloor(Floor f, int buildingId) {
         Building b = getBuildingById(buildingId);
         if(b == null) {
             System.out.println("couldnt find building");
         }
         else{
+            for(Floor f2 : getAllFloors()){
+                if(f.getID() == f2.getID()){
+
+                    return false;
+                }
+            }
             b.addFloor(f);
+            return true;
 
         }
+        return false;
     }
 
     /**
@@ -699,6 +707,10 @@ public class HospitalData {
                     }
                     else if(roomDataset.getColumnName(j).equals("FLOOR_NUMBER")){
                         floorNumber = floors.getString(j);
+
+
+
+
                     }
 
 //
@@ -714,7 +726,6 @@ public class HospitalData {
                     }
                 }
                 if(goodToGo) {
-                    System.out.println("FLoor: " + floorNumber);
 //                System.out.println("adding floor " + floorId);
                     Floor f = new Floor(floorId, buildingId, fileName, floorNumber);
 //               FLOOR_ID FLOOR_NUMBER  BUILDING_ID  FILENAME varchar(20))
