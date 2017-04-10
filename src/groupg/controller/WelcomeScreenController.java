@@ -11,18 +11,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -49,11 +50,23 @@ public class WelcomeScreenController implements Initializable {
     private ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
     private Location closestLocToClick;
     private ImageView imageView;
-
     private AutoCompleteTextField startField, endField;
-
     private Astar astar;
     private LinkedList<Location> locations = new LinkedList<>();
+    //added for Language change
+    @FXML
+    private MenuButton language;
+    @FXML
+    private MenuItem english,spanish,chinese,portugues;
+    @FXML
+    private Label start, end;
+    @FXML
+    private Text directions;
+    @FXML
+    private TitledPane WArea,Bath,Hdesk,exit,doc;
+    @FXML
+    private Tab fl1,fl2,fl3,fl4,fl5,fl6,fl7;
+
 
     public WelcomeScreenController() {
         startField = new AutoCompleteTextField();
@@ -74,7 +87,9 @@ public class WelcomeScreenController implements Initializable {
         imageViewPane.setPickOnBounds(true);
         lineOverlay = new Pane();
         lineOverlay.setPickOnBounds(true);
-
+        //disable writing in the text area
+        dirList.setDisable(true);
+        //add automatic textfields
         startFieldHBox.getChildren().add(startField);
         endFieldHBox.getChildren().add(endField);
 
@@ -118,6 +133,8 @@ public class WelcomeScreenController implements Initializable {
         endField.getEntries().addAll(locations);
 
         drawPath();
+
+
     }
 
     private void drawPath() {
@@ -262,4 +279,91 @@ public class WelcomeScreenController implements Initializable {
         } catch (NullPointerException e) {
         }
     }
+
+    public void changelangE(ActionEvent actionEvent){
+        //System.out.println("changed to english");
+    start.setText("Start:");
+    end.setText("End:");
+    directions.setText("Directions:");
+    loginBtn.setText("Login");
+    searchBtn.setText("Search");
+    WArea.setText("Waiting Areas");
+    Bath.setText("Bathrooms");
+    Hdesk.setText("Help Desks");
+    exit.setText("Exits");
+    doc.setText("Doctors");
+    language.setText("Language");
+        fl1.setText("Floor 1");
+        fl2.setText("Floor 2");
+        fl3.setText("Floor 3");
+        fl4.setText("Floor 4");
+        fl5.setText("Floor 5");
+        fl6.setText("Floor 6");
+        fl7.setText("Floor 7");
+    }
+    public void changelangS(ActionEvent actionEvent){
+       // System.out.println("changed to spanish");
+        start.setText("Comienzo:");
+        end.setText("Fin:");
+        directions.setText("Direcciones:");
+        loginBtn.setText("Inicio");
+        searchBtn.setText("Busca");
+        WArea.setText("Área de Espera");
+        Bath.setText("Baño");
+        Hdesk.setText("Mesa de Ayuda");
+        exit.setText("Salidas");
+        doc.setText("Doctores");
+        language.setText("Idiomas");
+        fl1.setText("Piso 1");
+        fl2.setText("Piso 2");
+        fl3.setText("Piso 3");
+        fl4.setText("Piso 4");
+        fl5.setText("Piso 5");
+        fl6.setText("Piso 6");
+        fl7.setText("Piso 7");
+    }
+    public void changelangP(ActionEvent actionEvent){
+        //System.out.println("changed to portuguese");
+        start.setText("Enceta:");
+        end.setText("Fim:");
+        directions.setText("Instruções:");
+        loginBtn.setText("Entra");
+        searchBtn.setText("Busca");
+        WArea.setText("Área de Espera");
+        Bath.setText("Banheiro");
+        Hdesk.setText("Central de Ajuda");
+        exit.setText("Saída");
+        doc.setText("Médicos");
+        language.setText("Línguas");
+        fl1.setText("Andar 1");
+        fl2.setText("Andar 2");
+        fl3.setText("Andar 3");
+        fl4.setText("Andar 4");
+        fl5.setText("Andar 5");
+        fl6.setText("Andar 6");
+        fl7.setText("Andar 7");
+    }
+    public void changelangC(ActionEvent actionEvent){
+        //System.out.println("changed to chineee");
+        start.setText("开始");
+        end.setText("终点");
+        directions.setText("说明");
+        loginBtn.setText("注册");
+        searchBtn.setText("搜查");
+        WArea.setText("等候区");
+        Bath.setText("盥洗室");
+        Hdesk.setText("帮助台");
+        exit.setText("紧急出口");
+        doc.setText("医生");
+        language.setText("语");
+        fl1.setText("1楼");
+        fl2.setText("2楼");
+        fl3.setText("3楼");
+        fl4.setText("4楼");
+        fl5.setText("5楼");
+        fl6.setText("6楼");
+        fl7.setText("7楼");
+    }
+
+
 }
