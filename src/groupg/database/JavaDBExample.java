@@ -206,17 +206,18 @@ public class JavaDBExample
             //(FLOOR_ID int NOT NULL Primary Key, FLOOR_NUMBER int, BUILDING_ID int, FILENAME varchar(20))
             stmt.execute("INSERT INTO FLOOR VALUES " +
 
-                    "(0, 'Belkin Floor 1', 0, '/image/belkin_1_cropped.png'), " +
-                    "(0, 'Belkin Floor 2', 0, '/image/belkin_1_cropped.png'), " +
-                    "(0, 'Belkin Floor 3', 0, '/image/belkin_1_cropped.png'), " +
-                    "(0, 'Belkin Floor 4', 0, '/image/belkin_1_cropped.png'), " +
-                    "(1, 'Faulker Floor 1', 1, '/image/faulkner_1_cropped.png'), " +
-                    "(2, 'Faulker Floor 2', 1, '/image/faulkner_2_cropped.png'), " +
-                    "(3, 'Faulker Floor 3', 1, '/image/faulkner_3_cropped.png'), " +
-                    "(4, 'Faulker Floor 4', 1, '/image/faulkner_4_cropped.png'), " +
-                    "(5, 'Faulker Floor 5', 1, '/image/faulkner_5_cropped.png'), " +
-                    "(6, 'Faulker Floor 6', 1, '/image/faulkner_6_cropped.png'), " +
-                    "(7, 'Faulker Floor 7', 1, '/image/faulkner_7_cropped.png') " );
+
+                    "(0, 'Faulker Floor 1', 1, '/image/faulkner_1_cropped.png'), " +
+                    "(1, 'Faulker Floor 2', 1, '/image/faulkner_2_cropped.png'), " +
+                    "(2, 'Faulker Floor 3', 1, '/image/faulkner_3_cropped.png'), " +
+                    "(3, 'Faulker Floor 4', 1, '/image/faulkner_4_cropped.png'), " +
+                    "(4, 'Faulker Floor 5', 1, '/image/faulkner_5_cropped.png'), " +
+                    "(5, 'Faulker Floor 6', 1, '/image/faulkner_6_cropped.png'), " +
+                    "(6, 'Faulker Floor 7', 1, '/image/faulkner_7_cropped.png'), " +
+                    "(7, 'Belkin Floor 1', 0, '/image/belkin_1_cropped.png'), " +
+                    "(8, 'Belkin Floor 2', 0, '/image/belkin_2_cropped.png'), " +
+                    "(9, 'Belkin Floor 3', 0, '/image/belkin_3_cropped.png'), " +
+                    "(10, 'Belkin Floor 4', 0, '/image/belkin_4_cropped.png') " );
 
 
 
@@ -241,8 +242,8 @@ public class JavaDBExample
                     "('Office', 0), " +
                     "('Bathroom', 0), " +
                     "('Hall', 0), " +
-                     "('Elevator', 0), " +
-                     "('Stairs', 0), " +
+                    "('Elevator', 0), " +
+                    "('Stairs', 0), " +
                     "('Waiting Area', 0), " +
                     "('Break Room', 1), " +
                     "('Kiosk', 0), " +
@@ -252,7 +253,7 @@ public class JavaDBExample
             //FORMAT
             //(LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)
             stmt.execute("INSERT INTO TRACKID VALUES " +
-                    "(3, 3, 2, 8) ");
+                    "(3, 3, 2, 11) ");
 
 
             //Print
