@@ -95,7 +95,7 @@ public class WelcomeScreenController implements Initializable {
             }
         });
 
-        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"), imageViewPane);
+        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1.png"), imageViewPane);
         Group zoomGroup = new Group(imageView, lineOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -216,49 +216,49 @@ public class WelcomeScreenController implements Initializable {
 
     public void onFloor1(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_1.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor2(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_2_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_2.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor3(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_3_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_3.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor4(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_4_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_4.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor5(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_5_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_5.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor6(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_6_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_6.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor7(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_7_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_7.png"));
         } catch (NullPointerException e) {
         }
     }
