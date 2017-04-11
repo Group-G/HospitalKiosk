@@ -415,49 +415,49 @@ public class WelcomeScreenController implements Initializable {
 
     public void onFloor1(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_1.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor2(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_2.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_2_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor3(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_3.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_3_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor4(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_4.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_4_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor5(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_5.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_5_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor6(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_6.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_6_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor7(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_7.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_7_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
