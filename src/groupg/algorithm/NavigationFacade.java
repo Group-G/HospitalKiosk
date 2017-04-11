@@ -4,21 +4,35 @@ import groupg.database.HospitalData;
 import groupg.database.Location;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
- * Created by Dylan on 4/10/17.
+ * @author Dynan McKillip
+ * @author Ryan Benasutti
+ * @since 2017-04-10
  */
 public class NavigationFacade {
-    private Navigation astar = new Astar(HospitalData.getAllLocations());
-    private Navigation dFirst = new DepthFirst(HospitalData.getAllLocations());
+    private Navigation astar, dFirst;
+    private LinkedList<Location> path;
 
-    public NavigationFacade(){}
-
-    public LinkedList<Location> runAstar(Location start, Location end){
-        return astar.run(start, end);
+    public NavigationFacade() {
+        List<Location> locations = HospitalData.getAllLocations();
+        astar = new Astar(locations);
+        dFirst = new DepthFirst(locations);
+        path = new LinkedList<>();
     }
 
-    public LinkedList<Location> runDepthFirst(Location start, Location end){
-        return dFirst.run(start, end);
+    public LinkedList<Location> runAstar(Location start, Location end) {
+        path = astar.run(start, end);
+        return path;
+    }
+
+    public LinkedList<Location> runDepthFirst(Location start, Location end) {
+        path =  dFirst.run(start, end);
+        return path;
+    }
+
+    public LinkedList<Location> getPath() {
+        return path;
     }
 }

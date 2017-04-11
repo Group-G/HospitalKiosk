@@ -1,7 +1,7 @@
 
 package groupg.controller;
 
-import groupg.algorithm.Astar;
+import groupg.algorithm.NavigationFacade;
 import groupg.database.EmptyLocation;
 import groupg.database.HospitalData;
 import groupg.database.Location;
@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * @author Ryan Benasutti
@@ -48,9 +49,9 @@ public class WelcomeScreenController implements Initializable {
     private Location closestLocToClick;
     private ImageView imageView;
     private AutoCompleteTextField startField, endField;
-    private Astar astar;
+    private NavigationFacade navigation;
     private LinkedList<Location> locations = new LinkedList<>();
-    //added for Language change
+
     @FXML
     private MenuButton language;
     @FXML
@@ -60,11 +61,15 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private Text directions;
     @FXML
-    private TitledPane WArea,Bath,Hdesk,exit,doc;
+    private TitledPane wareaPane, bathPane, hdeskPane, exitPane, docPane, officePane;
     @FXML
-    private Tab fl1,fl2,fl3,fl4,fl5,fl6,fl7;
+    private ListView<Location> waitAreaLV, bathroomLV, helpDeskLV, exitsLV, doctorLV, officeLV;
+    @FXML
+    private Tab fl1, fl2, fl3, fl4, fl5, fl6, fl7;
+    @FXML
+    private TabPane tabPane;
+    private Tab selectedTab;
     private String lang = "Eng";
-
 
     public WelcomeScreenController() {
         startField = new AutoCompleteTextField();
@@ -73,10 +78,8 @@ public class WelcomeScreenController implements Initializable {
         endField.setCurrentSelection(new EmptyLocation());
 
         List<Location> kioskLocs = HospitalData.getLocationsByCategory("Kiosk");
-        if (kioskLocs.size() > 0) {
+        if (kioskLocs.size() > 0)
             startField.setCurrentSelection(kioskLocs.get(0));
-            startField.setText(kioskLocs.get(0).getName());
-        }
     }
 
     @Override
@@ -121,25 +124,72 @@ public class WelcomeScreenController implements Initializable {
         });
         canvasWrapper.getChildren().addAll(pane);
 
+        //Listener for tab selection change
+        tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
+            selectedTab = newTab;
+            displayedLines.clear();
+            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(navigation.getPath().stream().filter(elem -> elem.getFloorId() == 2).collect(Collectors.toList())));
+            lineOverlay.getChildren().setAll(displayedLines);
+        });
+
         //Add locations from DB
         locations.addAll(HospitalData.getAllLocations());
         startField.getEntries().addAll(locations);
         endField.getEntries().addAll(locations);
 
+        //Fill dropdowns
+        waitAreaLV.getItems().addAll(HospitalData.getLocationsByCategory("Waiting Area"));
+        waitAreaLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        waitAreaLV.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getClickCount() == 2)
+                endField.setCurrentSelection(waitAreaLV.getSelectionModel().getSelectedItem());
+        });
+
+        bathroomLV.getItems().addAll(HospitalData.getLocationsByCategory("Bathroom"));
+        bathroomLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        bathroomLV.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getClickCount() == 2)
+                endField.setCurrentSelection(bathroomLV.getSelectionModel().getSelectedItem());
+        });
+
+        helpDeskLV.getItems().addAll(HospitalData.getLocationsByCategory("Help Desk"));
+        helpDeskLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        helpDeskLV.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getClickCount() == 2)
+                endField.setCurrentSelection(helpDeskLV.getSelectionModel().getSelectedItem());
+        });
+
+        exitsLV.getItems().addAll(HospitalData.getLocationsByCategory("Exit"));
+        exitsLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        exitsLV.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getClickCount() == 2)
+                endField.setCurrentSelection(exitsLV.getSelectionModel().getSelectedItem());
+        });
+
+        doctorLV.getItems().addAll(HospitalData.getLocationsByCategory("Doctor"));
+        doctorLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        doctorLV.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getClickCount() == 2)
+                endField.setCurrentSelection(doctorLV.getSelectionModel().getSelectedItem());
+        });
+
+        officeLV.getItems().addAll(HospitalData.getLocationsByCategory("Office"));
+        officeLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        officeLV.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getClickCount() == 2)
+                endField.setCurrentSelection(officeLV.getSelectionModel().getSelectedItem());
+        });
+
         drawPath();
-
-
     }
 
     private void drawPath() {
         if (startField.getCurrentSelection() != null && endField.getCurrentSelection() != null) {
-            LinkedList<Location> locsIn = new LinkedList<>();
-            locsIn.addAll(HospitalData.getAllLocations());
-
-            astar = new Astar(locsIn);
+            navigation = new NavigationFacade();
 
             List<Location> output = new ArrayList<>();
-            output.addAll(astar.run(startField.getCurrentSelection(), endField.getCurrentSelection()));
+            output.addAll(navigation.runAstar(startField.getCurrentSelection(), endField.getCurrentSelection()));
+            output = output.stream().filter(elem -> elem.getFloorId() == 3).collect(Collectors.toList());
             displayedLines.clear();
             displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(output));
             lineOverlay.getChildren().setAll(displayedLines);
@@ -464,11 +514,11 @@ public class WelcomeScreenController implements Initializable {
     directions.setText("Directions:");
     loginBtn.setText("Login");
     searchBtn.setText("Search");
-    WArea.setText("Waiting Areas");
-    Bath.setText("Bathrooms");
-    Hdesk.setText("Help Desks");
-    exit.setText("Exits");
-    doc.setText("Doctors");
+    wareaPane.setText("Waiting Areas");
+    bathPane.setText("Bathrooms");
+    hdeskPane.setText("Help Desks");
+    exitPane.setText("Exits");
+    docPane.setText("Doctors");
     language.setText("Language");
         fl1.setText("Floor 1");
         fl2.setText("Floor 2");
@@ -487,11 +537,11 @@ public class WelcomeScreenController implements Initializable {
         directions.setText("Direcciones:");
         loginBtn.setText("Inicio");
         searchBtn.setText("Busca");
-        WArea.setText("Área de Espera");
-        Bath.setText("Baño");
-        Hdesk.setText("Mesa de Ayuda");
-        exit.setText("Salidas");
-        doc.setText("Doctores");
+        wareaPane.setText("Área de Espera");
+        bathPane.setText("Baño");
+        hdeskPane.setText("Mesa de Ayuda");
+        exitPane.setText("Salidas");
+        docPane.setText("Doctores");
         language.setText("Idiomas");
         fl1.setText("Piso 1");
         fl2.setText("Piso 2");
@@ -510,11 +560,11 @@ public class WelcomeScreenController implements Initializable {
         directions.setText("Instruções:");
         loginBtn.setText("Entra");
         searchBtn.setText("Busca");
-        WArea.setText("Área de Espera");
-        Bath.setText("Banheiro");
-        Hdesk.setText("Central de Ajuda");
-        exit.setText("Saída");
-        doc.setText("Médicos");
+        wareaPane.setText("Área de Espera");
+        bathPane.setText("Banheiro");
+        hdeskPane.setText("Central de Ajuda");
+        exitPane.setText("Saída");
+        docPane.setText("Médicos");
         language.setText("Línguas");
         fl1.setText("Andar 1");
         fl2.setText("Andar 2");
@@ -534,11 +584,11 @@ public class WelcomeScreenController implements Initializable {
         directions.setText("说明");
         loginBtn.setText("注册");
         searchBtn.setText("搜查");
-        WArea.setText("等候区");
-        Bath.setText("盥洗室");
-        Hdesk.setText("帮助台");
-        exit.setText("紧急出口");
-        doc.setText("医生");
+        wareaPane.setText("等候区");
+        bathPane.setText("盥洗室");
+        hdeskPane.setText("帮助台");
+        exitPane.setText("紧急出口");
+        docPane.setText("医生");
         language.setText("语");
         fl1.setText("1楼");
         fl2.setText("2楼");

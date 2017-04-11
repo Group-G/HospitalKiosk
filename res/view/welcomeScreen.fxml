@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -23,7 +29,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1262.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.WelcomeScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1262.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.WelcomeScreenController">
    <children>
       <HBox alignment="CENTER" layoutX="-1.0" layoutY="2.0" prefHeight="100.0" prefWidth="1261.0" spacing="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -94,11 +100,11 @@
                   </HBox>
                   <Accordion prefHeight="474.0" prefWidth="297.0">
                     <panes>
-                      <TitledPane fx:id="WArea" animated="false" prefHeight="360.0" prefWidth="242.0" text="Waiting Areas">
+                      <TitledPane fx:id="wareaPane" animated="false" prefHeight="360.0" prefWidth="242.0" text="Waiting Areas">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="325.0" prefWidth="282.0">
                                  <children>
-                                    <Region layoutX="-18.0" layoutY="-38.0" prefHeight="25.0" prefWidth="39.0" />
+                                    <ListView fx:id="waitAreaLV" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                           </AnchorPane>
                         </content>
@@ -106,38 +112,62 @@
                               <Font size="17.0" />
                            </font>
                       </TitledPane>
-                      <TitledPane fx:id="Bath" animated="false" text="Bathrooms">
+                      <TitledPane fx:id="bathPane" animated="false" text="Bathrooms">
                         <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ListView fx:id="bathroomLV" />
+                                 </children></AnchorPane>
                         </content>
                            <font>
                               <Font size="17.0" />
                            </font>
                       </TitledPane>
-                        <TitledPane fx:id="Hdesk" animated="false" text="Help Desks">
+                        <TitledPane fx:id="hdeskPane" animated="false" text="Help Desks">
                            <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ListView fx:id="helpDeskLV" />
+                                 </children></AnchorPane>
                            </content>
                            <font>
                               <Font size="17.0" />
                            </font>
                         </TitledPane>
-                        <TitledPane fx:id="exit" animated="false" text="Exits">
+                        <TitledPane fx:id="exitPane" animated="false" text="Exits">
                            <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ListView fx:id="exitsLV" />
+                                 </children></AnchorPane>
                            </content>
                            <font>
                               <Font size="17.0" />
                            </font>
                         </TitledPane>
-                      <TitledPane fx:id="doc" animated="false" prefHeight="364.0" prefWidth="301.0" text="Doctors">
+                      <TitledPane fx:id="docPane" animated="false" prefHeight="364.0" prefWidth="301.0" text="Doctors">
                         <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ListView fx:id="doctorLV" />
+                                 </children></AnchorPane>
                         </content>
                            <font>
                               <Font size="17.0" />
                            </font>
                       </TitledPane>
+                        <TitledPane fx:id="officePane" animated="false" prefHeight="364.0" prefWidth="301.0" text="Offices">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ListView fx:id="officeLV" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </TitledPane>
                     </panes>
                      <VBox.margin>
                         <Insets top="10.0" />
@@ -147,7 +177,7 @@
             </VBox>
             <StackPane HBox.hgrow="ALWAYS">
                <children>
-                  <TabPane prefHeight="581.0" prefWidth="886.0" tabClosingPolicy="UNAVAILABLE">
+                  <TabPane fx:id="tabPane" prefHeight="581.0" prefWidth="886.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
                       <Tab fx:id="fl1" onSelectionChanged="#onFloor1" text="Floor 1" />
                       <Tab fx:id="fl2" onSelectionChanged="#onFloor2" text="Floor 2" />

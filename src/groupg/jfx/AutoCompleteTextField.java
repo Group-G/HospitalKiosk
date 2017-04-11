@@ -103,5 +103,7 @@ public class AutoCompleteTextField extends TextField {
 
     public void setCurrentSelection(Location currentSelection) {
         this.currentSelection = currentSelection;
+        setText(currentSelection.getName());
+        entriesPopup.hide();
     }
 }
