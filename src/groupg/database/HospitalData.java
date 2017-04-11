@@ -261,14 +261,11 @@ public class HospitalData {
      * @return the location
      */
     public static Location getLocationById(int id) {
-//        System.out.println("looking for location " + ID);
         List<Location> locations = getAllLocations();
         for(int i = 0; i < locations.size(); i ++)
         {
-//            System.out.println(locations.get(i).getID());
             if(locations.get(i).getID() == id)
             {
-//                System.out.println("found");
                 return locations.get(i);
             }
         }
@@ -280,14 +277,11 @@ public class HospitalData {
      * @return the person
      */
     public static Person getPersonById(int id) {
-//        System.out.println("looking for location " + ID);
         List<Person> persons = peopleList;
         for(int i = 0; i < persons.size(); i ++)
         {
-//            System.out.println(locations.get(i).getID());
             if(persons.get(i).getId() == id)
             {
-//                System.out.println("found");
                 return persons.get(i);
             }
         }
@@ -301,16 +295,12 @@ public class HospitalData {
      * @return all locations with given category
      */
     public static List<Location> getLocationsByCategory(String category) {
-//        System.out.println("looking for location " + ID);
         List<Location> locations = getAllLocations();
         List<Location> correct = new ArrayList<>();
         for (Location location : locations)
         {
-//            System.out.println(locations.get(i).getID());
             if (Objects.equals(location.getCategory().getCategory(), category))
             {
-//                System.out.println("found");
-//                return locations.get(i);
                 correct.add(location);
             }
         }
@@ -366,7 +356,6 @@ public class HospitalData {
      * @param l
      */
     private static void addLocation(Location l) {
-//        System.out.println("adding location" + l.getSQL());
         int floorId = l.getFloorID();
         Floor f = getFloorById(floorId);
         if(f == null) {
@@ -374,7 +363,6 @@ public class HospitalData {
         }
         else{
             f.addLocation(l);
-//            System.out.println("added to floor" + floorId);
         }
     }
 
@@ -395,7 +383,6 @@ public class HospitalData {
                 allFloors.add(floorList.get(f));
             }
         }
-//        System.out.println(allNodes.size());
         return allFloors;
 
     }
@@ -414,13 +401,11 @@ public class HospitalData {
                 List<Location> locationList = floorList.get(f).getLocations();
 
 
-//                System.out.println("building " + i +", floor "+ f +  " has " + locationList.size());
                 for(int l = 0; l < locationList.size(); l++) {
                     allNodes.add(locationList.get(l));
                 }
             }
         }
-//        System.out.println(allNodes.size());
         return allNodes;
 
     }
@@ -447,14 +432,11 @@ public class HospitalData {
      * @return true if it was successfully removed
      */
     public static boolean removeLocationById(int id) {
-//        System.out.println("looking for location " + ID);
         List<Location> locations = getAllLocations();
         for(int i = 0; i < locations.size(); i ++)
         {
-//            System.out.println(locations.get(i).getID());
             if(locations.get(i).getID() == id)
             {
-//                System.out.println("found");
                 Floor f = getFloorById(locations.get(i).getFloorID());
                 if(f.removeLocationById(id)){
                     return true;
@@ -488,14 +470,14 @@ public class HospitalData {
      * @param id2 ID of second location
      */
     public static void addConnection(int id1, int id2) {
-        System.out.println("ADDING A FRIGGIN CONNECTION " + id1 + ", " + id2);
+//        System.out.println("ADDING A FRIGGIN CONNECTION " + id1 + ", " + id2);
         Location l1 = getLocationById(id1);
         Location l2 = getLocationById(id2);
         if(l1 == null || l2 == null){
-            System.out.println("Invalid ID's for connection");
+//            System.out.println("Invalid ID's for connection");
         }
         if(l1.getID() == l2.getID()){
-            System.out.println("YOU CANT CONNECT A NODE TO ITSELF");
+//            System.out.println("YOU CANT CONNECT A NODE TO ITSELF");
         }
         else{
             l1.addNeighbor(id2);
@@ -520,12 +502,13 @@ public class HospitalData {
      */
     public static boolean addCategory(String newCategory, int permission) {
         for(Category c : categories){
+
             if(c.getCategory().equals(newCategory))
             {
                 return false;
             }
         }
-
+//        System.out.println("ADDING " +newCategory+ ".");
         categories.add(new Category(newCategory, permission));
         return false;
     }
@@ -553,9 +536,7 @@ public class HospitalData {
                 return c;
             }
         }
-        Category newC = new Category(string, 0);
-        addCategory(newC.getCategory(), newC.getPermission());
-        return newC;
+        return new Category(string, 0);
     }
 
 
@@ -741,7 +722,6 @@ public class HospitalData {
                 List<Floor> allFloors = getAllFloors();
                 for(Floor f : allFloors){
                     if(f.getFloorNum().equals(floorNumber)){
-                        System.out.println("Floor \'" + floorNumber + "\' already exists");
                         goodToGo =  false;
                     }
                 }
@@ -818,7 +798,7 @@ public class HospitalData {
 
                 }
                 Location l = new Location(locationName, x_coord, y_coord, new LinkedList<>(), category, 1, id, floorId, buildingID);
-                System.out.println("Read Location " + l.getSQL());
+//                System.out.println("Read Location " + l.getSQL());
                 addLocation(l);
 
             }
