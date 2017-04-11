@@ -323,7 +323,7 @@ public class HospitalData {
         List<Location> correct = new ArrayList<>();
         for (Location location : locations)
         {
-            String floorNum2 =  getFloorById(location.getFloorId()).getFloorNum();
+            String floorNum2 =  getFloorById(location.getFloorID()).getFloorNum();
             if (floorNum.equals(floorNum2))
             {
                 correct.add(location);
@@ -367,7 +367,7 @@ public class HospitalData {
      */
     private static void addLocation(Location l) {
         System.out.println("adding location" + l.getSQL());
-        int floorId = l.getFloor();
+        int floorId = l.getFloorID();
         Floor f = getFloorById(floorId);
         if(f == null) {
             System.out.println("couldnt find floor");
@@ -455,7 +455,7 @@ public class HospitalData {
             if(locations.get(i).getID() == id)
             {
 //                System.out.println("found");
-                Floor f = getFloorById(locations.get(i).getFloorId());
+                Floor f = getFloorById(locations.get(i).getFloorID());
                 if(f.removeLocationById(id)){
                     return true;
                 }

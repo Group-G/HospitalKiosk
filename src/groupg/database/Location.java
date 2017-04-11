@@ -23,12 +23,13 @@ public class Location implements Comparable
     private List<Location> neighbors = new LinkedList<>();
     private Location parent;
 
-    public Location(String name, double x, double y, LinkedList<Location> neighbors, Category category, float weight, int ID, int floor, int building)
+    public Location(String name, double x, double y, List<Location> neighbors, Category category, float weight, int ID, int floor, int building)
     {
         this.name = name;
         this.x = x;
         this.y = y;
-        this.neighbors = neighbors;
+        this.neighbors = new LinkedList<>();
+        this.neighbors.addAll(neighbors);
         this.category = category;
         this.weight = weight;
         this.floor = floor;
@@ -36,12 +37,13 @@ public class Location implements Comparable
         this.id = ID;
     }
 
-    public Location(String name, double x, double y, LinkedList<Location> neighbors, Category category, float weight, int floor, int building)
+    public Location(String name, double x, double y, List<Location> neighbors, Category category, float weight, int floor, int building)
     {
         this.name = name;
         this.x = x;
         this.y = y;
-        this.neighbors = neighbors;
+        this.neighbors = new LinkedList<>();
+        this.neighbors.addAll(neighbors);
         this.category = category;
         this.weight = weight;
         this.floor = floor;
@@ -62,7 +64,7 @@ public class Location implements Comparable
         this.neighbors = l.getNeighbors();
         this.category = l.getCategory();
         this.weight = l.getWeight();
-        this.floor = l.getFloor();
+        this.floor = l.getFloorID();
         this.building = l.getBuilding();
     }
 
@@ -175,12 +177,12 @@ public class Location implements Comparable
         return this.y;
     }
 
-    public int getFloor()
+    public int getFloorID()
     {
         return this.floor;
     }
 
-    private int getBuilding()
+    public int getBuilding()
     {
         return this.building;
     }
@@ -265,11 +267,6 @@ public class Location implements Comparable
 
         neighbors.add(loc);
         return true;
-    }
-
-    public int getFloorId()
-    {
-        return floor;
     }
 
     float getWeight()

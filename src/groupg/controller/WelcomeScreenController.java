@@ -5,6 +5,7 @@ import groupg.algorithm.NavigationFacade;
 import groupg.database.EmptyLocation;
 import groupg.database.HospitalData;
 import groupg.database.Location;
+import groupg.database.LocationDecorator;
 import groupg.jfx.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -55,7 +56,7 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private MenuButton language;
     @FXML
-    private MenuItem english,spanish,chinese,portugues;
+    private MenuItem english, spanish, chinese, portugues;
     @FXML
     private Label start, end;
     @FXML
@@ -100,8 +101,7 @@ public class WelcomeScreenController implements Initializable {
             for (Location l : HospitalData.getAllLocations()) {
                 if (closestLocToClick == null) {
                     closestLocToClick = l;
-                }
-                else {
+                } else {
                     Double newShortest = l.lengthTo(new EmptyLocation(event.getX(), event.getY()));
                     if (newShortest < shortest) {
                         shortest = newShortest;
@@ -128,7 +128,10 @@ public class WelcomeScreenController implements Initializable {
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             selectedTab = newTab;
             displayedLines.clear();
-            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(navigation.getPath().stream().filter(elem -> elem.getFloorId() == 2).collect(Collectors.toList())));
+            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(navigation.getPath()
+                                                                                                    .stream()
+                                                                                                    .filter(elem -> elem.getFloorObj().getFloorNum().equals(newTab.getText()))
+                                                                                                    .collect(Collectors.toList())));
             lineOverlay.getChildren().setAll(displayedLines);
         });
 
@@ -187,14 +190,25 @@ public class WelcomeScreenController implements Initializable {
         if (startField.getCurrentSelection() != null && endField.getCurrentSelection() != null) {
             navigation = new NavigationFacade();
 
-            List<Location> output = new ArrayList<>();
+            List<LocationDecorator> output = new ArrayList<>();
             output.addAll(navigation.runAstar(startField.getCurrentSelection(), endField.getCurrentSelection()));
-            output = output.stream().filter(elem -> elem.getFloorId() == 3).collect(Collectors.toList());
+            //Filter out locations not on this floor
+            try {
+                output = output.stream()
+                               .filter(elem -> elem.getFloorObj().getFloorNum().equals(selectedTab.getText()))
+                               .collect(Collectors.toList());
+            } catch (NullPointerException e) {
+                System.out.println("nullptr while filtering to draw");
+            }
             displayedLines.clear();
-            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(output));
+            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(output.stream()
+                                                                                                .map(elem -> (Location) elem)
+                                                                                                .collect(Collectors.toList())));
             lineOverlay.getChildren().setAll(displayedLines);
 
-            generateTextDirections(output);
+            generateTextDirections(output.stream()
+                                         .map(elem -> (Location) elem)
+                                         .collect(Collectors.toList()));
         }
     }
 
@@ -203,7 +217,7 @@ public class WelcomeScreenController implements Initializable {
         String directions = "";
 
         dirList.setWrapText(true);
-        if(lang.equals("Eng")) {
+        if (lang.equals("Eng")) {
             if (locations.size() < 2) {
                 dirList.setText("Please enter a start and end location to display locations");
             } else {
@@ -227,7 +241,7 @@ public class WelcomeScreenController implements Initializable {
         }
 
         //SPANISH
-        else if(lang.equals("Span")){
+        else if (lang.equals("Span")) {
             if (locations.size() < 2) {
                 dirList.setText("Por favor, ingrese una ubicación inicial y final para obtener direcciones");
             } else {
@@ -251,7 +265,7 @@ public class WelcomeScreenController implements Initializable {
         }
 
         //PORTUGUESE
-        else if(lang.equals("Port")){
+        else if (lang.equals("Port")) {
             if (locations.size() < 2) {
                 dirList.setText("Insira um local inicial e final para obter instruções");
             } else {
@@ -275,7 +289,7 @@ public class WelcomeScreenController implements Initializable {
         }
 
         //CHINESE
-        else if(lang.equals("Chin")){
+        else if (lang.equals("Chin")) {
             if (locations.size() < 2) {
                 dirList.setText("请输入开始和结束位置以获取路线");
             } else {
@@ -296,11 +310,11 @@ public class WelcomeScreenController implements Initializable {
                 }
                 dirList.setText(directions);
             }
-        }
-        else{
+        } else {
             System.out.println("UNSPECIFIED LANGUAGE");
         }
     }
+
     /*
     0 right
     45 slight right
@@ -312,126 +326,101 @@ public class WelcomeScreenController implements Initializable {
     315 backwards slight right
 
     */
-    private String getTurn(double turn){
-        if(turn > 315+22.5 || turn <= 22.5){
-            if(lang.equals("Eng")){
+    private String getTurn(double turn) {
+        if (turn > 315 + 22.5 || turn <= 22.5) {
+            if (lang.equals("Eng")) {
                 return "take right \n";
-            }
-            else if(lang.equals("Span")){
+            } else if (lang.equals("Span")) {
                 return "Toma el derecho \n";
-            }
-            else if(lang.equals("Port")){
+            } else if (lang.equals("Port")) {
                 return "Você toma direito \n";
-            }
-            else if(lang.equals("Chin")){
+            } else if (lang.equals("Chin")) {
                 return "你对吧 \n";
-            }
-            else{
+            } else {
                 return "take right \n";
             }
 
         }
-        if(turn > 22.5 && turn <= 45+22.5){
-            if(lang.equals("Eng")){
+        if (turn > 22.5 && turn <= 45 + 22.5) {
+            if (lang.equals("Eng")) {
                 return "take slight right \n";
-            }
-            else if (lang.equals("Span")){
-            return "Tomar ligeramente a la derecha \n";
-            }
-            else if (lang.equals("Port")){
-            return "Leve ligeiramente à direita \n";
-            }
-            else if (lang.equals("Chin")){
-            return "采取轻微的权利 \n";
+            } else if (lang.equals("Span")) {
+                return "Tomar ligeramente a la derecha \n";
+            } else if (lang.equals("Port")) {
+                return "Leve ligeiramente à direita \n";
+            } else if (lang.equals("Chin")) {
+                return "采取轻微的权利 \n";
             }
             return "take slight right \n";
         }
-        if(turn > 45+22.5 && turn <= 90+22.5){
-            if(lang.equals("Eng")){
+        if (turn > 45 + 22.5 && turn <= 90 + 22.5) {
+            if (lang.equals("Eng")) {
                 return "go straight \n";
-            }
-            else if(lang.equals("Span")){
-            return "ir directamente \n";
-            }
-            else if (lang.equals("Port")){
-            return "Siga em frente \n";
-            }
-            else if(lang.equals("Chin")){
+            } else if (lang.equals("Span")) {
+                return "ir directamente \n";
+            } else if (lang.equals("Port")) {
+                return "Siga em frente \n";
+            } else if (lang.equals("Chin")) {
                 return "笔直走 \n";
             }
             return "go straight \n";
         }
-        if(turn > 90+22.5 && turn <= 135+22.5){
-            if(lang.equals("Eng")){
+        if (turn > 90 + 22.5 && turn <= 135 + 22.5) {
+            if (lang.equals("Eng")) {
                 return "take slight left \n";
-            }
-            else if(lang.equals("Span")){
+            } else if (lang.equals("Span")) {
                 return "Tomar ligeramente a la izquierda \n";
-            }
-            else if (lang.equals("Port")){
+            } else if (lang.equals("Port")) {
                 return "Leve ligeiramente à esquerda \n";
-            }
-            else if(lang.equals("Chin")){
+            } else if (lang.equals("Chin")) {
                 return "轻轻一点 \n";
             }
             return "take slight left \n";
         }
-        if(turn > 135+22.5 && turn <= 180+22.5){
-            if(lang.equals("Eng")){
+        if (turn > 135 + 22.5 && turn <= 180 + 22.5) {
+            if (lang.equals("Eng")) {
                 return "take left \n";
-            }
-            else if(lang.equals("Span")){
+            } else if (lang.equals("Span")) {
                 return "gire a la izquierda \n";
-            }
-            else if (lang.equals("Port")){
+            } else if (lang.equals("Port")) {
                 return "Pegue a esquerda \n";
-            }
-            else if(lang.equals("Chin")){
+            } else if (lang.equals("Chin")) {
                 return "拿左 \n";
             }
             return "take left \n";
         }
-        if(turn > 180+22.5 && turn <= 225+22.5){
-            if(lang.equals("Eng")){
+        if (turn > 180 + 22.5 && turn <= 225 + 22.5) {
+            if (lang.equals("Eng")) {
                 return "back and slight left \n";
-            }
-            else if(lang.equals("Span")){
+            } else if (lang.equals("Span")) {
                 return "Atrás e izquierda ligera \n";
-            }
-            else if (lang.equals("Port")){
+            } else if (lang.equals("Port")) {
                 return "Costas e esquerda ligeira \n";
-            }
-            else if(lang.equals("Chin")){
+            } else if (lang.equals("Chin")) {
                 return "背部和轻微的左 \n";
             }
             return "back and slight left \n";
         }
-        if(turn > 225+22.5 && turn <= 270+22.5){
-            if(lang.equals("Eng")){
+        if (turn > 225 + 22.5 && turn <= 270 + 22.5) {
+            if (lang.equals("Eng")) {
                 return "go backwards \n";
-            }
-            else if(lang.equals("Span")){
+            } else if (lang.equals("Span")) {
                 return "dar marcha atrás \n";
-            }
-            else if (lang.equals("Port")){
+            } else if (lang.equals("Port")) {
                 return "ir para trás \n";
-            }
-            else if(lang.equals("Chin")){
+            } else if (lang.equals("Chin")) {
                 return "倒退 \n";
             }
             return "go backwards \n";
         }
-        if(turn > 270+22.5 && turn <= 315+22.5){
-            if(lang.equals("Eng")){
+        if (turn > 270 + 22.5 && turn <= 315 + 22.5) {
+            if (lang.equals("Eng")) {
                 return "back and slight right \n";
-            }
-            else if(lang.equals("Span")){
+            } else if (lang.equals("Span")) {
                 return "Atrás y ligero derecho \n";
-            }
-            else if (lang.equals("Port")){
+            } else if (lang.equals("Port")) {
                 return "Costas e ligeira direita \n";
-            }
-            else if(lang.equals("Chin")){
+            } else if (lang.equals("Chin")) {
                 return "回来和轻微的权利 \n";
             }
             return "back and slight right \n";
@@ -441,7 +430,7 @@ public class WelcomeScreenController implements Initializable {
     }
 
     private double getAngle(Location curNode, Location nextNode) {
-        double angle = (((Math.atan2(curNode.getY()-nextNode.getY(), nextNode.getX()-curNode.getX()))*180/Math.PI)+360)%360;
+        double angle = (((Math.atan2(curNode.getY() - nextNode.getY(), nextNode.getX() - curNode.getX())) * 180 / Math.PI) + 360) % 360;
         return angle;
     }
 
@@ -506,20 +495,20 @@ public class WelcomeScreenController implements Initializable {
         }
     }
 
-    public void changelangE(ActionEvent actionEvent){
+    public void changelangE(ActionEvent actionEvent) {
         //System.out.println("changed to english");
         lang = "Eng";
-    start.setText("Start:");
-    end.setText("End:");
-    directions.setText("Directions:");
-    loginBtn.setText("Login");
-    searchBtn.setText("Search");
-    wareaPane.setText("Waiting Areas");
-    bathPane.setText("Bathrooms");
-    hdeskPane.setText("Help Desks");
-    exitPane.setText("Exits");
-    docPane.setText("Doctors");
-    language.setText("Language");
+        start.setText("Start:");
+        end.setText("End:");
+        directions.setText("Directions:");
+        loginBtn.setText("Login");
+        searchBtn.setText("Search");
+        wareaPane.setText("Waiting Areas");
+        bathPane.setText("Bathrooms");
+        hdeskPane.setText("Help Desks");
+        exitPane.setText("Exits");
+        docPane.setText("Doctors");
+        language.setText("Language");
         fl1.setText("Floor 1");
         fl2.setText("Floor 2");
         fl3.setText("Floor 3");
@@ -529,8 +518,9 @@ public class WelcomeScreenController implements Initializable {
         fl7.setText("Floor 7");
         dirList.setText("Please Enter a Starting and Ending Location to obtain directions");
     }
-    public void changelangS(ActionEvent actionEvent){
-       // System.out.println("changed to spanish");
+
+    public void changelangS(ActionEvent actionEvent) {
+        // System.out.println("changed to spanish");
         lang = "Span";
         start.setText("Comienzo:");
         end.setText("Fin:");
@@ -552,9 +542,10 @@ public class WelcomeScreenController implements Initializable {
         fl7.setText("Piso 7");
         dirList.setText("Por favor, ingrese una ubicación inicial y final para obtener direcciones");
     }
-    public void changelangP(ActionEvent actionEvent){
+
+    public void changelangP(ActionEvent actionEvent) {
         //System.out.println("changed to portuguese");
-        lang="Port";
+        lang = "Port";
         start.setText("Enceta:");
         end.setText("Fim:");
         directions.setText("Instruções:");
@@ -576,7 +567,8 @@ public class WelcomeScreenController implements Initializable {
         dirList.setText("Insira um local inicial e final para obter instruções");
 
     }
-    public void changelangC(ActionEvent actionEvent){
+
+    public void changelangC(ActionEvent actionEvent) {
         //System.out.println("changed to chineee");
         lang = "Chin";
         start.setText("开始");
