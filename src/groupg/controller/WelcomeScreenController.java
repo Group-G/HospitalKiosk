@@ -14,16 +14,19 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.BoundingBox;
 import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Scale;
 
 import java.io.IOException;
 import java.net.URL;
@@ -67,6 +70,8 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private Tab fl1,fl2,fl3,fl4,fl5,fl6,fl7;
     private String lang = "Eng";
+    double SCALE_DELTA = 1.1;
+    double SCALE_TOTAL = 1;
 
 
     public WelcomeScreenController() {
@@ -111,12 +116,30 @@ public class WelcomeScreenController implements Initializable {
             }
         });
 
+
         imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1.png"), imageViewPane);
         Group zoomGroup = new Group(imageView, lineOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setPannable(true);
+        pane.addEventFilter(ScrollEvent.SCROLL, e -> {
+            if (e.isAltDown()) {
+                double zoom_fac = 1.05;
+                double delta_y = e.getDeltaY();
+
+                if(delta_y < 0) {
+                    zoom_fac = 2.0 - zoom_fac;
+                }
+
+                Scale newScale = new Scale();
+                newScale.setX( zoomGroup.getScaleX() * zoom_fac );
+                newScale.setY( zoomGroup.getScaleY() * zoom_fac );
+                zoomGroup.getTransforms().add(newScale);
+                e.consume();
+            }
+        });
+
         zoomGroup.addEventHandler(MouseEvent.ANY, event -> {
             if (event.getButton() != MouseButton.MIDDLE &&
                 !(event.getButton() == MouseButton.PRIMARY && event.isControlDown()))
