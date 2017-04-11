@@ -2,8 +2,6 @@
 package groupg.controller;
 
 import groupg.algorithm.Astar;
-import groupg.algorithm.NodeNeighbors;
-import groupg.database.Category;
 import groupg.database.EmptyLocation;
 import groupg.database.HospitalData;
 import groupg.database.Location;
@@ -12,7 +10,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
@@ -23,7 +20,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -171,6 +167,8 @@ public class WelcomeScreenController implements Initializable {
             return true;
 
     }
+
+    //TODO: Fix these warnings
     private void generateTextDirections(List<Location> locations) {
         ArrayList<Location> neighbors = new ArrayList<>();
         for(Location n : locations){
@@ -179,7 +177,7 @@ public class WelcomeScreenController implements Initializable {
         }
         if(neighborListener(neighbors) == false){return;}
         String directions = "";
-        locations
+//        locations //TODO: Floating code I commented out
         dirList.setWrapText(true);
         if(lang.equals("Eng")) {
             if (locations.size() < 2) {
