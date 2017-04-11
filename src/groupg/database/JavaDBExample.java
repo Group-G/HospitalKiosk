@@ -169,28 +169,28 @@ public class JavaDBExample
             //FORMAT
 
             //(LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_ID int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)
-            stmt.execute("INSERT INTO LOCATION VALUES " +
-                    "(0, 'A111', 'Office', 4, 920, 127, 0), " +
-                    "(1, 'A112', 'Office', 4, 840, 124, 0), " +
-                    "(2, 'A113', 'Office', 4, 856, 396, 0) ");
+//            stmt.execute("INSERT INTO LOCATION VALUES " +
+//                    "(0, 'A111', 'Office', 4, 920, 127, 0), " +
+//                    "(1, 'A112', 'Office', 4, 840, 124, 0), " +
+//                    "(2, 'A113', 'Office', 4, 856, 396, 0) ");
 
 
             //INSERT PERSONELLE
             //FORMAT
             //(PERSONELLE_ID int NOT NULL Primary Key, TITLE varchar(20) default NULL, PERSONELLE_NAME varchar(20) default NULL)
-            stmt.execute("INSERT INTO PERSONELLE VALUES " +
-
-                    "(0, 'Dr.', 'Hunter Peterson'), " +
-                    "(1, 'Supreme Being', 'Jeff'), " +
-                    "(2, 'Nurse', 'Bella Bee') ");
+//            stmt.execute("INSERT INTO PERSONELLE VALUES " +
+//
+//                    "(0, 'Dr.', 'Hunter Peterson'), " +
+//                    "(1, 'Supreme Being', 'Jeff'), " +
+//                    "(2, 'Nurse', 'Bella Bee') ");
 
 //            //INSERT PEOPLELOCATIONS
 //            //FORMAT
 //            //(int PERSON_ID int OFFICE_ID)
-            stmt.execute("INSERT INTO PEOPLELOCATIONS VALUES " +
-
-                    "(0, 0), " +
-                    "(0, 1) ");
+//            stmt.execute("INSERT INTO PEOPLELOCATIONS VALUES " +
+//
+//                    "(0, 0), " +
+//                    "(0, 1) ");
 
             //INSERT BUILDING
             //FORMAT
@@ -252,8 +252,8 @@ public class JavaDBExample
             //INSERT TRACKIDS
             //FORMAT
             //(LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)
-            stmt.execute("INSERT INTO TRACKID VALUES " +
-                    "(3, 3, 2, 11) ");
+//            stmt.execute("INSERT INTO TRACKID VALUES " +
+//                    "(3, 3, 2, 11) ");
 
 
             //Print
