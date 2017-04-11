@@ -2,6 +2,8 @@
 package groupg.controller;
 
 import groupg.algorithm.Astar;
+import groupg.algorithm.NodeNeighbors;
+import groupg.database.Category;
 import groupg.database.EmptyLocation;
 import groupg.database.HospitalData;
 import groupg.database.Location;
@@ -10,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
@@ -20,6 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -108,7 +112,7 @@ public class WelcomeScreenController implements Initializable {
             }
         });
 
-        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"), imageViewPane);
+        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1.png"), imageViewPane);
         Group zoomGroup = new Group(imageView, lineOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -120,6 +124,9 @@ public class WelcomeScreenController implements Initializable {
                 event.consume();
         });
         canvasWrapper.getChildren().addAll(pane);
+
+//        canvasWrapper.add(canvas, 0, 0);
+//        canvasWrapper.add(overlay, 0, 0);
 
         //Add locations from DB
         locations.addAll(HospitalData.getAllLocations());
@@ -148,10 +155,31 @@ public class WelcomeScreenController implements Initializable {
         }
     }
     // TODO check for adjacent nodes before instructing a turn
+    //Check if more than 2 neighbors
+    private boolean neighborListener(List<Location> neighborNode){
+        int nodeCount = 0;
+        if(neighborNode.get(nodeCount) == null){
+            return false;
+        }
+        for(Location n: neighborNode){
+            nodeCount++;
+        }
+        if(nodeCount < 2){
+            return false;
+        }
+        else
+            return true;
 
+    }
     private void generateTextDirections(List<Location> locations) {
+        ArrayList<Location> neighbors = new ArrayList<>();
+        for(Location n : locations){
+            n.getNeighbors();
+            neighbors.add(n);
+        }
+        if(neighborListener(neighbors) == false){return;}
         String directions = "";
-
+        locations
         dirList.setWrapText(true);
         if(lang.equals("Eng")) {
             if (locations.size() < 2) {
@@ -409,49 +437,49 @@ public class WelcomeScreenController implements Initializable {
 
     public void onFloor1(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_1.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor2(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_2_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_2.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor3(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_3_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_3.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor4(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_4_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_4.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor5(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_5_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_5.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor6(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_6_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_6.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor7(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_7_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_7.png"));
         } catch (NullPointerException e) {
         }
     }

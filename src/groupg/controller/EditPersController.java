@@ -9,6 +9,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,11 +28,12 @@ public class EditPersController implements Initializable
     private ListView<Person> persList;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
+    public void initialize(URL location, ResourceBundle resources) {
         persList.getItems().setAll(HospitalData.getAllPeople()); //Add all people from DB to listview
     }
-
+    public void undo(){
+        KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+    }
     public void onCancel(ActionEvent actionEvent)
     {
         try

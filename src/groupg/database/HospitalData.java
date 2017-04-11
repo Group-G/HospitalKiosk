@@ -29,8 +29,6 @@ public class HospitalData {
 
 
     public HospitalData(JavaDBExample dbExample) {
-        login[0] = "admin";
-        login[1] = "guest";
         this.dbExample = dbExample;
         if(pullDataFromDB()) {
             System.out.println("Successfully pulled data from DB");
