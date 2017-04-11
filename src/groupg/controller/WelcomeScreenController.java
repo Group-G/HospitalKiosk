@@ -2,7 +2,6 @@
 package groupg.controller;
 
 import groupg.algorithm.Astar;
-import groupg.database.Category;
 import groupg.database.EmptyLocation;
 import groupg.database.HospitalData;
 import groupg.database.Location;
@@ -11,7 +10,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
@@ -22,7 +20,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -111,7 +108,7 @@ public class WelcomeScreenController implements Initializable {
             }
         });
 
-        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1.png"), imageViewPane);
+        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"), imageViewPane);
         Group zoomGroup = new Group(imageView, lineOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -123,9 +120,6 @@ public class WelcomeScreenController implements Initializable {
                 event.consume();
         });
         canvasWrapper.getChildren().addAll(pane);
-
-//        canvasWrapper.add(canvas, 0, 0);
-//        canvasWrapper.add(overlay, 0, 0);
 
         //Add locations from DB
         locations.addAll(HospitalData.getAllLocations());
