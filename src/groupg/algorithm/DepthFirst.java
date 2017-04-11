@@ -3,19 +3,22 @@ package groupg.algorithm;
 import groupg.database.Location;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Dylan on 4/7/17.
  */
-public class DepthFirst{
+public class DepthFirst implements Navigation{
     LinkedList<Location> path = new LinkedList<>();
     LinkedList<Location> locations = new LinkedList<>();
     LinkedList<Location> searched = new LinkedList<>();
 
-    DepthFirst(LinkedList<Location> loc){
-        this.locations = loc;
+    DepthFirst(List<Location> loc){
+        locations = new LinkedList<>();
+        locations.addAll(loc);
     }
 
+    @Override
     public LinkedList<Location> run(Location start, Location end){
         LinkedList<Location> dfpath = new LinkedList<>();
         dfpath = runDepthFirst(start, end);

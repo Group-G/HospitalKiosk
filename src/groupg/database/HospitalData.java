@@ -45,6 +45,10 @@ public class HospitalData {
         }
     }
 
+    public static List<Building> getAllBuildings() {
+        return buildingsList;
+    }
+
     /**
      * Pulls all data from sql tables
      * @return true if successful
