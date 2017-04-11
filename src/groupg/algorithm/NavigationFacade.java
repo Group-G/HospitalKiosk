@@ -9,8 +9,8 @@ import java.util.LinkedList;
  * Created by Dylan on 4/10/17.
  */
 public class NavigationFacade {
-    private Astar astar = new Astar(HospitalData.getAllLocations());
-    private DepthFirst dFirst = new DepthFirst(HospitalData.getAllLocations());
+    private Navigation astar = new Astar(HospitalData.getAllLocations());
+    private Navigation dFirst = new DepthFirst(HospitalData.getAllLocations());
 
     public NavigationFacade(){}
 
