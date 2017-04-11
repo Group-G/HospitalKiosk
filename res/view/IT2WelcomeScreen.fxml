@@ -126,7 +126,7 @@
                                        <children>
                                           <ImageView fitHeight="510.0" fitWidth="928.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../image/faulkner_1.png" />
+                                                <Image url="@../image/faulkner_1_temp.png" />
                                              </image>
                                           </ImageView>
                                        </children>

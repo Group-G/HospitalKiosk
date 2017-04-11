@@ -8,14 +8,15 @@ import java.util.List;
 /**
  * Created by Dylan on 4/1/17.
  */
-public class Astar {
+public class Astar implements Navigation{
     LinkedList<Location> open = new LinkedList<>();
     LinkedList<Location> closed = new LinkedList<>();
     LinkedList<Location> locations;  //list of all nodes for the search
     LinkedList<Location> shortestPath = new LinkedList<>();  //the shortest path from start to finish
 
-    public Astar(LinkedList<Location> loc){
-        this.locations = loc;
+    public Astar(List<Location> loc){
+        locations = new LinkedList<>();
+        locations.addAll(loc);
     }  //adds all nodes to locations
 
     /**
@@ -24,6 +25,7 @@ public class Astar {
      * @param goal ending location
      * @return LinkedList of shortest path or an empty list if there is an error
      */
+    @Override
     public LinkedList<Location> run(Location start, Location goal){
         LinkedList<Location> path = new LinkedList<>();
         try {

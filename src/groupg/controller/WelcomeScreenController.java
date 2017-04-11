@@ -2,7 +2,6 @@
 package groupg.controller;
 
 import groupg.algorithm.Astar;
-import groupg.database.Category;
 import groupg.database.EmptyLocation;
 import groupg.database.HospitalData;
 import groupg.database.Location;
@@ -11,7 +10,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.BoundingBox;
@@ -24,7 +22,6 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 
@@ -177,10 +174,33 @@ public class WelcomeScreenController implements Initializable {
         }
     }
     // TODO check for adjacent nodes before instructing a turn
+    //Check if more than 2 neighbors
+    private boolean neighborListener(List<Location> neighborNode){
+        int nodeCount = 0;
+        if(neighborNode.get(nodeCount) == null){
+            return false;
+        }
+        for(Location n: neighborNode){
+            nodeCount++;
+        }
+        if(nodeCount < 2){
+            return false;
+        }
+        else
+            return true;
 
+    }
+
+    //TODO: Fix these warnings
     private void generateTextDirections(List<Location> locations) {
+        ArrayList<Location> neighbors = new ArrayList<>();
+        for(Location n : locations){
+            n.getNeighbors();
+            neighbors.add(n);
+        }
+        if(neighborListener(neighbors) == false){return;}
         String directions = "";
-
+//        locations //TODO: Floating code I commented out
         dirList.setWrapText(true);
         if(lang.equals("Eng")) {
             if (locations.size() < 2) {
