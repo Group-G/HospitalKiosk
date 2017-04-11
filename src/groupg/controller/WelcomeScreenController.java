@@ -63,7 +63,7 @@ public class WelcomeScreenController implements Initializable {
     private TitledPane WArea,Bath,Hdesk,exit,doc;
     @FXML
     private Tab fl1,fl2,fl3,fl4,fl5,fl6,fl7;
-    private String lang = "Eng";
+    private String lang;
 
 
     public WelcomeScreenController() {
@@ -274,7 +274,7 @@ public class WelcomeScreenController implements Initializable {
             }
         }
         else{
-            System.out.println("UNSPACIFIED LANGUAGE");
+            System.out.println("UNSPECIFIED LANGUAGE");
         }
     }
     /*
