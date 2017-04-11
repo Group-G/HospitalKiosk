@@ -140,7 +140,9 @@ public class JavaDBExample
             stmt.execute("CREATE TABLE ADMINS(ADMIN_UN varchar(20) NOT NULL Primary Key, ADMIN_PW varchar(20))");
             stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(20), PERMISSIONS INT)");
 
-            stmt.execute("CREATE TABLE TRACKID(LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)");
+            stmt.execute("CREATE TABLE HALLWAYS(LOCATION_ID int, HALLWAY_ID, int)");
+
+            stmt.execute("CREATE TABLE TRACKID(LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int, HALLWAY_ID int)");
 
             //END CREATE TABLES
 
@@ -253,7 +255,7 @@ public class JavaDBExample
             //FORMAT
             //(LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)
             stmt.execute("INSERT INTO TRACKID VALUES " +
-                    "(3, 3, 2, 11) ");
+                    "(3, 3, 2, 11, 0) ");
 
 
             //Print
@@ -278,7 +280,7 @@ public class JavaDBExample
      * @param admin String contain SQL of admin
      * @param category String contain SQL of category
      */
-    public void fillTable(String location, String personelle, String offices, String floor, String building, String connections, String admin, String category, String trackIDS){
+    public void fillTable(String location, String personelle, String offices, String floor, String building, String connections, String admin, String category, String trackIDS, String hallwayNodes){
         try {
             // substitute your database name for myDB
             Connection connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
@@ -358,6 +360,10 @@ public class JavaDBExample
             //(LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)
             if(!category.equals("")) {
                 stmt.execute("INSERT INTO TRACKID VALUES " + trackIDS);
+            }
+
+            if(!hallwayNodes.equals("")) {
+                stmt.execute("INSERT INTO HALLWAYS VALUES " + hallwayNodes);
             }
 
 

@@ -15,6 +15,7 @@ public class HospitalData {
     private static List<Category> categories = new LinkedList<>();
     private static List<Person> peopleList = new ArrayList<>();
     private static List<Admin> adminList = new ArrayList<>();
+    private static List<Hallway> hallways = new ArrayList<>();
     private static JavaDBExample dbExample;
     public static String[] login = new String[2];
     //private static HashMap<Integer, Integer> connections = new LinkedList<>();
@@ -25,6 +26,7 @@ public class HospitalData {
     public static int PERSONELLE_NEW;
     public static int BUILDING_NEW;
     public static int FLOOR_NEW;
+    public static int HALLWAY_NEW;
 //    public s
 
 
@@ -37,6 +39,10 @@ public class HospitalData {
         } else {
             System.out.println("Failed to pull data from DB");
         }
+    }
+
+    public static List<Hallway> getAllHallways() {
+        return hallways;
     }
 
     /**
@@ -200,8 +206,10 @@ public class HospitalData {
         trackID_push = "(" + LOCATION_NEW + ", " + PERSONELLE_NEW + ", " + BUILDING_NEW + ", " + FLOOR_NEW + ")";
         System.out.println("Track IDS: " + trackID_push);
 
+
+
         dbExample.createTables();
-        dbExample.fillTable(locations, people, offices, floors, building, connections, admin, cat, trackID_push);
+        dbExample.fillTable(locations, people, offices, floors, building, connections, admin, cat, trackID_push, "");
         return true;
     }
 
@@ -581,9 +589,7 @@ public class HospitalData {
     }
 
 
-//    public static int getNewId(){
-//
-//    }
+
 
     public static int getNewLocationID(){
 
@@ -624,6 +630,15 @@ public class HospitalData {
             }
         }
         return FLOOR_NEW;
+    }
+    public static int getNewHallwayID(){
+        HALLWAY_NEW++;
+        for(Hallway h : getAllHallways()){
+            if(h.getId() == HALLWAY_NEW){
+                return getNewFloorID();
+            }
+        }
+        return HALLWAY_NEW;
     }
 
 
@@ -969,6 +984,42 @@ public class HospitalData {
         }
     }
 
+    private boolean pullHallways(Statement stmt) {
+        try {
+            ResultSet halls = stmt.executeQuery("SELECT * FROM CATEGORY");
+            ResultSetMetaData roomDataset = halls.getMetaData();
+            int roomColumns = roomDataset.getColumnCount();
+
+
+
+            int locId = -1, hallId = -1;
+            while (halls.next()) {
+                for (int j = 1; j <= roomColumns; j++) {
+                    if (roomDataset.getColumnName(j).equals("LOCATION_ID")) {
+                        locId = Integer.parseInt(halls.getString(j));
+                    }
+                    else if (roomDataset.getColumnName(j).equals("HALLWAY_ID")) {
+                        hallId = Integer.parseInt(halls.getString(j));
+                    }
+
+                }
+                for(Hallway h : hallways){
+                    if(h.getId() == hallId){
+                        h.addLocation(getLocationById(locId));
+                    }
+                }
+
+            }
+            return true;
+        }
+        catch (SQLException e)
+        {
+
+            System.out.println("Failed to pull connections");
+
+            return false;
+        }
+    }
 
     /**
      * pullTrackIDS
