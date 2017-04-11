@@ -30,6 +30,8 @@ public class Category {
     }
 
     public void setCategory(String category) {
+        System.out.println("Changing category label from this.category " + this.category + " to " + category);
+
         this.category = category;
     }
 

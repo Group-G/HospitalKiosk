@@ -366,7 +366,7 @@ public class HospitalData {
      * @param l
      */
     private static void addLocation(Location l) {
-        System.out.println("adding location" + l.getSQL());
+//        System.out.println("adding location" + l.getSQL());
         int floorId = l.getFloorID();
         Floor f = getFloorById(floorId);
         if(f == null) {
@@ -520,7 +520,7 @@ public class HospitalData {
      */
     public static boolean addCategory(String newCategory, int permission) {
         for(Category c : categories){
-            if(c.getCategory() == newCategory)
+            if(c.getCategory().equals(newCategory))
             {
                 return false;
             }
@@ -546,6 +546,18 @@ public class HospitalData {
         }
         return false;
     }
+
+    private Category getCategoryByName(String string) {
+        for(Category c : categories){
+            if(c.getCategory().equals(string)){
+                return c;
+            }
+        }
+        Category newC = new Category(string, 0);
+        addCategory(newC.getCategory(), newC.getPermission());
+        return newC;
+    }
+
 
 
     /**
@@ -786,7 +798,7 @@ public class HospitalData {
                         locationName = locations.getString(j);
                     }
                     else if(roomDataset.getColumnName(j).equals("LOCATION_CATEGORY")){
-                        category.setCategory(locations.getString(j));
+                        category = getCategoryByName(locations.getString(j));
                     }
                     else if(roomDataset.getColumnName(j).equals("FLOOR_NUM") || roomDataset.getColumnName(j).equals("FLOOR_ID")){
                         floorId = Integer.parseInt(locations.getString(j));
@@ -806,6 +818,7 @@ public class HospitalData {
 
                 }
                 Location l = new Location(locationName, x_coord, y_coord, new LinkedList<>(), category, 1, id, floorId, buildingID);
+                System.out.println("Read Location " + l.getSQL());
                 addLocation(l);
 
             }
@@ -819,6 +832,7 @@ public class HospitalData {
             return false;
         }
     }
+
     /**
      * pullBuildings
      * @param stmt SQL Statement

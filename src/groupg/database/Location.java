@@ -35,6 +35,8 @@ public class Location implements Comparable
         this.floor = floor;
         this.building = building;
         this.id = ID;
+//        System.out.println("Created Location: " + getSQL());
+
     }
 
     public Location(String name, double x, double y, List<Location> neighbors, Category category, float weight, int floor, int building)
@@ -49,6 +51,7 @@ public class Location implements Comparable
         this.floor = floor;
         this.building = building;
         this.id = HospitalData.getNewFloorID();
+//        System.out.println("Created Location: " + getSQL());
     }
 
     /**
@@ -87,7 +90,7 @@ public class Location implements Comparable
      */
     public String getSQL()
     {
-        return "(" + id + ", \'" + name + "\',\'" + category.getCategory() + "\'," + floor + "," + x + "," + y + "," + building + ")";
+        return "(" + id + ", \'" + name + "\',\'" + this.category.getCategory() + "\'," + floor + "," + x + "," + y + "," + building + ")";
     }
 
     /**
@@ -149,6 +152,7 @@ public class Location implements Comparable
 
     public void setCategory(Category category)
     {
+        System.out.println("Category change " + this.category + " to" + category.getCategory());
         this.category = category;
     }
 
