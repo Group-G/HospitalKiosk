@@ -108,7 +108,7 @@ public class WelcomeScreenController implements Initializable {
             }
         });
 
-        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1.png"), imageViewPane);
+        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"), imageViewPane);
         Group zoomGroup = new Group(imageView, lineOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -120,9 +120,6 @@ public class WelcomeScreenController implements Initializable {
                 event.consume();
         });
         canvasWrapper.getChildren().addAll(pane);
-
-//        canvasWrapper.add(canvas, 0, 0);
-//        canvasWrapper.add(overlay, 0, 0);
 
         //Add locations from DB
         locations.addAll(HospitalData.getAllLocations());
@@ -150,34 +147,11 @@ public class WelcomeScreenController implements Initializable {
             generateTextDirections(output);
         }
     }
+
     // TODO check for adjacent nodes before instructing a turn
-    //Check if more than 2 neighbors
-    private boolean neighborListener(List<Location> neighborNode){
-        int nodeCount = 0;
-        if(neighborNode.get(nodeCount) == null){
-            return false;
-        }
-        for(Location n: neighborNode){
-            nodeCount++;
-        }
-        if(nodeCount < 2){
-            return false;
-        }
-        else
-            return true;
-
-    }
-
-    //TODO: Fix these warnings
     private void generateTextDirections(List<Location> locations) {
-        ArrayList<Location> neighbors = new ArrayList<>();
-        for(Location n : locations){
-            n.getNeighbors();
-            neighbors.add(n);
-        }
-        if(neighborListener(neighbors) == false){return;}
         String directions = "";
-//        locations //TODO: Floating code I commented out
+
         dirList.setWrapText(true);
         if(lang.equals("Eng")) {
             if (locations.size() < 2) {
@@ -435,49 +409,49 @@ public class WelcomeScreenController implements Initializable {
 
     public void onFloor1(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_1.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor2(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_2.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_2_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor3(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_3.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_3_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor4(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_4.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_4_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor5(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_5.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_5_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor6(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_6.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_6_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor7(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_7.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_7_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
