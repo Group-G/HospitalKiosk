@@ -238,7 +238,9 @@ public class WelcomeScreenController implements Initializable {
                     output.addAll(navigation.runDepthFirst(startField.getCurrentSelection(), endField.getCurrentSelection()));
                     break;
             }
-
+            generateTextDirections(output.stream()
+                    .map(elem -> (Location) elem)
+                    .collect(Collectors.toList()));
             //Filter out locations not on this floor
             try {
                 //Highlight tabs with paths
@@ -270,10 +272,6 @@ public class WelcomeScreenController implements Initializable {
             displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(output.stream()
                                                                                                 .map(elem -> (Location) elem)
                                                                                                 .collect(Collectors.toList())));
-            generateTextDirections(output.stream()
-                    .map(elem -> (Location) elem)
-                    .collect(Collectors.toList()));
-
             lineOverlay.getChildren().setAll(displayedLines);
 
         }
@@ -282,11 +280,13 @@ public class WelcomeScreenController implements Initializable {
     // TODO check for adjacent nodes before instructing a turn
     private void generateTextDirections(List<Location> locations) {
         ObservableList<String> directions = FXCollections.observableArrayList();
-
+        boolean enterElivator = false;
+        System.out.println(locations.size());
+            // if there is only 1 node in the list
             if (locations.size() < 2) {
                 switch (lang) {
                     case "Eng":
-                        directions.add("Please enter a start and end location to display locations");
+                        directions.add("Please enter a valid start and end location to display locations");
                         break;
                     case "Span":
                         directions.add("Por favor, ingrese una ubicación inicial y final");
@@ -299,12 +299,14 @@ public class WelcomeScreenController implements Initializable {
                         break;
                 }
                 dirList.setItems(directions);
-
+            // if there are multiple nodes in the list
             } else {
                 double preAngle = 90; // start facing top of the map
                 double curaAngle = 0;
                 double turn;
+                // go though all locations
                 for (int loc = 0; loc < locations.size(); loc++) {
+                    // if the node is the last node
                     if (loc == locations.size() - 1) {
                         switch ( lang){
                             case "Eng":
@@ -322,18 +324,33 @@ public class WelcomeScreenController implements Initializable {
                             default:
                                 directions.add("you have reached your destination");
                         }
+                        // if the node is not the last node
                     } else {
-                        if (HospitalData.getAllCategories().contains(locations.get(loc).getCategory())
-                                && (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Elevator")
-                                    || (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Stairs")))) {
+                            // get the current angle of the node
+                            curaAngle = getAngle(locations.get(loc), locations.get(loc + 1));
+                            // from current facing position calculate turn
+                            turn = (curaAngle - preAngle + 360 + 90) % 360;
+                            // as long as this isn't the first node
+                            if (loc != 0) { //TODO change if we ever add start orientation
+                                // if this is an elevator or stair case
+                                if (enterElivator == false && HospitalData.getAllCategories().contains(locations.get(loc).getCategory())
 
-                        }
-                        curaAngle = getAngle(locations.get(loc), locations.get(loc + 1));
-                        turn = (curaAngle - preAngle + 360 + 90) % 360;
-                        if (loc != 0) { //TODO change if we ever add start orientation
-                            directions.add(getTurn(turn));
-                        }
+                                        && (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Elevator")
+                                        || (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Stairs"))))
+                                {
+                                    enterElivator = true;
+                                    directions.add("take " + locations.get(loc).getCategory().getCategory() + "to Floor" + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                }
+                                // if this not an elevator or stair case
+                                else
+                                {
+                                        enterElivator = false;
+                                        directions.add(getTurn(turn));
+                                }
+                            }
+
                     }
+                    // set the current angle to the previous angle
                     preAngle = curaAngle;
                 }
                 dirList.setItems(directions);
