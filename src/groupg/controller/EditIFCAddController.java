@@ -44,7 +44,7 @@ public class EditIFCAddController implements Initializable {
     }
 
     public void onRem(ActionEvent event) {
-        List<Location> toRem = availConList.getSelectionModel().getSelectedItems();
+        List<Location> toRem = curConList.getSelectionModel().getSelectedItems();
         if (toRem != null && toRem.size() > 0) {
             location.removeNeighbors(toRem);
             toRem.forEach(elem -> elem.getNeighbors().remove(location));
