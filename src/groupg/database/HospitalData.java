@@ -213,7 +213,7 @@ public class HospitalData {
                 return admin;
             }
         }
-        return null;
+        return new Admin("", "");
     }
 
 
