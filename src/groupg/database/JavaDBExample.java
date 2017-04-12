@@ -130,15 +130,15 @@ public class JavaDBExample
 
             //CREATE TABLES
 
-            stmt.execute("CREATE TABLE LOCATION (LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(20), LOCATION_CATEGORY varchar(20), FLOOR_ID int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)");
-            stmt.execute("CREATE TABLE PERSONELLE (PERSONELLE_ID int NOT NULL Primary Key, TITLE varchar(20) default NULL, PERSONELLE_NAME varchar(20) default NULL)");
-            stmt.execute("CREATE TABLE BUILDING (BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(20), FLOOR_COUNT int)");
-            stmt.execute("CREATE TABLE FLOOR (FLOOR_ID int NOT NULL, FLOOR_NUMBER char(20), BUILDING_ID int, FILENAME varchar(30))");
+            stmt.execute("CREATE TABLE LOCATION (LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(40), LOCATION_CATEGORY varchar(40), FLOOR_ID int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)");
+            stmt.execute("CREATE TABLE PERSONELLE (PERSONELLE_ID int NOT NULL Primary Key, TITLE varchar(40) default NULL, PERSONELLE_NAME varchar(40) default NULL)");
+            stmt.execute("CREATE TABLE BUILDING (BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(40), FLOOR_COUNT int)");
+            stmt.execute("CREATE TABLE FLOOR (FLOOR_ID int NOT NULL, FLOOR_NUMBER char(20), BUILDING_ID int, FILENAME varchar(40))");
 
             stmt.execute("CREATE TABLE CONNECTIONS(LOCATION_ONE int, LOCATION_TWO int)");
             stmt.execute("CREATE TABLE PEOPLELOCATIONS(PERSON_ID int, OFFICE_ID int)");
-            stmt.execute("CREATE TABLE ADMINS(ADMIN_UN varchar(20) NOT NULL Primary Key, ADMIN_PW varchar(20))");
-            stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(20), PERMISSIONS INT)");
+            stmt.execute("CREATE TABLE ADMINS(ADMIN_UN varchar(40) NOT NULL Primary Key, ADMIN_PW varchar(40))");
+            stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(40), PERMISSIONS INT)");
 
             stmt.execute("CREATE TABLE TRACKID(LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)");
 
