@@ -929,6 +929,7 @@
 .menu-item {
     -fx-background-color: transparent;
     -fx-padding: 0.333333em 0.41777em 0.333333em 0.41777em;  /* 4 5 4 5 */
+    -fx-pref-width: 160px;
 }
 
 .menu-item > .left-container {
@@ -1804,8 +1805,6 @@
 .menu-button:show-mnemonics > .mnemonic-underline {
     -fx-stroke: -fx-text-fill;
 }
-
-
 
 /*******************************************************************************
  *                                                                             *
@@ -2844,7 +2843,11 @@
     -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
     -fx-background-insets: 0, 1 1 0 1, 2 2 0 2;
 }*/
-
+.tab-pane:top *.tab-header-area {
+    -fx-background-insets: 0, 0 0 1 0;
+ /* -fx-padding: 0.416667em 0.166667em 0.0em 0.833em; /* 5 2 0 10 */
+    -fx-padding: 0.416667em 0.166667em 0.0em 0.0em; /* overridden as 5 2 0 0 */
+}
 
 
 

@@ -342,30 +342,66 @@ public class WelcomeScreenController implements Initializable {
                             // as long as this isn't the first node
                             if (loc != 0) { //TODO change if we ever add start orientation
                                 // if this is an elevator or stair case
-                                if (enterElivator == false && HospitalData.getAllCategories().contains(locations.get(loc).getCategory())
-
-                                        && (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Elevator")
+                                if (enterElivator == false && HospitalData.getAllCategories().contains(locations.get(loc).getCategory())&& (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Elevator")
                                         || (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Stairs"))))
                                 {
                                     enterElivator = true;
-                                    directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                    //languages other than english currently only specify elevators
+                                    switch(lang){
+                                        case "Eng":
+                                            directions.add("Take " + locations.get(loc).getCategory().getCategory() + " to Floor " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                            break;
+                                        case "Span":
+                                            directions.add("Toma el ascensor hasta piso " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                            break;
+                                        case "Port":
+                                            directions.add("Pegue o elevador até o chão " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                            break;
+                                        case "Chin":
+                                            directions.add("把电梯带到地板上 " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                            break;
+                                        default: directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                            break;
+                                    }
+                                    //directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
                                 }
                                 // if this not an elevator or stair case
                                 else
                                 {
                                         enterElivator = false;
                                         if(samepath == false && locations.get(loc).getNeighbors().stream().filter(elm -> elm.getCategory().getCategory().equalsIgnoreCase("Hall")).collect(Collectors.toList()).size() < 2){
-                                            directions.add("Continue on same path");
+
+
+                                            switch (lang){
+                                                case "Eng":
+                                                    directions.add("Continue on same path");
+                                                    break;
+                                                case "Span":
+                                                    directions.add("Continuar por el mismo camino");
+                                                    break;
+                                                case "Port":
+                                                    directions.add("Continue no mesmo caminho");
+                                                    break;
+                                                case "Chin":
+                                                    directions.add("在同一路径上继续");
+                                                    break;
+                                                default:
+                                                    directions.add("Continue on same path");
+                                                    break;
+                                            }
+
                                             samepath = true;
                                         }else {
                                             samepath = false;
                                             String turnD = getTurn(turn);
-                                            if ( straight == false && turnD == "Go straight") {
-                                                System.out.println("found 1 go straight");
+
+
+                                            if ( straight == false && (turnD == "Go straight" ||turnD == "Derecho" || turnD== "Siga em frente" || turnD =="笔直走")) {
+                                                //System.out.println("found 1 go straight");
                                                 straight = true;
                                                 directions.add(getTurn(turn));
                                             } else {
-                                                if (turnD != "Go straight") {
+                                                if (turnD != "Go straight" && turnD!="Derecho" && turnD !="Siga em frente"&& turnD != "笔直走") {
                                                     straight =false;
                                                 }
                                             }
