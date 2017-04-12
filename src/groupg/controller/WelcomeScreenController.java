@@ -22,6 +22,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -41,7 +42,7 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private HBox startFieldHBox, endFieldHBox;
     @FXML
-    private TextArea dirList;
+    private ListView<String> dirList;
     @FXML
     private GridPane canvasWrapper;
     private ResizableCanvas canvas = new ResizableCanvas();
@@ -87,9 +88,6 @@ public class WelcomeScreenController implements Initializable {
         imageViewPane.setPickOnBounds(true);
         lineOverlay = new Pane();
         lineOverlay.setPickOnBounds(true);
-        //disable writing in the text area
-        dirList.setDisable(true);
-        //add automatic textfields
         startFieldHBox.getChildren().add(startField);
         endFieldHBox.getChildren().add(endField);
 
@@ -193,6 +191,24 @@ public class WelcomeScreenController implements Initializable {
         });
 
         drawPath();
+
+        dirList.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+            @Override
+            public ListCell<String> call(final ListView<String> list) {
+                return new ListCell<String>() {
+                    {
+                        Text text = new Text();
+                        text.wrappingWidthProperty().bind(list.widthProperty().subtract(15));
+                        text.textProperty().bind(itemProperty());
+
+                        setPrefWidth(0);
+                        setGraphic(text);
+                    }
+                };
+            }
+        });
+
+
     }
 
     private void drawPath() {
@@ -223,101 +239,102 @@ public class WelcomeScreenController implements Initializable {
 
     // TODO check for adjacent nodes before instructing a turn
     private void generateTextDirections(List<Location> locations) {
-        String directions = "";
+        ObservableList<String> directions =FXCollections.observableArrayList ();
+        dirList.setItems(directions);
 
-        dirList.setWrapText(true);
+        //dirList.setWrapText(true);
         if (lang.equals("Eng")) {
             if (locations.size() < 2) {
-                dirList.setText("Please enter a start and end location to display locations");
+                directions.add("Please enter a start and end location to display locations");
+                dirList.setItems(directions);
+
             } else {
-                dirList.setText("Printing Directions...\n\n");
-                //dirList.setText(directions);
                 double preAngle = 90; // start facing top of the map
                 double curaAngle = 0;
                 double turn = 0;
                 for (int loc = 0; loc < locations.size(); loc++) {
                     if (loc == locations.size() - 1) {
-                        directions += "you have reached your destination\n";
+                        directions.add("you have reached your destination");
                     } else {
                         curaAngle = getAngle(locations.get(loc), locations.get(loc + 1));
                         turn = (curaAngle - preAngle + 360 + 90) % 360;
-                        directions += getTurn(turn);
+                        if (loc != 0) { //TODO change if we ever add start orientation
+                            directions.add(getTurn(turn));
+                        }
                     }
                     preAngle = curaAngle;
                 }
-                dirList.setText(directions);
+                dirList.setItems(directions);
             }
         }
 
         //SPANISH
         else if (lang.equals("Span")) {
             if (locations.size() < 2) {
-                dirList.setText("Por favor, ingrese una ubicación inicial y final para obtener direcciones");
+                directions.add("Por favor, ingrese una ubicación inicial y final para obtener direcciones");
             } else {
-                dirList.setText("Direcciones de impresión ...\n\n");
-                //dirList.setText(directions);
                 double preAngle = 90; // start facing top of the map
                 double curaAngle = 0;
                 double turn = 0;
                 for (int loc = 0; loc < locations.size(); loc++) {
                     if (loc == locations.size() - 1) {
-                        directions += "ha llegado a su destino\n";
+                        //directions += "ha llegado a su destino\n";
                     } else {
                         curaAngle = getAngle(locations.get(loc), locations.get(loc + 1));
                         turn = (curaAngle - preAngle + 360 + 90) % 360;
-                        directions += getTurn(turn);
+                        //directions += getTurn(turn);
                     }
                     preAngle = curaAngle;
                 }
-                dirList.setText(directions);
+                //dirList.setText(directions);
             }
         }
 
         //PORTUGUESE
         else if (lang.equals("Port")) {
             if (locations.size() < 2) {
-                dirList.setText("Insira um local inicial e final para obter instruções");
+                //dirList.setText("Insira um local inicial e final para obter instruções");
             } else {
-                dirList.setText("Direcciones de impresión ...\n\n");
+                //dirList.setText("Direcciones de impresión ...\n\n");
                 //dirList.setText(directions);
                 double preAngle = 90; // start facing top of the map
                 double curaAngle = 0;
                 double turn = 0;
                 for (int loc = 0; loc < locations.size(); loc++) {
                     if (loc == locations.size() - 1) {
-                        directions += "Você chegou ao seu destino\n";
+                        //directions += "Você chegou ao seu destino\n";
                     } else {
                         curaAngle = getAngle(locations.get(loc), locations.get(loc + 1));
                         turn = (curaAngle - preAngle + 360 + 90) % 360;
-                        directions += getTurn(turn);
+                        //directions += getTurn(turn);
                     }
                     preAngle = curaAngle;
                 }
-                dirList.setText(directions);
+                //dirList.setText(directions);
             }
         }
 
         //CHINESE
         else if (lang.equals("Chin")) {
             if (locations.size() < 2) {
-                dirList.setText("请输入开始和结束位置以获取路线");
+                //dirList.setText("请输入开始和结束位置以获取路线");
             } else {
-                dirList.setText("打印方向...");
+                //dirList.setText("打印方向...");
                 //dirList.setText(directions);
                 double preAngle = 90; // start facing top of the map
                 double curaAngle = 0;
                 double turn = 0;
                 for (int loc = 0; loc < locations.size(); loc++) {
                     if (loc == locations.size() - 1) {
-                        directions += "你已到达目的地";
+                        //directions += "你已到达目的地";
                     } else {
                         curaAngle = getAngle(locations.get(loc), locations.get(loc + 1));
                         turn = (curaAngle - preAngle + 360 + 90) % 360;
-                        directions += getTurn(turn);
+                        //directions += getTurn(turn);
                     }
                     preAngle = curaAngle;
                 }
-                dirList.setText(directions);
+                //dirList.setText(directions);
             }
         } else {
             System.out.println("UNSPECIFIED LANGUAGE");
@@ -525,7 +542,7 @@ public class WelcomeScreenController implements Initializable {
 //        fl5.setText("Floor 5");
 //        fl6.setText("Floor 6");
 //        fl7.setText("Floor 7");
-        dirList.setText("Please Enter a Starting and Ending Location to obtain directions");
+//        dirList.setText("Please Enter a Starting and Ending Location to obtain directions");
     }
 
     public void changelangS(ActionEvent actionEvent) {
@@ -549,7 +566,7 @@ public class WelcomeScreenController implements Initializable {
 //        fl5.setText("Piso 5");
 //        fl6.setText("Piso 6");
 //        fl7.setText("Piso 7");
-        dirList.setText("Por favor, ingrese una ubicación inicial y final para obtener direcciones");
+//        dirList.setText("Por favor, ingrese una ubicación inicial y final para obtener direcciones");
     }
 
     public void changelangP(ActionEvent actionEvent) {
@@ -573,7 +590,7 @@ public class WelcomeScreenController implements Initializable {
 //        fl5.setText("Andar 5");
 //        fl6.setText("Andar 6");
 //        fl7.setText("Andar 7");
-        dirList.setText("Insira um local inicial e final para obter instruções");
+//        dirList.setText("Insira um local inicial e final para obter instruções");
 
     }
 
@@ -598,7 +615,7 @@ public class WelcomeScreenController implements Initializable {
 //        fl5.setText("5楼");
 //        fl6.setText("6楼");
 //        fl7.setText("7楼");
-        dirList.setText("请输入开始和结束位置以获取路线");
+//        dirList.setText("请输入开始和结束位置以获取路线");
 
     }
 

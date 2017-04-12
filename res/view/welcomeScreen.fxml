@@ -8,7 +8,6 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -191,7 +190,14 @@
                         <Font size="20.0" />
                      </font>
                   </Text>
-                  <TextArea fx:id="dirList" editable="false" prefHeight="550.0" wrapText="true" />
+                  <ListView fx:id="dirList" editable="true" prefHeight="547.0" prefWidth="131.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </ListView>
                </children>
                <padding>
                   <Insets left="10.0" right="10.0" />
