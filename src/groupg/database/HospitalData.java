@@ -23,6 +23,7 @@ public class HospitalData {
     private static int PERSONELLE_NEW;
     private static int BUILDING_NEW;
     private static int FLOOR_NEW;
+    private static int dbStrLength = 40;
 //    public s
 
 
@@ -613,6 +614,10 @@ public class HospitalData {
             }
         }
         return FLOOR_NEW;
+    }
+
+    public static int maxStringLength(){
+        return dbStrLength;
     }
 
 
