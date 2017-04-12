@@ -44,7 +44,7 @@ public class RSA {
         return s;
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         int N = Integer.parseInt(args[0]);
         RSA key = new RSA(N);
         System.out.println(key);
@@ -64,5 +64,5 @@ public class RSA {
         String s2 = new String(byteArray);
         System.out.println("String: " + s2);
 
-    }
+    }*/
 }
