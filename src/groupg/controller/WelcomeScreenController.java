@@ -156,7 +156,7 @@ public class WelcomeScreenController implements Initializable {
         });
 
         //Default selected tab
-        selectedTab = tabPane.getSelectionModel().getSelectedItem();
+        selectedTab = tabPane.getTabs().get(0);
 
         //Add locations from DB
         locations.addAll(HospitalData.getAllLocations());
