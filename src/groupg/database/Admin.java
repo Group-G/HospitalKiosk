@@ -37,8 +37,8 @@ public class Admin {
         return this.password;
     }
 
-    public Boolean login(String pw){
-        if(this.password.equals(pw)){
+    public Boolean login(BigInteger pw){
+        if(this.hashed.equals(pw)){
             return true;
         }
         return false;

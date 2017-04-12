@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -84,7 +85,10 @@ public class AdminLoginController implements Initializable {
 
     private void attemptLogin(ActionEvent actionEvent) {
         Admin admin = HospitalData.getAdminByUsername(usernameField.getText());
-        if (admin != null && admin.login(passField.getText())) {
+        BigInteger m = new BigInteger(passField.getText().getBytes());
+        BigInteger hashed = m.modPow(HospitalData.key.publicKey, HospitalData.key.modulus);
+
+        if (admin != null && admin.login(hashed)) {
             errorText.setVisible(false);
             try {
                 ResourceManager.getInstance().loadFXMLIntoScene("/view/adminMain.fxml", "Admin Main", cancelBtn.getScene());
