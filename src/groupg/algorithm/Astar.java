@@ -152,7 +152,7 @@ public class Astar implements Navigation{
                     || curr.getCategory().getCategory().equalsIgnoreCase("Stairs"))
                     || curr.getCategory().getCategory().equalsIgnoreCase("Stair"))
                     || curr.getCategory().getCategory().equalsIgnoreCase("Elevators")) {
-            System.out.println("Elevator in admin");
+            System.out.println("Elevator in admin!");
             hscore += 700;
         }
         double gscore = 0;
