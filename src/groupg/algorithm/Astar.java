@@ -47,11 +47,14 @@ public class Astar implements Navigation{
      * @return Linkedlist of the shortest path starting with the start location
      * @throws NullPointerException if a location has no neighbors (should never happen)
      */
-    private LinkedList<Location> runAStar(Location start, Location goal) throws NullPointerException{
+    private LinkedList<Location> runAStar(Location start, Location goal) throws NullPointerException {
+        clearRentNCost();
+        closed.clear();
+        open.clear();
         shortestPath.clear(); //clears previous path
         start.setFcost(0+start.lengthTo(goal));
         open.add(start);
-        do{
+        do {
             Location current = lowestF(open);
             closed.add(current);
             open.remove(current);
@@ -109,7 +112,49 @@ public class Astar implements Navigation{
         return low;
     }
 
-//    /**
+    /**
+     * computes the fcost of the current location given the start and end
+     * @param curr current location
+     * @param strt start location
+     * @param end end location
+     * @return
+     */
+    private double computeScore(Location curr, Location strt, Location end){
+        double hscore = curr.lengthTo(end);
+        double gscore = 0;
+        if ((HospitalData.getAllCategories().contains(curr.getCategory()))
+                && ((curr.getCategory().getCategory().equalsIgnoreCase("Elevator")
+                    || curr.getCategory().getCategory().equalsIgnoreCase("Stairs"))
+                    || curr.getCategory().getCategory().equalsIgnoreCase("Stair"))
+                    || curr.getCategory().getCategory().equalsIgnoreCase("Elevators")) {
+            //System.out.println("Elevator in admin!");
+            //hscore += 200
+            gscore += 1500;
+        }
+        if((curr.getFloorID()!=strt.getFloorID())&&(curr.getFloorID()!=end.getFloorID())){
+            gscore+=40000;
+        }
+        Location itr = curr;
+        Location parent = itr.getParent();
+        if(!(parent == null)){
+            while(parent.getID()!=strt.getID()){
+                gscore+= parent.lengthTo(itr);
+                itr = parent;
+                parent = itr.getParent();
+            }
+        }
+        double score = hscore + gscore;
+        System.out.println("the score reported was" + score);
+        return score;
+    }
+
+    private void clearRentNCost(){
+        for (Location location : locations){
+            //location.setParent(null);
+            location.setFcost(Double.MAX_VALUE);
+        }
+    }
+    //    /**
 //     * function that gets all of the neighbors of a specific node
 //     * @param loc a location
 //     * @return All the neighbors of the given location
@@ -136,47 +181,4 @@ public class Astar implements Navigation{
 //        }
 //        return idLoc;
 //    }
-
-    /**
-     * computes the fcost of the current location given the start and end
-     * @param curr current location
-     * @param strt start location
-     * @param end end location
-     * @return
-     */
-    private double computeScore(Location curr, Location strt, Location end){
-        double hscore = curr.lengthTo(end);
-        double gscore = 0;
-        /*
-        if ((HospitalData.getAllCategories().contains(curr.getCategory()))
-                && ((curr.getCategory().getCategory().equalsIgnoreCase("Elevator")
-                    || curr.getCategory().getCategory().equalsIgnoreCase("Stairs"))
-                    || curr.getCategory().getCategory().equalsIgnoreCase("Stair"))
-                    || curr.getCategory().getCategory().equalsIgnoreCase("Elevators")) {
-            //System.out.println("Elevator in admin!");
-            hscore += 200;
-           // gscore += 1500;
-        } */
-
-        Location itr = curr;
-        Location parent = itr.getParent();
-        if(!(parent == null)){
-            while(parent.getID()!=strt.getID()){
-                gscore+= parent.lengthTo(itr);
-                itr = parent;
-                parent = itr.getParent();
-                if ((HospitalData.getAllCategories().contains(curr.getCategory()))
-                        && ((curr.getCategory().getCategory().equalsIgnoreCase("Elevator")
-                        || curr.getCategory().getCategory().equalsIgnoreCase("Stairs"))
-                        || curr.getCategory().getCategory().equalsIgnoreCase("Stair"))
-                        || curr.getCategory().getCategory().equalsIgnoreCase("Elevators")) {
-                    //System.out.println("Elevator in admin!");
-                    hscore += 200;
-                    gscore += 1500;
-                }
-            }
-        }
-        double score = hscore + gscore;
-        return score;
-    }
 }

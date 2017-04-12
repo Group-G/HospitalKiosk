@@ -241,9 +241,9 @@ public class WelcomeScreenController implements Initializable {
             int startfloorID = startField.getCurrentSelection().getFloorID();
             int endfloorID = endField.getCurrentSelection().getFloorID();
             output.forEach(e -> {
-                if (e.getFloorObj().getID() == startfloorID || e.getFloorObj().getID() == endfloorID){
+                //if (e.getFloorObj().getID() == startfloorID || e.getFloorObj().getID() == endfloorID){
                     filtered_output.add(e);
-                }
+                //}
             });
 
             generateTextDirections(filtered_output.stream()
