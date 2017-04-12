@@ -45,7 +45,6 @@ public class EditIFCController implements Initializable {
         try {
             ResourceManager.getInstance().<EditIFCAddController>loadFXMLIntoScene("/view/editIFCAdd.fxml", "Add Connections", newBtn.getScene(), (controller) -> {
                 if (ifcList.getSelectionModel().getSelectedItem() != null) {
-                    HospitalData.publishDB();
                     controller.setInputLocation(ifcList.getSelectionModel().getSelectedItem());
                 }
             });
