@@ -153,6 +153,97 @@ public class JavaDBExample
         }
     }
 
+    public void restoreBackup(){
+        backupStuff(true);
+    }
+    public void backupTables(){
+        backupStuff(false);
+    }
+
+    public void backupStuff(boolean restore){
+        String m1 = "", m2 = "";
+        if(restore){
+            m1 ="2";
+        }
+        else{
+            m2 = "2";
+        }
+        try
+        {
+            // substitute your database name for myDB
+            Connection connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
+            Statement stmt = connection.createStatement();
+
+            //DROP TABLE
+
+            try {stmt.execute("DROP TABLE LOCATION" + m2);}
+            catch (SQLException e){}
+
+            try {stmt.execute("DROP TABLE PERSONELLE" + m2);}
+            catch (SQLException e) {}
+
+            try {stmt.execute("DROP TABLE BUILDING" + m2);}
+            catch (SQLException e) {}
+
+            try {stmt.execute("DROP TABLE FLOOR" + m2);}
+            catch (SQLException e) {}
+
+            try {stmt.execute("DROP TABLE ADMINS" + m2);}
+            catch (SQLException e) {}
+
+            try {stmt.execute("DROP TABLE CONNECTIONS" + m2);}
+            catch (SQLException e) {}
+
+            try {stmt.execute("DROP TABLE PEOPLELOCATIONS" + m2);}
+            catch (SQLException e) {}
+
+            try {stmt.execute("DROP TABLE CATEGORY" + m2);}
+            catch (SQLException e) {}
+
+            try {stmt.execute("DROP TABLE TRACKID" + m2);}
+            catch (SQLException e) {}
+            //END DROP TABLES
+
+            //CREATE TABLES
+
+            stmt.execute("CREATE TABLE LOCATION" + m2+ " (LOCATION_ID int NOT NULL Primary Key, LOCATION_NAME varchar(40), LOCATION_CATEGORY varchar(40), FLOOR_ID int, X_COORD int default 0, Y_COORD int default 0, BUILDING_ID int)");
+            stmt.execute("INSERT INTO LOCATION" + m2+ "  SELECT * FROM LOCATION" + m1);
+
+            stmt.execute("CREATE TABLE PERSONELLE" + m2+ "  (PERSONELLE_ID int NOT NULL Primary Key, TITLE varchar(40) default NULL, PERSONELLE_NAME varchar(40) default NULL)");
+            stmt.execute("INSERT INTO PERSONELLE" + m2+ "  SELECT * FROM PERSONELLE" + m1);
+
+            stmt.execute("CREATE TABLE BUILDING" + m2+ "  (BUILDING_ID int NOT NULL Primary Key, BUILDING_NAME varchar(40), FLOOR_COUNT int)");
+            stmt.execute("INSERT INTO BUILDING" + m2+ "  SELECT * FROM BUILDING" + m1);
+
+            stmt.execute("CREATE TABLE FLOOR" + m2+ "  (FLOOR_ID int NOT NULL, FLOOR_NUMBER char(20), BUILDING_ID int, FILENAME varchar(40))");
+            stmt.execute("INSERT INTO FLOOR" + m2+ "  SELECT * FROM FLOOR" + m1);
+
+            stmt.execute("CREATE TABLE CONNECTIONS" + m2+ " (LOCATION_ONE int, LOCATION_TWO int)");
+            stmt.execute("INSERT INTO CONNECTIONS" + m2+ "  SELECT * FROM CONNECTIONS" + m1);
+
+            stmt.execute("CREATE TABLE PEOPLELOCATIONS" + m2+ " (PERSON_ID int, OFFICE_ID int)");
+            stmt.execute("INSERT INTO PEOPLELOCATIONS" + m2+ "  SELECT * FROM PEOPLELOCATIONS" + m1);
+
+            stmt.execute("CREATE TABLE ADMINS" + m2+ " (ADMIN_UN varchar(40) NOT NULL Primary Key, ADMIN_PW varchar(40))");
+            stmt.execute("INSERT INTO ADMINS" + m2+ "  SELECT * FROM ADMINS" + m1);
+
+            stmt.execute("CREATE TABLE CATEGORY" + m2+ " (CATEGORY_NAME varchar(40), PERMISSIONS INT)");
+            stmt.execute("INSERT INTO CATEGORY" + m2+ "  SELECT * FROM CATEGORY" + m1);
+
+            stmt.execute("CREATE TABLE TRACKID" + m2+ " (LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)");
+            stmt.execute("INSERT INTO TRACKID" + m2+ "  SELECT * FROM TRACKID" + m1);
+
+            //END CREATE TABLES
+
+//            System.out.println("Tables created!");
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Connection failed. Check output console.");
+            e.printStackTrace();
+        }
+    }
+
     /**
      *  insertTables
         @params none
@@ -279,7 +370,10 @@ public class JavaDBExample
      * @param category String contain SQL of category
      */
     public void fillTable(String location, String personelle, String offices, String floor, String building, String connections, String admin, String category, String trackIDS){
+        backupTables();
+        createTables();
         try {
+
             // substitute your database name for myDB
             Connection connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
             Statement stmt = connection.createStatement();
@@ -366,8 +460,10 @@ public class JavaDBExample
         }
         catch (SQLException e)
         {
-            System.out.println("Connection failed. Check output console.");
-            e.printStackTrace();
+            System.out.println("WRITING TO DATABASE FAILED");
+            System.out.println("RESTORING FROM BACKUP");
+            restoreBackup();
+            System.out.println("BACKUP RESTORATION COMPLETE");
         }
     }
 
