@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1262.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane>
+   <children>
+      <HBox layoutX="3.0" layoutY="105.0" prefHeight="581.0" prefWidth="1249.0">
+         <children>
+            <Region prefHeight="581.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+            <VBox prefHeight="581.0" prefWidth="235.0">
+               <children>
+                  <HBox prefHeight="34.0" prefWidth="301.0">
+                     <children>
+                        <Label prefHeight="40.0" prefWidth="64.0" text="Start:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="searchBtn" prefHeight="34.0" prefWidth="170.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="34.0" prefWidth="301.0">
+                     <children>
+                        <Label prefHeight="40.0" prefWidth="64.0" text="End:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField prefHeight="34.0" prefWidth="172.0" />
+                     </children>
+                     <padding>
+                        <Insets top="5.0" />
+                     </padding>
+                  </HBox>
+                  <Accordion prefHeight="474.0" prefWidth="297.0">
+                    <panes>
+                      <TitledPane animated="false" prefHeight="360.0" prefWidth="242.0" text="Waiting Areas">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="325.0" prefWidth="282.0">
+                                 <children>
+                                    <Region layoutX="-18.0" layoutY="-38.0" prefHeight="25.0" prefWidth="39.0" />
+                                 </children></AnchorPane>
+                        </content>
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                      </TitledPane>
+                      <TitledPane animated="false" text="Bathrooms">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                      </TitledPane>
+                        <TitledPane animated="false" text="Help Desks">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                           </content>
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </TitledPane>
+                        <TitledPane animated="false" text="Exits">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                           </content>
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </TitledPane>
+                      <TitledPane animated="false" prefHeight="364.0" prefWidth="301.0" text="Doctors">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                      </TitledPane>
+                    </panes>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Accordion>
+               </children>
+            </VBox>
+            <Region prefHeight="581.0" prefWidth="30.0" HBox.hgrow="NEVER" />
+            <TabPane prefHeight="581.0" prefWidth="886.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Floor 1">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                                 <ScrollPane prefHeight="556.0" prefWidth="880.0">
+                                    <content>
+                                    <GridPane prefHeight="558.0" prefWidth="879.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <ImageView fitHeight="510.0" fitWidth="928.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../image/faulkner_1_temp.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </GridPane>
+                                    </content>
+                                 </ScrollPane>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Floor 2">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <GridPane prefHeight="558.0" prefWidth="876.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <ImageView fitHeight="506.0" fitWidth="1047.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/faulkner_2.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab text="Floor 3">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <GridPane prefHeight="558.0" prefWidth="879.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <ImageView fitHeight="525.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/faulkner_3.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Floor 4">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <GridPane prefHeight="558.0" prefWidth="877.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <ImageView fitHeight="498.0" fitWidth="915.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/faulkner_4_cropped.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Floor 5">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <GridPane prefHeight="558.0" prefWidth="877.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <ImageView fitHeight="516.0" fitWidth="878.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/faulkner_5.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Floor 6">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <GridPane prefHeight="558.0" prefWidth="880.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <ImageView fitHeight="521.0" fitWidth="881.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/faulkner_6.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Floor 7">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <GridPane prefHeight="558.0" prefWidth="876.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <ImageView fitHeight="511.0" fitWidth="876.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/faulkner_7.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+            <VBox prefHeight="581.0" prefWidth="126.0" HBox.hgrow="NEVER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Directions:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <TextArea prefHeight="541.0" prefWidth="106.0" />
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </VBox>
+
+            <Region prefHeight="581.0" prefWidth="21.0" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+      <HBox layoutX="-1.0" layoutY="2.0" prefHeight="100.0" prefWidth="1261.0">
+         <children>
+            <Region prefHeight="100.0" prefWidth="25.0" HBox.hgrow="NEVER" />
+            <MenuButton mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Language" HBox.hgrow="ALWAYS">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+            </MenuButton>
+            <Region prefHeight="100.0" prefWidth="194.0" HBox.hgrow="NEVER" />
+            <ImageView fitHeight="89.0" fitWidth="558.0" pickOnBounds="true" preserveRatio="true" smooth="false" HBox.hgrow="ALWAYS">
+               <image>
+                  <Image url="@../image/BWFH_Logo.png" />
+               </image>
+            </ImageView>
+            <Region prefHeight="100.0" prefWidth="248.0" HBox.hgrow="NEVER" />
+            <Button fx:id="adminBtn" mnemonicParsing="false" prefHeight="16.0" prefWidth="90.0" text="Login" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+            </Button>
+         </children></HBox>
+
+   </children>
+</AnchorPane>
+</ScrollPane>

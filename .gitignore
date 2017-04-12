@@ -63,3 +63,7 @@ classes/
 .idea/dbnavigator.xml
 derby.log
 HospitalDatabase/
+.idea/codeStyleSettings.xml
+gradle/
+gradlew
+gradlew.bat

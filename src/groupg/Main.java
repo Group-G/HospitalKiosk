@@ -1,5 +1,7 @@
 package groupg;
 
+import groupg.database.HospitalData;
+import groupg.database.JavaDBExample;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,11 +22,10 @@ public class Main extends Application
     private static HospitalData h;
 
     @Override
-    public void start(Stage primaryStage) throws Exception
-    {
-        Parent root = FXMLLoader.load(getClass().getResource("/welcomeScreen.fxml"));
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/view/welcomeScreen.fxml"));
         primaryStage.setTitle("Welcome");
-        primaryStage.setScene(new Scene(root, 1755, 1000));
+        primaryStage.setScene(new Scene(root, 1404, 800));
         primaryStage.show();
         primaryStage.setOnCloseRequest(event -> HospitalData.publishDB());
     }
@@ -45,7 +46,6 @@ public class Main extends Application
         }
 
         h = new HospitalData(dbExample);
-//        HospitalData.publishDB();
 
         launch(args);
     }
