@@ -16,6 +16,12 @@ public class AssertTests
         assertEquals("1", 0, 0);
     }
 
+    @Test
+    public void astarTest1() {
+
+    }
+
+
 //    @Test
 //    public void astarTest()
 //    {
