@@ -122,9 +122,7 @@ public class WelcomeScreenController implements Initializable {
 
         HospitalData.getAllFloors().forEach(floor -> {
             Tab tab = new Tab(floor.getFloorNum());
-            tab.setOnSelectionChanged(event -> {
-                imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename()));
-            });
+            tab.setOnSelectionChanged(event -> imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename())));
             tabPane.getTabs().add(tab);
         });
 
@@ -147,7 +145,7 @@ public class WelcomeScreenController implements Initializable {
         startField.getEntries().addAll(locations);
         endField.getEntries().addAll(locations);
 
-        //Fill dropdowns
+        //Fill drop downs
         waitAreaLV.getItems().addAll(HospitalData.getLocationsByCategory("Waiting Area"));
         waitAreaLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         waitAreaLV.setOnMouseClicked((MouseEvent event) -> {
@@ -239,7 +237,7 @@ public class WelcomeScreenController implements Initializable {
 
     // TODO check for adjacent nodes before instructing a turn
     private void generateTextDirections(List<Location> locations) {
-        ObservableList<String> directions =FXCollections.observableArrayList ();
+        ObservableList<String> directions = FXCollections.observableArrayList();
         dirList.setItems(directions);
 
         //dirList.setWrapText(true);
@@ -341,123 +339,129 @@ public class WelcomeScreenController implements Initializable {
         }
     }
 
-    /*
-    0 right
-    45 slight right
-    90 straight
-    135 slight left
-    180 left
-    225 backwards slight left
-    270 backwards
-    315 backwards slight right
-
-    */
     private String getTurn(double turn) {
+        /*
+        0 right
+        45 slight right
+        90 straight
+        135 slight left
+        180 left
+        225 backwards slight left
+        270 backwards
+        315 backwards slight right
+        */
         if (turn > 315 + 22.5 || turn <= 22.5) {
-            if (lang.equals("Eng")) {
-                return "take right \n";
-            } else if (lang.equals("Span")) {
-                return "Toma el derecho \n";
-            } else if (lang.equals("Port")) {
-                return "Você toma direito \n";
-            } else if (lang.equals("Chin")) {
-                return "你对吧 \n";
-            } else {
-                return "take right \n";
+            switch (lang) {
+                case "Eng":
+                    return "take right \n";
+                case "Span":
+                    return "Toma el derecho \n";
+                case "Port":
+                    return "Você toma direito \n";
+                case "Chin":
+                    return "你对吧 \n";
+                default:
+                    return "take right \n";
             }
 
         }
         if (turn > 22.5 && turn <= 45 + 22.5) {
-            if (lang.equals("Eng")) {
-                return "take slight right \n";
-            } else if (lang.equals("Span")) {
-                return "Tomar ligeramente a la derecha \n";
-            } else if (lang.equals("Port")) {
-                return "Leve ligeiramente à direita \n";
-            } else if (lang.equals("Chin")) {
-                return "采取轻微的权利 \n";
+            switch (lang) {
+                case "Eng":
+                    return "take slight right \n";
+                case "Span":
+                    return "Tomar ligeramente a la derecha \n";
+                case "Port":
+                    return "Leve ligeiramente à direita \n";
+                case "Chin":
+                    return "采取轻微的权利 \n";
             }
             return "take slight right \n";
         }
         if (turn > 45 + 22.5 && turn <= 90 + 22.5) {
-            if (lang.equals("Eng")) {
-                return "go straight \n";
-            } else if (lang.equals("Span")) {
-                return "ir directamente \n";
-            } else if (lang.equals("Port")) {
-                return "Siga em frente \n";
-            } else if (lang.equals("Chin")) {
-                return "笔直走 \n";
+            switch (lang) {
+                case "Eng":
+                    return "go straight \n";
+                case "Span":
+                    return "ir directamente \n";
+                case "Port":
+                    return "Siga em frente \n";
+                case "Chin":
+                    return "笔直走 \n";
             }
             return "go straight \n";
         }
         if (turn > 90 + 22.5 && turn <= 135 + 22.5) {
-            if (lang.equals("Eng")) {
-                return "take slight left \n";
-            } else if (lang.equals("Span")) {
-                return "Tomar ligeramente a la izquierda \n";
-            } else if (lang.equals("Port")) {
-                return "Leve ligeiramente à esquerda \n";
-            } else if (lang.equals("Chin")) {
-                return "轻轻一点 \n";
+            switch (lang) {
+                case "Eng":
+                    return "take slight left \n";
+                case "Span":
+                    return "Tomar ligeramente a la izquierda \n";
+                case "Port":
+                    return "Leve ligeiramente à esquerda \n";
+                case "Chin":
+                    return "轻轻一点 \n";
             }
             return "take slight left \n";
         }
         if (turn > 135 + 22.5 && turn <= 180 + 22.5) {
-            if (lang.equals("Eng")) {
-                return "take left \n";
-            } else if (lang.equals("Span")) {
-                return "gire a la izquierda \n";
-            } else if (lang.equals("Port")) {
-                return "Pegue a esquerda \n";
-            } else if (lang.equals("Chin")) {
-                return "拿左 \n";
+            switch (lang) {
+                case "Eng":
+                    return "take left \n";
+                case "Span":
+                    return "gire a la izquierda \n";
+                case "Port":
+                    return "Pegue a esquerda \n";
+                case "Chin":
+                    return "拿左 \n";
             }
             return "take left \n";
         }
         if (turn > 180 + 22.5 && turn <= 225 + 22.5) {
-            if (lang.equals("Eng")) {
-                return "back and slight left \n";
-            } else if (lang.equals("Span")) {
-                return "Atrás e izquierda ligera \n";
-            } else if (lang.equals("Port")) {
-                return "Costas e esquerda ligeira \n";
-            } else if (lang.equals("Chin")) {
-                return "背部和轻微的左 \n";
+            switch (lang) {
+                case "Eng":
+                    return "back and slight left \n";
+                case "Span":
+                    return "Atrás e izquierda ligera \n";
+                case "Port":
+                    return "Costas e esquerda ligeira \n";
+                case "Chin":
+                    return "背部和轻微的左 \n";
             }
             return "back and slight left \n";
         }
         if (turn > 225 + 22.5 && turn <= 270 + 22.5) {
-            if (lang.equals("Eng")) {
-                return "go backwards \n";
-            } else if (lang.equals("Span")) {
-                return "dar marcha atrás \n";
-            } else if (lang.equals("Port")) {
-                return "ir para trás \n";
-            } else if (lang.equals("Chin")) {
-                return "倒退 \n";
+            switch (lang) {
+                case "Eng":
+                    return "go backwards \n";
+                case "Span":
+                    return "dar marcha atrás \n";
+                case "Port":
+                    return "ir para trás \n";
+                case "Chin":
+                    return "倒退 \n";
             }
             return "go backwards \n";
         }
         if (turn > 270 + 22.5 && turn <= 315 + 22.5) {
-            if (lang.equals("Eng")) {
-                return "back and slight right \n";
-            } else if (lang.equals("Span")) {
-                return "Atrás y ligero derecho \n";
-            } else if (lang.equals("Port")) {
-                return "Costas e ligeira direita \n";
-            } else if (lang.equals("Chin")) {
-                return "回来和轻微的权利 \n";
+            switch (lang) {
+                case "Eng":
+                    return "back and slight right \n";
+                case "Span":
+                    return "Atrás y ligero derecho \n";
+                case "Port":
+                    return "Costas e ligeira direita \n";
+                case "Chin":
+                    return "回来和轻微的权利 \n";
             }
             return "back and slight right \n";
         }
-        // should never reach here
-        return "i dont know which direciotn you should go please seek help imediatly!!!! \n";
+
+        return "";
     }
 
     private double getAngle(Location curNode, Location nextNode) {
-        double angle = (((Math.atan2(curNode.getY() - nextNode.getY(), nextNode.getX() - curNode.getX())) * 180 / Math.PI) + 360) % 360;
-        return angle;
+        return (((Math.atan2(curNode.getY() - nextNode.getY(), nextNode.getX() - curNode.getX())) * 180 / Math.PI) + 360) % 360;
     }
 
     public void onLogin(ActionEvent actionEvent) {
