@@ -3,6 +3,7 @@ package groupg.algorithm;
 import groupg.database.HospitalData;
 import groupg.database.Location;
 
+import javax.xml.bind.SchemaOutputResolver;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -151,6 +152,7 @@ public class Astar implements Navigation{
                     || curr.getCategory().getCategory().equalsIgnoreCase("Stairs"))
                     || curr.getCategory().getCategory().equalsIgnoreCase("Stair"))
                     || curr.getCategory().getCategory().equalsIgnoreCase("Elevators")) {
+            System.out.println("Elevator in admin");
             hscore += 700;
         }
         double gscore = 0;
