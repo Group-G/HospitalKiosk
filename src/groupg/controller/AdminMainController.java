@@ -204,7 +204,4 @@ public class AdminMainController implements Initializable {
             e.printStackTrace();
         }
     }
-
-    public void onChangeAlgorithm(ActionEvent actionEvent) {
-    }
 }

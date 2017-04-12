@@ -125,16 +125,16 @@ public class WelcomeScreenController implements Initializable {
             if (e.isAltDown()) {
                 double zoom_fac = 1.05;
                 double delta_y = e.getDeltaY();
-                        if(delta_y < 0) {
+                if (delta_y < 0) {
                     zoom_fac = 2.0 - zoom_fac;
-                    }
-                        Scale newScale = new Scale();
-                newScale.setX( zoomGroup.getScaleX() * zoom_fac );
-                newScale.setY( zoomGroup.getScaleY() * zoom_fac );
+                }
+                Scale newScale = new Scale();
+                newScale.setX(zoomGroup.getScaleX() * zoom_fac);
+                newScale.setY(zoomGroup.getScaleY() * zoom_fac);
                 zoomGroup.getTransforms().add(newScale);
                 e.consume();
             }
-                    });
+        });
         canvasWrapper.getChildren().addAll(pane);
 
         HospitalData.getAllFloors().forEach(floor -> {
@@ -205,8 +205,6 @@ public class WelcomeScreenController implements Initializable {
                 endField.setCurrentSelection(officeLV.getSelectionModel().getSelectedItem());
         });
 
-        drawPath();
-
         dirList.setCellFactory(list -> new ListCell<String>() {
             {
                 Text text = new Text();
@@ -222,7 +220,7 @@ public class WelcomeScreenController implements Initializable {
         if (startField.getCurrentSelection() != null && endField.getCurrentSelection() != null) {
             navigation = new NavigationFacade();
 
-            List<LocationDecorator> output = new ArrayList<>();
+            final List<LocationDecorator> output = new ArrayList<>();
 
             //Default algorithm
             if (AdminMainController.selectedAlgorithm == null)
@@ -241,9 +239,27 @@ public class WelcomeScreenController implements Initializable {
 
             //Filter out locations not on this floor
             try {
-                output = output.stream()
-                               .filter(elem -> elem.getFloorObj().getFloorNum().equals(selectedTab.getText()))
-                               .collect(Collectors.toList());
+                //Highlight tabs with paths
+                tabPane.getTabs().parallelStream().forEach(elem -> {
+                    elem.setStyle("");
+                    if (output.parallelStream()
+                              .map(item -> item.getFloorObj().getFloorNum())
+                              .collect(Collectors.toList())
+                              .contains(elem.getText())) {
+                        elem.setStyle("-fx-background-color: #f4f142");
+                    }
+                });
+
+                //Filter output based on current tab
+                List<LocationDecorator> tempList = output.stream()
+                                                         .filter(elem -> elem.getFloorObj().getFloorNum().equals(selectedTab.getText()))
+                                                         .collect(Collectors.toList());
+
+                //Move filtered items back
+                output.clear();
+                for (int i = 0; i < tempList.size(); i++) {
+                    output.set(i, tempList.get(i));
+                }
             } catch (NullPointerException e) {
                 System.out.println("nullptr while filtering to draw");
             }
