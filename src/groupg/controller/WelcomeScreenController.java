@@ -89,9 +89,9 @@ public class WelcomeScreenController implements Initializable {
         startFieldHBox.getChildren().add(startField);
         endFieldHBox.getChildren().add(endField);
 
-       // Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
-        //startField.getStyleClass().add("startfield");
-        //endField.getStyleClass().add("endfield");
+        Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
+        startField.getStyleClass().add("startfield");
+        endField.getStyleClass().add("endfield");
         //Find closest location
         imageViewPane.setOnMouseClicked(event -> {
             double shortest = Double.MAX_VALUE;
