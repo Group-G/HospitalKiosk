@@ -79,6 +79,8 @@ public class WelcomeScreenController implements Initializable {
         List<Location> kioskLocs = HospitalData.getLocationsByCategory("Kiosk");
         if (kioskLocs.size() > 0)
             startField.setCurrentSelection(kioskLocs.get(0));
+
+        navigation = new NavigationFacade();
     }
 
     @Override
@@ -147,6 +149,7 @@ public class WelcomeScreenController implements Initializable {
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             selectedTab = newTab;
             displayedLines.clear();
+            System.out.println(navigation.getPath().size());
             displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(navigation.getPath()
                                                                                                     .stream()
                                                                                                     .filter(elem -> elem.getFloorObj().getFloorNum().equals(newTab.getText()))
@@ -218,8 +221,6 @@ public class WelcomeScreenController implements Initializable {
 
     private void drawPath() {
         if (startField.getCurrentSelection() != null && endField.getCurrentSelection() != null) {
-            navigation = new NavigationFacade();
-
             final List<LocationDecorator> output = new ArrayList<>();
             final List<LocationDecorator> filtered_output = new ArrayList<>();
 
