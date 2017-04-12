@@ -147,15 +147,16 @@ public class Astar implements Navigation{
     private double computeScore(Location curr, Location strt, Location end){
         double hscore = curr.lengthTo(end);
         double gscore = 0;
+        /*
         if ((HospitalData.getAllCategories().contains(curr.getCategory()))
                 && ((curr.getCategory().getCategory().equalsIgnoreCase("Elevator")
                     || curr.getCategory().getCategory().equalsIgnoreCase("Stairs"))
                     || curr.getCategory().getCategory().equalsIgnoreCase("Stair"))
                     || curr.getCategory().getCategory().equalsIgnoreCase("Elevators")) {
-            System.out.println("Elevator in admin!");
-            hscore += 1500;
-            gscore += 1500;
-        }
+            //System.out.println("Elevator in admin!");
+            hscore += 200;
+           // gscore += 1500;
+        } */
 
         Location itr = curr;
         Location parent = itr.getParent();
@@ -164,10 +165,18 @@ public class Astar implements Navigation{
                 gscore+= parent.lengthTo(itr);
                 itr = parent;
                 parent = itr.getParent();
+                if ((HospitalData.getAllCategories().contains(curr.getCategory()))
+                        && ((curr.getCategory().getCategory().equalsIgnoreCase("Elevator")
+                        || curr.getCategory().getCategory().equalsIgnoreCase("Stairs"))
+                        || curr.getCategory().getCategory().equalsIgnoreCase("Stair"))
+                        || curr.getCategory().getCategory().equalsIgnoreCase("Elevators")) {
+                    System.out.println("Elevator in admin!");
+                    hscore += 200;
+                    gscore += 1500;
+                }
             }
         }
         double score = hscore + gscore;
         return score;
     }
-
 }

@@ -492,7 +492,10 @@
  ******************************************************************************/
 
 .button {
-    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-color: #8dbad6;
+    -fx-shadow-highlight-color: #99c3dd;
+    -fx-outer-border: 1;
+    -fx-inner-border: 1;
     -fx-background-insets: 0 0 -1 0, 0, 1, 2;
     -fx-background-radius: 5, 5, 4, 3;
     -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
