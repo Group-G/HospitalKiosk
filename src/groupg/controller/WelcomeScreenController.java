@@ -63,7 +63,7 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private TitledPane wareaPane, bathPane, hdeskPane, exitPane, docPane, officePane;
     @FXML
-    private ListView<Location> waitAreaLV, bathroomLV, helpDeskLV, exitsLV, doctorLV, officeLV;
+    private ListView<Location> waitAreaLV, bathroomLV, ServicesLV, exitsLV, doctorLV, officeLV;
     @FXML
     private TabPane tabPane;
     private Tab selectedTab;
@@ -129,11 +129,6 @@ public class WelcomeScreenController implements Initializable {
                 newScale.setX(zoomGroup.getScaleX() * zoom_fac);
                 newScale.setY(zoomGroup.getScaleY() * zoom_fac);
                 zoomGroup.getTransforms().add(newScale);
-
-                System.out.println("the pane hight is" + pane.getHeight());
-                System.out.println("the pane width is" + pane.getWidth());
-                System.out.println("the zoomgroup hight is" + zoomGroup);
-                System.out.println("the zoomgroup width is" + zoomGroup.getScaleY());
                 e.consume();
             }
         });
@@ -179,11 +174,11 @@ public class WelcomeScreenController implements Initializable {
                 endField.setCurrentSelection(bathroomLV.getSelectionModel().getSelectedItem());
         });
 
-        helpDeskLV.getItems().addAll(HospitalData.getLocationsByCategory("Help Desk"));
-        helpDeskLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        helpDeskLV.setOnMouseClicked((MouseEvent event) -> {
+        ServicesLV.getItems().addAll(HospitalData.getLocationsByCategory("Services"));
+        ServicesLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        ServicesLV.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2)
-                endField.setCurrentSelection(helpDeskLV.getSelectionModel().getSelectedItem());
+                endField.setCurrentSelection(ServicesLV.getSelectionModel().getSelectedItem());
         });
 
         exitsLV.getItems().addAll(HospitalData.getLocationsByCategory("Exit"));
@@ -552,7 +547,7 @@ public class WelcomeScreenController implements Initializable {
         searchBtn.setText("Search");
         wareaPane.setText("Waiting Areas");
         bathPane.setText("Bathrooms");
-        hdeskPane.setText("Help Desks");
+        hdeskPane.setText("Services");
         exitPane.setText("Exits");
         docPane.setText("Doctors");
         language.setText("Language");
@@ -570,7 +565,7 @@ public class WelcomeScreenController implements Initializable {
         searchBtn.setText("Busca");
         wareaPane.setText("Área de Espera");
         bathPane.setText("Baño");
-        hdeskPane.setText("Mesa de Ayuda");
+        hdeskPane.setText("Servicios");
         exitPane.setText("Salidas");
         docPane.setText("Doctores");
         language.setText("Idiomas");
@@ -588,7 +583,7 @@ public class WelcomeScreenController implements Initializable {
         searchBtn.setText("Busca");
         wareaPane.setText("Área de Espera");
         bathPane.setText("Banheiro");
-        hdeskPane.setText("Central de Ajuda");
+        hdeskPane.setText("Serviços");
         exitPane.setText("Saída");
         docPane.setText("Médicos");
         language.setText("Línguas");
@@ -607,7 +602,7 @@ public class WelcomeScreenController implements Initializable {
         searchBtn.setText("搜查");
         wareaPane.setText("等候区");
         bathPane.setText("盥洗室");
-        hdeskPane.setText("帮助台");
+        hdeskPane.setText("服务");
         exitPane.setText("紧急出口");
         docPane.setText("医生");
         language.setText("语");
