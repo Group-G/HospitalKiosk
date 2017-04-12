@@ -16,7 +16,6 @@ public class HospitalData {
     private static List<Person> peopleList = new ArrayList<>();
     private static List<Admin> adminList = new ArrayList<>();
     private static JavaDBExample dbExample;
-    private static String[] login = new String[2];
 
     //Values for TRACKIDS
     private static int LOCATION_NEW;
@@ -28,8 +27,7 @@ public class HospitalData {
 
 
     public HospitalData(JavaDBExample dbExample) {
-        login[0] = "admin";
-        login[1] = "guest";
+
         this.dbExample = dbExample;
         if(pullDataFromDB()) {
             System.out.println("Successfully pulled data from DB");
