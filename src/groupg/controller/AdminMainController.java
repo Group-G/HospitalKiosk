@@ -1,5 +1,6 @@
 package groupg.controller;
 
+import groupg.algorithm.NavigationAlgorithm;
 import groupg.database.Floor;
 import groupg.database.HospitalData;
 import groupg.jfx.*;
@@ -28,11 +29,13 @@ import java.util.stream.Collectors;
  */
 public class AdminMainController implements Initializable {
     @FXML
-    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn;
+    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, editAlgorithm;
     @FXML
     private TabPane tabPane;
     @FXML
     private GridPane canvasWrapper;
+    @FXML
+    private MenuButton changeAlgorithmDD;
     public static Pane imageViewPane, nodeOverlay, lineOverlay, infoOverlay;
     public static ObservableList<UniqueNode> displayedNodes = FXCollections.observableArrayList();
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
@@ -40,6 +43,7 @@ public class AdminMainController implements Initializable {
     private ImageView imageView;
     private static Floor currentFloor;
     private static Tab selectedTab;
+    public static NavigationAlgorithm selectedAlgorithm;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -115,6 +119,16 @@ public class AdminMainController implements Initializable {
                 event.consume();
         });
         canvasWrapper.getChildren().addAll(pane, infoOverlay);
+
+        //Default algorithm
+        if (selectedAlgorithm == null)
+            selectedAlgorithm = NavigationAlgorithm.A_STAR;
+
+        for (NavigationAlgorithm val : NavigationAlgorithm.values()) {
+            MenuItem item = new MenuItem(val.toString());
+            item.setOnAction(actionEvent -> selectedAlgorithm = val);
+            changeAlgorithmDD.getItems().add(item);
+        }
     }
 
     /**
@@ -189,5 +203,8 @@ public class AdminMainController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void onChangeAlgorithm(ActionEvent actionEvent) {
     }
 }

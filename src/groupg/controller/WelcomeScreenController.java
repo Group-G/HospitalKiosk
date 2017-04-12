@@ -1,6 +1,7 @@
 
 package groupg.controller;
 
+import groupg.algorithm.NavigationAlgorithm;
 import groupg.algorithm.NavigationFacade;
 import groupg.database.EmptyLocation;
 import groupg.database.HospitalData;
@@ -24,7 +25,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -207,23 +207,15 @@ public class WelcomeScreenController implements Initializable {
 
         drawPath();
 
-        dirList.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
-            @Override
-            public ListCell<String> call(final ListView<String> list) {
-                return new ListCell<String>() {
-                    {
-                        Text text = new Text();
-                        text.wrappingWidthProperty().bind(list.widthProperty().subtract(15));
-                        text.textProperty().bind(itemProperty());
-
-                        setPrefWidth(0);
-                        setGraphic(text);
-                    }
-                };
+        dirList.setCellFactory(list -> new ListCell<String>() {
+            {
+                Text text = new Text();
+                text.wrappingWidthProperty().bind(list.widthProperty().subtract(15));
+                text.textProperty().bind(itemProperty());
+                setPrefWidth(0);
+                setGraphic(text);
             }
         });
-
-
     }
 
     private void drawPath() {
@@ -231,7 +223,22 @@ public class WelcomeScreenController implements Initializable {
             navigation = new NavigationFacade();
 
             List<LocationDecorator> output = new ArrayList<>();
-            output.addAll(navigation.runAstar(startField.getCurrentSelection(), endField.getCurrentSelection()));
+
+            //Default algorithm
+            if (AdminMainController.selectedAlgorithm == null)
+                AdminMainController.selectedAlgorithm = NavigationAlgorithm.A_STAR;
+
+            //Use proper algorithm
+            switch (AdminMainController.selectedAlgorithm) {
+                case A_STAR:
+                    output.addAll(navigation.runAstar(startField.getCurrentSelection(), endField.getCurrentSelection()));
+                    break;
+
+                case DEPTH_FIRST:
+                    output.addAll(navigation.runDepthFirst(startField.getCurrentSelection(), endField.getCurrentSelection()));
+                    break;
+            }
+
             //Filter out locations not on this floor
             try {
                 output = output.stream()
