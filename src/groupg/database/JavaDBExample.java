@@ -322,9 +322,9 @@ public class JavaDBExample
             //INSERT ADMIN
             //FORMAT
             //(ADMIN_ID int, ADMIN_UN char(20), ADMIN_PW char(20))
-            stmt.execute("INSERT INTO ADMINS VALUES " +
-                    "('admin', 'guest'), " +
-                    "('sjcomeau', 'sjc')");
+//            stmt.execute("INSERT INTO ADMINS VALUES " +
+//                    "('admin', 'guest'), " +
+//                    "('sjcomeau', 'sjc')");
 
             //INSERT CATEGORY
             //FORMAT

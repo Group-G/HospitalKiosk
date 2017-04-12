@@ -1,15 +1,28 @@
 package groupg.database;
 
+import javafx.application.HostServices;
+
+import java.math.BigInteger;
+
 /**
  * Created by Sammy on 4/8/2017.
  */
 public class Admin {
     private String username;
     private String password;
+    private BigInteger hashed;
+
 
     public Admin(String username, String password){
         this.username = username;
         this.password = password;
+
+        byte[] bytes = this.password.getBytes();
+        BigInteger m = new BigInteger(bytes);
+        this.hashed = m.modPow(HospitalData.key.publicKey, HospitalData.key.modulus);
+
+        System.out.println(this.hashed);
+
     }
 
     public String getUsername(){
@@ -23,4 +36,20 @@ public class Admin {
     public String getPassword() {
         return this.password;
     }
+
+    public Boolean login(String pw){
+        if(this.password.equals(pw)){
+            return true;
+        }
+        return false;
+    }
+
+    public String getSQL(){
+        return "(\'" + this.username + "\', \'" + this.hashed + "\')";
+    }
+
+
+
 }
+
+

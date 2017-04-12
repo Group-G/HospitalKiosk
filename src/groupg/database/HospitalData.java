@@ -23,6 +23,8 @@ public class HospitalData {
     private static int BUILDING_NEW;
     private static int FLOOR_NEW;
     private static int dbStrLength = 40;
+
+    public static RSA key = new RSA(1024);
 //    public s
 
 
@@ -34,6 +36,8 @@ public class HospitalData {
         } else {
             System.out.println("Failed to pull data from DB");
         }
+
+        addAdmin(new Admin("admin", "guest"));
     }
 
     public static List<Building> getAllBuildings() {
@@ -193,7 +197,7 @@ public class HospitalData {
             {
                 admin = admin + ",";
             }
-            admin = admin + "(\'" + adminList.get(i).getUsername() + "\', \'" + adminList.get(i).getPassword() + "\')";
+            admin = admin + adminList.get(i).getSQL();
         }
         System.out.println("Admins: " + admin);
 
@@ -354,6 +358,14 @@ public class HospitalData {
         else{
             f.addLocation(l);
         }
+    }
+
+    /**
+     * Adds admin to db
+     * @param a
+     */
+    private static void addAdmin(Admin a) {
+        adminList.add(a);
     }
 
 
