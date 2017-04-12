@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TitledPane?>
@@ -22,14 +16,13 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1262.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.WelcomeScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1262.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.WelcomeScreenController">
    <children>
       <HBox alignment="CENTER" layoutX="-1.0" layoutY="2.0" prefHeight="100.0" prefWidth="1261.0" spacing="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -177,17 +170,7 @@
             </VBox>
             <StackPane HBox.hgrow="ALWAYS">
                <children>
-                  <TabPane fx:id="tabPane" prefHeight="581.0" prefWidth="886.0" tabClosingPolicy="UNAVAILABLE">
-                    <tabs>
-                      <Tab fx:id="fl1" onSelectionChanged="#onFloor1" text="Floor 1" />
-                      <Tab fx:id="fl2" onSelectionChanged="#onFloor2" text="Floor 2" />
-                        <Tab fx:id="fl3" onSelectionChanged="#onFloor3" text="Floor 3" />
-                        <Tab fx:id="fl4" onSelectionChanged="#onFloor4" text="Floor 4" />
-                        <Tab fx:id="fl5" onSelectionChanged="#onFloor5" text="Floor 5" />
-                        <Tab fx:id="fl6" onSelectionChanged="#onFloor6" text="Floor 6" />
-                        <Tab fx:id="fl7" onSelectionChanged="#onFloor7" text="Floor 7" />
-                    </tabs>
-                  </TabPane>
+                  <TabPane fx:id="tabPane" prefHeight="581.0" prefWidth="886.0" tabClosingPolicy="UNAVAILABLE" />
                   <GridPane fx:id="canvasWrapper">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

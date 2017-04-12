@@ -66,8 +66,6 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private ListView<Location> waitAreaLV, bathroomLV, helpDeskLV, exitsLV, doctorLV, officeLV;
     @FXML
-    private Tab fl1, fl2, fl3, fl4, fl5, fl6, fl7;
-    @FXML
     private TabPane tabPane;
     private Tab selectedTab;
     private String lang = "Eng";
@@ -124,6 +122,14 @@ public class WelcomeScreenController implements Initializable {
         });
         canvasWrapper.getChildren().addAll(pane);
 
+        HospitalData.getAllFloors().forEach(floor -> {
+            Tab tab = new Tab(floor.getFloorNum());
+            tab.setOnSelectionChanged(event -> {
+                imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename()));
+            });
+            tabPane.getTabs().add(tab);
+        });
+
         //Listener for tab selection change
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             selectedTab = newTab;
@@ -134,6 +140,9 @@ public class WelcomeScreenController implements Initializable {
                                                                                                     .collect(Collectors.toList())));
             lineOverlay.getChildren().setAll(displayedLines);
         });
+
+        //Default selected tab
+        selectedTab = tabPane.getSelectionModel().getSelectedItem();
 
         //Add locations from DB
         locations.addAll(HospitalData.getAllLocations());
@@ -509,13 +518,13 @@ public class WelcomeScreenController implements Initializable {
         exitPane.setText("Exits");
         docPane.setText("Doctors");
         language.setText("Language");
-        fl1.setText("Floor 1");
-        fl2.setText("Floor 2");
-        fl3.setText("Floor 3");
-        fl4.setText("Floor 4");
-        fl5.setText("Floor 5");
-        fl6.setText("Floor 6");
-        fl7.setText("Floor 7");
+//        fl1.setText("Floor 1");
+//        fl2.setText("Floor 2");
+//        fl3.setText("Floor 3");
+//        fl4.setText("Floor 4");
+//        fl5.setText("Floor 5");
+//        fl6.setText("Floor 6");
+//        fl7.setText("Floor 7");
         dirList.setText("Please Enter a Starting and Ending Location to obtain directions");
     }
 
@@ -533,13 +542,13 @@ public class WelcomeScreenController implements Initializable {
         exitPane.setText("Salidas");
         docPane.setText("Doctores");
         language.setText("Idiomas");
-        fl1.setText("Piso 1");
-        fl2.setText("Piso 2");
-        fl3.setText("Piso 3");
-        fl4.setText("Piso 4");
-        fl5.setText("Piso 5");
-        fl6.setText("Piso 6");
-        fl7.setText("Piso 7");
+//        fl1.setText("Piso 1");
+//        fl2.setText("Piso 2");
+//        fl3.setText("Piso 3");
+//        fl4.setText("Piso 4");
+//        fl5.setText("Piso 5");
+//        fl6.setText("Piso 6");
+//        fl7.setText("Piso 7");
         dirList.setText("Por favor, ingrese una ubicación inicial y final para obtener direcciones");
     }
 
@@ -557,13 +566,13 @@ public class WelcomeScreenController implements Initializable {
         exitPane.setText("Saída");
         docPane.setText("Médicos");
         language.setText("Línguas");
-        fl1.setText("Andar 1");
-        fl2.setText("Andar 2");
-        fl3.setText("Andar 3");
-        fl4.setText("Andar 4");
-        fl5.setText("Andar 5");
-        fl6.setText("Andar 6");
-        fl7.setText("Andar 7");
+//        fl1.setText("Andar 1");
+//        fl2.setText("Andar 2");
+//        fl3.setText("Andar 3");
+//        fl4.setText("Andar 4");
+//        fl5.setText("Andar 5");
+//        fl6.setText("Andar 6");
+//        fl7.setText("Andar 7");
         dirList.setText("Insira um local inicial e final para obter instruções");
 
     }
@@ -582,13 +591,13 @@ public class WelcomeScreenController implements Initializable {
         exitPane.setText("紧急出口");
         docPane.setText("医生");
         language.setText("语");
-        fl1.setText("1楼");
-        fl2.setText("2楼");
-        fl3.setText("3楼");
-        fl4.setText("4楼");
-        fl5.setText("5楼");
-        fl6.setText("6楼");
-        fl7.setText("7楼");
+//        fl1.setText("1楼");
+//        fl2.setText("2楼");
+//        fl3.setText("3楼");
+//        fl4.setText("4楼");
+//        fl5.setText("5楼");
+//        fl6.setText("6楼");
+//        fl7.setText("7楼");
         dirList.setText("请输入开始和结束位置以获取路线");
 
     }
