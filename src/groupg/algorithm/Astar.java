@@ -146,7 +146,7 @@ public class Astar implements Navigation{
      */
     private double computeScore(Location curr, Location strt, Location end){
         double hscore = curr.lengthTo(end);
-
+        double gscore = 0;
         if ((HospitalData.getAllCategories().contains(curr.getCategory()))
                 && ((curr.getCategory().getCategory().equalsIgnoreCase("Elevator")
                     || curr.getCategory().getCategory().equalsIgnoreCase("Stairs"))
@@ -154,8 +154,9 @@ public class Astar implements Navigation{
                     || curr.getCategory().getCategory().equalsIgnoreCase("Elevators")) {
             System.out.println("Elevator in admin!");
             hscore += 1500;
+            gscore += 1500;
         }
-        double gscore = 0;
+
         Location itr = curr;
         Location parent = itr.getParent();
         if(!(parent == null)){
