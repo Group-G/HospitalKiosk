@@ -18,10 +18,12 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Scale;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -120,6 +122,21 @@ public class WelcomeScreenController implements Initializable {
                 !(event.getButton() == MouseButton.PRIMARY && event.isControlDown()))
                 event.consume();
         });
+
+        pane.addEventFilter(ScrollEvent.SCROLL, e -> {
+            if (e.isAltDown()) {
+                double zoom_fac = 1.05;
+                double delta_y = e.getDeltaY();
+                        if(delta_y < 0) {
+                    zoom_fac = 2.0 - zoom_fac;
+                    }
+                        Scale newScale = new Scale();
+                newScale.setX( zoomGroup.getScaleX() * zoom_fac );
+                newScale.setY( zoomGroup.getScaleY() * zoom_fac );
+                zoomGroup.getTransforms().add(newScale);
+                e.consume();
+            }
+                    });
         canvasWrapper.getChildren().addAll(pane);
 
         //Listener for tab selection change
@@ -360,47 +377,47 @@ public class WelcomeScreenController implements Initializable {
         }
         if (turn > 22.5 && turn <= 45 + 22.5) {
             if (lang.equals("Eng")) {
-                return "take slight right \n";
+                return "take slight right";
             } else if (lang.equals("Span")) {
-                return "Tomar ligeramente a la derecha \n";
+                return "Tomar ligeramente a la derecha";
             } else if (lang.equals("Port")) {
-                return "Leve ligeiramente à direita \n";
+                return "Leve ligeiramente à direita";
             } else if (lang.equals("Chin")) {
-                return "采取轻微的权利 \n";
+                return "采取轻微的权利";
             }
             return "take slight right \n";
         }
         if (turn > 45 + 22.5 && turn <= 90 + 22.5) {
             if (lang.equals("Eng")) {
-                return "go straight \n";
+                return "go straight";
             } else if (lang.equals("Span")) {
-                return "ir directamente \n";
+                return "ir directamente";
             } else if (lang.equals("Port")) {
-                return "Siga em frente \n";
+                return "Siga em frente";
             } else if (lang.equals("Chin")) {
-                return "笔直走 \n";
+                return "笔直走";
             }
             return "go straight \n";
         }
         if (turn > 90 + 22.5 && turn <= 135 + 22.5) {
             if (lang.equals("Eng")) {
-                return "take slight left \n";
+                return "take slight left";
             } else if (lang.equals("Span")) {
-                return "Tomar ligeramente a la izquierda \n";
+                return "Tomar ligeramente a la izquierda";
             } else if (lang.equals("Port")) {
-                return "Leve ligeiramente à esquerda \n";
+                return "Leve ligeiramente à esquerda";
             } else if (lang.equals("Chin")) {
-                return "轻轻一点 \n";
+                return "轻轻一点";
             }
-            return "take slight left \n";
+            return "take slight left";
         }
         if (turn > 135 + 22.5 && turn <= 180 + 22.5) {
             if (lang.equals("Eng")) {
-                return "take left \n";
+                return "take left";
             } else if (lang.equals("Span")) {
-                return "gire a la izquierda \n";
+                return "gire a la izquierda";
             } else if (lang.equals("Port")) {
-                return "Pegue a esquerda \n";
+                return "Pegue a esquerda";
             } else if (lang.equals("Chin")) {
                 return "拿左 \n";
             }
@@ -408,11 +425,11 @@ public class WelcomeScreenController implements Initializable {
         }
         if (turn > 180 + 22.5 && turn <= 225 + 22.5) {
             if (lang.equals("Eng")) {
-                return "back and slight left \n";
+                return "back and slight left";
             } else if (lang.equals("Span")) {
-                return "Atrás e izquierda ligera \n";
+                return "Atrás e izquierda ligera";
             } else if (lang.equals("Port")) {
-                return "Costas e esquerda ligeira \n";
+                return "Costas e esquerda ligeira";
             } else if (lang.equals("Chin")) {
                 return "背部和轻微的左 \n";
             }
@@ -420,11 +437,11 @@ public class WelcomeScreenController implements Initializable {
         }
         if (turn > 225 + 22.5 && turn <= 270 + 22.5) {
             if (lang.equals("Eng")) {
-                return "go backwards \n";
+                return "go backwards";
             } else if (lang.equals("Span")) {
-                return "dar marcha atrás \n";
+                return "dar marcha atrás";
             } else if (lang.equals("Port")) {
-                return "ir para trás \n";
+                return "ir para trás";
             } else if (lang.equals("Chin")) {
                 return "倒退 \n";
             }
@@ -432,18 +449,18 @@ public class WelcomeScreenController implements Initializable {
         }
         if (turn > 270 + 22.5 && turn <= 315 + 22.5) {
             if (lang.equals("Eng")) {
-                return "back and slight right \n";
+                return "back and slight right";
             } else if (lang.equals("Span")) {
-                return "Atrás y ligero derecho \n";
+                return "Atrás y ligero derecho";
             } else if (lang.equals("Port")) {
-                return "Costas e ligeira direita \n";
+                return "Costas e ligeira direita";
             } else if (lang.equals("Chin")) {
-                return "回来和轻微的权利 \n";
+                return "回来和轻微的权利";
             }
-            return "back and slight right \n";
+            return "back and slight right";
         }
         // should never reach here
-        return "i dont know which direciotn you should go please seek help imediatly!!!! \n";
+        return "i dont know which direciotn you should go please seek help imediatly!!!!";
     }
 
     private double getAngle(Location curNode, Location nextNode) {

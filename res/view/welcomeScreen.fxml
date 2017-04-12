@@ -212,9 +212,6 @@
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
-                     <padding>
-                        <Insets top="20.0" />
-                     </padding>
                   </ListView>
                </children>
                <padding>
