@@ -104,7 +104,7 @@ public class AdminMainController implements Initializable {
         displayedPanels.add(new PropertyDisplay());
 
         //Add layers
-        Group zoomGroup = new Group(imageView, nodeOverlay, lineOverlay);
+        Group zoomGroup = new Group(imageView, lineOverlay, nodeOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
