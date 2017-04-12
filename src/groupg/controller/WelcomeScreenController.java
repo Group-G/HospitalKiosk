@@ -82,7 +82,6 @@ public class WelcomeScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         Pane imageViewPane = new Pane();
         imageViewPane.setPickOnBounds(true);
         lineOverlay = new Pane();

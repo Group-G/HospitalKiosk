@@ -76,7 +76,6 @@ public class AutoCompleteTextField extends TextField {
 
             menuItems.add(item);
         }
-
         entriesPopup.getItems().clear();
         entriesPopup.getItems().addAll(menuItems);
     }

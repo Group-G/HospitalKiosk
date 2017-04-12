@@ -148,8 +148,10 @@ public class Astar implements Navigation{
 
         if ((HospitalData.getAllCategories().contains(curr.getCategory()))
                 && ((curr.getCategory().getCategory().equalsIgnoreCase("Elevator")
-                    || curr.getCategory().getCategory().equalsIgnoreCase("Stairs")))) {
-            hscore += 200;
+                    || curr.getCategory().getCategory().equalsIgnoreCase("Stairs"))
+                    || curr.getCategory().getCategory().equalsIgnoreCase("Stair"))
+                    || curr.getCategory().getCategory().equalsIgnoreCase("Elevators")) {
+            hscore += 700;
         }
         double gscore = 0;
         Location itr = curr;

@@ -2728,11 +2728,10 @@
     -fx-effect: innershadow(two-pass-box , rgba(0,0,0,0.6) , 4, 0.0 , 0 , 0);
 }
 
-/*.tab-pane *.tab-header-area {*/
-    /* I would like to use -fx-tab-border-color here, but for some reason it */
-    /* just isn't the correct color, even though it works in :top above */
-/*    -fx-background-color: -fx-tab-border-color, lightgray;*/
-/*}*/
+.tab-pane *.tab-header-background {
+    -fx-background-color: -fx-outer-border, -fx-inner-border, derive(-fx-color, -20%);
+    -fx-effect: innershadow(two-pass-box , rgba(0,0,0,0.6) , 4, 0.0 , 0 , 0);
+}
 
 .tab-pane:top > .tab-header-area {
     -fx-background-insets: 0, 0 0 1 0;
@@ -4286,4 +4285,9 @@ to the top and bottom -fx-padding values of the parent toolbar. */
 
 .canvoos{
     -fx-background: url('https://danmcdonough.000webhostapp.com/bg.png');
+}
+
+.tab-pane *.tab-header-background {
+    -fx-background-color: #0000000;
+    -fx-effect: innershadow(two-pass-box , rgba(0,0,0,0.6) , 4, 0.0 , 0 , 0);
 }
