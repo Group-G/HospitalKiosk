@@ -177,7 +177,7 @@ public class WelcomeScreenController implements Initializable {
                 endField.setCurrentSelection(bathroomLV.getSelectionModel().getSelectedItem());
         });
 
-        ServicesLV.getItems().addAll(HospitalData.getLocationsByCategory("Services"));
+        ServicesLV.getItems().addAll(HospitalData.getLocationsByCategory("Service"));
         ServicesLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         ServicesLV.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2)
@@ -221,6 +221,7 @@ public class WelcomeScreenController implements Initializable {
             navigation = new NavigationFacade();
 
             final List<LocationDecorator> output = new ArrayList<>();
+            final List<LocationDecorator> filtered_output = new ArrayList<>();
 
             //Default algorithm
             if (AdminMainController.selectedAlgorithm == null)
@@ -236,7 +237,15 @@ public class WelcomeScreenController implements Initializable {
                     output.addAll(navigation.runDepthFirst(startField.getCurrentSelection(), endField.getCurrentSelection()));
                     break;
             }
-            generateTextDirections(output.stream()
+            int startfloorID = startField.getCurrentSelection().getFloorID();
+            int endfloorID = endField.getCurrentSelection().getFloorID();
+            output.forEach(e -> {
+                if (e.getFloorObj().getID() == startfloorID || e.getFloorObj().getID() == endfloorID){
+                    filtered_output.add(e);
+                }
+            });
+
+            generateTextDirections(filtered_output.stream()
                     .map(elem -> (Location) elem)
                     .collect(Collectors.toList()));
             //Filter out locations not on this floor
@@ -244,7 +253,7 @@ public class WelcomeScreenController implements Initializable {
                 //Highlight tabs with paths
                 tabPane.getTabs().parallelStream().forEach(elem -> {
                     elem.setStyle("");
-                    if (output.parallelStream()
+                    if (filtered_output.parallelStream()
                               .map(item -> item.getFloorObj().getFloorNum())
                               .collect(Collectors.toList())
                               .contains(elem.getText())) {
@@ -253,13 +262,13 @@ public class WelcomeScreenController implements Initializable {
                 });
 
                 //Filter output based on current tab
-                List<LocationDecorator> tempList = output.stream()
+                List<LocationDecorator> tempList = filtered_output.stream()
                                                          .filter(elem -> elem.getFloorObj().getFloorNum().equals(selectedTab.getText()))
                                                          .collect(Collectors.toList());
 
                 //Move filtered items back
-                output.clear();
-                output.addAll(tempList);
+                filtered_output.clear();
+                filtered_output.addAll(tempList);
 //                for (int i = 0; i < tempList.size(); i++) {
 //                    output.set(i, tempList.get(i));
 //                }
@@ -267,7 +276,7 @@ public class WelcomeScreenController implements Initializable {
                 System.out.println("nullptr while filtering to draw");
             }
             displayedLines.clear();
-            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(output.stream()
+            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(filtered_output.stream()
                                                                                                 .map(elem -> (Location) elem)
                                                                                                 .collect(Collectors.toList())));
             lineOverlay.getChildren().setAll(displayedLines);
