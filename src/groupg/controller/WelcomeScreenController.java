@@ -18,10 +18,12 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Scale;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -118,6 +120,21 @@ public class WelcomeScreenController implements Initializable {
                 !(event.getButton() == MouseButton.PRIMARY && event.isControlDown()))
                 event.consume();
         });
+
+        pane.addEventFilter(ScrollEvent.SCROLL, e -> {
+            if (e.isAltDown()) {
+                double zoom_fac = 1.05;
+                double delta_y = e.getDeltaY();
+                        if(delta_y < 0) {
+                    zoom_fac = 2.0 - zoom_fac;
+                    }
+                        Scale newScale = new Scale();
+                newScale.setX( zoomGroup.getScaleX() * zoom_fac );
+                newScale.setY( zoomGroup.getScaleY() * zoom_fac );
+                zoomGroup.getTransforms().add(newScale);
+                e.consume();
+            }
+                    });
         canvasWrapper.getChildren().addAll(pane);
 
         HospitalData.getAllFloors().forEach(floor -> {
