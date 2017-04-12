@@ -13,7 +13,7 @@ public class DepthFirst implements Navigation{
     LinkedList<Location> locations = new LinkedList<>();
     LinkedList<Location> searched = new LinkedList<>();
 
-    DepthFirst(List<Location> loc){
+    public DepthFirst(List<Location> loc){
         locations = new LinkedList<>();
         locations.addAll(loc);
     }
@@ -36,6 +36,7 @@ public class DepthFirst implements Navigation{
         searched.clear();
         searched.add(start);
         if(isReachable(start, end)){
+            path.addFirst(start);
             return path;
         }
         else return new LinkedList<>();
@@ -50,6 +51,7 @@ public class DepthFirst implements Navigation{
             if (!searched.contains(neighbor)){
                 if(isReachable(neighbor, goal)){
                     path.addFirst(neighbor);
+                    return true;
                 }
             }
         }

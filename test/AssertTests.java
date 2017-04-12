@@ -1,4 +1,15 @@
+import groupg.algorithm.Astar;
+import groupg.algorithm.DepthFirst;
+import groupg.algorithm.Navigation;
+import groupg.algorithm.NavigationFacade;
+import groupg.database.Category;
+import groupg.database.HospitalData;
+import groupg.database.Location;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,8 +29,38 @@ public class AssertTests
 
     @Test
     public void astarTest1() {
-
+        LinkedList<Location> locations = new LinkedList<>();
+        List<Location> neighbs= new ArrayList<>();
+        Category catA = new Category("Hall", 0);
+        Category catB = new Category("Room", 1);
+        Location A = new Location("A", 200, 250, neighbs, catA, 0,1,1,1);
+        Location B = new Location("B", 300, 450, neighbs, catB, 0,2,1,1);
+        A.addNeighbor(B);
+        B.addNeighbor(A);
+        locations.add(A);
+        locations.add(B);
+        Astar nav = new Astar(locations);
+        assertEquals(locations, nav.run(A,B));
     }
+
+    @Test
+    public void depthTest1(){
+        LinkedList<Location> locations = new LinkedList<>();
+        List<Location> neighbs= new ArrayList<>();
+        Category catA = new Category("Hall", 0);
+        Category catB = new Category("Room", 1);
+        Location A = new Location("A", 200, 250, neighbs, catA, 0,1,1,1);
+        Location B = new Location("B", 300, 450, neighbs, catB, 0,2,1,1);
+        A.addNeighbor(B);
+        B.addNeighbor(A);
+        locations.add(A);
+        locations.add(B);
+        DepthFirst depthtest = new DepthFirst(locations);
+        assertEquals(locations, depthtest.run(A,B));
+    }
+
+
+}
 
 
 //    @Test
@@ -97,4 +138,4 @@ public class AssertTests
 //        locations.add(location3);
 //        Astar astar = new Astar(locations);
 //    }
-}
+
