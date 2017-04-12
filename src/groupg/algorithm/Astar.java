@@ -1,5 +1,6 @@
 package groupg.algorithm;
 
+import groupg.database.HospitalData;
 import groupg.database.Location;
 
 import java.util.LinkedList;
@@ -144,6 +145,12 @@ public class Astar implements Navigation{
      */
     private double computeScore(Location curr, Location strt, Location end){
         double hscore = curr.lengthTo(end);
+
+        if ((HospitalData.getAllCategories().contains(curr.getCategory()))
+                && ((curr.getCategory().getCategory().equalsIgnoreCase("Elevator")
+                    || curr.getCategory().getCategory().equalsIgnoreCase("Stairs")))) {
+            hscore += 200;
+        }
         double gscore = 0;
         Location itr = curr;
         Location parent = itr.getParent();
