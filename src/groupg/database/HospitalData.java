@@ -203,7 +203,6 @@ public class HospitalData {
         trackID_push = "(" + LOCATION_NEW + ", " + PERSONELLE_NEW + ", " + BUILDING_NEW + ", " + FLOOR_NEW + ")";
         System.out.println("Track IDS: " + trackID_push);
 
-        dbExample.createTables();
         dbExample.fillTable(locations, people, offices, floors, building, connections, admin, cat, trackID_push);
         return true;
     }
@@ -606,6 +605,7 @@ public class HospitalData {
         return BUILDING_NEW;
     }
 
+    @SuppressWarnings("public")
     public static int getNewFloorID(){
         FLOOR_NEW++;
         for(Floor f :getAllFloors()){
@@ -621,7 +621,6 @@ public class HospitalData {
     }
 
 
-    /***************************************************************************/
     /**
      * pullBuildings
      * @param stmt SQL Statement
@@ -684,7 +683,7 @@ public class HospitalData {
 //            System.out.println();
 
 
-            int floorId = -1, buildingId = -1, floorNum = -1;
+            int floorId = -1, buildingId = -1;
             String floorNumber = "FAILED TO PULL", fileName = "FAILED TO PULL";
 
             while (floors.next()) {
@@ -823,8 +822,7 @@ public class HospitalData {
             int roomColumns = roomDataset.getColumnCount();
 
             int id = -1;
-            String title = "FAILED TO PULL", name = "FAILED TO PULL",
-                    office = "FAILED TO PULL";
+            String title = "FAILED TO PULL", name = "FAILED TO PULL";
 
 
             while (people.next()) {
@@ -836,8 +834,6 @@ public class HospitalData {
                         title = people.getString(j);
                     } else if (roomDataset.getColumnName(j).equals("PERSONELLE_NAME")) {
                         name = people.getString(j);
-                    } else if (roomDataset.getColumnName(j).equals("OFFICE_NUMBER")) {
-                        office = people.getString(j);
                     } else {
                         System.out.println("Could not place " + people.getString(j) + ", " + roomDataset.getColumnName(j));
                     }
@@ -986,8 +982,6 @@ public class HospitalData {
                         BUILDING_NEW = Integer.parseInt(cats.getString(j));
                     } else if (roomDataset.getColumnName(j).equals("FLOOR_ID")) {
                         FLOOR_NEW = Integer.parseInt(cats.getString(j));
-                    } else {
-                        //wut
                     }
 
                 }
@@ -1018,8 +1012,6 @@ public class HospitalData {
                         un = admins.getString(j);
                     } else if (roomDataset.getColumnName(j).equals("ADMIN_PW")) {
                         pw = admins.getString(j);
-                    } else {
-                        //doesnt exist
                     }
                 }
                 adminList.add(new Admin(un, pw));
