@@ -60,7 +60,7 @@ public class NodeListenerFactory {
                                        dialog.setContentText("Please enter a new name:");
                                        dialog.showAndWait()
                                              .filter(result -> !result.equals(""))
-                                             .ifPresent(result -> currentSelection.getLocation().setName(result));
+                                             .ifPresent(result -> currentSelection.getLocation().setName(result.substring(HospitalData.maxStringLength())));
 
                                        AdminMainController.updateNodePD();
                                    });
