@@ -8,6 +8,7 @@ import groupg.database.HospitalData;
 import groupg.database.Location;
 import groupg.database.LocationDecorator;
 import groupg.jfx.*;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -51,7 +52,6 @@ public class WelcomeScreenController implements Initializable {
     private AutoCompleteTextField startField, endField;
     private NavigationFacade navigation;
     private LinkedList<Location> locations = new LinkedList<>();
-
     @FXML
     private MenuButton language;
     @FXML
@@ -82,6 +82,7 @@ public class WelcomeScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
         Pane imageViewPane = new Pane();
         imageViewPane.setPickOnBounds(true);
         lineOverlay = new Pane();
@@ -307,7 +308,7 @@ public class WelcomeScreenController implements Initializable {
                     if (loc == locations.size() - 1) {
                         switch ( lang){
                             case "Eng":
-                                directions.add("you have reached your destination");
+                                directions.add("You have reached your destination");
                                 break;
                             case "Span":
                                 directions.add("Ten llegado a tu destino");
@@ -538,6 +539,9 @@ public class WelcomeScreenController implements Initializable {
         exitPane.setText("Exits");
         docPane.setText("Doctors");
         language.setText("Language");
+        ObservableList<String> directions = FXCollections.observableArrayList();
+        directions.add("Please enter a start and end location to display locations");
+        dirList.setItems(directions);
     }
 
     public void changelangS(ActionEvent actionEvent) {
@@ -553,6 +557,9 @@ public class WelcomeScreenController implements Initializable {
         exitPane.setText("Salidas");
         docPane.setText("Doctores");
         language.setText("Idiomas");
+        ObservableList<String> directions = FXCollections.observableArrayList();
+        directions.add("Por favor, ingrese una ubicación inicial y final");
+        dirList.setItems(directions);
     }
 
     public void changelangP(ActionEvent actionEvent) {
@@ -568,6 +575,10 @@ public class WelcomeScreenController implements Initializable {
         exitPane.setText("Saída");
         docPane.setText("Médicos");
         language.setText("Línguas");
+        ObservableList<String> directions = FXCollections.observableArrayList();
+        directions.add("Você chegou ao seu destino");
+        dirList.setItems(directions);
+
     }
 
     public void changelangC(ActionEvent actionEvent) {
@@ -583,5 +594,8 @@ public class WelcomeScreenController implements Initializable {
         exitPane.setText("紧急出口");
         docPane.setText("医生");
         language.setText("语");
+        ObservableList<String> directions = FXCollections.observableArrayList();
+        directions.add("请输入开始和结束位置以获取路线");
+        dirList.setItems(directions);
     }
 }
