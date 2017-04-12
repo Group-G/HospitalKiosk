@@ -16,7 +16,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 /**
  * @author Ryan Benasutti
@@ -38,6 +37,7 @@ public class EditIFCAddController implements Initializable {
         List<Location> toAdd = availConList.getSelectionModel().getSelectedItems();
         if (toAdd != null && toAdd.size() > 0) {
             location.addNeighbors(toAdd);
+            toAdd.forEach(elem -> elem.getNeighbors().add(location));
             curConList.getItems().addAll(toAdd);
             availConList.getItems().removeAll(toAdd);
         }
@@ -47,6 +47,7 @@ public class EditIFCAddController implements Initializable {
         List<Location> toRem = availConList.getSelectionModel().getSelectedItems();
         if (toRem != null && toRem.size() > 0) {
             location.removeNeighbors(toRem);
+            toRem.forEach(elem -> elem.getNeighbors().remove(location));
             availConList.getItems().addAll(toRem);
             curConList.getItems().removeAll(toRem);
         }
@@ -65,10 +66,10 @@ public class EditIFCAddController implements Initializable {
         titleVBox.getChildren().addAll(new Text(loc.getName()));
         curConList.getItems().setAll(loc.getNeighbors());
         List<Location> potential = new ArrayList<>();
-        potential.addAll(HospitalData.getLocationsByCategory("Elevator") //Filter out this location from potentials
-                                     .stream()
-                                     .filter(elem -> !elem.equals(loc))
-                                     .collect(Collectors.toList()));
+        potential.addAll(HospitalData.getLocationsByCategory("Elevator"));
+        potential.addAll(HospitalData.getLocationsByCategory("Stairs"));
+        potential.removeAll(loc.getNeighbors());
+        potential.remove(loc);
         availConList.getItems().setAll(potential);
     }
 }
