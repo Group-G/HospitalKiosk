@@ -30,6 +30,7 @@ import javafx.scene.transform.Scale;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -278,6 +279,8 @@ public class WelcomeScreenController implements Initializable {
     private void generateTextDirections(List<Location> locations) {
         ObservableList<String> directions = FXCollections.observableArrayList();
         boolean enterElivator = false;
+        boolean samepath = false;
+        boolean straight = false;
         System.out.println(locations.size());
             // if there is only 1 node in the list
             if (locations.size() < 2) {
@@ -336,13 +339,31 @@ public class WelcomeScreenController implements Initializable {
                                         || (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Stairs"))))
                                 {
                                     enterElivator = true;
-                                    directions.add("take " + locations.get(loc).getCategory().getCategory() + "to Floor" + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                    directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
                                 }
                                 // if this not an elevator or stair case
                                 else
                                 {
                                         enterElivator = false;
-                                        directions.add(getTurn(turn));
+                                        if(samepath == false && locations.get(loc).getNeighbors().stream().filter(elm -> elm.getCategory().getCategory().equalsIgnoreCase("Hall")).collect(Collectors.toList()).size() < 2){
+                                            directions.add("Continue on same path");
+                                            samepath = true;
+                                        }else {
+                                            samepath = false;
+                                            String turnD = getTurn(turn);
+                                            if ( straight == false && turnD == "Go straight") {
+                                                System.out.println("found 1 go straight");
+                                                straight = true;
+                                                directions.add(getTurn(turn));
+                                            } else {
+                                                if (turnD != "Go straight") {
+                                                    straight =false;
+                                                }
+                                            }
+                                            if (straight == false) {
+                                                directions.add(getTurn(turn));
+                                            }
+                                        }
                                 }
                             }
 
