@@ -30,6 +30,7 @@ import javafx.scene.transform.Scale;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -78,6 +79,8 @@ public class WelcomeScreenController implements Initializable {
         List<Location> kioskLocs = HospitalData.getLocationsByCategory("Kiosk");
         if (kioskLocs.size() > 0)
             startField.setCurrentSelection(kioskLocs.get(0));
+
+        navigation = new NavigationFacade();
     }
 
     @Override
@@ -146,6 +149,7 @@ public class WelcomeScreenController implements Initializable {
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             selectedTab = newTab;
             displayedLines.clear();
+            System.out.println(navigation.getPath().size());
             displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(navigation.getPath()
                                                                                                     .stream()
                                                                                                     .filter(elem -> elem.getFloorObj().getFloorNum().equals(newTab.getText()))
@@ -176,7 +180,7 @@ public class WelcomeScreenController implements Initializable {
                 endField.setCurrentSelection(bathroomLV.getSelectionModel().getSelectedItem());
         });
 
-        ServicesLV.getItems().addAll(HospitalData.getLocationsByCategory("Services"));
+        ServicesLV.getItems().addAll(HospitalData.getLocationsByCategory("Service"));
         ServicesLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         ServicesLV.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2)
@@ -217,9 +221,8 @@ public class WelcomeScreenController implements Initializable {
 
     private void drawPath() {
         if (startField.getCurrentSelection() != null && endField.getCurrentSelection() != null) {
-            navigation = new NavigationFacade();
-
             final List<LocationDecorator> output = new ArrayList<>();
+            final List<LocationDecorator> filtered_output = new ArrayList<>();
 
             //Default algorithm
             if (AdminMainController.selectedAlgorithm == null)
@@ -235,7 +238,15 @@ public class WelcomeScreenController implements Initializable {
                     output.addAll(navigation.runDepthFirst(startField.getCurrentSelection(), endField.getCurrentSelection()));
                     break;
             }
-            generateTextDirections(output.stream()
+            int startfloorID = startField.getCurrentSelection().getFloorID();
+            int endfloorID = endField.getCurrentSelection().getFloorID();
+            output.forEach(e -> {
+                //if (e.getFloorObj().getID() == startfloorID || e.getFloorObj().getID() == endfloorID){
+                    filtered_output.add(e);
+                //}
+            });
+
+            generateTextDirections(filtered_output.stream()
                     .map(elem -> (Location) elem)
                     .collect(Collectors.toList()));
             //Filter out locations not on this floor
@@ -243,7 +254,7 @@ public class WelcomeScreenController implements Initializable {
                 //Highlight tabs with paths
                 tabPane.getTabs().parallelStream().forEach(elem -> {
                     elem.setStyle("");
-                    if (output.parallelStream()
+                    if (filtered_output.parallelStream()
                               .map(item -> item.getFloorObj().getFloorNum())
                               .collect(Collectors.toList())
                               .contains(elem.getText())) {
@@ -252,13 +263,13 @@ public class WelcomeScreenController implements Initializable {
                 });
 
                 //Filter output based on current tab
-                List<LocationDecorator> tempList = output.stream()
+                List<LocationDecorator> tempList = filtered_output.stream()
                                                          .filter(elem -> elem.getFloorObj().getFloorNum().equals(selectedTab.getText()))
                                                          .collect(Collectors.toList());
 
                 //Move filtered items back
-                output.clear();
-                output.addAll(tempList);
+                filtered_output.clear();
+                filtered_output.addAll(tempList);
 //                for (int i = 0; i < tempList.size(); i++) {
 //                    output.set(i, tempList.get(i));
 //                }
@@ -266,7 +277,7 @@ public class WelcomeScreenController implements Initializable {
                 System.out.println("nullptr while filtering to draw");
             }
             displayedLines.clear();
-            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(output.stream()
+            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(filtered_output.stream()
                                                                                                 .map(elem -> (Location) elem)
                                                                                                 .collect(Collectors.toList())));
             lineOverlay.getChildren().setAll(displayedLines);
@@ -278,6 +289,8 @@ public class WelcomeScreenController implements Initializable {
     private void generateTextDirections(List<Location> locations) {
         ObservableList<String> directions = FXCollections.observableArrayList();
         boolean enterElivator = false;
+        boolean samepath = false;
+        boolean straight = false;
         System.out.println(locations.size());
             // if there is only 1 node in the list
             if (locations.size() < 2) {
@@ -330,19 +343,73 @@ public class WelcomeScreenController implements Initializable {
                             // as long as this isn't the first node
                             if (loc != 0) { //TODO change if we ever add start orientation
                                 // if this is an elevator or stair case
-                                if (enterElivator == false && HospitalData.getAllCategories().contains(locations.get(loc).getCategory())
-
-                                        && (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Elevator")
+                                if (enterElivator == false && HospitalData.getAllCategories().contains(locations.get(loc).getCategory())&& (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Elevator")
                                         || (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Stairs"))))
                                 {
                                     enterElivator = true;
-                                    directions.add("take " + locations.get(loc).getCategory().getCategory() + "to Floor" + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                    //languages other than english currently only specify elevators
+                                    switch(lang){
+                                        case "Eng":
+                                            directions.add("Take " + locations.get(loc).getCategory().getCategory() + " to Floor " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                            break;
+                                        case "Span":
+                                            directions.add("Toma el ascensor hasta piso " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                            break;
+                                        case "Port":
+                                            directions.add("Pegue o elevador até o chão " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                            break;
+                                        case "Chin":
+                                            directions.add("把电梯带到地板上 " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                            break;
+                                        default: directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                            break;
+                                    }
+                                    //directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
                                 }
                                 // if this not an elevator or stair case
                                 else
                                 {
                                         enterElivator = false;
-                                        directions.add(getTurn(turn));
+                                        if(samepath == false && locations.get(loc).getNeighbors().stream().filter(elm -> elm.getCategory().getCategory().equalsIgnoreCase("Hall")).collect(Collectors.toList()).size() < 2){
+
+
+                                            switch (lang){
+                                                case "Eng":
+                                                    directions.add("Continue on same path");
+                                                    break;
+                                                case "Span":
+                                                    directions.add("Continuar por el mismo camino");
+                                                    break;
+                                                case "Port":
+                                                    directions.add("Continue no mesmo caminho");
+                                                    break;
+                                                case "Chin":
+                                                    directions.add("在同一路径上继续");
+                                                    break;
+                                                default:
+                                                    directions.add("Continue on same path");
+                                                    break;
+                                            }
+
+                                            samepath = true;
+                                        }else {
+                                            samepath = false;
+                                            String turnD = getTurn(turn);
+
+
+                                            if ( straight == false && (turnD == "Go straight" ||turnD == "Derecho" || turnD== "Siga em frente" || turnD =="笔直走")) {
+                                                //System.out.println("found 1 go straight");
+                                                straight = true;
+                                                directions.add(getTurn(turn));
+                                            } else {
+                                                if (turnD != "Go straight" && turnD!="Derecho" && turnD !="Siga em frente"&& turnD != "笔直走") {
+                                                    straight =false;
+                                                }
+                                            }
+                                            if (straight == false) {
+                                                directions.add(getTurn(turn));
+                                            }
+                                        }
                                 }
                             }
 
