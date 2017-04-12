@@ -16,15 +16,13 @@ public class HospitalData {
     private static List<Person> peopleList = new ArrayList<>();
     private static List<Admin> adminList = new ArrayList<>();
     private static JavaDBExample dbExample;
-    public static String[] login = new String[2];
-    //private static HashMap<Integer, Integer> connections = new LinkedList<>();
-    public static ArrayList<Integer> allIds = new ArrayList<>();
+    private static String[] login = new String[2];
 
     //Values for TRACKIDS
-    public static int LOCATION_NEW;
-    public static int PERSONELLE_NEW;
-    public static int BUILDING_NEW;
-    public static int FLOOR_NEW;
+    private static int LOCATION_NEW;
+    private static int PERSONELLE_NEW;
+    private static int BUILDING_NEW;
+    private static int FLOOR_NEW;
 //    public s
 
 
@@ -94,7 +92,7 @@ public class HospitalData {
     }
     /**
      * Pushes all data into the database
-     * @return
+     * @return True if pull was successul
      */
     public static boolean publishDB() {
 
@@ -225,11 +223,9 @@ public class HospitalData {
      * @return the building
      */
     public static Building getBuildingById(int id) {
-        for(int i = 0; i < buildingsList.size(); i++)
-        {
-            if(buildingsList.get(i).getId() == id)
-            {
-                return buildingsList.get(i);
+        for (Building aBuildingsList : buildingsList) {
+            if (aBuildingsList.getId() == id) {
+                return aBuildingsList;
             }
         }
         System.out.println("COULD NOT FIND BUILDING " + id);
@@ -262,11 +258,9 @@ public class HospitalData {
      */
     public static Location getLocationById(int id) {
         List<Location> locations = getAllLocations();
-        for(int i = 0; i < locations.size(); i ++)
-        {
-            if(locations.get(i).getID() == id)
-            {
-                return locations.get(i);
+        for (Location location : locations) {
+            if (location.getID() == id) {
+                return location;
             }
         }
         return null;
@@ -278,11 +272,9 @@ public class HospitalData {
      */
     public static Person getPersonById(int id) {
         List<Person> persons = peopleList;
-        for(int i = 0; i < persons.size(); i ++)
-        {
-            if(persons.get(i).getId() == id)
-            {
-                return persons.get(i);
+        for (Person person : persons) {
+            if (person.getId() == id) {
+                return person;
             }
         }
         return null;
