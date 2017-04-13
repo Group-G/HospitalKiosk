@@ -5,7 +5,7 @@ package groupg.algorithm;
  * @since 2017-04-11
  */
 public enum NavigationAlgorithm {
-    A_STAR("A-Star"), DEPTH_FIRST("Depth First");
+    A_STAR("A-Star"), DEPTH_FIRST("Depth First"), BREADTH_FIRST("Breadth First");
 
     private final String val;
 

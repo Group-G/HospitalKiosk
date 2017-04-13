@@ -231,11 +231,17 @@ public class WelcomeScreenController implements Initializable {
             //Use proper algorithm
             switch (AdminMainController.selectedAlgorithm) {
                 case A_STAR:
-                    output.addAll(navigation.runAstar(startField.getCurrentSelection(), endField.getCurrentSelection()));
+                    output.addAll(navigation.runAstar(startField.getCurrentSelection(),
+                                                        endField.getCurrentSelection()));
                     break;
 
                 case DEPTH_FIRST:
-                    output.addAll(navigation.runDepthFirst(startField.getCurrentSelection(), endField.getCurrentSelection()));
+                    output.addAll(navigation.runDepthFirst(startField.getCurrentSelection(),
+                                                            endField.getCurrentSelection()));
+                    break;
+                case BREADTH_FIRST:
+                    output.addAll(navigation.runBreadthFirst(startField.getCurrentSelection(),
+                                                            endField.getCurrentSelection()));
                     break;
             }
             int startfloorID = startField.getCurrentSelection().getFloorID();
