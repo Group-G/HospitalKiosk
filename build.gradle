@@ -6,9 +6,12 @@ mainClassName = "groupg.Main"
 
 repositories {
     mavenCentral()
+    jcenter()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
+    runtime 'com.google.zxing:core:3.3.0'
     testCompile 'junit:junit:4.12'
     runtime 'org.apache.derby:derby:10.13.1.1'
 }

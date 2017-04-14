@@ -29,13 +29,11 @@ import java.util.stream.Collectors;
  */
 public class AdminMainController implements Initializable {
     @FXML
-    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, editAlgorithm;
+    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, showAllCons;
     @FXML
     private TabPane tabPane;
     @FXML
     private GridPane canvasWrapper;
-    @FXML
-    private MenuButton changeAlgorithmDD;
     public static Pane imageViewPane, nodeOverlay, lineOverlay, infoOverlay;
     public static ObservableList<UniqueNode> displayedNodes = FXCollections.observableArrayList();
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
@@ -123,12 +121,6 @@ public class AdminMainController implements Initializable {
         //Default algorithm
         if (selectedAlgorithm == null)
             selectedAlgorithm = NavigationAlgorithm.A_STAR;
-
-        for (NavigationAlgorithm val : NavigationAlgorithm.values()) {
-            MenuItem item = new MenuItem(val.toString());
-            item.setOnAction(actionEvent -> selectedAlgorithm = val);
-            changeAlgorithmDD.getItems().add(item);
-        }
     }
 
     /**
@@ -138,7 +130,8 @@ public class AdminMainController implements Initializable {
      */
     public static void drawConnections(UniqueNode node) {
         //Draw lines to the neighbors
-        displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesFromLocation(node.getLocation(), node.getLocation().getNeighbors()));
+        displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesFromLocation(node.getLocation(),
+                                                                                           node.getLocation().getNeighborsSameFloor(node.getLocation().getFloorID())));
         lineOverlay.getChildren().setAll(displayedLines);
     }
 
@@ -172,8 +165,8 @@ public class AdminMainController implements Initializable {
     }
 
     public void onAddNode(ActionEvent actionEvent) {
-        UniqueNode node = NodeFactory.getNode(imageView.getImage().widthProperty().doubleValue()/2.0,
-                                              imageView.getImage().heightProperty().doubleValue()/2.0,
+        UniqueNode node = NodeFactory.getNode(imageView.getImage().widthProperty().doubleValue() / 2.0,
+                                              imageView.getImage().heightProperty().doubleValue() / 2.0,
                                               currentFloor.getID());
         HospitalData.setLocation(node.getLocation().getID(), node.getLocation());
         displayedNodes.add(node);
@@ -203,5 +196,12 @@ public class AdminMainController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void onShowAllCons(ActionEvent actionEvent) {
+        displayedLines.clear();
+        displayedNodes.forEach(node -> displayedLines.addAll(DrawLines.drawLinesFromLocation(node.getLocation(),
+                                                                                             node.getLocation().getNeighborsSameFloor(node.getLocation().getFloorID()))));
+        lineOverlay.getChildren().setAll(displayedLines);
     }
 }

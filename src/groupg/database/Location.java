@@ -211,6 +211,13 @@ public class Location implements Comparable
         return neighbors;
     }
 
+    public List<Location> getNeighborsSameFloor(int floorID)
+    {
+        return neighbors.stream()
+                        .filter(node -> floorID == node.getFloorID())
+                        .collect(Collectors.toList());
+    }
+
     public void setNeighbors(List<Location> neighbors)
     {
         this.neighbors = neighbors;
