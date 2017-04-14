@@ -90,7 +90,7 @@
                         </Button>
                      </children>
                   </HBox>
-                  <Accordion prefHeight="474.0" prefWidth="297.0">
+                  <Accordion prefHeight="435.0" prefWidth="215.0">
                     <panes>
                       <TitledPane fx:id="wareaPane" animated="false" prefHeight="360.0" prefWidth="242.0" text="Waiting Areas">
                         <content>
@@ -165,9 +165,14 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Accordion>
+                  <HBox alignment="CENTER" prefHeight="46.0" prefWidth="215.0">
+                     <children>
+                        <Button fx:id="AboutBtn" contentDisplay="CENTER" mnemonicParsing="false" text="About" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
-            <StackPane HBox.hgrow="ALWAYS">
+            <StackPane id="stackpane" styleClass="stackpane" HBox.hgrow="ALWAYS">
                <children>
                   <TabPane fx:id="tabPane" prefHeight="581.0" prefWidth="886.0" tabClosingPolicy="UNAVAILABLE" />
                   <GridPane fx:id="canvasWrapper">
@@ -190,7 +195,7 @@
                         <Font size="20.0" />
                      </font>
                   </Text>
-                  <ListView fx:id="dirList" editable="true" prefHeight="547.0" prefWidth="131.0">
+                  <ListView fx:id="dirList" editable="true" prefHeight="390.0" prefWidth="131.0">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
