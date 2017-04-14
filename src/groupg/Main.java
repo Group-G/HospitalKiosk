@@ -19,7 +19,7 @@ import java.nio.file.Paths;
 public class Main extends Application
 {
     private static JavaDBExample dbExample = new JavaDBExample();
-    private static HospitalData h;
+    public static HospitalData h;
 
     @Override
     public void start(Stage primaryStage) throws Exception {

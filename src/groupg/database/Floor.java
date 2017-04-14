@@ -2,6 +2,7 @@ package groupg.database;
 
 import java.util.ArrayList;
 import java.util.List;
+import static groupg.Main.h;
 
 /**
  * Created by  Alazar Genene, Saul Woolf, and Samantha Comeau on 4/1/17.
@@ -36,7 +37,7 @@ public class Floor {
      * This constructor can only be used when interacting with the UI.
      */
     public Floor(int buildingID, String fileName, String floorName) {
-        this.ID = HospitalData.getNewFloorID();
+        this.ID = h.getNewFloorID();
         this.buildingID = buildingID;
         this.filename = fileName;
         this.floorNumber = floorName;

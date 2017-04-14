@@ -104,11 +104,11 @@
                               <Font size="17.0" />
                            </font>
                       </TitledPane>
-                      <TitledPane fx:id="bathPane" animated="false" text="Bathrooms">
+                      <TitledPane fx:id="docPane" animated="false" prefHeight="364.0" prefWidth="301.0" text="Doctors">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <ListView fx:id="bathroomLV" />
+                                    <ListView fx:id="doctorLV" prefHeight="400.0" prefWidth="215.0" />
                                  </children></AnchorPane>
                         </content>
                            <font>
@@ -119,8 +119,20 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <ListView fx:id="ServicesLV" />
+                                    <ListView fx:id="ServicesLV" prefHeight="400.0" prefWidth="215.0" />
                                  </children></AnchorPane>
+                           </content>
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </TitledPane>
+                        <TitledPane fx:id="officePane" animated="false" prefHeight="364.0" prefWidth="301.0" text="Offices">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ListView fx:id="officeLV" prefHeight="400.0" prefWidth="215.0" />
+                                 </children>
+                              </AnchorPane>
                            </content>
                            <font>
                               <Font size="17.0" />
@@ -130,36 +142,25 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <ListView fx:id="exitsLV" />
+                                    <ListView fx:id="exitsLV" prefHeight="400.0" prefWidth="215.0" />
                                  </children></AnchorPane>
                            </content>
                            <font>
                               <Font size="17.0" />
                            </font>
                         </TitledPane>
-                      <TitledPane fx:id="docPane" animated="false" prefHeight="364.0" prefWidth="301.0" text="Doctors">
+                      <TitledPane fx:id="bathPane" animated="false" text="Bathrooms">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <ListView fx:id="doctorLV" />
-                                 </children></AnchorPane>
+                                    <ListView fx:id="bathroomLV" prefHeight="400.0" prefWidth="215.0" />
+                                 </children>
+                              </AnchorPane>
                         </content>
                            <font>
                               <Font size="17.0" />
                            </font>
                       </TitledPane>
-                        <TitledPane fx:id="officePane" animated="false" prefHeight="364.0" prefWidth="301.0" text="Offices">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <ListView fx:id="officeLV" />
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                           <font>
-                              <Font size="17.0" />
-                           </font>
-                        </TitledPane>
                     </panes>
                      <VBox.margin>
                         <Insets top="10.0" />
@@ -167,7 +168,7 @@
                   </Accordion>
                   <HBox alignment="CENTER" prefHeight="46.0" prefWidth="215.0">
                      <children>
-                        <Button fx:id="AboutBtn" contentDisplay="CENTER" mnemonicParsing="false" text="About" />
+                        <Button fx:id="AboutBtn" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#onAbout" text="About" />
                      </children>
                   </HBox>
                </children>

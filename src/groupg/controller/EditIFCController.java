@@ -1,6 +1,6 @@
 package groupg.controller;
 
-import groupg.database.HospitalData;
+import static groupg.Main.h;
 import groupg.database.Location;
 import groupg.jfx.ResourceManager;
 import javafx.event.ActionEvent;
@@ -28,8 +28,8 @@ public class EditIFCController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         List<Location> potential = new ArrayList<>();
-        potential.addAll(HospitalData.getLocationsByCategory("Elevator"));
-        potential.addAll(HospitalData.getLocationsByCategory("Stairs"));
+        potential.addAll(h.getLocationsByCategory("Elevator"));
+        potential.addAll(h.getLocationsByCategory("Stairs"));
         ifcList.getItems().addAll(potential);
     }
 

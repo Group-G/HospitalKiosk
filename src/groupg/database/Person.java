@@ -2,6 +2,7 @@ package groupg.database;
 
 import java.util.ArrayList;
 import java.util.List;
+import static groupg.Main.h;
 
 /**
  * Created by Alazar Genene, Saul Woolf, and Samantha Comeau on 4/2/17.
@@ -36,7 +37,7 @@ public class Person
         this.name = name;
         this.title = title;
         this.officeId = officeId;
-        this.id = HospitalData.getNewPersonelleID();
+        this.id = h.getNewPersonelleID();
     }
 
     //REMOVE THIS AND FIX PEOPLE LOCATIONS

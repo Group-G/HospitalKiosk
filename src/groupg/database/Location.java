@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+import static groupg.Main.h;
 
 /**
  * @author Dylan McKillip
@@ -50,7 +51,7 @@ public class Location implements Comparable
         this.weight = weight;
         this.floor = floor;
         this.building = building;
-        this.id = HospitalData.getNewFloorID();
+        this.id = h.getNewFloorID();
 //        System.out.println("Created Location: " + getSQL());
     }
 
@@ -257,7 +258,7 @@ public class Location implements Comparable
             return false;
         }
 
-        neighbors.add(HospitalData.getLocationById(id));
+        neighbors.add(h.getLocationById(id));
         return true;
     }
 

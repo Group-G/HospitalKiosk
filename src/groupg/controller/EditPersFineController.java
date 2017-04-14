@@ -1,7 +1,8 @@
 package groupg.controller;
 
-import groupg.database.HospitalData;
+import static groupg.Main.h;
 import groupg.database.Location;
+import groupg.database.HospitalData;
 import groupg.database.Person;
 import groupg.jfx.AutoCompleteTextField;
 import groupg.jfx.ResourceManager;
@@ -15,6 +16,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+
+import static groupg.Main.h;
 
 import java.io.IOException;
 import java.net.URL;
@@ -45,7 +48,7 @@ public class EditPersFineController implements Initializable
     {
         locField.setMinWidth(200);
         locField.setPromptText("Location");
-        possibleLocs.addAll(HospitalData.getAllLocations()); //Grab all locs from DB
+        possibleLocs.addAll(h.getAllLocations()); //Grab all locs from DB
         locField.getEntries().addAll(possibleLocs);
         ObservableList<Node> children = FXCollections.observableArrayList(locHBox.getChildren());
         children.add(locField);
@@ -87,7 +90,7 @@ public class EditPersFineController implements Initializable
             ResourceManager.getInstance().loadFXMLIntoScene("/view/editPers.fxml", "Edit Personnel", confirmBtn.getScene());
             List<Location> locations = new ArrayList<>();
             locations.addAll(locList.getItems());
-            HospitalData.setPerson(pers.getId(),
+            h.setPerson(pers.getId(),
                                    new Person(nameField.getText(),
                                               titleField.getText(),
                                               locations.stream()

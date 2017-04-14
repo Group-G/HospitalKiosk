@@ -1,6 +1,6 @@
 package groupg.controller;
 
-import groupg.database.HospitalData;
+import static groupg.Main.h;
 import groupg.jfx.ResourceManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -43,7 +43,7 @@ public class EditCategoryAddController implements Initializable
 
     public void onAdd(ActionEvent event)
     {
-        HospitalData.addCategory(catNameField.getText(), 0);
+        h.addCategory(catNameField.getText(), 0);
 
         try
         {

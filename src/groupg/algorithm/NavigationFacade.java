@@ -1,11 +1,12 @@
 package groupg.algorithm;
 
-import groupg.database.HospitalData;
 import groupg.database.Location;
 import groupg.database.LocationDecorator;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static groupg.Main.h;
 
 /**
  * @author Dynan McKillip
@@ -17,7 +18,7 @@ public class NavigationFacade {
     private LinkedList<LocationDecorator> path;
 
     public NavigationFacade() {
-        List<Location> locations = HospitalData.getAllLocations();
+        List<Location> locations = h.getAllLocations();
         astar = new Astar(locations);
         dFirst = new DepthFirst(locations);
         bFirst = new BreadthFirst(locations);

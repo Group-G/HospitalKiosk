@@ -4,7 +4,7 @@ package groupg.controller;
 import groupg.algorithm.NavigationAlgorithm;
 import groupg.algorithm.NavigationFacade;
 import groupg.database.EmptyLocation;
-import groupg.database.HospitalData;
+import static groupg.Main.h;
 import groupg.database.Location;
 import groupg.database.LocationDecorator;
 import groupg.jfx.*;
@@ -15,8 +15,10 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -27,7 +29,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collector;
@@ -67,6 +69,8 @@ public class WelcomeScreenController implements Initializable {
     private ListView<Location> waitAreaLV, bathroomLV, ServicesLV, exitsLV, doctorLV, officeLV;
     @FXML
     private TabPane tabPane;
+    @FXML
+    private Button AboutBtn;
     private Tab selectedTab;
     private String lang = "Eng";
 
@@ -76,7 +80,7 @@ public class WelcomeScreenController implements Initializable {
         endField = new AutoCompleteTextField();
         endField.setCurrentSelection(new EmptyLocation());
 
-        List<Location> kioskLocs = HospitalData.getLocationsByCategory("Kiosk");
+        List<Location> kioskLocs = h.getLocationsByCategory("Kiosk");
         if (kioskLocs.size() > 0)
             startField.setCurrentSelection(kioskLocs.get(0));
 
@@ -98,7 +102,7 @@ public class WelcomeScreenController implements Initializable {
         //Find closest location
         imageViewPane.setOnMouseClicked(event -> {
             double shortest = Double.MAX_VALUE;
-            for (Location l : HospitalData.getAllLocations()) {
+            for (Location l : h.getAllLocations()) {
                 if (closestLocToClick == null) {
                     closestLocToClick = l;
                 } else {
@@ -139,7 +143,7 @@ public class WelcomeScreenController implements Initializable {
         });
         canvasWrapper.getChildren().addAll(pane);
 
-        HospitalData.getAllFloors().forEach(floor -> {
+        h.getAllFloors().forEach(floor -> {
             Tab tab = new Tab(floor.getFloorNum());
             tab.setOnSelectionChanged(event -> imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename())));
             tabPane.getTabs().add(tab);
@@ -161,47 +165,47 @@ public class WelcomeScreenController implements Initializable {
         selectedTab = tabPane.getTabs().get(0);
 
         //Add locations from DB
-        locations.addAll(HospitalData.getAllLocations());
+        locations.addAll(h.getAllLocations());
         startField.getEntries().addAll(locations);
         endField.getEntries().addAll(locations);
 
         //Fill drop downs
-        waitAreaLV.getItems().addAll(HospitalData.getLocationsByCategory("Waiting Area"));
+        waitAreaLV.getItems().addAll(h.getLocationsByCategory("Waiting Area"));
         waitAreaLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         waitAreaLV.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2)
                 endField.setCurrentSelection(waitAreaLV.getSelectionModel().getSelectedItem());
         });
 
-        bathroomLV.getItems().addAll(HospitalData.getLocationsByCategory("Bathroom"));
+        bathroomLV.getItems().addAll(h.getLocationsByCategory("Bathroom"));
         bathroomLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         bathroomLV.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2)
                 endField.setCurrentSelection(bathroomLV.getSelectionModel().getSelectedItem());
         });
 
-        ServicesLV.getItems().addAll(HospitalData.getLocationsByCategory("Service"));
+        ServicesLV.getItems().addAll(h.getLocationsByCategory("Service"));
         ServicesLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         ServicesLV.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2)
                 endField.setCurrentSelection(ServicesLV.getSelectionModel().getSelectedItem());
         });
 
-        exitsLV.getItems().addAll(HospitalData.getLocationsByCategory("Exit"));
+        exitsLV.getItems().addAll(h.getLocationsByCategory("Exit"));
         exitsLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         exitsLV.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2)
                 endField.setCurrentSelection(exitsLV.getSelectionModel().getSelectedItem());
         });
 
-        doctorLV.getItems().addAll(HospitalData.getLocationsByCategory("Doctor"));
+        doctorLV.getItems().addAll(h.getLocationsByCategory("Doctor"));
         doctorLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         doctorLV.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2)
                 endField.setCurrentSelection(doctorLV.getSelectionModel().getSelectedItem());
         });
 
-        officeLV.getItems().addAll(HospitalData.getLocationsByCategory("Office"));
+        officeLV.getItems().addAll(h.getLocationsByCategory("Office"));
         officeLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         officeLV.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2)
@@ -209,12 +213,56 @@ public class WelcomeScreenController implements Initializable {
         });
 
         dirList.setCellFactory(list -> new ListCell<String>() {
-            {
-                Text text = new Text();
-                text.wrappingWidthProperty().bind(list.widthProperty().subtract(15));
+            @Override
+            protected void updateItem(final String item, final boolean empty) {
+                super.updateItem(item, empty);
+
+                // if null, display nothing
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                    return;
+                }
+
+                setText(null);
+                final HBox hbox = new HBox();
+
+                Text text = new Text(item);
+                hbox.setMaxWidth(dirList.getPrefWidth());
+                text.wrappingWidthProperty().bind(hbox.widthProperty().subtract(1));
                 text.textProperty().bind(itemProperty());
                 setPrefWidth(0);
-                setGraphic(text);
+
+                Label iconLabel = new Label();
+                String url = "";
+                if (item.contains("same") || item.contains("straight")) {
+                    url = "/image/directions/forward.png";
+                }
+                else if (item.contains("left")){
+                    url = "/image/directions/left.png";
+                }
+                else if (item.contains("right")){
+                    url = "/image/directions/right.png";
+                }
+                else if (item.contains("back")){
+                    url = "/image/directions/backward.png";
+                }
+                else if (item.contains("stairs")){
+                    url = "/image/directions/upstair.png";
+                }
+                else if (item.contains("reached")){
+                    url = "/image/directions/destination.png";
+                }else if (item.contains("levator")) {
+                    url = "/image/directions/elevator.jpg";
+                } else {
+                    url = "/image/directions/startlocation.png";
+                }
+
+                iconLabel.setGraphic(new ImageView(new Image(url,20, 20, false, false)));
+                iconLabel.setPadding(new Insets(0,5,0,0));
+
+                hbox.getChildren().addAll(iconLabel, text);
+                setGraphic(hbox);
             }
         });
     }
@@ -322,6 +370,8 @@ public class WelcomeScreenController implements Initializable {
                 double turn;
                 // go though all locations
                 for (int loc = 0; loc < locations.size(); loc++) {
+
+
                     // if the node is the last node
                     if (loc == locations.size() - 1) {
                         switch ( lang){
@@ -338,10 +388,12 @@ public class WelcomeScreenController implements Initializable {
                                 directions.add("你已到达目的地");
                                 break;
                             default:
-                                directions.add("you have reached your destination");
+                                directions.add("proceed to destination");
                         }
                         // if the node is not the last node
                     } else {
+
+                            String distance = " In " + (int) locations.get(loc).lengthTo(locations.get(loc+1)) + " px\n";
                             // get the current angle of the node
                             curaAngle = getAngle(locations.get(loc), locations.get(loc + 1));
                             // from current facing position calculate turn
@@ -349,28 +401,28 @@ public class WelcomeScreenController implements Initializable {
                             // as long as this isn't the first node
                             if (loc != 0) { //TODO change if we ever add start orientation
                                 // if this is an elevator or stair case
-                                if (enterElivator == false && HospitalData.getAllCategories().contains(locations.get(loc).getCategory())&& (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Elevator")
+                                if (enterElivator == false && h.getAllCategories().contains(locations.get(loc).getCategory())&& (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Elevator")
                                         || (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Stairs"))))
                                 {
                                     enterElivator = true;
                                     //languages other than english currently only specify elevators
                                     switch(lang){
                                         case "Eng":
-                                            directions.add("Take " + locations.get(loc).getCategory().getCategory() + " to Floor " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                            directions.add(distance + "Take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
                                             break;
                                         case "Span":
-                                            directions.add("Toma el ascensor hasta piso " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                            directions.add("Toma el ascensor hasta piso " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
                                             break;
                                         case "Port":
-                                            directions.add("Pegue o elevador até o chão " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                            directions.add("Pegue o elevador até o chão " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
                                             break;
                                         case "Chin":
-                                            directions.add("把电梯带到地板上 " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                            directions.add("把电梯带到地板上 " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
                                             break;
-                                        default: directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                        default: directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
                                             break;
                                     }
-                                    //directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                    //directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
                                 }
                                 // if this not an elevator or stair case
                                 else
@@ -406,14 +458,14 @@ public class WelcomeScreenController implements Initializable {
                                             if ( straight == false && (turnD == "Go straight" ||turnD == "Derecho" || turnD== "Siga em frente" || turnD =="笔直走")) {
                                                 //System.out.println("found 1 go straight");
                                                 straight = true;
-                                                directions.add(getTurn(turn));
+                                                directions.add(distance + getTurn(turn));
                                             } else {
                                                 if (turnD != "Go straight" && turnD!="Derecho" && turnD !="Siga em frente"&& turnD != "笔直走") {
                                                     straight =false;
                                                 }
                                             }
                                             if (straight == false) {
-                                                directions.add(getTurn(turn));
+                                                directions.add(distance + getTurn(turn));
                                             }
                                         }
                                 }
@@ -560,6 +612,14 @@ public class WelcomeScreenController implements Initializable {
         }
     }
 
+    public void onAbout(ActionEvent actionEvent) {
+        try {
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/aboutscreen.fxml", "About", AboutBtn.getScene());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void onSearch(ActionEvent actionEvent) {
         drawPath();
     }
@@ -628,6 +688,7 @@ public class WelcomeScreenController implements Initializable {
         language.setText("Language");
         ObservableList<String> directions = FXCollections.observableArrayList();
         directions.add("Please enter a start and end location to display locations");
+        officePane.setText("Offices");
         dirList.setItems(directions);
     }
 
@@ -646,7 +707,9 @@ public class WelcomeScreenController implements Initializable {
         language.setText("Idiomas");
         ObservableList<String> directions = FXCollections.observableArrayList();
         directions.add("Por favor, ingrese una ubicación inicial y final");
+        officePane.setText("Oficinas");
         dirList.setItems(directions);
+
     }
 
     public void changelangP(ActionEvent actionEvent) {
@@ -664,6 +727,7 @@ public class WelcomeScreenController implements Initializable {
         language.setText("Línguas");
         ObservableList<String> directions = FXCollections.observableArrayList();
         directions.add("Você chegou ao seu destino");
+        officePane.setText("Escritórios");
         dirList.setItems(directions);
 
     }
@@ -683,6 +747,31 @@ public class WelcomeScreenController implements Initializable {
         language.setText("语");
         ObservableList<String> directions = FXCollections.observableArrayList();
         directions.add("请输入开始和结束位置以获取路线");
+        officePane.setText("办公室");
         dirList.setItems(directions);
     }
+
+/*
+    public void QRgen(){
+        String details = "";
+        ObservableList<String> dir = dirList.getItems();
+        String textdir = "";
+        for(int i = 0; i <= dir.size() -1 ;i++){
+            textdir = dir.toString();
+        }
+        ByteArrayOutputStream out = QRCode.from(textdir).to(ImageType.JPG).stream();
+        File f = new File("src\\QRCODE.jpg");
+        try {
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(out.toByteArray());
+            fos.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+    */
 }
