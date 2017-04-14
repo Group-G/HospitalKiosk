@@ -14,7 +14,6 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 import java.util.Arrays;
 import java.util.List;
@@ -192,10 +191,10 @@ public class NodeListenerFactory {
     private static void updateSelection(UniqueNode node) {
         //Clear highlight
         if (currentSelection != null)
-            currentSelection.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
+            currentSelection.setUnhighlighted();
 
         currentSelection = node;
-        currentSelection.setFill(Color.RED.deriveColor(1, 1, 1, 0.3));
+        currentSelection.setHighlighted();
         AdminMainController.drawConnections(currentSelection);
         AdminMainController.updateNodePD();
     }
