@@ -24,7 +24,7 @@ public class HospitalData {
     private static int FLOOR_NEW;
     private static int dbStrLength = 40;
 
-    public static RSA key = new RSA(1024);
+    public static RSA key = new RSA(64);
 //    public s
 
 
@@ -37,7 +37,9 @@ public class HospitalData {
             System.out.println("Failed to pull data from DB");
         }
 
+        adminList = new ArrayList<Admin>();
         addAdmin(new Admin("admin", "guest"));
+
     }
 
     public static List<Building> getAllBuildings() {
