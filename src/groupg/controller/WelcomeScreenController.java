@@ -69,6 +69,8 @@ public class WelcomeScreenController implements Initializable {
     private ListView<Location> waitAreaLV, bathroomLV, ServicesLV, exitsLV, doctorLV, officeLV;
     @FXML
     private TabPane tabPane;
+    @FXML
+    private Button AboutBtn;
     private Tab selectedTab;
     private String lang = "Eng";
 
@@ -255,7 +257,6 @@ public class WelcomeScreenController implements Initializable {
                 } else {
                     url = "/image/directions/startlocation.png";
                 }
-
 
                 iconLabel.setGraphic(new ImageView(new Image(url,20, 20, false, false)));
                 iconLabel.setPadding(new Insets(0,5,0,0));
@@ -611,6 +612,14 @@ public class WelcomeScreenController implements Initializable {
         }
     }
 
+    public void onAbout(ActionEvent actionEvent) {
+        try {
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/aboutscreen.fxml", "About", AboutBtn.getScene());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void onSearch(ActionEvent actionEvent) {
         drawPath();
     }
@@ -679,6 +688,7 @@ public class WelcomeScreenController implements Initializable {
         language.setText("Language");
         ObservableList<String> directions = FXCollections.observableArrayList();
         directions.add("Please enter a start and end location to display locations");
+        officePane.setText("Offices");
         dirList.setItems(directions);
     }
 
@@ -697,7 +707,9 @@ public class WelcomeScreenController implements Initializable {
         language.setText("Idiomas");
         ObservableList<String> directions = FXCollections.observableArrayList();
         directions.add("Por favor, ingrese una ubicación inicial y final");
+        officePane.setText("Oficinas");
         dirList.setItems(directions);
+
     }
 
     public void changelangP(ActionEvent actionEvent) {
@@ -715,6 +727,7 @@ public class WelcomeScreenController implements Initializable {
         language.setText("Línguas");
         ObservableList<String> directions = FXCollections.observableArrayList();
         directions.add("Você chegou ao seu destino");
+        officePane.setText("Escritórios");
         dirList.setItems(directions);
 
     }
@@ -734,11 +747,13 @@ public class WelcomeScreenController implements Initializable {
         language.setText("语");
         ObservableList<String> directions = FXCollections.observableArrayList();
         directions.add("请输入开始和结束位置以获取路线");
+        officePane.setText("办公室");
         dirList.setItems(directions);
     }
+
 /*
     public void QRgen(){
-        String details = "SUCKKKKKKKKKKKK MY BUTT~!";
+        String details = "";
         ObservableList<String> dir = dirList.getItems();
         String textdir = "";
         for(int i = 0; i <= dir.size() -1 ;i++){

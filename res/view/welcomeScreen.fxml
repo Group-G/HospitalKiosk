@@ -168,7 +168,7 @@
                   </Accordion>
                   <HBox alignment="CENTER" prefHeight="46.0" prefWidth="215.0">
                      <children>
-                        <Button fx:id="AboutBtn" contentDisplay="CENTER" mnemonicParsing="false" text="About" />
+                        <Button fx:id="AboutBtn" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#onAbout" text="About" />
                      </children>
                   </HBox>
                </children>
