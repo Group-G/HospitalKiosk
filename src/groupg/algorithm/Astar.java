@@ -137,7 +137,7 @@ public class Astar implements Navigation{
         }
         Location itr = curr;
         Location parent = itr.getParent();
-        if(!(parent == null)){
+        if(!(parent == null)) {
             while(parent.getID()!=strt.getID()){
                 gscore+= parent.lengthTo(itr);
                 itr = parent;

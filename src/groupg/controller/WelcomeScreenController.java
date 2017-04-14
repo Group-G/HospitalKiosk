@@ -15,8 +15,10 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -209,12 +211,57 @@ public class WelcomeScreenController implements Initializable {
         });
 
         dirList.setCellFactory(list -> new ListCell<String>() {
-            {
-                Text text = new Text();
-                text.wrappingWidthProperty().bind(list.widthProperty().subtract(15));
+            @Override
+            protected void updateItem(final String item, final boolean empty) {
+                super.updateItem(item, empty);
+
+                // if null, display nothing
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                    return;
+                }
+
+                setText(null);
+                final HBox hbox = new HBox();
+
+                Text text = new Text(item);
+                hbox.setMaxWidth(dirList.getPrefWidth());
+                text.wrappingWidthProperty().bind(hbox.widthProperty().subtract(1));
                 text.textProperty().bind(itemProperty());
                 setPrefWidth(0);
-                setGraphic(text);
+
+                Label iconLabel = new Label();
+                String url = "";
+                if (item.contains("same") || item.contains("straight")) {
+                    url = "/image/directions/forward.png";
+                }
+                else if (item.contains("left")){
+                    url = "/image/directions/left.png";
+                }
+                else if (item.contains("right")){
+                    url = "/image/directions/right.png";
+                }
+                else if (item.contains("back")){
+                    url = "/image/directions/backward.png";
+                }
+                else if (item.contains("stairs")){
+                    url = "/image/directions/upstair.png";
+                }
+                else if (item.contains("reached")){
+                    url = "/image/directions/destination.png";
+                }else if (item.contains("levator")) {
+                    url = "/image/directions/elevator.jpg";
+                } else {
+                    url = "/image/directions/startlocation.png";
+                }
+
+
+                iconLabel.setGraphic(new ImageView(new Image(url,20, 20, false, false)));
+                iconLabel.setPadding(new Insets(0,5,0,0));
+
+                hbox.getChildren().addAll(iconLabel, text);
+                setGraphic(hbox);
             }
         });
     }
@@ -322,6 +369,8 @@ public class WelcomeScreenController implements Initializable {
                 double turn;
                 // go though all locations
                 for (int loc = 0; loc < locations.size(); loc++) {
+
+
                     // if the node is the last node
                     if (loc == locations.size() - 1) {
                         switch ( lang){
@@ -338,10 +387,12 @@ public class WelcomeScreenController implements Initializable {
                                 directions.add("你已到达目的地");
                                 break;
                             default:
-                                directions.add("you have reached your destination");
+                                directions.add("proceed to destination");
                         }
                         // if the node is not the last node
                     } else {
+
+                            String distance = " In " + (int) locations.get(loc).lengthTo(locations.get(loc+1)) + " px\n";
                             // get the current angle of the node
                             curaAngle = getAngle(locations.get(loc), locations.get(loc + 1));
                             // from current facing position calculate turn
@@ -356,7 +407,7 @@ public class WelcomeScreenController implements Initializable {
                                     //languages other than english currently only specify elevators
                                     switch(lang){
                                         case "Eng":
-                                            directions.add("Take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                            directions.add(distance + "Take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
                                             break;
                                         case "Span":
                                             directions.add("Toma el ascensor hasta piso " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
@@ -406,14 +457,14 @@ public class WelcomeScreenController implements Initializable {
                                             if ( straight == false && (turnD == "Go straight" ||turnD == "Derecho" || turnD== "Siga em frente" || turnD =="笔直走")) {
                                                 //System.out.println("found 1 go straight");
                                                 straight = true;
-                                                directions.add(getTurn(turn));
+                                                directions.add(distance + getTurn(turn));
                                             } else {
                                                 if (turnD != "Go straight" && turnD!="Derecho" && turnD !="Siga em frente"&& turnD != "笔直走") {
                                                     straight =false;
                                                 }
                                             }
                                             if (straight == false) {
-                                                directions.add(getTurn(turn));
+                                                directions.add(distance + getTurn(turn));
                                             }
                                         }
                                 }
