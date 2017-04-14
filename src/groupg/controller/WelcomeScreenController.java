@@ -27,7 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collector;
@@ -685,4 +685,27 @@ public class WelcomeScreenController implements Initializable {
         directions.add("请输入开始和结束位置以获取路线");
         dirList.setItems(directions);
     }
+/*
+    public void QRgen(){
+        String details = "SUCKKKKKKKKKKKK MY BUTT~!";
+        ObservableList<String> dir = dirList.getItems();
+        String textdir = "";
+        for(int i = 0; i <= dir.size() -1 ;i++){
+            textdir = dir.toString();
+        }
+        ByteArrayOutputStream out = QRCode.from(textdir).to(ImageType.JPG).stream();
+        File f = new File("src\\QRCODE.jpg");
+        try {
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(out.toByteArray());
+            fos.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+    */
 }
