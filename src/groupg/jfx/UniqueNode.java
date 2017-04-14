@@ -23,19 +23,15 @@ public class UniqueNode extends Circle {
     public void setUnhighlighted() {
         switch (location.getCategory().toString()) {
             default:
-                color = Color.BLACK.deriveColor(1, 1, 1, 0.3);
+                location.getCategory().setColor(Color.BLACK.deriveColor(1, 1, 1, 0.3));
                 break;
         }
-        setFill(color);
+        setFill(location.getCategory().getColor());
     }
 
     public void setHighlighted() {
-        color = Color.RED.deriveColor(1, 1, 1, 0.3);
-        setFill(color);
-    }
-
-    public Color getColor() {
-        return color;
+        location.getCategory().setColor(Color.RED.deriveColor(1, 1, 1, 0.3));
+        setFill(location.getCategory().getColor());
     }
 
     public Location getLocation() {

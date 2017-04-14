@@ -1,5 +1,7 @@
 package groupg.database;
 
+import javafx.scene.paint.Color;
+
 /**
  * @author Saul Woolf
  * @since 2017-04-07
@@ -7,10 +9,12 @@ package groupg.database;
 public class Category {
     private String category = "";
     private int permission = -1;
+    private Color color;
 
     public Category(String category, int permission) {
         this.category = category;
         this.permission = permission;
+        color = Color.BLACK.deriveColor(1, 1, 1, 0.3);
     }
 
     @Override
@@ -41,5 +45,13 @@ public class Category {
 
     public void setPermission(int permission) {
         this.permission = permission;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }
