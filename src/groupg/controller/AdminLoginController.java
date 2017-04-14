@@ -1,7 +1,7 @@
 package groupg.controller;
 
 import groupg.database.Admin;
-import groupg.database.HospitalData;
+import static groupg.Main.h;
 import groupg.jfx.ResourceManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -84,9 +84,9 @@ public class AdminLoginController implements Initializable {
     }
 
     private void attemptLogin(ActionEvent actionEvent) {
-        Admin admin = HospitalData.getAdminByUsername(usernameField.getText());
+        Admin admin = h.getAdminByUsername(usernameField.getText());
         BigInteger m = new BigInteger(passField.getText().getBytes());
-        BigInteger hashed = m.modPow(HospitalData.key.publicKey, HospitalData.key.modulus);
+        BigInteger hashed = m.modPow(h.key.publicKey, h.key.modulus);
 
         if (admin != null && admin.login(hashed)) {
             errorText.setVisible(false);

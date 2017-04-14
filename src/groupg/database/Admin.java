@@ -3,6 +3,7 @@ package groupg.database;
 import javafx.application.HostServices;
 
 import java.math.BigInteger;
+import static groupg.Main.h;
 
 /**
  * Created by Sammy on 4/8/2017.
@@ -19,7 +20,7 @@ public class Admin {
 
         byte[] bytes = this.password.getBytes();
         BigInteger m = new BigInteger(bytes);
-        this.hashed = m.modPow(HospitalData.key.publicKey, HospitalData.key.modulus);
+        this.hashed = m.modPow(h.key.publicKey, h.key.modulus);
 
         System.out.println(this.hashed);
 

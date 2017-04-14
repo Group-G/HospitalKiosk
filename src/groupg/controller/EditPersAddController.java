@@ -1,6 +1,6 @@
 package groupg.controller;
 
-import groupg.database.HospitalData;
+import static groupg.Main.h;
 import groupg.database.Location;
 import groupg.database.Person;
 import groupg.jfx.AutoCompleteTextField;
@@ -46,7 +46,7 @@ public class EditPersAddController implements Initializable
     {
         locField.setMinWidth(200);
         locField.setPromptText("Location");
-        possibleLocs.addAll(HospitalData.getAllLocations()); //Grab all locs from DB
+        possibleLocs.addAll(h.getAllLocations()); //Grab all locs from DB
         locField.getEntries().addAll(possibleLocs);
         ObservableList<Node> children = FXCollections.observableArrayList(locHBox.getChildren());
         children.add(locField);
@@ -67,7 +67,7 @@ public class EditPersAddController implements Initializable
 
     public void onConfirm(ActionEvent actionEvent)
     {
-        HospitalData.getAllPeople().add(new Person(nameField.getText(),
+        h.getAllPeople().add(new Person(nameField.getText(),
                                                    titleField.getText(),
                                                    locList.getItems()
                                                           .stream()

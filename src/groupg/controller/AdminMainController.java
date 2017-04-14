@@ -2,7 +2,7 @@ package groupg.controller;
 
 import groupg.algorithm.NavigationAlgorithm;
 import groupg.database.Floor;
-import groupg.database.HospitalData;
+import static groupg.Main.h;
 import groupg.jfx.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -59,12 +59,12 @@ public class AdminMainController implements Initializable {
 
         //Default current floor to first floor available
         if (currentFloor == null)
-            currentFloor = HospitalData.getAllFloors().get(0);
+            currentFloor = h.getAllFloors().get(0);
 
         imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage(currentFloor.getFilename()), imageViewPane);
 
         //Add tabs for each floor
-        HospitalData.getAllFloors().forEach(floor -> {
+        h.getAllFloors().forEach(floor -> {
             Tab tab = new Tab(floor.getFloorNum());
             tab.setOnSelectionChanged(event -> {
                 imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename()));
@@ -162,7 +162,7 @@ public class AdminMainController implements Initializable {
     }
 
     public void onLogout(ActionEvent actionEvent) {
-        HospitalData.publishDB(); //Save changes to disk
+        h.publishDB(); //Save changes to disk
 
         try {
             ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", logoutBtn.getScene());
@@ -175,7 +175,7 @@ public class AdminMainController implements Initializable {
         UniqueNode node = NodeFactory.getNode(imageView.getImage().widthProperty().doubleValue()/2.0,
                                               imageView.getImage().heightProperty().doubleValue()/2.0,
                                               currentFloor.getID());
-        HospitalData.setLocation(node.getLocation().getID(), node.getLocation());
+        h.setLocation(node.getLocation().getID(), node.getLocation());
         displayedNodes.add(node);
         nodeOverlay.getChildren().setAll(displayedNodes);
         updateNodePD();

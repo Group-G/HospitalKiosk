@@ -1,11 +1,12 @@
 package groupg.algorithm;
 
-import groupg.database.HospitalData;
 import groupg.database.Location;
 
 import javax.xml.bind.SchemaOutputResolver;
 import java.util.LinkedList;
 import java.util.List;
+
+import static groupg.Main.h;
 
 /**
  * Created by Dylan on 4/1/17.
@@ -122,7 +123,7 @@ public class Astar implements Navigation{
     private double computeScore(Location curr, Location strt, Location end){
         double hscore = curr.lengthTo(end);
         double gscore = 0;
-        if ((HospitalData.getAllCategories().contains(curr.getCategory()))
+        if ((h.getAllCategories().contains(curr.getCategory()))
                 && ((curr.getCategory().getCategory().equalsIgnoreCase("Elevator")
                     || curr.getCategory().getCategory().equalsIgnoreCase("Stairs"))
                     || curr.getCategory().getCategory().equalsIgnoreCase("Stair"))
