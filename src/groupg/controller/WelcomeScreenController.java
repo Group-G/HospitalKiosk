@@ -1,6 +1,8 @@
 
 package groupg.controller;
 
+import net.glxn.qrgen.QRCode;
+import net.glxn.qrgen.image.ImageType;
 import groupg.algorithm.NavigationAlgorithm;
 import groupg.algorithm.NavigationFacade;
 import groupg.database.EmptyLocation;
@@ -26,6 +28,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 
@@ -71,6 +74,10 @@ public class WelcomeScreenController implements Initializable {
     private TabPane tabPane;
     @FXML
     private Button AboutBtn;
+    @FXML
+    private VBox sidebar;
+    @FXML
+    private ImageView qrcode;
     private Tab selectedTab;
     private String lang = "Eng";
 
@@ -89,13 +96,18 @@ public class WelcomeScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        File qrcode = new File("src\\qrcode.jpg");
+        boolean exists = qrcode.exists();
+        if(exists){
+            qrcode.delete();
+        }
         Pane imageViewPane = new Pane();
+
         imageViewPane.setPickOnBounds(true);
         lineOverlay = new Pane();
         lineOverlay.setPickOnBounds(true);
         startFieldHBox.getChildren().add(startField);
         endFieldHBox.getChildren().add(endField);
-
         Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
         startField.getStyleClass().add("startfield");
         endField.getStyleClass().add("endfield");
@@ -477,6 +489,7 @@ public class WelcomeScreenController implements Initializable {
                 }
                 dirList.setItems(directions);
             }
+            QRgen();
     }
 
     private String getTurn(double turn) {
@@ -751,20 +764,33 @@ public class WelcomeScreenController implements Initializable {
         dirList.setItems(directions);
     }
 
-/*
+
     public void QRgen(){
-        String details = "";
+        //String details = "";
+        System.out.print("QRGEN!");
         ObservableList<String> dir = dirList.getItems();
-        String textdir = "";
+        String textdir = dir.toString();
+        /*
         for(int i = 0; i <= dir.size() -1 ;i++){
-            textdir = dir.toString();
+            textdir = textdir + dir.toString();
+            System.out.print(textdir);
         }
+*/
+        System.out.print(textdir);
+        
         ByteArrayOutputStream out = QRCode.from(textdir).to(ImageType.JPG).stream();
-        File f = new File("src\\QRCODE.jpg");
+        System.out.print(out);
+        File f = new File("src\\qrcode.jpg");
         try {
             FileOutputStream fos = new FileOutputStream(f);
             fos.write(out.toByteArray());
             fos.flush();
+            String imagepath = f.toString();
+            FileInputStream input = new FileInputStream("src/qrcode.jpg");
+            Image image = new Image(input);
+            qrcode.setImage(image);
+
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -773,5 +799,5 @@ public class WelcomeScreenController implements Initializable {
 
 
     }
-    */
+
 }

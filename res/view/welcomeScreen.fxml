@@ -189,7 +189,7 @@
                   </GridPane>
                </children>
             </StackPane>
-            <VBox alignment="TOP_CENTER" maxWidth="200.0" prefHeight="581.0" prefWidth="170.0" HBox.hgrow="ALWAYS">
+            <VBox fx:id="sidebar" alignment="TOP_CENTER" maxWidth="200.0" prefHeight="581.0" prefWidth="170.0" HBox.hgrow="ALWAYS">
                <children>
                   <Text fx:id="directions" strokeType="OUTSIDE" strokeWidth="0.0" text="Directions:">
                      <font>
@@ -201,6 +201,10 @@
                         <Insets />
                      </VBox.margin>
                   </ListView>
+                  <ImageView fx:id="qrcode" fitHeight="150.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets top="7.0" />
+                     </VBox.margin></ImageView>
                </children>
                <padding>
                   <Insets left="10.0" right="10.0" />

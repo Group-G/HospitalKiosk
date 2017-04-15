@@ -13,7 +13,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.google.zxing:core:3.3.0" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.apache.derby:derby:10.13.1.1" level="project" />
+    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: com.google.zxing:core:3.3.0" level="project" />
+    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: org.apache.derby:derby:10.13.1.1" level="project" />
+    <orderEntry type="library" exported="" name="zxing-j2se-1.7" level="project" />
+    <orderEntry type="library" exported="" name="zxing-core-1.7" level="project" />
+    <orderEntry type="library" exported="" name="qrgen-1.0" level="project" />
   </component>
 </module>

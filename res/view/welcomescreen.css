@@ -4311,7 +4311,7 @@ to the top and bottom -fx-padding values of the parent toolbar. */
 }
 
 .canvoos{
-    -fx-background-image: url('https://danmcdonough.000webhostapp.com/bg.png');
+    -fx-background-image: url('/image/bg.png');
     -fx-background-size: cover;
 }
 
