@@ -145,7 +145,7 @@ public class Astar implements Navigation{
             }
         }
         double score = hscore + gscore;
-        System.out.println("the score reported was" + score);
+        //System.out.println("the score reported was" + score);
         return score;
     }
 

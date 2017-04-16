@@ -1,12 +1,14 @@
 
 package groupg.controller;
 
-import net.glxn.qrgen.QRCode;
-import net.glxn.qrgen.image.ImageType;
+//import net.glxn.qrgen.QRCode;
+//import net.glxn.qrgen.image.ImageType;
 import groupg.algorithm.NavigationAlgorithm;
 import groupg.algorithm.NavigationFacade;
 import groupg.database.EmptyLocation;
 import static groupg.Main.h;
+import static javafx.scene.transform.MatrixType.MT_2D_3x3;
+
 import groupg.database.Location;
 import groupg.database.LocationDecorator;
 import groupg.jfx.*;
@@ -133,6 +135,10 @@ public class WelcomeScreenController implements Initializable {
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setPannable(true);
+        Scale newScale = new Scale();
+        newScale.setX(939/imageView.getImage().getWidth());
+        newScale.setY(939/imageView.getImage().getWidth());
+        zoomGroup.getTransforms().add(newScale);
         zoomGroup.addEventHandler(MouseEvent.ANY, event -> {
             if (event.getButton() != MouseButton.MIDDLE &&
                 !(event.getButton() == MouseButton.PRIMARY && event.isControlDown()))
@@ -141,18 +147,26 @@ public class WelcomeScreenController implements Initializable {
 
         pane.addEventFilter(ScrollEvent.SCROLL, e -> {
             if (e.isAltDown()) {
-                double zoom_fac = 1.05;
+                double zoom_fac = .05;
                 double delta_y = e.getDeltaY();
                 if (delta_y < 0) {
-                    zoom_fac = 2.0 - zoom_fac;
+                    zoom_fac = -zoom_fac;
                 }
-                Scale newScale = new Scale();
-                newScale.setX(zoomGroup.getScaleX() * zoom_fac);
-                newScale.setY(zoomGroup.getScaleY() * zoom_fac);
-                zoomGroup.getTransforms().add(newScale);
+                double zoomx = zoomGroup.getTransforms().get(0).getMxx();
+                double zoomy = zoomGroup.getTransforms().get(0).getMyy();
+                if ((imageView.getImage().getWidth() * (zoomx + zoom_fac) >= canvasWrapper.getWidth() && zoom_fac < 0) || (zoom_fac > 0  && zoomx <= 1.25)) {
+                    zoomGroup.getTransforms().clear();
+                    newScale.setX(zoomx + zoom_fac);
+                    newScale.setY(zoomy + zoom_fac);
+                    zoomGroup.getTransforms().add(newScale);
+                } else if (zoom_fac < 0) {
+                    newScale.setX(canvasWrapper.getWidth()/imageView.getImage().getWidth());
+                    newScale.setY(canvasWrapper.getWidth()/imageView.getImage().getWidth());
+                }
                 e.consume();
             }
         });
+
         canvasWrapper.getChildren().addAll(pane);
 
         h.getAllFloors().forEach(floor -> {
@@ -165,7 +179,6 @@ public class WelcomeScreenController implements Initializable {
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             selectedTab = newTab;
             displayedLines.clear();
-            System.out.println(navigation.getPath().size());
             displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(navigation.getPath()
                                                                                                     .stream()
                                                                                                     .filter(elem -> elem.getFloorObj().getFloorNum().equals(newTab.getText()))
@@ -241,12 +254,12 @@ public class WelcomeScreenController implements Initializable {
 
                 Text text = new Text(item);
                 hbox.setMaxWidth(dirList.getPrefWidth());
-                text.wrappingWidthProperty().bind(hbox.widthProperty().subtract(1));
+                text.wrappingWidthProperty().bind(hbox.widthProperty().subtract(10));
                 text.textProperty().bind(itemProperty());
                 setPrefWidth(0);
 
                 Label iconLabel = new Label();
-                String url = "";
+                String url;
                 if (item.contains("same") || item.contains("straight")) {
                     url = "/image/directions/forward.png";
                 }
@@ -264,7 +277,8 @@ public class WelcomeScreenController implements Initializable {
                 }
                 else if (item.contains("reached")){
                     url = "/image/directions/destination.png";
-                }else if (item.contains("levator")) {
+                }
+                else if (item.contains("levator")) {
                     url = "/image/directions/elevator.jpg";
                 } else {
                     url = "/image/directions/startlocation.png";
@@ -357,7 +371,7 @@ public class WelcomeScreenController implements Initializable {
         boolean enterElivator = false;
         boolean samepath = false;
         boolean straight = false;
-        System.out.println(locations.size());
+        //System.out.println(locations.size());
             // if there is only 1 node in the list
             if (locations.size() < 2) {
                 switch (lang) {
@@ -489,7 +503,7 @@ public class WelcomeScreenController implements Initializable {
                 }
                 dirList.setItems(directions);
             }
-            QRgen();
+            //QRgen();
     }
 
     private String getTurn(double turn) {
@@ -764,7 +778,7 @@ public class WelcomeScreenController implements Initializable {
         dirList.setItems(directions);
     }
 
-
+    /*
     public void QRgen(){
         //String details = "";
         System.out.print("QRGEN!");
@@ -775,7 +789,7 @@ public class WelcomeScreenController implements Initializable {
             textdir = textdir + dir.toString();
             System.out.print(textdir);
         }
-*/
+
         System.out.print(textdir);
         
         ByteArrayOutputStream out = QRCode.from(textdir).to(ImageType.JPG).stream();
@@ -799,5 +813,6 @@ public class WelcomeScreenController implements Initializable {
 
 
     }
+    */
 
 }
