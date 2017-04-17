@@ -1,8 +1,7 @@
 
 package groupg.controller;
 
-//import net.glxn.qrgen.QRCode;
-//import net.glxn.qrgen.image.ImageType;
+
 import groupg.algorithm.NavigationAlgorithm;
 import groupg.algorithm.NavigationFacade;
 import groupg.database.EmptyLocation;
@@ -33,6 +32,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
+import net.glxn.qrgen.core.image.ImageType;
+import net.glxn.qrgen.javase.QRCode;
 
 import java.io.*;
 import java.net.URL;
@@ -141,7 +142,7 @@ public class WelcomeScreenController implements Initializable {
         zoomGroup.getTransforms().add(newScale);
         zoomGroup.addEventHandler(MouseEvent.ANY, event -> {
             if (event.getButton() != MouseButton.MIDDLE &&
-                !(event.getButton() == MouseButton.PRIMARY && event.isControlDown()))
+                    !(event.getButton() == MouseButton.PRIMARY && event.isControlDown()))
                 event.consume();
         });
 
@@ -180,9 +181,9 @@ public class WelcomeScreenController implements Initializable {
             selectedTab = newTab;
             displayedLines.clear();
             displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(navigation.getPath()
-                                                                                                    .stream()
-                                                                                                    .filter(elem -> elem.getFloorObj().getFloorNum().equals(newTab.getText()))
-                                                                                                    .collect(Collectors.toList())));
+                    .stream()
+                    .filter(elem -> elem.getFloorObj().getFloorNum().equals(newTab.getText()))
+                    .collect(Collectors.toList())));
             lineOverlay.getChildren().setAll(displayedLines);
         });
 
@@ -306,23 +307,23 @@ public class WelcomeScreenController implements Initializable {
             switch (AdminMainController.selectedAlgorithm) {
                 case A_STAR:
                     output.addAll(navigation.runAstar(startField.getCurrentSelection(),
-                                                        endField.getCurrentSelection()));
+                            endField.getCurrentSelection()));
                     break;
 
                 case DEPTH_FIRST:
                     output.addAll(navigation.runDepthFirst(startField.getCurrentSelection(),
-                                                            endField.getCurrentSelection()));
+                            endField.getCurrentSelection()));
                     break;
                 case BREADTH_FIRST:
                     output.addAll(navigation.runBreadthFirst(startField.getCurrentSelection(),
-                                                            endField.getCurrentSelection()));
+                            endField.getCurrentSelection()));
                     break;
             }
             int startfloorID = startField.getCurrentSelection().getFloorID();
             int endfloorID = endField.getCurrentSelection().getFloorID();
             output.forEach(e -> {
                 //if (e.getFloorObj().getID() == startfloorID || e.getFloorObj().getID() == endfloorID){
-                    filtered_output.add(e);
+                filtered_output.add(e);
                 //}
             });
 
@@ -335,17 +336,17 @@ public class WelcomeScreenController implements Initializable {
                 tabPane.getTabs().parallelStream().forEach(elem -> {
                     elem.setStyle("");
                     if (filtered_output.parallelStream()
-                              .map(item -> item.getFloorObj().getFloorNum())
-                              .collect(Collectors.toList())
-                              .contains(elem.getText())) {
+                            .map(item -> item.getFloorObj().getFloorNum())
+                            .collect(Collectors.toList())
+                            .contains(elem.getText())) {
                         elem.setStyle("-fx-background-color: #f4f142");
                     }
                 });
 
                 //Filter output based on current tab
                 List<LocationDecorator> tempList = filtered_output.stream()
-                                                         .filter(elem -> elem.getFloorObj().getFloorNum().equals(selectedTab.getText()))
-                                                         .collect(Collectors.toList());
+                        .filter(elem -> elem.getFloorObj().getFloorNum().equals(selectedTab.getText()))
+                        .collect(Collectors.toList());
 
                 //Move filtered items back
                 filtered_output.clear();
@@ -358,8 +359,8 @@ public class WelcomeScreenController implements Initializable {
             }
             displayedLines.clear();
             displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(filtered_output.stream()
-                                                                                                .map(elem -> (Location) elem)
-                                                                                                .collect(Collectors.toList())));
+                    .map(elem -> (Location) elem)
+                    .collect(Collectors.toList())));
             lineOverlay.getChildren().setAll(displayedLines);
 
         }
@@ -372,138 +373,138 @@ public class WelcomeScreenController implements Initializable {
         boolean samepath = false;
         boolean straight = false;
         //System.out.println(locations.size());
-            // if there is only 1 node in the list
-            if (locations.size() < 2) {
-                switch (lang) {
-                    case "Eng":
-                        directions.add("Please enter a valid start and end location to display locations");
-                        break;
-                    case "Span":
-                        directions.add("Por favor, ingrese una ubicación inicial y final");
-                        break;
-                    case "Port":
-                        directions.add("Insira um local inicial e final para obter instruções");
-                        break;
-                    case "Chin":
-                        directions.add("请输入开始和结束位置以获取路线");
-                        break;
-                }
-                dirList.setItems(directions);
+        // if there is only 1 node in the list
+        if (locations.size() < 2) {
+            switch (lang) {
+                case "Eng":
+                    directions.add("Please enter a valid start and end location to display locations");
+                    break;
+                case "Span":
+                    directions.add("Por favor, ingrese una ubicación inicial y final");
+                    break;
+                case "Port":
+                    directions.add("Insira um local inicial e final para obter instruções");
+                    break;
+                case "Chin":
+                    directions.add("请输入开始和结束位置以获取路线");
+                    break;
+            }
+            dirList.setItems(directions);
             // if there are multiple nodes in the list
-            } else {
-                double preAngle = 90; // start facing top of the map
-                double curaAngle = 0;
-                double turn;
-                // go though all locations
-                for (int loc = 0; loc < locations.size(); loc++) {
+        } else {
+            double preAngle = 90; // start facing top of the map
+            double curaAngle = 0;
+            double turn;
+            // go though all locations
+            for (int loc = 0; loc < locations.size(); loc++) {
 
 
-                    // if the node is the last node
-                    if (loc == locations.size() - 1) {
-                        switch ( lang){
-                            case "Eng":
-                                directions.add("You have reached your destination");
-                                break;
-                            case "Span":
-                                directions.add("Ten llegado a tu destino");
-                                break;
-                            case "Port":
-                                directions.add("Você chegou ao seu destino");
-                                break;
-                            case "Chin":
-                                directions.add("你已到达目的地");
-                                break;
-                            default:
-                                directions.add("proceed to destination");
+                // if the node is the last node
+                if (loc == locations.size() - 1) {
+                    switch ( lang){
+                        case "Eng":
+                            directions.add("You have reached your destination");
+                            break;
+                        case "Span":
+                            directions.add("Ten llegado a tu destino");
+                            break;
+                        case "Port":
+                            directions.add("Você chegou ao seu destino");
+                            break;
+                        case "Chin":
+                            directions.add("你已到达目的地");
+                            break;
+                        default:
+                            directions.add("proceed to destination");
+                    }
+                    // if the node is not the last node
+                } else {
+
+                    String distance = " In " + (int) locations.get(loc).lengthTo(locations.get(loc+1)) + " px\n";
+                    // get the current angle of the node
+                    curaAngle = getAngle(locations.get(loc), locations.get(loc + 1));
+                    // from current facing position calculate turn
+                    turn = (curaAngle - preAngle + 360 + 90) % 360;
+                    // as long as this isn't the first node
+                    if (loc != 0) { //TODO change if we ever add start orientation
+                        // if this is an elevator or stair case
+                        if (enterElivator == false && h.getAllCategories().contains(locations.get(loc).getCategory())&& (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Elevator")
+                                || (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Stairs"))))
+                        {
+                            enterElivator = true;
+                            //languages other than english currently only specify elevators
+                            switch(lang){
+                                case "Eng":
+                                    directions.add(distance + "Take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                    break;
+                                case "Span":
+                                    directions.add("Toma el ascensor hasta piso " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                    break;
+                                case "Port":
+                                    directions.add("Pegue o elevador até o chão " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                    break;
+                                case "Chin":
+                                    directions.add("把电梯带到地板上 " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                    break;
+                                default: directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                    break;
+                            }
+                            //directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
                         }
-                        // if the node is not the last node
-                    } else {
+                        // if this not an elevator or stair case
+                        else
+                        {
+                            enterElivator = false;
+                            if(samepath == false && locations.get(loc).getNeighbors().stream().filter(elm -> elm.getCategory().getCategory().equalsIgnoreCase("Hall")).collect(Collectors.toList()).size() < 2){
 
-                            String distance = " In " + (int) locations.get(loc).lengthTo(locations.get(loc+1)) + " px\n";
-                            // get the current angle of the node
-                            curaAngle = getAngle(locations.get(loc), locations.get(loc + 1));
-                            // from current facing position calculate turn
-                            turn = (curaAngle - preAngle + 360 + 90) % 360;
-                            // as long as this isn't the first node
-                            if (loc != 0) { //TODO change if we ever add start orientation
-                                // if this is an elevator or stair case
-                                if (enterElivator == false && h.getAllCategories().contains(locations.get(loc).getCategory())&& (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Elevator")
-                                        || (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Stairs"))))
-                                {
-                                    enterElivator = true;
-                                    //languages other than english currently only specify elevators
-                                    switch(lang){
-                                        case "Eng":
-                                            directions.add(distance + "Take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
-                                            break;
-                                        case "Span":
-                                            directions.add("Toma el ascensor hasta piso " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
-                                            break;
-                                        case "Port":
-                                            directions.add("Pegue o elevador até o chão " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
-                                            break;
-                                        case "Chin":
-                                            directions.add("把电梯带到地板上 " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
-                                            break;
-                                        default: directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
-                                            break;
-                                    }
-                                    //directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+
+                                switch (lang){
+                                    case "Eng":
+                                        directions.add("Continue on same path");
+                                        break;
+                                    case "Span":
+                                        directions.add("Continuar por el mismo camino");
+                                        break;
+                                    case "Port":
+                                        directions.add("Continue no mesmo caminho");
+                                        break;
+                                    case "Chin":
+                                        directions.add("在同一路径上继续");
+                                        break;
+                                    default:
+                                        directions.add("Continue on same path");
+                                        break;
                                 }
-                                // if this not an elevator or stair case
-                                else
-                                {
-                                        enterElivator = false;
-                                        if(samepath == false && locations.get(loc).getNeighbors().stream().filter(elm -> elm.getCategory().getCategory().equalsIgnoreCase("Hall")).collect(Collectors.toList()).size() < 2){
+
+                                samepath = true;
+                            }else {
+                                samepath = false;
+                                String turnD = getTurn(turn);
 
 
-                                            switch (lang){
-                                                case "Eng":
-                                                    directions.add("Continue on same path");
-                                                    break;
-                                                case "Span":
-                                                    directions.add("Continuar por el mismo camino");
-                                                    break;
-                                                case "Port":
-                                                    directions.add("Continue no mesmo caminho");
-                                                    break;
-                                                case "Chin":
-                                                    directions.add("在同一路径上继续");
-                                                    break;
-                                                default:
-                                                    directions.add("Continue on same path");
-                                                    break;
-                                            }
-
-                                            samepath = true;
-                                        }else {
-                                            samepath = false;
-                                            String turnD = getTurn(turn);
-
-
-                                            if ( straight == false && (turnD == "Go straight" ||turnD == "Derecho" || turnD== "Siga em frente" || turnD =="笔直走")) {
-                                                //System.out.println("found 1 go straight");
-                                                straight = true;
-                                                directions.add(distance + getTurn(turn));
-                                            } else {
-                                                if (turnD != "Go straight" && turnD!="Derecho" && turnD !="Siga em frente"&& turnD != "笔直走") {
-                                                    straight =false;
-                                                }
-                                            }
-                                            if (straight == false) {
-                                                directions.add(distance + getTurn(turn));
-                                            }
-                                        }
+                                if ( straight == false && (turnD == "Go straight" ||turnD == "Derecho" || turnD== "Siga em frente" || turnD =="笔直走")) {
+                                    //System.out.println("found 1 go straight");
+                                    straight = true;
+                                    directions.add(distance + getTurn(turn));
+                                } else {
+                                    if (turnD != "Go straight" && turnD!="Derecho" && turnD !="Siga em frente"&& turnD != "笔直走") {
+                                        straight =false;
+                                    }
+                                }
+                                if (straight == false) {
+                                    directions.add(distance + getTurn(turn));
                                 }
                             }
-
+                        }
                     }
-                    // set the current angle to the previous angle
-                    preAngle = curaAngle;
+
                 }
-                dirList.setItems(directions);
+                // set the current angle to the previous angle
+                preAngle = curaAngle;
             }
-            //QRgen();
+            dirList.setItems(directions);
+        }
+        QRgen();
     }
 
     private String getTurn(double turn) {
@@ -778,20 +779,12 @@ public class WelcomeScreenController implements Initializable {
         dirList.setItems(directions);
     }
 
-    /*
+
     public void QRgen(){
         //String details = "";
         System.out.print("QRGEN!");
         ObservableList<String> dir = dirList.getItems();
         String textdir = dir.toString();
-        /*
-        for(int i = 0; i <= dir.size() -1 ;i++){
-            textdir = textdir + dir.toString();
-            System.out.print(textdir);
-        }
-
-        System.out.print(textdir);
-        
         ByteArrayOutputStream out = QRCode.from(textdir).to(ImageType.JPG).stream();
         System.out.print(out);
         File f = new File("src\\qrcode.jpg");
@@ -813,6 +806,6 @@ public class WelcomeScreenController implements Initializable {
 
 
     }
-    */
+
 
 }
