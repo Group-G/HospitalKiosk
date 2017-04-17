@@ -255,6 +255,24 @@ public class HospitalData {
         System.out.println("COULD NOT FIND FLOOR " + id);
         return null;
     }
+
+
+
+    public static Floor getFloorByName(String name) {
+
+        for(int i = 0; i < buildingsList.size(); i++)
+        {
+            ArrayList<Floor> floorList = buildingsList.get(i).getFloorList();
+            for(int f = 0; f < floorList.size(); f++) {
+
+                if (floorList.get(f).getFloorNum().equals(name)) {
+                    return floorList.get(f);
+                }
+            }
+        }
+        System.out.println("COULD NOT FIND FLOOR " + name);
+        return null;
+    }
     /**
      * Finds a location based on its ID
      * @param id The ID of target location

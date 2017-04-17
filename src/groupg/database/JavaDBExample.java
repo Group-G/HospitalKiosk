@@ -461,6 +461,7 @@ public class JavaDBExample
         catch (SQLException e)
         {
             System.out.println("WRITING TO DATABASE FAILED");
+            e.printStackTrace();
             System.out.println("RESTORING FROM BACKUP");
             restoreBackup();
             System.out.println("BACKUP RESTORATION COMPLETE");
