@@ -1,5 +1,6 @@
 package groupg.controller;
 
+import groupg.Main;
 import groupg.database.Admin;
 import static groupg.Main.h;
 import groupg.jfx.ResourceManager;
@@ -84,14 +85,22 @@ public class AdminLoginController implements Initializable {
     }
 
     private void attemptLogin(ActionEvent actionEvent) {
-        Admin admin = h.getAdminByUsername(usernameField.getText());
+        Admin admin = Main.h.getAdminByUsername(usernameField.getText());
         BigInteger m = new BigInteger(passField.getText().getBytes());
         BigInteger hashed = m.modPow(h.key.publicKey, h.key.modulus);
 
         if (admin != null && admin.login(hashed)) {
             errorText.setVisible(false);
             try {
-                ResourceManager.getInstance().loadFXMLIntoScene("/view/adminMain.fxml", "Admin Main", cancelBtn.getScene());
+                if(admin.getType().equals("Admin")){
+                    ResourceManager.getInstance().loadFXMLIntoScene("/view/adminMain.fxml", "Admin Main", cancelBtn.getScene());
+                    System.out.println("Logged into User");
+                }
+                else{
+                    ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Admin Main", cancelBtn.getScene());
+                    WelcomeScreenController.setPermission(1);
+                    System.out.println("Logged into User");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

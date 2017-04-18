@@ -10,14 +10,24 @@ import static groupg.Main.h;
  * Created by Sammy on 4/8/2017.
  */
 public class Admin {
+    private String type;
+    private int typeNum;
     private String username;
     private String password;
     private BigInteger hashed;
 
 
-    public Admin(String username, String password){
+    public Admin(String username, String password, int type){
         this.username = username;
         this.password = password;
+        this.typeNum = type;
+        if(type == 1){
+            this.type = "Admin";
+        }
+        else{
+            this.type = "User";
+        }
+
 
         byte[] bytes = this.password.getBytes();
         BigInteger m = new BigInteger(bytes);
@@ -49,11 +59,13 @@ public class Admin {
     }
 
     public String getSQL(){
-        return "(\'" + this.username + "\', \'" + this.hashed + "\')";
+        return "(\'" + this.username + "\', \'" + this.hashed + "\', " + this.typeNum + ")";
     }
 
 
-
+    public String getType() {
+        return type;
+    }
 }
 
 

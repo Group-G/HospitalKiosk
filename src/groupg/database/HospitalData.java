@@ -38,7 +38,8 @@ public class HospitalData {
         }
 
         adminList = new ArrayList<Admin>();
-        addAdmin(new Admin("admin", "guest"));
+        addAdmin(new Admin("admin", "guest", 1));
+        addAdmin(new Admin("user", "user", 0));
 
     }
 
@@ -217,7 +218,7 @@ public class HospitalData {
                 return admin;
             }
         }
-        return new Admin("", "");
+        return new Admin("", "", 0);
     }
 
 
@@ -1039,6 +1040,7 @@ public class HospitalData {
             int roomColumns = roomDataset.getColumnCount();
 
             String un = "", pw = "";
+            int type = -1;
             while (admins.next()) {
                 for (int j = 1; j <= roomColumns; j++) {
                     if (roomDataset.getColumnName(j).equals("ADMIN_UN")) {
@@ -1046,8 +1048,12 @@ public class HospitalData {
                     } else if (roomDataset.getColumnName(j).equals("ADMIN_PW")) {
                         pw = admins.getString(j);
                     }
+                    else if (roomDataset.getColumnName(j).equals("TYPE"))
+                    {
+                        FLOOR_NEW = Integer.parseInt(admins.getString(j));
+                    }
                 }
-                adminList.add(new Admin(un, pw));
+                adminList.add(new Admin(un, pw, type));
             }
 
             return true;

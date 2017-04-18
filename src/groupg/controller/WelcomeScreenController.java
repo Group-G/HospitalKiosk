@@ -2,10 +2,13 @@
 package groupg.controller;
 
 
+import groupg.Main;
 import groupg.algorithm.NavigationAlgorithm;
 import groupg.algorithm.NavigationFacade;
+import groupg.database.Category;
 import groupg.database.EmptyLocation;
 import static groupg.Main.h;
+
 import groupg.database.Location;
 import groupg.database.LocationDecorator;
 import groupg.jfx.*;
@@ -24,10 +27,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import net.glxn.qrgen.core.image.ImageType;
@@ -36,7 +36,6 @@ import net.glxn.qrgen.javase.QRCode;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -68,6 +67,8 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private Text directions;
     @FXML
+    private Accordion acccordionDropDown;
+    @FXML
     private TitledPane wareaPane, bathPane, hdeskPane, exitPane, docPane, officePane;
     @FXML
     private ListView<Location> waitAreaLV, bathroomLV, ServicesLV, exitsLV, doctorLV, officeLV;
@@ -81,6 +82,11 @@ public class WelcomeScreenController implements Initializable {
     private ImageView qrcode;
     private Tab selectedTab;
     private String lang = "Eng";
+    private static int permission = 0;
+
+    public static void setPermission(int p){
+        permission = p;
+    }
 
     public WelcomeScreenController() {
         startField = new AutoCompleteTextField();
@@ -97,6 +103,22 @@ public class WelcomeScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        acccordionDropDown.getPanes().clear();
+
+        for (Category category : Main.h.getAllCategories()) {
+            if (category.getPermission() <= permission) {
+                ListView locByCat = new ListView();
+                locByCat.getItems().addAll(Main.h.getLocationsByCategory(category.getCategory()));
+                locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+                locByCat.setOnMouseClicked((MouseEvent event) -> {
+                    if (event.getClickCount() == 2)
+                        endField.setCurrentSelection(waitAreaLV.getSelectionModel().getSelectedItem());
+                });
+                acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory(), locByCat));
+            }
+        }
+
         File qrcode = new File("qrcode.jpg");
         boolean exists = qrcode.exists();
         if(exists){
@@ -205,8 +227,9 @@ public class WelcomeScreenController implements Initializable {
         startField.getEntries().addAll(locations);
         endField.getEntries().addAll(locations);
 
+
         //Fill drop downs
-        waitAreaLV.getItems().addAll(h.getLocationsByCategory("Waiting Area"));
+        waitAreaLV.getItems().addAll(Main.h.getLocationsByCategory("Waiting Area"));
         waitAreaLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         waitAreaLV.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2)
