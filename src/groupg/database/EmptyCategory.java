@@ -6,11 +6,11 @@ package groupg.database;
  */
 public class EmptyCategory extends Category {
     public EmptyCategory(String category, int permission) {
-        super(category, permission, "#ffffff");
+        super(category, permission, "#000000");
     }
 
     public EmptyCategory() {
-        super("", 0, "#ffffff");
+        super("", 0, "#000000");
     }
 
     @Override
