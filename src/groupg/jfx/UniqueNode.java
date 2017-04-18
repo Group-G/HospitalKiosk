@@ -18,20 +18,25 @@ public class UniqueNode extends Circle {
         super(radius);
         this.location = location;
         color = location.getCategory().getColor();
+
     }
 
     public void setUnhighlighted() {
 //        switch (location.getCategory().toString()) {
 //            default:
-//                location.getCategory().setColor("#000000");
 //                break;
 //        }
-        setFill(Color.web(location.getCategory().getColor()));
+        color = location.getCategory().getColor();
+        color = color.substring(0, 8) + "55";
+        System.out.println(color);
+        setFill(Color.web(color));
     }
 
     public void setHighlighted() {
 
-        setFill(Color.web("0xff0000"));
+        color = location.getCategory().getColor();
+        color = color.substring(0, 8) + "ff";
+        setFill(Color.web(color));
     }
 
     public Location getLocation() {

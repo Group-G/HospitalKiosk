@@ -51,7 +51,7 @@ public class HospitalData {
      * Pulls all data from sql tables
      * @return true if successful
      */
-    public boolean pullDataFromDB() {
+    private boolean pullDataFromDB() {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
         }
@@ -116,12 +116,12 @@ public class HospitalData {
                 }
                 locations = locations + locs.get(i).getSQL();
                 List<String> newConnections = locs.get(i).getConnectionsSQL();
-                for (int j = 0; j < newConnections.size(); j++) {
-                    if (connections.indexOf(newConnections.get(j)) == -1) {
+                for (String newConnection : newConnections) {
+                    if (!connections.contains(newConnection)) {
                         if (!connections.equals("")) {
                             connections = connections + ",";
                         }
-                        connections = connections + newConnections.get(j);
+                        connections = connections + newConnection;
                     }
                 }
             }
@@ -442,7 +442,7 @@ public class HospitalData {
     }
     /**
      * returns all people
-     * @return
+     * @return List of all people
      */
     public List<Person> getAllPeople()
     {
@@ -496,12 +496,8 @@ public class HospitalData {
 //        System.out.println("ADDING A FRIGGIN CONNECTION " + id1 + ", " + id2);
         Location l1 = getLocationById(id1);
         Location l2 = getLocationById(id2);
-        if(l1 == null || l2 == null){
-//            System.out.println("Invalid ID's for connection");
-        }
-        if(l1.getID() == l2.getID()){
-//            System.out.println("YOU CANT CONNECT A NODE TO ITSELF");
-        }
+        if(l1 == null || l2 == null) System.out.println("Invalid ID's for connection");
+        else if(l1.getID() == l2.getID()) System.out.println("YOU CANT CONNECT A NODE TO ITSELF");
         else{
             l1.addNeighbor(id2);
             l2.addNeighbor(id1);
@@ -572,10 +568,9 @@ public class HospitalData {
      */
     public boolean setPerson(int id, Person p) {
 //        peopleList
-        for(int i = 0; i < peopleList.size(); i++)
-        {
-            if(peopleList.get(i).getId() == id){
-                peopleList.get(i).setPerson(p);
+        for (Person aPeopleList : peopleList) {
+            if (aPeopleList.getId() == id) {
+                aPeopleList.setPerson(p);
             }
         }
         return true;
@@ -589,10 +584,9 @@ public class HospitalData {
      */
     public boolean setLocation(int id, Location l) {
         List<Location> locs = getAllLocations();
-        for(int i = 0; i < locs.size(); i++)
-        {
-            if(locs.get(i).getID() == id){
-                locs.get(i).setLocation(l);
+        for (Location loc : locs) {
+            if (loc.getID() == id) {
+                loc.setLocation(l);
                 return true;
             }
         }
@@ -779,10 +773,6 @@ public class HospitalData {
             ResultSetMetaData roomDataset = locations.getMetaData();
 
             int roomColumns = roomDataset.getColumnCount();
-//            for (int i = 1; i <= roomColumns; i++) {
-//                System.out.print(roomDataset.getColumnName(i) + "|");
-//            }
-//            System.out.println();
 
             int id = -1, x_coord = -1, y_coord = -1, buildingID = -1, floorId = -1;
             Category category = new Category("FAILED TO PULL", 0, "#ffffff");
@@ -817,15 +807,8 @@ public class HospitalData {
                     {
                         System.out.println("Could not place " + locations.getString(j) +", " + roomDataset.getColumnName(j));
                     }
-
-//
-//                    //make building and add it
-
-
-
                 }
                 Location l = new Location(locationName, x_coord, y_coord, new LinkedList<>(), category, 1, id, floorId, buildingID);
-//                System.out.println("Read Location " + l.getSQL());
                 addLocation(l);
 
             }

@@ -12,6 +12,10 @@ public class Category {
     private String color;
 
     public Category(String category, int permission, String color) {
+        if(color.charAt(0) == '#'){
+            color = color.substring(1);
+            color = "0x" + color;
+        }
         this.category = category;
         this.permission = permission;
         this.color = color;
@@ -19,7 +23,7 @@ public class Category {
     public Category(String category, int permission) {
         this.category = category;
         this.permission = permission;
-        this.color = "#ffffff";
+        this.color = "0xffffff";
     }
 
     @Override
