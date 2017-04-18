@@ -65,15 +65,16 @@ public class EditCategoryAddController implements Initializable
     public void onAdd(ActionEvent event)
     {
         if(catNameField.getText().equals("")){
-
+//throw error
         }
-        if(radioprivate.isArmed()) {
+        if(radioprivate.isSelected()) {
             Main.h.addCategory(catNameField.getText(), 1, colorField.getValue().toString());
         }
-        else if(radiopublic.isArmed()){
+        else if(radiopublic.isSelected()){
             Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString());
         }
         else{
+            //default public
             Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString());
         }
         try

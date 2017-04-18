@@ -29,7 +29,7 @@ public class PropertyDisplay extends Pane {
     private boolean collectionUpdated = false;
 
     public PropertyDisplay() {
-        window = new Rectangle(10, 12, Color.GRAY.deriveColor(1, 1, 1, 0.7));
+        window = new Rectangle(10, 20, Color.GRAY.deriveColor(1, 1, 1, 0.7));
         window.setStroke(Color.BLACK);
         keys = new ArrayList<>();
         vals = new ArrayList<>();
@@ -96,7 +96,7 @@ public class PropertyDisplay extends Pane {
 
     private void updateDisplay() {
         if (collectionUpdated) {
-            window.setHeight(22 * keys.size());
+            window.setHeight(23 * keys.size());
             Text longest = new Text(Collections.max(paired, Comparator.comparingInt(String::length)));
             longest.applyCss();
             window.setWidth(longest.getLayoutBounds().getWidth() + 35);
