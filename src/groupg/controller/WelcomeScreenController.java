@@ -97,7 +97,7 @@ public class WelcomeScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        File qrcode = new File("src\\qrcode.jpg");
+        File qrcode = new File("qrcode.jpg");
         boolean exists = qrcode.exists();
         if(exists){
             qrcode.delete();
@@ -797,13 +797,13 @@ public class WelcomeScreenController implements Initializable {
         String textdir = dir.toString();
         ByteArrayOutputStream out = QRCode.from(textdir).to(ImageType.JPG).stream();
         //System.out.print(out);
-        File f = new File("src/qrcode.jpg");
+        File f = new File("qrcode.jpg");
         try {
             FileOutputStream fos = new FileOutputStream(f);
             fos.write(out.toByteArray());
             fos.flush();
             String imagepath = f.toString();
-            FileInputStream input = new FileInputStream("src/qrcode.jpg");
+            FileInputStream input = new FileInputStream("qrcode.jpg");
             Image image = new Image(input);
             qrcode.setImage(image);
 
