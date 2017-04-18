@@ -1,5 +1,6 @@
 package groupg.controller;
 
+import groupg.Main;
 import groupg.database.Admin;
 import static groupg.Main.h;
 import groupg.jfx.ResourceManager;
@@ -84,7 +85,7 @@ public class AdminLoginController implements Initializable {
     }
 
     private void attemptLogin(ActionEvent actionEvent) {
-        Admin admin = h.getAdminByUsername(usernameField.getText());
+        Admin admin = Main.h.getAdminByUsername(usernameField.getText());
         BigInteger m = new BigInteger(passField.getText().getBytes());
         BigInteger hashed = m.modPow(h.key.publicKey, h.key.modulus);
 
