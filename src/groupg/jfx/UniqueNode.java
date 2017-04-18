@@ -31,7 +31,7 @@ public class UniqueNode extends Circle {
 
     public void setHighlighted() {
 
-        setFill(Color.web("#ff0000"));
+        setFill(Color.web("0xff0000"));
     }
 
     public Location getLocation() {
