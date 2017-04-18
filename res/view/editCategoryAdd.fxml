@@ -59,12 +59,12 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                         </Text>
-                        <RadioButton fx:id="radiopublic" mnemonicParsing="false" text="Public">
+                        <RadioButton fx:id="radiopublic" mnemonicParsing="false" text="Everyone">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
                         </RadioButton>
-                        <RadioButton fx:id="radioprivate" mnemonicParsing="false" text="Private" />
+                        <RadioButton fx:id="radioprivate" mnemonicParsing="false" text="Staff" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="39.0" prefWidth="600.0">

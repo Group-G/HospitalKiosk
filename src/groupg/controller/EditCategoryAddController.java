@@ -64,6 +64,9 @@ public class EditCategoryAddController implements Initializable
 
     public void onAdd(ActionEvent event)
     {
+        if(catNameField.getText().equals("")){
+
+        }
         if(radioprivate.isArmed()) {
             Main.h.addCategory(catNameField.getText(), 1, colorField.getValue().toString());
         }
