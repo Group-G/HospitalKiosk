@@ -29,7 +29,7 @@ public class PropertyDisplay extends Pane {
     private boolean collectionUpdated = false;
 
     public PropertyDisplay() {
-        window = new Rectangle(10, 10, Color.GRAY.deriveColor(1, 1, 1, 0.7));
+        window = new Rectangle(10, 12, Color.GRAY.deriveColor(1, 1, 1, 0.7));
         window.setStroke(Color.BLACK);
         keys = new ArrayList<>();
         vals = new ArrayList<>();

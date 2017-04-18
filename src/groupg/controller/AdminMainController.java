@@ -148,6 +148,7 @@ public class AdminMainController implements Initializable {
             pd.setProperty("Category", NodeListenerFactory.currentSelection.getLocation().getCategory().getCategory());
             pd.setProperty("# of Neighbors", NodeListenerFactory.currentSelection.getLocation().getNeighbors().size() + "");
             pd.setProperty("ID", "" + NodeListenerFactory.currentSelection.getLocation().getID());
+            pd.setProperty("Permissions", "" + NodeListenerFactory.currentSelection.getLocation().getCategory().getPermission() + "");
             displayedPanels.set(0, pd);
             AdminMainController.infoOverlay.getChildren().clear();
             AdminMainController.infoOverlay.getChildren().addAll(displayedPanels);
