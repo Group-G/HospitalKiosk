@@ -24,6 +24,8 @@ public class EditCategoryAddController implements Initializable
     private Button cancelBtn, addBtn;
     @FXML
     private TextField catNameField;
+    @FXML
+    private TextField colorField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -45,7 +47,7 @@ public class EditCategoryAddController implements Initializable
 
     public void onAdd(ActionEvent event)
     {
-        Main.h.addCategory(catNameField.getText(), 0, "#ffffff");
+        Main.h.addCategory(catNameField.getText(), 0, colorField.getText());
 
         try
         {

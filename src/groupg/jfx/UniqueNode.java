@@ -12,12 +12,12 @@ import java.util.Objects;
  */
 public class UniqueNode extends Circle {
     private Location location;
-    private Color color;
+    //private Color color;
 
     public UniqueNode(double radius, Location location) {
         super(radius);
         this.location = location;
-        color = Color.BLACK.deriveColor(1, 1, 1, 0.3);
+        //color = Color.BLACK.deriveColor(1, 1, 1, 0.3);
     }
 
     public void setUnhighlighted() {
