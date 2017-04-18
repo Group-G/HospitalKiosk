@@ -21,7 +21,7 @@ public class NodeFactory {
      * @return Circle at (x,y) representing a Node
      */
     public static UniqueNode getNode(double x, double y, int floorID) {
-        UniqueNode circle = new UniqueNode(NODE_RADIUS, new Location("My Node", x, y, new LinkedList<>(), new Category("", 0, "#ffffff"), 0, floorID, 1));
+        UniqueNode circle = new UniqueNode(NODE_RADIUS, new Location("My Node", x, y, new LinkedList<>(), new Category("", 0, "#000000"), 0, floorID, 1));
         circle.setStroke(Color.BLACK);
 //        circle.setFill(circle.getLocation().getCategory().getColor());
         circle.setCenterX(x);
@@ -38,8 +38,9 @@ public class NodeFactory {
      */
     public static UniqueNode getNode(Location location) {
         UniqueNode circle = new UniqueNode(NODE_RADIUS, location);
-        circle.setStroke(Color.BLACK);
-        circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
+        //circle.setStroke(Color.BLACK);
+        //circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
+        circle.setFill(Color.web(location.getCategory().getColor()));
         circle.setCenterX(location.getX());
         circle.setCenterY(location.getY());
         NodeListenerFactory.attachListeners(circle);

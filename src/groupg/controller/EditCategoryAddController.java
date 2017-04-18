@@ -5,10 +5,14 @@ import static groupg.Main.h;
 import groupg.Main;
 import groupg.jfx.ResourceManager;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,7 +29,7 @@ public class EditCategoryAddController implements Initializable
     @FXML
     private TextField catNameField;
     @FXML
-    private TextField colorField;
+    private ColorPicker colorField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -47,7 +51,7 @@ public class EditCategoryAddController implements Initializable
 
     public void onAdd(ActionEvent event)
     {
-        Main.h.addCategory(catNameField.getText(), 0, colorField.getText());
+        Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString());
 
         try
         {
