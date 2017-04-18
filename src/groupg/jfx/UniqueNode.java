@@ -12,26 +12,26 @@ import java.util.Objects;
  */
 public class UniqueNode extends Circle {
     private Location location;
-    //private Color color;
+    private String color;
 
     public UniqueNode(double radius, Location location) {
         super(radius);
         this.location = location;
-        //color = Color.BLACK.deriveColor(1, 1, 1, 0.3);
+        color = location.getCategory().getColor();
     }
 
     public void setUnhighlighted() {
-        switch (location.getCategory().toString()) {
-            default:
-                location.getCategory().setColor("#000000");
-                break;
-        }
+//        switch (location.getCategory().toString()) {
+//            default:
+//                location.getCategory().setColor("#000000");
+//                break;
+//        }
         setFill(Color.web(location.getCategory().getColor()));
     }
 
     public void setHighlighted() {
-        location.getCategory().setColor("#ff0000");
-        setFill(Color.web(location.getCategory().getColor()));
+
+        setFill(Color.web("0xff0000"));
     }
 
     public Location getLocation() {
