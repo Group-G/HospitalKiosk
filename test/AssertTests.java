@@ -1,7 +1,4 @@
-import groupg.algorithm.Astar;
-import groupg.algorithm.DepthFirst;
-import groupg.algorithm.Navigation;
-import groupg.algorithm.NavigationFacade;
+import groupg.algorithm.*;
 import groupg.database.Category;
 import groupg.database.HospitalData;
 import groupg.database.Location;
@@ -59,7 +56,35 @@ public class AssertTests
         assertEquals(locations, depthtest.run(A,B));
     }
 
-
+    @Test
+    public void breadthTest1(){
+        LinkedList<Location> path = new LinkedList<>();
+        LinkedList<Location> locations = new LinkedList<>();
+        List<Location> neighbs= new ArrayList<>();
+        Category catA = new Category("Hall", 0);
+        Location A = new Location("A", 200, 250, neighbs, catA, 0,1,1,1);
+        Category catB = new Category("Room", 1);
+        Location B = new Location("B", 300, 450, neighbs, catB, 0,2,1,1);
+        Location C = new Location("C", 200, 250, neighbs, catA, 0,3,1,1);
+        Location D = new Location("D", 0, 0, neighbs, catB, 0, 4, 1, 1);
+        A.addNeighbor(B);
+        B.addNeighbor(A);
+        A.addNeighbor(C);
+        C.addNeighbor(A);
+        B.addNeighbor(D);
+        D.addNeighbor(B);
+        C.addNeighbor(D);
+        D.addNeighbor(C);
+        locations.add(A);
+        locations.add(B);
+        locations.add(C);
+        locations.add(D);
+        path.add(A);
+        path.add(B);
+        path.add(D);
+        BreadthFirst breadthtest = new BreadthFirst(locations);
+        assertEquals(path, breadthtest.run(A,D));
+    }
 }
 
 
