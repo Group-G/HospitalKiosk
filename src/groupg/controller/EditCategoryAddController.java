@@ -4,14 +4,13 @@ import static groupg.Main.h;
 
 import groupg.Main;
 import groupg.jfx.ResourceManager;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -38,7 +37,17 @@ public class EditCategoryAddController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-
+        final ToggleGroup group = new ToggleGroup();
+        radiopublic.setToggleGroup(group);
+        radioprivate.setToggleGroup(group);
+        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            public void changed(ObservableValue<? extends Toggle> ov,
+                                Toggle old_toggle, Toggle new_toggle) {
+                if (group.getSelectedToggle() != null) {
+                    System.out.println(group.getSelectedToggle().getUserData().toString());
+                }
+            }
+        });
     }
 
     public void onCancel(ActionEvent event)
