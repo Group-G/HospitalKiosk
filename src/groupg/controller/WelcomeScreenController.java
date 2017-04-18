@@ -6,8 +6,6 @@ import groupg.algorithm.NavigationAlgorithm;
 import groupg.algorithm.NavigationFacade;
 import groupg.database.EmptyLocation;
 import static groupg.Main.h;
-import static javafx.scene.transform.MatrixType.MT_2D_3x3;
-
 import groupg.database.Location;
 import groupg.database.LocationDecorator;
 import groupg.jfx.*;
@@ -155,15 +153,21 @@ public class WelcomeScreenController implements Initializable {
                 }
                 double zoomx = zoomGroup.getTransforms().get(0).getMxx();
                 double zoomy = zoomGroup.getTransforms().get(0).getMyy();
-                if ((imageView.getImage().getWidth() * (zoomx + zoom_fac) >= canvasWrapper.getWidth() && zoom_fac < 0) || (zoom_fac > 0  && zoomx <= 1.25)) {
+                if ((imageView.getImage().getWidth() * (zoomx + zoom_fac) >= canvasWrapper.getWidth() && zoom_fac < 0) || (zoom_fac > 0  && (zoomx+zoomx*zoom_fac) <= 1.25)) {
                     zoomGroup.getTransforms().clear();
-                    newScale.setX(zoomx + zoom_fac);
-                    newScale.setY(zoomy + zoom_fac);
+                    newScale.setX(zoomx + zoomx*zoom_fac);
+                    newScale.setY(zoomy + zoomx*zoom_fac);
                     zoomGroup.getTransforms().add(newScale);
                 } else if (zoom_fac < 0) {
                     newScale.setX(canvasWrapper.getWidth()/imageView.getImage().getWidth());
                     newScale.setY(canvasWrapper.getWidth()/imageView.getImage().getWidth());
                 }
+                pane.setHmax((zoomx + zoomx*zoom_fac));
+                //System.out.println("max" + pane.getHmax());
+                //System.out.println(pane.getHmin());
+                //System.out.println(pane.getHvalue());
+                //System.out.println(imageView.getImage().getWidth());
+                //System.out.println();
                 e.consume();
             }
         });
@@ -185,6 +189,12 @@ public class WelcomeScreenController implements Initializable {
                     .filter(elem -> elem.getFloorObj().getFloorNum().equals(newTab.getText()))
                     .collect(Collectors.toList())));
             lineOverlay.getChildren().setAll(displayedLines);
+            h.getFloorByName(oldTab.getText()).setZoom(zoomGroup.getTransforms().get(0).getMxx());
+            zoomGroup.getTransforms().clear();
+            Scale newZoom = new Scale();
+            newZoom.setX(h.getFloorByName(newTab.getText()).getZoom());
+            newZoom.setY(h.getFloorByName(newTab.getText()).getZoom());
+            zoomGroup.getTransforms().add(newZoom);
         });
 
         //Default selected tab

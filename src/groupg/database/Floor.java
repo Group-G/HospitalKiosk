@@ -11,6 +11,7 @@ public class Floor {
     private List<Location> floorLoc = new ArrayList<>();
     private int ID, buildingID;
     private String filename, floorNumber;
+    private double zoom = 1;
 
     /**
      * Constructor
@@ -117,5 +118,13 @@ public class Floor {
         buildingID = other.getBuildingID();
         filename = other.getFilename();
         floorNumber = other.getFloorNum();
+    }
+
+    public double getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(double zoom) {
+        this.zoom = zoom;
     }
 }
