@@ -22,7 +22,7 @@ public class HospitalData {
     private  int PERSONELLE_NEW;
     private  int BUILDING_NEW;
     private  int FLOOR_NEW;
-    private  int dbStrLength = 40;
+    private  static int dbStrLength = 40;
 
     public static RSA key = new RSA(64);
 //    public s
@@ -67,11 +67,11 @@ public class HospitalData {
 
 
             //Only return true if all pulls are successful
-            if(pullBuildings(stmt) && pullFloors(stmt) && pullLocations(stmt)){
-                if (pullPeople(stmt)) {
-                    if(pullConnections(stmt)){
-                        if(pullOffices(stmt)) {
-                            if(pullCategories(stmt)) {
+            if(pullCategories(stmt)) {
+                if(pullBuildings(stmt) && pullFloors(stmt) && pullLocations(stmt)){
+                    if (pullPeople(stmt)) {
+                        if(pullConnections(stmt)){
+                            if(pullOffices(stmt)) {
                                 if(pullTrackIDS(stmt)){
                                     if(pullAdmins(stmt)){
                                         return true;
@@ -188,7 +188,7 @@ public class HospitalData {
             {
                 cat = cat + ",";
             }
-            cat = cat + "(\'" + categories.get(i).getCategory() + "\', " + categories.get(i).getPermission() +  ")";
+            cat = cat + "(\'" + categories.get(i).getCategory() + "\', " + categories.get(i).getPermission() + ", \'"+ categories.get(i).getColor() +"\')";
         }
         System.out.println("Categories: " + cat);
 
@@ -367,7 +367,7 @@ public class HospitalData {
 
     /**
      * Adds location to db
-     * @param l
+     * @param l Location to be added
      */
     private void addLocation(Location l) {
         int floorId = l.getFloorID();
@@ -382,7 +382,7 @@ public class HospitalData {
 
     /**
      * Adds admin to db
-     * @param a
+     * @param a Admin to be added
      */
     private void addAdmin(Admin a) {
         adminList.add(a);
@@ -410,7 +410,7 @@ public class HospitalData {
     }
     /**
      * Returns list of all locations
-     * @return
+     * @return List of locations
      */
     public List<Location> getAllLocations() {
         List<Location> allNodes = new ArrayList<>();
@@ -522,7 +522,7 @@ public class HospitalData {
      * @param newCategory name of new category
      * @return true if it was added (not a duplicate)
      */
-    public boolean addCategory(String newCategory, int permission) {
+    public boolean addCategory(String newCategory, int permission, String color) {
         for(Category c : categories){
 
             if(c.getCategory().equals(newCategory))
@@ -531,7 +531,7 @@ public class HospitalData {
             }
         }
 //        System.out.println("ADDING " +newCategory+ ".");
-        categories.add(new Category(newCategory, permission));
+        categories.add(new Category(newCategory, permission, color));
         return false;
     }
 
@@ -558,7 +558,7 @@ public class HospitalData {
                 return c;
             }
         }
-        return new Category(string, 0);
+        return new Category(string, 0, "#ffffff");
     }
 
 
@@ -784,7 +784,7 @@ public class HospitalData {
 //            System.out.println();
 
             int id = -1, x_coord = -1, y_coord = -1, buildingID = -1, floorId = -1;
-            Category category = new Category("FAILED TO PULL", 0);
+            Category category = new Category("FAILED TO PULL", 0, "#ffffff");
             String locationName = "FAILED TO PULL";
 
 
@@ -964,7 +964,7 @@ public class HospitalData {
             int roomColumns = roomDataset.getColumnCount();
 
 
-            String aCat = "FAILED TO PULL";
+            String aCat = "FAILED TO PULL", color = "FAILED TO PULL";
             int permission = -1;
             while (cats.next()) {
                 for (int j = 1; j <= roomColumns; j++) {
@@ -974,9 +974,12 @@ public class HospitalData {
                     if (roomDataset.getColumnName(j).equals("PERMISSIONS")) {
                         permission = Integer.parseInt(cats.getString(j));
                     }
+                    if (roomDataset.getColumnName(j).equals("COLOR")) {
+                        color = cats.getString(j);
+                    }
 
                 }
-                categories.add(new Category(aCat, permission));
+                categories.add(new Category(aCat, permission, color));
 
             }
             return true;

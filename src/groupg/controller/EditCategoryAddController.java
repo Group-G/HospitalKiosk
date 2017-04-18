@@ -1,6 +1,8 @@
 package groupg.controller;
 
 import static groupg.Main.h;
+
+import groupg.Main;
 import groupg.jfx.ResourceManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -43,7 +45,7 @@ public class EditCategoryAddController implements Initializable
 
     public void onAdd(ActionEvent event)
     {
-        h.addCategory(catNameField.getText(), 0);
+        Main.h.addCategory(catNameField.getText(), 0, "#ffffff");
 
         try
         {

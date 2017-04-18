@@ -138,7 +138,7 @@ public class JavaDBExample
             stmt.execute("CREATE TABLE CONNECTIONS(LOCATION_ONE int, LOCATION_TWO int)");
             stmt.execute("CREATE TABLE PEOPLELOCATIONS(PERSON_ID int, OFFICE_ID int)");
             stmt.execute("CREATE TABLE ADMINS(ADMIN_UN varchar(40) NOT NULL Primary Key, ADMIN_PW varchar(40))");
-            stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(40), PERMISSIONS INT)");
+            stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(40), PERMISSIONS INT, COLOR varchar(7))");
 
             stmt.execute("CREATE TABLE TRACKID(LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)");
 
@@ -227,7 +227,7 @@ public class JavaDBExample
             stmt.execute("CREATE TABLE ADMINS" + m2+ " (ADMIN_UN varchar(40) NOT NULL Primary Key, ADMIN_PW varchar(40))");
             stmt.execute("INSERT INTO ADMINS" + m2+ "  SELECT * FROM ADMINS" + m1);
 
-            stmt.execute("CREATE TABLE CATEGORY" + m2+ " (CATEGORY_NAME varchar(40), PERMISSIONS INT)");
+            stmt.execute("CREATE TABLE CATEGORY" + m2+ " (CATEGORY_NAME varchar(40), PERMISSIONS INT, COLOR varchar(7))");
             stmt.execute("INSERT INTO CATEGORY" + m2+ "  SELECT * FROM CATEGORY" + m1);
 
             stmt.execute("CREATE TABLE TRACKID" + m2+ " (LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)");
@@ -330,15 +330,15 @@ public class JavaDBExample
             //FORMAT
             //(CATEGORY_NAME varchar(20), PERMISSIONS INT)
             stmt.execute("INSERT INTO CATEGORY VALUES " +
-                    "('Office', 0), " +
-                    "('Bathroom', 0), " +
-                    "('Hall', 0), " +
-                    "('Elevator', 0), " +
-                    "('Stairs', 0), " +
-                    "('Waiting Area', 0), " +
-                    "('Break Room', 1), " +
-                    "('Kiosk', 0), " +
-                    "('Emergency Room', 0) ");
+                    "('Office', 0, '#ffffff'), " +
+                    "('Bathroom', 0, '#ffdfff'), " +
+                    "('Hall', 0, '#fffaff'), " +
+                    "('Elevator', 0, '#f9ffff'), " +
+                    "('Stairs', 0, '#ffff01'), " +
+                    "('Waiting Area', 0, '#f00fff'), " +
+                    "('Break Room', 1, '#fff00f'), " +
+                    "('Kiosk', 0, '#f99fff'), " +
+                    "('Emergency Room', 0, '#99ffff') ");
 
             //INSERT TRACKIDS
             //FORMAT

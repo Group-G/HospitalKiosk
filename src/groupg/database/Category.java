@@ -9,12 +9,17 @@ import javafx.scene.paint.Color;
 public class Category {
     private String category = "";
     private int permission = -1;
-    private Color color;
+    private String color;
 
+    public Category(String category, int permission, String color) {
+        this.category = category;
+        this.permission = permission;
+        this.color = color;
+    }
     public Category(String category, int permission) {
         this.category = category;
         this.permission = permission;
-        color = Color.BLACK.deriveColor(1, 1, 1, 0.3);
+        this.color = "#ffffff";
     }
 
     @Override
@@ -47,11 +52,11 @@ public class Category {
         this.permission = permission;
     }
 
-    public Color getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(String color) {
         this.color = color;
     }
 }
