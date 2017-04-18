@@ -92,7 +92,15 @@ public class AdminLoginController implements Initializable {
         if (admin != null && admin.login(hashed)) {
             errorText.setVisible(false);
             try {
-                ResourceManager.getInstance().loadFXMLIntoScene("/view/adminMain.fxml", "Admin Main", cancelBtn.getScene());
+                if(admin.getType().equals("Admin")){
+                    ResourceManager.getInstance().loadFXMLIntoScene("/view/adminMain.fxml", "Admin Main", cancelBtn.getScene());
+                    System.out.println("Logged into User");
+                }
+                else{
+                    ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Admin Main", cancelBtn.getScene());
+                    WelcomeScreenController.setPermission(1);
+                    System.out.println("Logged into User");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

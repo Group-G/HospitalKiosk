@@ -82,7 +82,11 @@ public class WelcomeScreenController implements Initializable {
     private ImageView qrcode;
     private Tab selectedTab;
     private String lang = "Eng";
-    private int permission = 0;
+    private static int permission = 0;
+
+    public static void setPermission(int p){
+        permission = p;
+    }
 
     public WelcomeScreenController() {
         startField = new AutoCompleteTextField();
