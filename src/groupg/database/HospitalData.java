@@ -11,18 +11,18 @@ import java.util.Objects;
  */
 public class HospitalData {
 
-    private static List<Building> buildingsList = new LinkedList<>();
-    private static List<Category> categories = new LinkedList<>();
-    private static List<Person> peopleList = new ArrayList<>();
-    private static List<Admin> adminList = new ArrayList<>();
-    private static JavaDBExample dbExample;
+    private  List<Building> buildingsList = new LinkedList<>();
+    private  List<Category> categories = new LinkedList<>();
+    private  List<Person> peopleList = new ArrayList<>();
+    private  List<Admin> adminList = new ArrayList<>();
+    private  JavaDBExample dbExample;
 
     //Values for TRACKIDS
-    private static int LOCATION_NEW;
-    private static int PERSONELLE_NEW;
-    private static int BUILDING_NEW;
-    private static int FLOOR_NEW;
-    private static int dbStrLength = 40;
+    private  int LOCATION_NEW;
+    private  int PERSONELLE_NEW;
+    private  int BUILDING_NEW;
+    private  int FLOOR_NEW;
+    private  int dbStrLength = 40;
 
     public static RSA key = new RSA(64);
 //    public s
@@ -42,7 +42,7 @@ public class HospitalData {
 
     }
 
-    public static List<Building> getAllBuildings() {
+    public  List<Building> getAllBuildings() {
         return buildingsList;
     }
 
@@ -99,7 +99,7 @@ public class HospitalData {
      * Pushes all data into the database
      * @return True if pull was successul
      */
-    public static boolean publishDB() {
+    public boolean publishDB() {
 
         System.out.println("\nPushing the following to the database:");
         List<Location> locs = getAllLocations();
@@ -211,7 +211,7 @@ public class HospitalData {
         return true;
     }
 
-    public static Admin getAdminByUsername(String username){
+    public Admin getAdminByUsername(String username){
         for(Admin admin:adminList){
             if(admin.getUsername().equals(username)){
                 return admin;
@@ -226,7 +226,7 @@ public class HospitalData {
      * @param id The ID of target building
      * @return the building
      */
-    public static Building getBuildingById(int id) {
+    public Building getBuildingById(int id) {
         for (Building aBuildingsList : buildingsList) {
             if (aBuildingsList.getId() == id) {
                 return aBuildingsList;
@@ -240,7 +240,7 @@ public class HospitalData {
      * @param id The ID of target floor
      * @return the floor
      */
-    public static Floor getFloorById(int id) {
+    public Floor getFloorById(int id) {
 
         for(int i = 0; i < buildingsList.size(); i++)
         {
@@ -258,7 +258,7 @@ public class HospitalData {
 
 
 
-    public static Floor getFloorByName(String name) {
+    public Floor getFloorByName(String name) {
 
         for(int i = 0; i < buildingsList.size(); i++)
         {
@@ -278,7 +278,7 @@ public class HospitalData {
      * @param id The ID of target location
      * @return the location
      */
-    public static Location getLocationById(int id) {
+    public Location getLocationById(int id) {
         List<Location> locations = getAllLocations();
         for (Location location : locations) {
             if (location.getID() == id) {
@@ -292,7 +292,7 @@ public class HospitalData {
      * @param id The ID of target person
      * @return the person
      */
-    public static Person getPersonById(int id) {
+    public Person getPersonById(int id) {
         List<Person> persons = peopleList;
         for (Person person : persons) {
             if (person.getId() == id) {
@@ -308,7 +308,7 @@ public class HospitalData {
      * @param category given category
      * @return all locations with given category
      */
-    public static List<Location> getLocationsByCategory(String category) {
+    public List<Location> getLocationsByCategory(String category) {
         List<Location> locations = getAllLocations();
         List<Location> correct = new ArrayList<>();
         for (Location location : locations)
@@ -322,7 +322,7 @@ public class HospitalData {
 
     }
 
-    public static List<Location> getLocationsByFloor(String floorNum) {
+    public List<Location> getLocationsByFloor(String floorNum) {
         List<Location> locations = getAllLocations();
         List<Location> correct = new ArrayList<>();
         for (Location location : locations)
@@ -346,7 +346,7 @@ public class HospitalData {
      * @param f floor
      * @param buildingId building
      */
-    private static boolean addFloor(Floor f, int buildingId) {
+    private boolean addFloor(Floor f, int buildingId) {
         Building b = getBuildingById(buildingId);
         if(b == null) {
             System.out.println("couldnt find building");
@@ -369,7 +369,7 @@ public class HospitalData {
      * Adds location to db
      * @param l
      */
-    private static void addLocation(Location l) {
+    private void addLocation(Location l) {
         int floorId = l.getFloorID();
         Floor f = getFloorById(floorId);
         if(f == null) {
@@ -384,7 +384,7 @@ public class HospitalData {
      * Adds admin to db
      * @param a
      */
-    private static void addAdmin(Admin a) {
+    private void addAdmin(Admin a) {
         adminList.add(a);
     }
 
@@ -394,7 +394,7 @@ public class HospitalData {
      * Returns a list of all Floor
      * @return list of all floors
      */
-    public static List<Floor> getAllFloors() {
+    public List<Floor> getAllFloors() {
         List<Floor> allFloors = new ArrayList<>();
 
         for(int i = 0; i < buildingsList.size(); i++) {
@@ -412,7 +412,7 @@ public class HospitalData {
      * Returns list of all locations
      * @return
      */
-    public static List<Location> getAllLocations() {
+    public List<Location> getAllLocations() {
         List<Location> allNodes = new ArrayList<>();
 
         for(int i = 0; i < buildingsList.size(); i++) {
@@ -435,7 +435,7 @@ public class HospitalData {
      * Returns all categories
      * @return all categories
      */
-    public static List<Category> getAllCategories()
+    public List<Category> getAllCategories()
     {
         return categories;
     }
@@ -443,7 +443,7 @@ public class HospitalData {
      * returns all people
      * @return
      */
-    public static List<Person> getAllPeople()
+    public List<Person> getAllPeople()
     {
         return peopleList;
     }
@@ -453,7 +453,7 @@ public class HospitalData {
      * @param id ID of location to be removed
      * @return true if it was successfully removed
      */
-    public static boolean removeLocationById(int id) {
+    public boolean removeLocationById(int id) {
         List<Location> locations = getAllLocations();
         for(int i = 0; i < locations.size(); i ++)
         {
@@ -473,7 +473,7 @@ public class HospitalData {
      * @param id ID of person to be removed
      * @return true if person was successfuly removed
      */
-    public static boolean removePersonById(int id) {
+    public boolean removePersonById(int id) {
 //        peopleList
         for(int i = 0; i < peopleList.size(); i++)
         {
@@ -491,7 +491,7 @@ public class HospitalData {
      * @param id1 ID of first location
      * @param id2 ID of second location
      */
-    public static void addConnection(int id1, int id2) {
+    public void addConnection(int id1, int id2) {
 //        System.out.println("ADDING A FRIGGIN CONNECTION " + id1 + ", " + id2);
         Location l1 = getLocationById(id1);
         Location l2 = getLocationById(id2);
@@ -522,7 +522,7 @@ public class HospitalData {
      * @param newCategory name of new category
      * @return true if it was added (not a duplicate)
      */
-    public static boolean addCategory(String newCategory, int permission) {
+    public boolean addCategory(String newCategory, int permission) {
         for(Category c : categories){
 
             if(c.getCategory().equals(newCategory))
@@ -540,7 +540,7 @@ public class HospitalData {
      * @param removeCategory category to be removed
      * @return true if successfully removed
      */
-    public static boolean removeCategory(Category removeCategory) {
+    public boolean removeCategory(Category removeCategory) {
         for(int i = 0; i < categories.size();i++)
         {
             if(categories.get(i).equals(removeCategory))
@@ -569,7 +569,7 @@ public class HospitalData {
      * @param p person object with data
      * @return true if the person is being replaced
      */
-    public static boolean setPerson(int id, Person p) {
+    public boolean setPerson(int id, Person p) {
 //        peopleList
         for(int i = 0; i < peopleList.size(); i++)
         {
@@ -586,7 +586,7 @@ public class HospitalData {
      * @param l location object with data you want
      * @return true if it already exsited, false if not
      */
-    public static boolean setLocation(int id, Location l) {
+    public boolean setLocation(int id, Location l) {
         List<Location> locs = getAllLocations();
         for(int i = 0; i < locs.size(); i++)
         {
@@ -604,7 +604,7 @@ public class HospitalData {
 //
 //    }
 
-    public static int getNewLocationID(){
+    public int getNewLocationID(){
 
         LOCATION_NEW++;
         for(Location l :getAllLocations()){
@@ -615,7 +615,7 @@ public class HospitalData {
         return LOCATION_NEW;
     }
 
-    public static int getNewPersonelleID(){
+    public int getNewPersonelleID(){
         PERSONELLE_NEW++;
         for(Person p :getAllPeople()){
             if(p.getId() == PERSONELLE_NEW){
@@ -625,7 +625,7 @@ public class HospitalData {
         return PERSONELLE_NEW;
     }
 
-    public static int getNewBuildingID(){
+    public int getNewBuildingID(){
         BUILDING_NEW++;
         for(Building p :buildingsList){
             if(p.getId() == BUILDING_NEW){
@@ -636,7 +636,7 @@ public class HospitalData {
     }
 
     @SuppressWarnings("public")
-    public static int getNewFloorID(){
+    public int getNewFloorID(){
         FLOOR_NEW++;
         for(Floor f :getAllFloors()){
             if(f.getID() == FLOOR_NEW){
@@ -646,7 +646,7 @@ public class HospitalData {
         return FLOOR_NEW;
     }
 
-    public static int maxStringLength(){
+    public  int maxStringLength(){
         return dbStrLength;
     }
 
@@ -656,7 +656,7 @@ public class HospitalData {
      * @param stmt SQL Statement
      * @return Whether the pull had any errors
      */
-    private static boolean pullBuildings(Statement stmt) {
+    private boolean pullBuildings(Statement stmt) {
         try {
 
             //Grab from database

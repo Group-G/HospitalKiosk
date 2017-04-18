@@ -28,11 +28,15 @@ public class Main extends Application
         primaryStage.setTitle("Welcome");
         primaryStage.setScene(new Scene(root, 1404, 800));
         primaryStage.show();
-        primaryStage.setOnCloseRequest(event -> HospitalData.publishDB());
+
+        primaryStage.setOnCloseRequest(event -> Main.h.publishDB());
+
     }
 
     public static void main(String[] args)
     {
+        System.out.println("hallo");
+
         dbExample.connectDB();
 
         Path path = Paths.get("HospitalDatabase");

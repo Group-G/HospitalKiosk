@@ -1,5 +1,6 @@
 package groupg.jfx;
 
+import groupg.Main;
 import groupg.database.HospitalData;
 import groupg.database.Location;
 import javafx.geometry.Side;
@@ -88,7 +89,7 @@ public class AutoCompleteTextField extends TextField {
         if (currentSelection == null) {
             Location out = null;
 
-            for (Location elem : HospitalData.getAllLocations())
+            for (Location elem : Main.h.getAllLocations())
                 if (elem.toString().equals(getText())) {
                     out = elem;
                     break;

@@ -1,5 +1,6 @@
 package groupg.database;
 
+import groupg.Main;
 import javafx.application.HostServices;
 
 import java.math.BigInteger;
@@ -20,7 +21,9 @@ public class Admin {
 
         byte[] bytes = this.password.getBytes();
         BigInteger m = new BigInteger(bytes);
-        this.hashed = m.modPow(h.key.publicKey, h.key.modulus);
+        System.out.println(Main.h.key);
+        System.out.println(Main.h.key.publicKey + ", " +  Main.h.key.modulus);
+        this.hashed = m.modPow(Main.h.key.publicKey, Main.h.key.modulus);
 
         System.out.println(this.hashed);
 

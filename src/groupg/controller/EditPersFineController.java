@@ -1,6 +1,8 @@
 package groupg.controller;
 
 import static groupg.Main.h;
+
+import groupg.Main;
 import groupg.database.Location;
 import groupg.database.HospitalData;
 import groupg.database.Person;
@@ -109,7 +111,7 @@ public class EditPersFineController implements Initializable
         nameField.setText(pers.getName());
         titleField.setText(pers.getTitle());
         locList.getItems().setAll(pers.getLocations().stream()
-                                      .map(HospitalData::getLocationById)
+                                      .map(Main.h::getLocationById)
                                       .collect(Collectors.toList())); //Add person's locs from DB
     }
 }

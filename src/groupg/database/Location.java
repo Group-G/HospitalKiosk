@@ -1,5 +1,7 @@
 package groupg.database;
 
+import groupg.Main;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -258,7 +260,7 @@ public class Location implements Comparable
             return false;
         }
 
-        neighbors.add(h.getLocationById(id));
+        neighbors.add(Main.h.getLocationById(id));
         return true;
     }
 
