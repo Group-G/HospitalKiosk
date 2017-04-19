@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1252.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1252.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.AboutController">
    <children>
       <Label layoutX="21.0" layoutY="631.0" text="Lead Software Engineer:" />
       <Label layoutX="38.0" layoutY="651.0" text="Samantha Comeau" />
@@ -124,6 +124,6 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="65.0" layoutY="40.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="95.0" text="Back" />
+      <Button layoutX="65.0" layoutY="40.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="95.0" text="Back" fx:id="cancelBtn" onAction="#onCancel"/>
    </children>
 </AnchorPane>
