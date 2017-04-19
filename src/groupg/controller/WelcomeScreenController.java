@@ -37,6 +37,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static groupg.Main.h;
+import static groupg.Main.main;
 //import static groupg.controller.AdminMainController.infoOverlay;
 //import static groupg.controller.AdminMainController.nodeOverlay;
 
@@ -90,6 +91,8 @@ public class WelcomeScreenController implements Initializable {
     private static Floor currentFloor;
     private String lang = "Eng";
     private static int permission = 0;
+    private List<Tab> tabList = new ArrayList<>();
+    private boolean searched = false;
 
     public static void setPermission(int p){
         permission = p;
@@ -227,13 +230,16 @@ public class WelcomeScreenController implements Initializable {
                 //Clear current selection
                 //NodeListenerFactoryLite.currentSelection = null;
             });
-            tabPane.getTabs().add(tab);
+            tabList.add(tab);
         });
+        updateTabs(new ArrayList<Floor>());
 
         //Listener for tab selection change
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
+            if (newTab != null) {
             selectedTab = newTab;
             displayedLines.clear();
+            System.out.println("newTab: " + newTab);
             displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(navigation.getPath()
                     .stream()
                     .filter(elem -> elem.getFloorObj().getFloorNum().equals(newTab.getText()))
@@ -250,13 +256,15 @@ public class WelcomeScreenController implements Initializable {
 
             //Clear current selection
             //NodeListenerFactoryLite.currentSelection = null;
-
-            Main.h.getFloorByName(oldTab.getText()).setZoom(zoomGroup.getTransforms().get(0).getMxx());
+            if (oldTab != null) {
+                Main.h.getFloorByName(oldTab.getText()).setZoom(zoomGroup.getTransforms().get(0).getMxx());
+            }
             zoomGroup.getTransforms().clear();
             Scale newZoom = new Scale();
             newZoom.setX(Main.h.getFloorByName(newTab.getText()).getZoom());
             newZoom.setY(Main.h.getFloorByName(newTab.getText()).getZoom());
             zoomGroup.getTransforms().add(newZoom);
+        }
         });
 
         //Default selected tab
@@ -331,6 +339,7 @@ public class WelcomeScreenController implements Initializable {
                 text.wrappingWidthProperty().bind(hbox.widthProperty().subtract(10));
                 text.textProperty().bind(itemProperty());
                 setPrefWidth(0);
+                setPrefHeight(60);
 
                 Label iconLabel = new Label();
                 String url;
@@ -373,6 +382,21 @@ public class WelcomeScreenController implements Initializable {
         }
     }
 
+    private void updateTabs(List<Floor> floors) {
+        tabPane.getTabs().clear();
+        if (floors.size() == 0) {
+            tabPane.getTabs().addAll(tabList);
+        } else {
+            for (Floor f:floors){
+                for (Tab t :tabList) {
+                    if (t.getText().equals(f.getFloorNum())){
+                        tabPane.getTabs().add(t);
+                    }
+                }
+            }
+        }
+    }
+
     private void drawPath() {
         if (startField.getCurrentSelection() != null && endField.getCurrentSelection() != null) {
             final List<LocationDecorator> output = new ArrayList<>();
@@ -412,18 +436,19 @@ public class WelcomeScreenController implements Initializable {
             //Filter out locations not on this floor
             try {
                 //Highlight tabs with paths
-                tabPane.getTabs().parallelStream().forEach(elem -> {
-                    elem.setStyle("");
-                    if (filtered_output.parallelStream()
-                            .map(item -> item.getFloorObj().getFloorNum())
-                            .collect(Collectors.toList())
-                            .contains(elem.getText())) {
-                        elem.setStyle("-fx-background-color: #f4f142");
-                    }
-                });
-
+//                tabPane.getTabs().parallelStream().forEach(elem -> {
+//                    elem.setStyle("");
+//                    if (filtered_output.parallelStream()
+//                            .map(item -> item.getFloorObj().getFloorNum())
+//                            .collect(Collectors.toList())
+//                            .contains(elem.getText())) {
+//                        elem.setStyle("-fx-background-color: #f4f142");
+//                    }
+//                });
 
                 List<Floor> floors = Main.h.getFloorsByIds(filtered_output);
+
+                updateTabs(floors);
 
                 //Filter output based on current tab
                 List<LocationDecorator> tempList = filtered_output.stream()
@@ -511,7 +536,7 @@ public class WelcomeScreenController implements Initializable {
                         pixelCounter = (int) locations.get(loc).lengthTo(locations.get(loc+1));
 //                        System.out.println(pixelCounter);
                     }
-                    String distance = " In " + pixelCounter + " px\n";
+                    String distance = " In " + (int)(pixelCounter/Main.h.getPixelsPerFeet()) + " ft\n";
                     // get the current angle of the node
                     currAngle = getAngle(locations.get(loc), locations.get(loc + 1));
                     // from current facing position calculate turn
@@ -746,7 +771,18 @@ public class WelcomeScreenController implements Initializable {
     }
 
     public void onSearch(ActionEvent actionEvent) {
-        drawPath();
+        if (searched == true) {
+            searched = false;
+            updateTabs(new ArrayList<>());
+            dirList.getItems().clear();
+            qrcode.setVisible(false);
+            searchBtn.setText("Search");
+        } else {
+            searched = true;
+            drawPath();
+            searchBtn.setText("Cancel");
+            qrcode.setVisible(true);
+        }
     }
 
     public void onFloor1(Event event) {
