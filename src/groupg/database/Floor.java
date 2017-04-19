@@ -12,6 +12,7 @@ public class Floor {
     private int ID, buildingID;
     private String filename, floorNumber;
     private double zoom = 1;
+    private double floorNum = -1;
 
     /**
      * Constructor
@@ -28,6 +29,7 @@ public class Floor {
         this.buildingID = buildingID;
         this.filename = fileName;
         this.floorNumber = floorName;
+
     }
 
     /**
@@ -126,5 +128,9 @@ public class Floor {
 
     public void setZoom(double zoom) {
         this.zoom = zoom;
+    }
+
+    public String getFloorNumber() {
+        return floorNumber;
     }
 }

@@ -544,6 +544,12 @@ public class HospitalData {
     }
 
 
+    public List<Floor> getFloorsByIds(List<Integer> ids){
+        List<Floor> floors = new ArrayList<>();
+        System.out.println(ids);
+        return floors;
+    }
+
     /**
      * adds connections between 2 locations
      * @param id1 ID of first location
@@ -821,6 +827,9 @@ public class HospitalData {
                             floorNumber = floorNumber.substring(0, index);
                             index--;
                         }
+                        floorNumber = floorNumber.replace("Floor ", "");
+                        floorNumber = floorNumber.replace("Faulker", "Faulkner");
+//                        System.out.println("\'" + floorNumber + "\', \'" + floorNumber.replace("Floor ", "")+ "\'");
 
 
 

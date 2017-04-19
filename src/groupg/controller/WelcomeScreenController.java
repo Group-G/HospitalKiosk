@@ -401,9 +401,9 @@ public class WelcomeScreenController implements Initializable {
             int startfloorID = startField.getCurrentSelection().getFloorID();
             int endfloorID = endField.getCurrentSelection().getFloorID();
             output.forEach(e -> {
-                //if (e.getFloorObj().getID() == startfloorID || e.getFloorObj().getID() == endfloorID){
-                filtered_output.add(e);
-                //}
+                if (e.getFloorObj().getID() == startfloorID || e.getFloorObj().getID() == endfloorID || e.getFloorObj().getFloorNum().equals("Faulkner 1")){
+                    filtered_output.add(e);
+                }
             });
 
             generateTextDirections(filtered_output.stream()
@@ -501,11 +501,11 @@ public class WelcomeScreenController implements Initializable {
                 } else {
                     if(samepath) {
                         pixelCounter += (int) locations.get(loc).lengthTo(locations.get(loc+1));
-                        System.out.println(pixelCounter);
+//                        System.out.println(pixelCounter);
                     }
                     else {
                         pixelCounter = (int) locations.get(loc).lengthTo(locations.get(loc+1));
-                        System.out.println(pixelCounter);
+//                        System.out.println(pixelCounter);
                     }
                     String distance = " In " + pixelCounter + " px\n";
                     // get the current angle of the node
