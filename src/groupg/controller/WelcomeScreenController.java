@@ -543,8 +543,9 @@ public class WelcomeScreenController implements Initializable {
                 preAngle = curaAngle;
             }
             dirList.setItems(directions);
+            QRgen();
         }
-        QRgen();
+
     }
 
     private String getTurn(double turn) {
@@ -780,7 +781,7 @@ public class WelcomeScreenController implements Initializable {
             loginBtn.setText("Inicio");
         }
         else{
-            loginBtn.setText("Logout");
+            loginBtn.setText("Cerrar Sesión");
         }
         searchBtn.setText("Busca");
         wareaPane.setText("Área de Espera");
@@ -805,7 +806,7 @@ public class WelcomeScreenController implements Initializable {
             loginBtn.setText("Entra");
         }
         else{
-            loginBtn.setText("Logout");
+            loginBtn.setText("Sair");
         }
         searchBtn.setText("Busca");
         wareaPane.setText("Área de Espera");
@@ -830,7 +831,7 @@ public class WelcomeScreenController implements Initializable {
             loginBtn.setText("注册");
         }
         else{
-            loginBtn.setText("Logout");
+            loginBtn.setText("登出");
         }
         searchBtn.setText("搜查");
         wareaPane.setText("等候区");
