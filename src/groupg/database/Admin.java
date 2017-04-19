@@ -31,11 +31,11 @@ public class Admin {
 
         byte[] bytes = this.password.getBytes();
         BigInteger m = new BigInteger(bytes);
-        System.out.println(Main.h.key);
-        System.out.println(Main.h.key.publicKey + ", " +  Main.h.key.modulus);
+//        System.out.println(Main.h.key);
+//        System.out.println(Main.h.key.publicKey + ", " +  Main.h.key.modulus);
         this.hashed = m.modPow(Main.h.key.publicKey, Main.h.key.modulus);
 
-        System.out.println(this.hashed);
+//        System.out.println(this.hashed);
 
     }
 
