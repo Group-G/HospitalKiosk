@@ -20,7 +20,7 @@ public class HospitalData {
     private  int BUILDING_NEW;
     private  int FLOOR_NEW;
     private  static int dbStrLength = 40;
-    public static String errorMessage = "";
+    private static String errorMessage = "";
     private List<Integer> allIds = new ArrayList<>();
 
     public static RSA key = new RSA(64);
@@ -1129,7 +1129,9 @@ public class HospitalData {
                 }
                 adminList.add(new Admin(un, pw, type));
             }
-
+            adminList = new ArrayList<Admin>();
+            addAdmin(new Admin("admin", "guest", 1));
+            addAdmin(new Admin("user", "user", 0));
             return true;
         }
         catch (SQLException e){

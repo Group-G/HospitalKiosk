@@ -36,14 +36,17 @@ public class AdminMainController implements Initializable {
     private GridPane canvasWrapper;
     @FXML
     private MenuButton changeAlgorithmDD;
-    private static Pane imageViewPane, nodeOverlay, lineOverlay, infoOverlay;
+    private static Pane imageViewPane;
+    private static Pane nodeOverlay;
+    public static Pane lineOverlay;
+    public static Pane infoOverlay;
     public static ObservableList<UniqueNode> displayedNodes = FXCollections.observableArrayList();
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
     private static ObservableList<PropertyDisplay> displayedPanels = FXCollections.observableArrayList();
     private ImageView imageView;
     private static Floor currentFloor;
     private static Tab selectedTab;
-    private static NavigationAlgorithm selectedAlgorithm;
+    public static NavigationAlgorithm selectedAlgorithm;
     private static int scale = 1;
     private static int xdif = 0;
     private static Group zoomGroupGlobal;
@@ -187,7 +190,8 @@ public class AdminMainController implements Initializable {
     }
 
     public void onAddNode(ActionEvent actionEvent) {
-//        zoomGroupGlobal.
+
+        System.out.println(zoomGroupGlobal.getScaleX() + ", " + zoomGroupGlobal.getScaleY()  + ", " + zoomGroupGlobal.getScaleZ());
         UniqueNode node = NodeFactory.getNode(imageView.getImage().widthProperty().doubleValue() / 2.0,
                                               imageView.getImage().heightProperty().doubleValue() / 2.0,
                                               currentFloor.getID());
