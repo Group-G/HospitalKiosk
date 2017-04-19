@@ -242,6 +242,17 @@ public class HospitalData {
         return new Admin("", "", 0);
     }
 
+    public boolean getCheckUsername(String username){
+        for(Admin admin:adminList){
+            if(admin.getUsername().equals(username)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
 
     /**
      * Finds a Building based on its ID
@@ -406,7 +417,7 @@ public class HospitalData {
      * Adds admin to db
      * @param a Admin to be added
      */
-    private void addAdmin(Admin a) {
+    public void addAdmin(Admin a) {
         adminList.add(a);
     }
 
@@ -460,6 +471,25 @@ public class HospitalData {
     public List<Category> getAllCategories()
     {
         return categories;
+    }
+    /**
+     * Returns all Admins
+     * @return all admins
+     */
+    public List<Admin> getAllAdmins()
+    {
+        return adminList;
+    }/**
+     * Returns all Admins
+     * @return all admins
+     */
+    public List<Admin> getAllAdminUsernames()
+    {
+        List uns = new ArrayList<String>();
+        for(Admin admin: adminList){
+            uns.add(admin.getUsername());
+        }
+        return uns;
     }
     /**
      * returns all people
@@ -569,6 +599,39 @@ public class HospitalData {
         }
         return false;
     }
+
+    /***Removes an admin from adminList
+     * @param removeAdmin category to be removed
+     * @return true if successfully removed
+     */
+    public boolean removeAdmin(Admin removeAdmin) {
+        for(int i = 0; i < adminList.size();i++)
+        {
+            if(adminList.get(i).equals(removeAdmin))
+            {
+                adminList.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /***Removes an admin from adminList
+     * @param removeAdmin admin to be removed
+     * @return true if successfully removed
+     */
+    public boolean removeAdminByUsername(String removeAdmin) {
+        for(int i = 0; i < adminList.size();i++)
+        {
+            if(adminList.get(i).getUsername().equals(removeAdmin))
+            {
+                adminList.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private Category getCategoryByName(String string) {
         for(Category c : categories){

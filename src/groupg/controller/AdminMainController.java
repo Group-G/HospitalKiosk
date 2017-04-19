@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  */
 public class AdminMainController implements Initializable {
     @FXML
-    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, showAllCons;
+    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, showAllCons, editAdminBtn;
     @FXML
     private TabPane tabPane;
     @FXML
@@ -160,6 +160,14 @@ public class AdminMainController implements Initializable {
 
         try {
             ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", logoutBtn.getScene());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onAdminEdit(ActionEvent actionEvent) {
+        try {
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/editAdmin.fxml", "Edit Admins", editAdminBtn.getScene());
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -66,6 +66,11 @@ public class Admin {
     public String getType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        return this.username;
+    }
 }
 
 
