@@ -29,8 +29,7 @@ public class EditCategoryController implements Initializable
     private ObservableList<String> cats = FXCollections.observableArrayList();
 
     @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
+    public void initialize(URL location, ResourceBundle resources) {
         cats.clear();
         catList.getItems().setAll(h.getAllCategories());
     }
