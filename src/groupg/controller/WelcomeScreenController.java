@@ -408,8 +408,9 @@ public class WelcomeScreenController implements Initializable {
     // TODO check for adjacent nodes before instructing a turn
     private void generateTextDirections(List<Location> locations) {
         ObservableList<String> directions = FXCollections.observableArrayList();
-        boolean enterElivator = false;
+        boolean enterElevator = false;
         boolean samepath = false;
+        int pixelCounter = 0;
         boolean straight = false;
         //System.out.println(locations.size());
         // if there is only 1 node in the list
@@ -432,7 +433,7 @@ public class WelcomeScreenController implements Initializable {
             // if there are multiple nodes in the list
         } else {
             double preAngle = 90; // start facing top of the map
-            double curaAngle = 0;
+            double currAngle = 0;
             double turn;
             // go though all locations
             for (int loc = 0; loc < locations.size(); loc++) {
@@ -458,19 +459,26 @@ public class WelcomeScreenController implements Initializable {
                     }
                     // if the node is not the last node
                 } else {
-
-                    String distance = " In " + (int) locations.get(loc).lengthTo(locations.get(loc+1)) + " px\n";
+                    if(samepath) {
+                        pixelCounter += (int) locations.get(loc).lengthTo(locations.get(loc+1));
+                        System.out.println(pixelCounter);
+                    }
+                    else {
+                        pixelCounter = (int) locations.get(loc).lengthTo(locations.get(loc+1));
+                        System.out.println(pixelCounter);
+                    }
+                    String distance = " In " + pixelCounter + " px\n";
                     // get the current angle of the node
-                    curaAngle = getAngle(locations.get(loc), locations.get(loc + 1));
+                    currAngle = getAngle(locations.get(loc), locations.get(loc + 1));
                     // from current facing position calculate turn
-                    turn = (curaAngle - preAngle + 360 + 90) % 360;
+                    turn = (currAngle - preAngle + 360 + 90) % 360;
                     // as long as this isn't the first node
                     if (loc != 0) { //TODO change if we ever add start orientation
                         // if this is an elevator or stair case
-                        if (enterElivator == false && Main.h.getAllCategories().contains(locations.get(loc).getCategory())&& (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Elevator")
+                        if (enterElevator == false && Main.h.getAllCategories().contains(locations.get(loc).getCategory())&& (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Elevator")
                                 || (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Stairs"))))
                         {
-                            enterElivator = true;
+                            enterElevator = true;
                             //languages other than english currently only specify elevators
                             switch(lang){
                                 case "Eng":
@@ -493,7 +501,7 @@ public class WelcomeScreenController implements Initializable {
                         // if this not an elevator or stair case
                         else
                         {
-                            enterElivator = false;
+                            enterElevator = false;
                             if(samepath == false && locations.get(loc).getNeighbors().stream().filter(elm -> elm.getCategory().getCategory().equalsIgnoreCase("Hall")).collect(Collectors.toList()).size() < 2){
 
 
@@ -539,7 +547,7 @@ public class WelcomeScreenController implements Initializable {
 
                 }
                 // set the current angle to the previous angle
-                preAngle = curaAngle;
+                preAngle = currAngle;
             }
             dirList.setItems(directions);
             QRgen();
