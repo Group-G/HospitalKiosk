@@ -33,17 +33,21 @@ public class HospitalData {
     public HospitalData(JavaDBExample dbExample) {
 
         this.dbExample = dbExample;
+
+
+        addAdmin(new Admin("user", "user", 0));
+
+    }
+
+    public void pullDB(){
         if(pullDataFromDB()) {
             System.out.println("Successfully pulled data from DB");
         } else {
             System.out.println("Failed to pull data from DB");
         }
-
-        adminList = new ArrayList<Admin>();
-        addAdmin(new Admin("admin", "guest", 1));
-        addAdmin(new Admin("user", "user", 0));
-
     }
+
+
 
     public  List<Building> getAllBuildings() {
         return buildingsList;
@@ -1123,6 +1127,10 @@ public class HospitalData {
                     }
                 }
                 adminList.add(new Admin(un, pw, type));
+            }
+            if(adminList.size() == 0) {
+                adminList = new ArrayList<Admin>();
+                addAdmin(new Admin("admin", "guest", 1));
             }
 
             return true;
