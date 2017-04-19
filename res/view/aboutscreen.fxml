@@ -13,54 +13,54 @@
       <Label layoutX="38.0" layoutY="651.0" text="Samantha Comeau" />
       <ImageView fitHeight="148.0" fitWidth="112.0" layoutX="47.0" layoutY="483.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../image/Headshots/Image%20uploaded%20from%20iOS.jpg" />
+            <Image url="@../image/Headshots/Sam.jpg" />
          </image>
       </ImageView>
       <ImageView fitHeight="148.0" fitWidth="135.0" layoutX="201.0" layoutY="483.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../image/Headshots/Image%20uploaded%20from%20iOS%20copy%203.jpg" />
+            <Image url="@../image/Headshots/Dylan.jpg" />
          </image>
       </ImageView>
       <Label layoutX="211.0" layoutY="631.0" text="Assistant Lead:" />
       <Label layoutX="213.0" layoutY="651.0" text="Dylan McKillip" />
       <ImageView fitHeight="123.0" fitWidth="147.0" layoutX="338.0" layoutY="502.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../image/Headshots/IMG_4738.JPG" />
+            <Image url="@../image/Headshots/Saul.JPG" />
          </image>
       </ImageView>
       <Label layoutX="363.0" layoutY="633.0" text="Assistant Lead:" />
       <Label layoutX="378.0" layoutY="651.0" text="Saul Woolf" />
       <ImageView fitHeight="124.0" fitWidth="126.0" layoutX="946.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../image/Headshots/Mysteryman-silhouette-clip-art-man-profile-clipart_300-284.png" />
+            <Image url="@../image/Headshots/Ryan.png" />
          </image>
       </ImageView>
       <Label layoutX="960.0" layoutY="633.0" text="Test Engineer:" />
       <Label layoutX="959.0" layoutY="651.0" text="Ryan Benasutti" />
       <ImageView fitHeight="140.0" fitWidth="116.0" layoutX="665.0" layoutY="487.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../image/Headshots/IMG_2740.jpg" />
+            <Image url="@../image/Headshots/Will.jpg" />
          </image>
       </ImageView>
       <Label layoutX="665.0" layoutY="633.0" text="Project Manager:" />
       <Label layoutX="665.0" layoutY="651.0" text="William Schwartz" />
       <ImageView fitHeight="140.0" fitWidth="136.0" layoutX="512.0" layoutY="487.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../image/Headshots/Image%20uploaded%20from%20iOS%20copy%202.jpg" />
+            <Image url="@../image/Headshots/Alazar.jpg" />
          </image>
       </ImageView>
       <Label layoutX="506.0" layoutY="633.0" text="Software Engineer:" />
       <Label layoutX="515.0" layoutY="651.0" text="Alazar Genene" />
       <ImageView fitHeight="124.0" fitWidth="126.0" layoutX="804.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../image/Headshots/IMG_0141.jpg" />
+            <Image url="@../image/Headshots/Hunter.jpg" />
          </image>
       </ImageView>
       <Label layoutX="818.0" layoutY="631.0" text="Product Owner:" />
       <Label layoutX="825.0" layoutY="651.0" text="Eric Peterson" />
-      <ImageView fitHeight="124.0" fitWidth="126.0" layoutX="1095.0" layoutY="498.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="124.0" fitWidth="126.0" layoutX="1111.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../image/Headshots/Image%20uploaded%20from%20iOS%20(1).jpg" />
+            <Image url="@../image/Headshots/Daniel.jpg" />
          </image>
       </ImageView>
       <Label layoutX="1084.0" layoutY="633.0" text="Documentation Analyst:" />
@@ -72,7 +72,7 @@
       </Label>
       <ImageView fitHeight="124.0" fitWidth="126.0" layoutX="396.0" layoutY="298.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../image/Headshots/Screen%20Shot%202017-04-18%20at%206.33.37%20PM.png" />
+            <Image url="@../image/Headshots/Wong.png" />
          </image>
       </ImageView>
       <Label layoutX="417.0" layoutY="431.0" text="Professor:">
@@ -87,7 +87,7 @@
       </Label>
       <ImageView fitHeight="124.0" fitWidth="126.0" layoutX="689.0" layoutY="298.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../image/Headshots/Image%20uploaded%20from%20iOS%20copy.jpg" />
+            <Image url="@../image/Headshots/Andrew.jpg" />
          </image>
       </ImageView>
       <Label layoutX="703.0" layoutY="432.0" text="Team Coach:">
@@ -109,17 +109,17 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="446.0" layoutY="183.0" text="We would like to extend our gratitude to Andrew Shinn and">
+      <Label layoutX="427.0" layoutY="184.0" text="We would like to extend our gratitude to Andrew Shinn and">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="446.0" layoutY="201.0" text="everyone at Brigham and Women’s Faulkner Hospital for the">
+      <Label layoutX="427.0" layoutY="202.0" text="everyone at Brigham and Women’s Faulkner Hospital for the">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="446.0" layoutY="219.0" text="opportunity to work on this project with them.">
+      <Label layoutX="427.0" layoutY="220.0" text="opportunity to work on this project with them.">
          <font>
             <Font size="14.0" />
          </font>
