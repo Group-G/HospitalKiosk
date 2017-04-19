@@ -7,7 +7,6 @@ import groupg.algorithm.NavigationAlgorithm;
 import groupg.algorithm.NavigationFacade;
 import groupg.database.Category;
 import groupg.database.EmptyLocation;
-import static groupg.Main.h;
 
 import groupg.database.Location;
 import groupg.database.LocationDecorator;
@@ -94,7 +93,7 @@ public class WelcomeScreenController implements Initializable {
         endField = new AutoCompleteTextField();
         endField.setCurrentSelection(new EmptyLocation());
 
-        List<Location> kioskLocs = h.getLocationsByCategory("Kiosk");
+        List<Location> kioskLocs = Main.h.getLocationsByCategory("Kiosk");
         if (kioskLocs.size() > 0)
             startField.setCurrentSelection(kioskLocs.get(0));
 
@@ -109,14 +108,14 @@ public class WelcomeScreenController implements Initializable {
 
         for (Category category : Main.h.getAllCategories()) {
             if (category.getPermission() <= permission) {
-                ListView locByCat = new ListView();
+                ListView<Location> locByCat = new ListView();
                 locByCat.getItems().addAll(Main.h.getLocationsByCategory(category.getCategory()));
                 locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+                acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " " +category.getPermission(), locByCat));
                 locByCat.setOnMouseClicked((MouseEvent event) -> {
                     if (event.getClickCount() == 2)
-                        endField.setCurrentSelection(waitAreaLV.getSelectionModel().getSelectedItem());
+                        endField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
                 });
-                acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory(), locByCat));
             }
         }
 
@@ -138,7 +137,7 @@ public class WelcomeScreenController implements Initializable {
         //Find closest location
         imageViewPane.setOnMouseClicked(event -> {
             double shortest = Double.MAX_VALUE;
-            for (Location l : h.getAllLocations()) {
+            for (Location l : Main.h.getAllLocations()) {
                 if (closestLocToClick == null) {
                     closestLocToClick = l;
                 } else {
@@ -197,7 +196,7 @@ public class WelcomeScreenController implements Initializable {
 
         canvasWrapper.getChildren().addAll(pane);
 
-        h.getAllFloors().forEach(floor -> {
+        Main.h.getAllFloors().forEach(floor -> {
             Tab tab = new Tab(floor.getFloorNum());
             tab.setOnSelectionChanged(event -> imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename())));
             tabPane.getTabs().add(tab);
@@ -212,11 +211,11 @@ public class WelcomeScreenController implements Initializable {
                     .filter(elem -> elem.getFloorObj().getFloorNum().equals(newTab.getText()))
                     .collect(Collectors.toList())));
             lineOverlay.getChildren().setAll(displayedLines);
-            h.getFloorByName(oldTab.getText()).setZoom(zoomGroup.getTransforms().get(0).getMxx());
+            Main.h.getFloorByName(oldTab.getText()).setZoom(zoomGroup.getTransforms().get(0).getMxx());
             zoomGroup.getTransforms().clear();
             Scale newZoom = new Scale();
-            newZoom.setX(h.getFloorByName(newTab.getText()).getZoom());
-            newZoom.setY(h.getFloorByName(newTab.getText()).getZoom());
+            newZoom.setX(Main.h.getFloorByName(newTab.getText()).getZoom());
+            newZoom.setY(Main.h.getFloorByName(newTab.getText()).getZoom());
             zoomGroup.getTransforms().add(newZoom);
         });
 
@@ -224,7 +223,7 @@ public class WelcomeScreenController implements Initializable {
         selectedTab = tabPane.getTabs().get(0);
 
         //Add locations from DB
-        locations.addAll(h.getAllLocations());
+        locations.addAll(Main.h.getAllLocations());
         startField.getEntries().addAll(locations);
         endField.getEntries().addAll(locations);
 
@@ -237,35 +236,35 @@ public class WelcomeScreenController implements Initializable {
                 endField.setCurrentSelection(waitAreaLV.getSelectionModel().getSelectedItem());
         });
 
-        bathroomLV.getItems().addAll(h.getLocationsByCategory("Bathroom"));
+        bathroomLV.getItems().addAll(Main.h.getLocationsByCategory("Bathroom"));
         bathroomLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         bathroomLV.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2)
                 endField.setCurrentSelection(bathroomLV.getSelectionModel().getSelectedItem());
         });
 
-        ServicesLV.getItems().addAll(h.getLocationsByCategory("Service"));
+        ServicesLV.getItems().addAll(Main.h.getLocationsByCategory("Service"));
         ServicesLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         ServicesLV.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2)
                 endField.setCurrentSelection(ServicesLV.getSelectionModel().getSelectedItem());
         });
 
-        exitsLV.getItems().addAll(h.getLocationsByCategory("Exit"));
+        exitsLV.getItems().addAll(Main.h.getLocationsByCategory("Exit"));
         exitsLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         exitsLV.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2)
                 endField.setCurrentSelection(exitsLV.getSelectionModel().getSelectedItem());
         });
 
-        doctorLV.getItems().addAll(h.getLocationsByCategory("Doctor"));
+        doctorLV.getItems().addAll(Main.h.getLocationsByCategory("Doctor"));
         doctorLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         doctorLV.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2)
                 endField.setCurrentSelection(doctorLV.getSelectionModel().getSelectedItem());
         });
 
-        officeLV.getItems().addAll(h.getLocationsByCategory("Office"));
+        officeLV.getItems().addAll(Main.h.getLocationsByCategory("Office"));
         officeLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         officeLV.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2)
@@ -468,25 +467,25 @@ public class WelcomeScreenController implements Initializable {
                     // as long as this isn't the first node
                     if (loc != 0) { //TODO change if we ever add start orientation
                         // if this is an elevator or stair case
-                        if (enterElivator == false && h.getAllCategories().contains(locations.get(loc).getCategory())&& (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Elevator")
+                        if (enterElivator == false && Main.h.getAllCategories().contains(locations.get(loc).getCategory())&& (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Elevator")
                                 || (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Stairs"))))
                         {
                             enterElivator = true;
                             //languages other than english currently only specify elevators
                             switch(lang){
                                 case "Eng":
-                                    directions.add(distance + "Take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                    directions.add(distance + "Take " + locations.get(loc).getCategory().getCategory() + " to Floor " + Main.h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
                                     break;
                                 case "Span":
-                                    directions.add("Toma el ascensor hasta piso " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                    directions.add("Toma el ascensor hasta piso " + Main.h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
                                     break;
                                 case "Port":
-                                    directions.add("Pegue o elevador até o chão " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                    directions.add("Pegue o elevador até o chão " + Main.h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
                                     break;
                                 case "Chin":
-                                    directions.add("把电梯带到地板上 " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                    directions.add("把电梯带到地板上 " + Main.h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
                                     break;
-                                default: directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                default: directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + Main.h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
                                     break;
                             }
                             //directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
