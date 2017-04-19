@@ -25,6 +25,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import net.glxn.qrgen.core.image.ImageType;
@@ -54,6 +55,7 @@ public class WelcomeScreenController implements Initializable {
     private GridPane canvasWrapper;
     public static Pane imageViewPane, nodeOverlay, lineOverlay, infoOverlay;
     public static ObservableList<UniqueNode> displayedNodes = FXCollections.observableArrayList();
+    public static ObservableList<Circle> displayedCircles = FXCollections.observableArrayList();
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
     public static ObservableList<PropertyDisplay> displayedPanels = FXCollections.observableArrayList();
     private Location closestLocToClick;
@@ -108,7 +110,6 @@ public class WelcomeScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         acccordionDropDown.getPanes().clear();
         for (Category category : h.getAllCategories()) {
             if (category.getPermission() <= permission) {
@@ -137,6 +138,7 @@ public class WelcomeScreenController implements Initializable {
         lineOverlay.setPickOnBounds(true);
         infoOverlay = new Pane();
         infoOverlay.setPickOnBounds(true);
+        //displayedPanels.set
 
 
         startFieldHBox.getChildren().add(startField);
@@ -161,7 +163,7 @@ public class WelcomeScreenController implements Initializable {
         });
 
         imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"), imageViewPane);
-        Group zoomGroup = new Group(imageView, lineOverlay, nodeOverlay);
+        Group zoomGroup = new Group(imageView,nodeOverlay,lineOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -206,7 +208,7 @@ public class WelcomeScreenController implements Initializable {
 
         canvasWrapper.getChildren().addAll(pane);
 
-        Main.h.getAllFloors().forEach(floor -> {
+        h.getAllFloors().forEach(floor -> {
             Tab tab = new Tab(floor.getFloorNum());
             tab.setOnSelectionChanged(event -> {
                 imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename()));
@@ -214,7 +216,7 @@ public class WelcomeScreenController implements Initializable {
 
                 //Set new nodes for this floor
                 displayedNodes.clear();
-                displayedNodes.addAll(floor.getLocations().stream().map(NodeFactory::getNode).collect(Collectors.toList()));
+                displayedNodes.addAll(floor.getLocations().stream().map(NodeFactory::getpublicNode).collect(Collectors.toList()));
                 nodeOverlay.getChildren().setAll(displayedNodes);
 
                 //Clear lines
@@ -222,7 +224,7 @@ public class WelcomeScreenController implements Initializable {
                 lineOverlay.getChildren().clear();
 
                 //Clear current selection
-                NodeListenerFactory.currentSelection = null;
+                NodeListenerFactoryLite.currentSelection = null;
             });
             tabPane.getTabs().add(tab);
         });
@@ -246,9 +248,9 @@ public class WelcomeScreenController implements Initializable {
             //lineOverlay.getChildren().clear();
 
             //Clear current selection
-            NodeListenerFactory.currentSelection = null;
+            NodeListenerFactoryLite.currentSelection = null;
 
-            Main.h.getFloorByName(oldTab.getText()).setZoom(zoomGroup.getTransforms().get(0).getMxx());
+            h.getFloorByName(oldTab.getText()).setZoom(zoomGroup.getTransforms().get(0).getMxx());
             zoomGroup.getTransforms().clear();
             Scale newZoom = new Scale();
             newZoom.setX(h.getFloorByName(newTab.getText()).getZoom());
@@ -257,7 +259,7 @@ public class WelcomeScreenController implements Initializable {
         });
 
         //Default selected tab
-        selectedTab = tabPane.getTabs().get(0);
+       // selectedTab = tabPane.getTabs().get(0);
 
         //Add locations from DB
         locations.addAll(h.getAllLocations());
@@ -915,9 +917,23 @@ public class WelcomeScreenController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
+    public static void updateNodePD() {
+        if (NodeListenerFactory.currentSelection != null) {
+            //Update property display
+            PropertyDisplay pd = displayedPanels.get(0);
+            pd.setProperty("X value", "" + NodeListenerFactoryLite.currentSelection.getLocation().getX());
+            pd.setProperty("Y value", "" + NodeListenerFactoryLite.currentSelection.getLocation().getY());
+            pd.setProperty("Name", NodeListenerFactoryLite.currentSelection.getLocation().getName());
+            pd.setProperty("Category", NodeListenerFactoryLite.currentSelection.getLocation().getCategory().getCategory());
+            pd.setProperty("# of Neighbors", NodeListenerFactoryLite.currentSelection.getLocation().getNeighbors().size() + "");
+            pd.setProperty("ID", "" + NodeListenerFactoryLite.currentSelection.getLocation().getID());
+            pd.setProperty("Permissions", "" + NodeListenerFactoryLite.currentSelection.getLocation().getCategory().getPermission() + "");
+            displayedPanels.set(0, pd);
+            AdminMainController.infoOverlay.getChildren().clear();
+            AdminMainController.infoOverlay.getChildren().addAll(displayedPanels);
+        }
+    }
 
 }
