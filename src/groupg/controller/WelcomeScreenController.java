@@ -194,7 +194,7 @@ public class WelcomeScreenController implements Initializable {
                     newScale.setX(canvasWrapper.getWidth()/imageView.getImage().getWidth());
                     newScale.setY(canvasWrapper.getWidth()/imageView.getImage().getWidth());
                 }
-                pane.setHmax((zoomx + zoomx*zoom_fac));
+//                pane.setHmax((zoomx + zoomx*zoom_fac));
                 //System.out.println("max" + pane.getHmax());
                 //System.out.println(pane.getHmin());
                 //System.out.println(pane.getHvalue());
