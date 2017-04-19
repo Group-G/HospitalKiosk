@@ -65,7 +65,7 @@ public class NodeListenerFactoryLite {
                     }
 
                     //--AdminMainController.drawConnections(currentSelection);
-                    WelcomeScreenController.updateNodePD();
+                    //WelcomeScreenController.updateNodePD();
 
                 } else {
                     Node p = ((Node) (t.getSource()));
@@ -87,6 +87,6 @@ public class NodeListenerFactoryLite {
         currentSelection = node;
         currentSelection.setHighlighted();
         //AdminMainController.drawConnections(currentSelection);
-        WelcomeScreenController.updateNodePD();
+        //WelcomeScreenController.updateNodePD();
     }
 }

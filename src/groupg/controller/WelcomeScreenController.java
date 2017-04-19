@@ -131,14 +131,14 @@ public class WelcomeScreenController implements Initializable {
             qrcode.delete();
         }
         Pane imageViewPane = new Pane();
-        displayedNodes.addListener((ListChangeListener<UniqueNode>) c -> nodeOverlay.getChildren().setAll(displayedNodes));
+        //displayedNodes.addListener((ListChangeListener<UniqueNode>) c -> nodeOverlay.getChildren().setAll(displayedNodes));
         imageViewPane.setPickOnBounds(true);
-        nodeOverlay = new Pane();
-        nodeOverlay.setPickOnBounds(true);
+        //nodeOverlay = new Pane();
+        //nodeOverlay.setPickOnBounds(true);
         lineOverlay = new Pane();
         lineOverlay.setPickOnBounds(true);
-        infoOverlay = new Pane();
-        infoOverlay.setPickOnBounds(true);
+        //infoOverlay = new Pane();
+        //infoOverlay.setPickOnBounds(true);
         //displayedPanels.set
 
 
@@ -164,14 +164,14 @@ public class WelcomeScreenController implements Initializable {
         });
 
         imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"), imageViewPane);
-        Group zoomGroup = new Group(imageView,nodeOverlay,lineOverlay);
+        Group zoomGroup = new Group(imageView,lineOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setPannable(true);
         Scale newScale = new Scale();
-        newScale.setX(939/imageView.getImage().getWidth());
-        newScale.setY(939/imageView.getImage().getWidth());
+        newScale.setX(1);
+        newScale.setY(1);
         zoomGroup.getTransforms().add(newScale);
         zoomGroup.addEventHandler(MouseEvent.ANY, event -> {
             if (event.getButton() != MouseButton.MIDDLE &&
@@ -209,23 +209,23 @@ public class WelcomeScreenController implements Initializable {
 
         canvasWrapper.getChildren().addAll(pane);
 
-        h.getAllFloors().forEach(floor -> {
+        Main.h.getAllFloors().forEach(floor -> {
             Tab tab = new Tab(floor.getFloorNum());
             tab.setOnSelectionChanged(event -> {
                 imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename()));
-                currentFloor = floor;
+                //currentFloor = floor;
 
                 //Set new nodes for this floor
-                displayedNodes.clear();
-                displayedNodes.addAll(floor.getLocations().stream().map(NodeFactory::getpublicNode).collect(Collectors.toList()));
-                nodeOverlay.getChildren().setAll(displayedNodes);
+                //displayedNodes.clear();
+                //displayedNodes.addAll(floor.getLocations().stream().map(NodeFactory::getpublicNode).collect(Collectors.toList()));
+                //nodeOverlay.getChildren().setAll(displayedNodes);
 
                 //Clear lines
-                displayedLines.clear();
-                lineOverlay.getChildren().clear();
+                //displayedLines.clear();
+                //lineOverlay.getChildren().clear();
 
                 //Clear current selection
-                NodeListenerFactoryLite.currentSelection = null;
+                //NodeListenerFactoryLite.currentSelection = null;
             });
             tabPane.getTabs().add(tab);
         });
@@ -242,25 +242,25 @@ public class WelcomeScreenController implements Initializable {
             //Set new nodes for this floor
 
             //displayedNodes.addAll(floor.getLocations().stream().map(NodeFactory::getNode).collect(Collectors.toList()));
-            nodeOverlay.getChildren().setAll(displayedNodes);
+            //nodeOverlay.getChildren().setAll(displayedNodes);
 
             //Clear lines
             //displayedLines.clear();
             //lineOverlay.getChildren().clear();
 
             //Clear current selection
-            NodeListenerFactoryLite.currentSelection = null;
+            //NodeListenerFactoryLite.currentSelection = null;
 
-            h.getFloorByName(oldTab.getText()).setZoom(zoomGroup.getTransforms().get(0).getMxx());
+            Main.h.getFloorByName(oldTab.getText()).setZoom(zoomGroup.getTransforms().get(0).getMxx());
             zoomGroup.getTransforms().clear();
             Scale newZoom = new Scale();
-            newZoom.setX(h.getFloorByName(newTab.getText()).getZoom());
-            newZoom.setY(h.getFloorByName(newTab.getText()).getZoom());
+            newZoom.setX(Main.h.getFloorByName(newTab.getText()).getZoom());
+            newZoom.setY(Main.h.getFloorByName(newTab.getText()).getZoom());
             zoomGroup.getTransforms().add(newZoom);
         });
 
         //Default selected tab
-       // selectedTab = tabPane.getTabs().get(0);
+       selectedTab = tabPane.getTabs().get(0);
 
         //Add locations from DB
         locations.addAll(h.getAllLocations());
@@ -920,21 +920,21 @@ public class WelcomeScreenController implements Initializable {
         }
     }
 
-    public static void updateNodePD() {
-        if (NodeListenerFactory.currentSelection != null) {
-            //Update property display
-            PropertyDisplay pd = displayedPanels.get(0);
-            pd.setProperty("X value", "" + NodeListenerFactoryLite.currentSelection.getLocation().getX());
-            pd.setProperty("Y value", "" + NodeListenerFactoryLite.currentSelection.getLocation().getY());
-            pd.setProperty("Name", NodeListenerFactoryLite.currentSelection.getLocation().getName());
-            pd.setProperty("Category", NodeListenerFactoryLite.currentSelection.getLocation().getCategory().getCategory());
-            pd.setProperty("# of Neighbors", NodeListenerFactoryLite.currentSelection.getLocation().getNeighbors().size() + "");
-            pd.setProperty("ID", "" + NodeListenerFactoryLite.currentSelection.getLocation().getID());
-            pd.setProperty("Permissions", "" + NodeListenerFactoryLite.currentSelection.getLocation().getCategory().getPermission() + "");
-            displayedPanels.set(0, pd);
-            AdminMainController.infoOverlay.getChildren().clear();
-            AdminMainController.infoOverlay.getChildren().addAll(displayedPanels);
-        }
-    }
+//    public static void updateNodePD() {
+//        if (NodeListenerFactory.currentSelection != null) {
+//            //Update property display
+//            PropertyDisplay pd = displayedPanels.get(0);
+//            pd.setProperty("X value", "" + NodeListenerFactoryLite.currentSelection.getLocation().getX());
+//            pd.setProperty("Y value", "" + NodeListenerFactoryLite.currentSelection.getLocation().getY());
+//            pd.setProperty("Name", NodeListenerFactoryLite.currentSelection.getLocation().getName());
+//            pd.setProperty("Category", NodeListenerFactoryLite.currentSelection.getLocation().getCategory().getCategory());
+//            pd.setProperty("# of Neighbors", NodeListenerFactoryLite.currentSelection.getLocation().getNeighbors().size() + "");
+//            pd.setProperty("ID", "" + NodeListenerFactoryLite.currentSelection.getLocation().getID());
+//            pd.setProperty("Permissions", "" + NodeListenerFactoryLite.currentSelection.getLocation().getCategory().getPermission() + "");
+//            displayedPanels.set(0, pd);
+//            AdminMainController.infoOverlay.getChildren().clear();
+//            AdminMainController.infoOverlay.getChildren().addAll(displayedPanels);
+//        }
+//    }
 
 }
