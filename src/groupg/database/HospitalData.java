@@ -34,8 +34,12 @@ public class HospitalData {
 
         this.dbExample = dbExample;
 
-
+//        System.out.println(adminList.size() +  " admins");
+//        if(adminList.size() == 0) {
+        adminList = new ArrayList<Admin>();
+        addAdmin(new Admin("admin", "guest", 1));
         addAdmin(new Admin("user", "user", 0));
+//        }
 
     }
 
@@ -1127,10 +1131,6 @@ public class HospitalData {
                     }
                 }
                 adminList.add(new Admin(un, pw, type));
-            }
-            if(adminList.size() == 0) {
-                adminList = new ArrayList<Admin>();
-                addAdmin(new Admin("admin", "guest", 1));
             }
 
             return true;
