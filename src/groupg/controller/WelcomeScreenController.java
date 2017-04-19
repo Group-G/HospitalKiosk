@@ -99,6 +99,7 @@ public class WelcomeScreenController implements Initializable {
             startField.setCurrentSelection(kioskLocs.get(0));
 
         navigation = new NavigationFacade();
+
     }
 
     @Override
@@ -325,6 +326,12 @@ public class WelcomeScreenController implements Initializable {
                 setGraphic(hbox);
             }
         });
+        if(permission == 1){
+            loginBtn.setText("Logout");
+        }
+        else if(permission == 0){
+            loginBtn.setText("Login");
+        }
     }
 
     private void drawPath() {
@@ -667,7 +674,13 @@ public class WelcomeScreenController implements Initializable {
 
     public void onLogin(ActionEvent actionEvent) {
         try {
-            ResourceManager.getInstance().loadFXMLIntoScene("/view/adminLogin.fxml", "Login", loginBtn.getScene());
+            if(permission == 1){
+                permission = 0;
+                ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Login", loginBtn.getScene());
+            }else{
+//                loginBtn.setText("Logout");
+                ResourceManager.getInstance().loadFXMLIntoScene("/view/adminLogin.fxml", "Login", loginBtn.getScene());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -739,7 +752,12 @@ public class WelcomeScreenController implements Initializable {
         start.setText("Start:");
         end.setText("End:");
         directions.setText("Directions:");
-        loginBtn.setText("Login");
+        if(permission == 0){
+            loginBtn.setText("Login");
+        }
+        else{
+            loginBtn.setText("Logout");
+        }
         searchBtn.setText("Search");
         wareaPane.setText("Waiting Areas");
         bathPane.setText("Bathrooms");
@@ -758,7 +776,12 @@ public class WelcomeScreenController implements Initializable {
         start.setText("Comienzo:");
         end.setText("Fin:");
         directions.setText("Direcciones:");
-        loginBtn.setText("Inicio");
+        if(permission == 0){
+            loginBtn.setText("Inicio");
+        }
+        else{
+            loginBtn.setText("Logout");
+        }
         searchBtn.setText("Busca");
         wareaPane.setText("Área de Espera");
         bathPane.setText("Baño");
@@ -778,7 +801,12 @@ public class WelcomeScreenController implements Initializable {
         start.setText("Enceta:");
         end.setText("Fim:");
         directions.setText("Instruções:");
-        loginBtn.setText("Entra");
+        if(permission == 0){
+            loginBtn.setText("Entra");
+        }
+        else{
+            loginBtn.setText("Logout");
+        }
         searchBtn.setText("Busca");
         wareaPane.setText("Área de Espera");
         bathPane.setText("Banheiro");
@@ -798,7 +826,12 @@ public class WelcomeScreenController implements Initializable {
         start.setText("开始");
         end.setText("终点");
         directions.setText("说明");
-        loginBtn.setText("注册");
+        if(permission == 0){
+            loginBtn.setText("注册");
+        }
+        else{
+            loginBtn.setText("Logout");
+        }
         searchBtn.setText("搜查");
         wareaPane.setText("等候区");
         bathPane.setText("盥洗室");
