@@ -340,11 +340,11 @@ public class JavaDBExample
                     "('Kiosk', 0, '0xf99fff'), " +
                     "('Emergency Room', 0, '0x99ffff') ");
 
-            //INSERT TRACKIDS
-            //FORMAT
-            //(LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)
-//            stmt.execute("INSERT INTO TRACKID VALUES " +
-//                    "(3, 3, 2, 11) ");
+//            INSERT TRACKIDS
+//            FORMAT
+//            (LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)
+            stmt.execute("INSERT INTO TRACKID VALUES " +
+                    "(0, 0, 0, 11) ");
 
 
             //Print
