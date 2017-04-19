@@ -29,11 +29,13 @@ import java.util.stream.Collectors;
  */
 public class AdminMainController implements Initializable {
     @FXML
-    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, showAllCons, editAdminBtn;
+    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, showAllCons, editAdminBtn, editAlgorithm;;
     @FXML
     private TabPane tabPane;
     @FXML
     private GridPane canvasWrapper;
+    @FXML
+    private MenuButton changeAlgorithmDD;
     public static Pane imageViewPane, nodeOverlay, lineOverlay, infoOverlay;
     public static ObservableList<UniqueNode> displayedNodes = FXCollections.observableArrayList();
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
@@ -42,6 +44,9 @@ public class AdminMainController implements Initializable {
     private static Floor currentFloor;
     private static Tab selectedTab;
     public static NavigationAlgorithm selectedAlgorithm;
+    private static int scale = 1;
+    private static int xdif = 0;
+    private static Group zoomGroupGlobal;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -107,6 +112,7 @@ public class AdminMainController implements Initializable {
 
         //Add layers
         Group zoomGroup = new Group(imageView, lineOverlay, nodeOverlay);
+        zoomGroupGlobal = zoomGroup;
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -121,6 +127,13 @@ public class AdminMainController implements Initializable {
         //Default algorithm
         if (selectedAlgorithm == null)
             selectedAlgorithm = NavigationAlgorithm.A_STAR;
+
+        for (NavigationAlgorithm val : NavigationAlgorithm.values()) {
+            MenuItem item = new MenuItem(val.toString());
+            item.setOnAction(actionEvent -> onChangeAlgorithm(val));
+            changeAlgorithmDD.getItems().add(item);
+            System.out.println("we are here!!!");
+        }
     }
 
     /**
@@ -174,6 +187,7 @@ public class AdminMainController implements Initializable {
     }
 
     public void onAddNode(ActionEvent actionEvent) {
+//        zoomGroupGlobal.
         UniqueNode node = NodeFactory.getNode(imageView.getImage().widthProperty().doubleValue() / 2.0,
                                               imageView.getImage().heightProperty().doubleValue() / 2.0,
                                               currentFloor.getID());
@@ -189,6 +203,11 @@ public class AdminMainController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void onChangeAlgorithm(NavigationAlgorithm algorithm) {
+        System.out.println("Changed Algorithm to " + algorithm.toString());
+        selectedAlgorithm = algorithm;
     }
 
     public void onEditPers(ActionEvent event) {
