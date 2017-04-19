@@ -261,7 +261,7 @@ public class Location implements Comparable
         }
         if(Main.h.getLocationById(id) == null){
             System.out.println("NEIGHBOR " + id + " does not exist??");
-            return false
+            return false;
         }
         neighbors.add(Main.h.getLocationById(id));
         return true;

@@ -848,8 +848,10 @@ public class WelcomeScreenController implements Initializable {
     public void QRgen(){
         //String details = "";
         //System.out.print("QRGEN!");
-        ObservableList<String> dir = dirList.getItems();
-        String textdir = dir.toString();
+        String textdir = new String();
+        for (int j = 0; j < dirList.getItems().size(); j++) {
+            textdir += (dirList.getItems().get(j)+ "\n");
+        }
         ByteArrayOutputStream out = QRCode.from(textdir).to(ImageType.JPG).stream();
         //System.out.print(out);
         File f = new File("qrcode.jpg");
