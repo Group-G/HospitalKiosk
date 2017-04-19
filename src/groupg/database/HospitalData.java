@@ -20,6 +20,7 @@ public class HospitalData {
     private  int BUILDING_NEW;
     private  int FLOOR_NEW;
     private  static int dbStrLength = 40;
+    private static double pixelsPerFeet = 1439/388;
     private static String errorMessage = "";
     private List<Integer> allIds = new ArrayList<>();
 
@@ -38,6 +39,14 @@ public class HospitalData {
         addAdmin(new Admin("user", "user", 0));
 //        }
 
+    }
+
+    public static double getPixelsPerFeet() {
+        return pixelsPerFeet;
+    }
+
+    public static void setPixelsPerFeet(double pixelsPerFeet) {
+        HospitalData.pixelsPerFeet = pixelsPerFeet;
     }
 
     public void pullDB(){
