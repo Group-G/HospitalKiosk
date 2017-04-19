@@ -18,7 +18,6 @@ public class UniqueNode extends Circle {
         super(radius);
         this.location = location;
         color = location.getCategory().getColor();
-
     }
 
     public void setUnhighlighted() {

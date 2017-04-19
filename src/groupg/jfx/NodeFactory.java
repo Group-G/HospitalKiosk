@@ -27,6 +27,7 @@ public class NodeFactory {
         circle.setCenterX(x);
         circle.setCenterY(y);
         NodeListenerFactory.attachListeners(circle);
+        circle.setUnhighlighted();
         return circle;
     }
 
@@ -44,6 +45,7 @@ public class NodeFactory {
         circle.setCenterX(location.getX());
         circle.setCenterY(location.getY());
         NodeListenerFactory.attachListeners(circle);
+        circle.setUnhighlighted();
         return circle;
     }
 }

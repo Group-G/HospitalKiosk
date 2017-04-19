@@ -77,6 +77,7 @@ public class NodeListenerFactory {
                                    MenuItem item = new MenuItem(s.getCategory());
                                    item.setOnAction(e -> {
                                        currentSelection.getLocation().setCategory(s);
+                                       currentSelection.setHighlighted();
                                        AdminMainController.updateNodePD();
                                    });
                                    changeCat.getItems().add(item);
