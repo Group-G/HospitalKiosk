@@ -15,23 +15,23 @@
             <Image url="@../image/Headshots/Image%20uploaded%20from%20iOS.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="124.0" fitWidth="126.0" layoutX="194.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="148.0" fitWidth="135.0" layoutX="201.0" layoutY="483.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../image/Headshots/IMG_0141.jpg" />
+            <Image url="@../image/Headshots/Image%20uploaded%20from%20iOS%20copy%203.jpg" />
          </image>
       </ImageView>
       <Label layoutX="211.0" layoutY="631.0" text="Assistant Lead:" />
       <Label layoutX="213.0" layoutY="651.0" text="Dylan McKillip" />
-      <ImageView fitHeight="124.0" fitWidth="126.0" layoutX="348.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="123.0" fitWidth="147.0" layoutX="338.0" layoutY="502.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../image/Headshots/IMG_0141.jpg" />
+            <Image url="@../image/Headshots/IMG_4738.JPG" />
          </image>
       </ImageView>
       <Label layoutX="363.0" layoutY="633.0" text="Assistant Lead:" />
       <Label layoutX="378.0" layoutY="651.0" text="Saul Woolf" />
       <ImageView fitHeight="124.0" fitWidth="126.0" layoutX="946.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../image/Headshots/IMG_0141.jpg" />
+            <Image url="@../image/Headshots/Mysteryman-silhouette-clip-art-man-profile-clipart_300-284.png" />
          </image>
       </ImageView>
       <Label layoutX="960.0" layoutY="633.0" text="Test Engineer:" />
@@ -59,7 +59,7 @@
       <Label layoutX="825.0" layoutY="651.0" text="Eric Peterson" />
       <ImageView fitHeight="124.0" fitWidth="126.0" layoutX="1095.0" layoutY="498.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../image/Headshots/IMG_0141.jpg" />
+            <Image url="@../image/Headshots/Image%20uploaded%20from%20iOS%20(1).jpg" />
          </image>
       </ImageView>
       <Label layoutX="1084.0" layoutY="633.0" text="Documentation Analyst:" />
