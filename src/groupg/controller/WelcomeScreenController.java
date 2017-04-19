@@ -31,6 +31,8 @@ import javafx.scene.transform.Scale;
 import net.glxn.qrgen.core.image.ImageType;
 import net.glxn.qrgen.javase.QRCode;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
@@ -173,8 +175,8 @@ public class WelcomeScreenController implements Initializable {
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setPannable(true);
         Scale newScale = new Scale();
-        newScale.setX(1);
-        newScale.setY(1);
+        newScale.setX(939/imageView.getImage().getWidth());
+        newScale.setY(939/imageView.getImage().getWidth());
         zoomGroup.getTransforms().add(newScale);
         zoomGroup.addEventHandler(MouseEvent.ANY, event -> {
             if (event.getButton() != MouseButton.MIDDLE &&
@@ -256,13 +258,17 @@ public class WelcomeScreenController implements Initializable {
 
             //Clear current selection
             //NodeListenerFactoryLite.currentSelection = null;
-            if (oldTab != null) {
-                Main.h.getFloorByName(oldTab.getText()).setZoom(zoomGroup.getTransforms().get(0).getMxx());
-            }
+//            if (oldTab != null) {
+//                Main.h.getFloorByName(oldTab.getText()).setZoom(zoomGroup.getTransforms().get(0).getMxx());
+//            }
             zoomGroup.getTransforms().clear();
             Scale newZoom = new Scale();
-            newZoom.setX(Main.h.getFloorByName(newTab.getText()).getZoom());
-            newZoom.setY(Main.h.getFloorByName(newTab.getText()).getZoom());
+            double zoomVal = 1;
+                String filename = Main.h.getFloorByName(newTab.getText()).getFilename();
+                Image img = ResourceManager.getInstance().loadImage(filename);
+                zoomVal = pane.getWidth()/img.getWidth();
+                newZoom.setX(zoomVal);
+                newZoom.setY(zoomVal);
             zoomGroup.getTransforms().add(newZoom);
         }
         });
@@ -398,7 +404,7 @@ public class WelcomeScreenController implements Initializable {
     }
 
     private void drawPath() {
-        if (startField.getCurrentSelection() != null && endField.getCurrentSelection() != null) {
+        if (searched && startField.getCurrentSelection() != null && endField.getCurrentSelection() != null) {
             final List<LocationDecorator> output = new ArrayList<>();
             final List<LocationDecorator> filtered_output = new ArrayList<>();
 
@@ -776,6 +782,7 @@ public class WelcomeScreenController implements Initializable {
             updateTabs(new ArrayList<>());
             dirList.getItems().clear();
             qrcode.setVisible(false);
+            displayedLines.clear();
             searchBtn.setText("Search");
         } else {
             searched = true;
