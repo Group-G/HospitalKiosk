@@ -52,8 +52,7 @@ public class Main extends Application
         }
 
         h = new HospitalData(dbExample);
-        System.out.println(h.checkString("hello"));
-        System.out.println(h.checkString("'2384@$*)&"));
+        h.pullDB();
 
 
         launch(args);

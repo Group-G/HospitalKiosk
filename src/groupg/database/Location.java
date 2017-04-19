@@ -260,11 +260,10 @@ public class Location implements Comparable
         {
             return false;
         }
-        HospitalData h = Main.h;
-//        if(h == null){
-//            System.out.println("fuck");
-//            return false;
-//        }
+        if(h == null){
+            System.out.println("fuck");
+            return false;
+        }
         if(h.getLocationById(id) == null){
             System.out.println("NEIGHBOR " + id + " does not exist??");
             return false;

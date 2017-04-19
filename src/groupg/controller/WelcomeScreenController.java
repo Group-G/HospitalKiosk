@@ -104,20 +104,20 @@ public class WelcomeScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-//        acccordionDropDown.getPanes().clear();
-//
-//        for (Category category : Main.h.getAllCategories()) {
-//            if (category.getPermission() <= permission) {
-//                ListView<Location> locByCat = new ListView();
-//                locByCat.getItems().addAll(Main.h.getLocationsByCategory(category.getCategory()));
-//                locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-//                acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " " +category.getPermission(), locByCat));
-//                locByCat.setOnMouseClicked((MouseEvent event) -> {
-//                    if (event.getClickCount() == 2)
-//                        endField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
-//                });
-//            }
-//        }
+        acccordionDropDown.getPanes().clear();
+
+        for (Category category : Main.h.getAllCategories()) {
+            if (category.getPermission() <= permission) {
+                ListView<Location> locByCat = new ListView();
+                locByCat.getItems().addAll(Main.h.getLocationsByCategory(category.getCategory()));
+                locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+                acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " " +category.getPermission(), locByCat));
+                locByCat.setOnMouseClicked((MouseEvent event) -> {
+                    if (event.getClickCount() == 2)
+                        endField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
+                });
+            }
+        }
 
         File qrcode = new File("qrcode.jpg");
         boolean exists = qrcode.exists();

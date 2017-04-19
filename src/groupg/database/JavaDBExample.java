@@ -137,7 +137,7 @@ public class JavaDBExample
 
             stmt.execute("CREATE TABLE CONNECTIONS(LOCATION_ONE int, LOCATION_TWO int)");
             stmt.execute("CREATE TABLE PEOPLELOCATIONS(PERSON_ID int, OFFICE_ID int)");
-            stmt.execute("CREATE TABLE ADMINS(ADMIN_UN varchar(40) NOT NULL Primary Key, ADMIN_PW varchar(40), TYPE int)");
+            stmt.execute("CREATE TABLE ADMINS(ADMIN_UN varchar(40) NOT NULL, ADMIN_PW varchar(40), TYPE int)");
             stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(40), PERMISSIONS INT, COLOR varchar(10))");
 
             stmt.execute("CREATE TABLE TRACKID(LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)");
@@ -224,7 +224,7 @@ public class JavaDBExample
             stmt.execute("CREATE TABLE PEOPLELOCATIONS" + m2+ " (PERSON_ID int, OFFICE_ID int)");
             stmt.execute("INSERT INTO PEOPLELOCATIONS" + m2+ "  SELECT * FROM PEOPLELOCATIONS" + m1);
 
-            stmt.execute("CREATE TABLE ADMINS" + m2+ " (ADMIN_UN varchar(40) NOT NULL Primary Key, ADMIN_PW varchar(40), TYPE int)");
+            stmt.execute("CREATE TABLE ADMINS" + m2+ " (ADMIN_UN varchar(40) NOT NULL, ADMIN_PW varchar(40), TYPE int)");
             stmt.execute("INSERT INTO ADMINS" + m2+ "  SELECT * FROM ADMINS" + m1);
 
             stmt.execute("CREATE TABLE CATEGORY" + m2+ " (CATEGORY_NAME varchar(40), PERMISSIONS INT, COLOR varchar(10))");
