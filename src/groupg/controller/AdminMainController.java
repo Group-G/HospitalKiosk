@@ -29,21 +29,21 @@ import java.util.stream.Collectors;
  */
 public class AdminMainController implements Initializable {
     @FXML
-    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, showAllCons, editAdminBtn, editAlgorithm;;
+    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, showAllCons, editAdminBtn, editAlgorithm;
     @FXML
     private TabPane tabPane;
     @FXML
     private GridPane canvasWrapper;
     @FXML
     private MenuButton changeAlgorithmDD;
-    public static Pane imageViewPane, nodeOverlay, lineOverlay, infoOverlay;
+    private static Pane imageViewPane, nodeOverlay, lineOverlay, infoOverlay;
     public static ObservableList<UniqueNode> displayedNodes = FXCollections.observableArrayList();
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
-    public static ObservableList<PropertyDisplay> displayedPanels = FXCollections.observableArrayList();
+    private static ObservableList<PropertyDisplay> displayedPanels = FXCollections.observableArrayList();
     private ImageView imageView;
     private static Floor currentFloor;
     private static Tab selectedTab;
-    public static NavigationAlgorithm selectedAlgorithm;
+    private static NavigationAlgorithm selectedAlgorithm;
     private static int scale = 1;
     private static int xdif = 0;
     private static Group zoomGroupGlobal;
@@ -132,7 +132,7 @@ public class AdminMainController implements Initializable {
             MenuItem item = new MenuItem(val.toString());
             item.setOnAction(actionEvent -> onChangeAlgorithm(val));
             changeAlgorithmDD.getItems().add(item);
-            System.out.println("we are here!!!");
+//            System.out.println("we are here!!!");
         }
     }
 
@@ -205,7 +205,7 @@ public class AdminMainController implements Initializable {
         }
     }
 
-    public void onChangeAlgorithm(NavigationAlgorithm algorithm) {
+    private void onChangeAlgorithm(NavigationAlgorithm algorithm) {
         System.out.println("Changed Algorithm to " + algorithm.toString());
         selectedAlgorithm = algorithm;
     }
