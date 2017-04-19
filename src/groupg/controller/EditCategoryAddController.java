@@ -44,7 +44,7 @@ public class EditCategoryAddController implements Initializable
             public void changed(ObservableValue<? extends Toggle> ov,
                                 Toggle old_toggle, Toggle new_toggle) {
                 if (group.getSelectedToggle() != null) {
-                    System.out.println(group.getSelectedToggle().getUserData().toString());
+                    //System.out.println(group.getSelectedToggle().getUserData().toString());
                 }
             }
         });
