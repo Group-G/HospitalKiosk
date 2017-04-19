@@ -26,8 +26,8 @@ public class UniqueNode extends Circle {
 //                break;
 //        }
         color = location.getCategory().getColor();
-        color = color.substring(0, 8) + "55";
-        System.out.println(color);
+        color = color.substring(0, 8) + "99";
+//        System.out.println(color);
         setFill(Color.web(color));
     }
 

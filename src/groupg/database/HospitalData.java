@@ -23,6 +23,7 @@ public class HospitalData {
     private  int BUILDING_NEW;
     private  int FLOOR_NEW;
     private  static int dbStrLength = 40;
+    public static String errorMessage = "";
 
     public static RSA key = new RSA(64);
 //    public s
@@ -96,6 +97,26 @@ public class HospitalData {
 
         return false;
     }
+
+    public static String getErrorMessage(){
+        return errorMessage;
+    }
+    public static boolean checkString(String input){
+        if(input.length() >40){
+            errorMessage = "String too long";
+            return false;
+        }
+        else if (input.matches("^[a-zA-Z0-9_]+$")) {
+
+            errorMessage = "String cannot contain special characters";
+            return false;
+        }
+        return true;
+    }
+
+
+
+
     /**
      * Pushes all data into the database
      * @return True if pull was successul
