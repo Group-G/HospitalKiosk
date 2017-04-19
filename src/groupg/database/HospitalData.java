@@ -121,7 +121,7 @@ public class HospitalData {
             errorMessage = "String too long";
             return false;
         }
-        else if (!input.matches("^[a-zA-Z0-9_]+$")) {
+        else if (!(input.replace(" ", "")).matches("^[a-zA-Z0-9_]+$")) {
 
             errorMessage = "String cannot contain special characters";
             return false;
