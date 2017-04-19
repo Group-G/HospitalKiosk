@@ -544,7 +544,6 @@ public class WelcomeScreenController implements Initializable {
             dirList.setItems(directions);
             QRgen();
         }
-
     }
 
     private String getTurn(double turn) {
