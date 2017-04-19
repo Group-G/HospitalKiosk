@@ -544,9 +544,18 @@ public class HospitalData {
     }
 
 
-    public List<Floor> getFloorsByIds(List<Integer> ids){
+    public List<Floor> getFloorsByIds(List<LocationDecorator> lds){
         List<Floor> floors = new ArrayList<>();
-        System.out.println(ids);
+        for(LocationDecorator ld: lds){
+            Floor f = ld.getFloorObj();
+            if(!floors.contains(f)){
+                floors.add(f);
+                System.out.print(f.getFloorNum() + " ");
+
+            }
+        }
+        System.out.println();
+
         return floors;
     }
 

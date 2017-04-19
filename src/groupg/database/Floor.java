@@ -130,7 +130,4 @@ public class Floor {
         this.zoom = zoom;
     }
 
-    public String getFloorNumber() {
-        return floorNumber;
-    }
 }

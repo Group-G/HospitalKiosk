@@ -422,6 +422,9 @@ public class WelcomeScreenController implements Initializable {
                     }
                 });
 
+
+                List<Floor> floors = Main.h.getFloorsByIds(filtered_output);
+
                 //Filter output based on current tab
                 List<LocationDecorator> tempList = filtered_output.stream()
                         .filter(elem -> elem.getFloorObj().getFloorNum().equals(selectedTab.getText()))
@@ -430,6 +433,7 @@ public class WelcomeScreenController implements Initializable {
                 //Move filtered items back
                 filtered_output.clear();
                 filtered_output.addAll(tempList);
+
 //                for (int i = 0; i < tempList.size(); i++) {
 //                    output.set(i, tempList.get(i));
 //                }
