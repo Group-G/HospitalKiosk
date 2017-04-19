@@ -133,8 +133,8 @@ public class WelcomeScreenController implements Initializable {
         Pane imageViewPane = new Pane();
         //displayedNodes.addListener((ListChangeListener<UniqueNode>) c -> nodeOverlay.getChildren().setAll(displayedNodes));
         imageViewPane.setPickOnBounds(true);
-        //nodeOverlay = new Pane();
-        //nodeOverlay.setPickOnBounds(true);
+        nodeOverlay = new Pane();
+        nodeOverlay.setPickOnBounds(true);
         lineOverlay = new Pane();
         lineOverlay.setPickOnBounds(true);
         //infoOverlay = new Pane();
@@ -164,7 +164,7 @@ public class WelcomeScreenController implements Initializable {
         });
 
         imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"), imageViewPane);
-        Group zoomGroup = new Group(imageView,lineOverlay);
+        Group zoomGroup = new Group(imageView,lineOverlay,nodeOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -175,7 +175,7 @@ public class WelcomeScreenController implements Initializable {
         zoomGroup.getTransforms().add(newScale);
         zoomGroup.addEventHandler(MouseEvent.ANY, event -> {
             if (event.getButton() != MouseButton.MIDDLE &&
-                    !(event.getButton() == MouseButton.PRIMARY && event.isControlDown()))
+                            !(event.getButton() == MouseButton.PRIMARY && event.isControlDown()))
                 event.consume();
         });
 
