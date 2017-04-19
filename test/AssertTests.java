@@ -13,6 +13,7 @@ import static org.junit.Assert.assertEquals;
  * Created by ryan on 3/30/17.
  *
  * @author Ryan Benasutti
+ * @author Dylan McKillip
  * @since 2017-03-30
  */
 public class AssertTests
@@ -27,8 +28,8 @@ public class AssertTests
     public void astarTest1() {
         LinkedList<Location> locations = new LinkedList<>();
         List<Location> neighbs= new ArrayList<>();
-        Category catA = new Category("Hall", 0, color);
-        Category catB = new Category("Room", 1, color);
+        Category catA = new Category("Hall", 0, "0x66666666");
+        Category catB = new Category("Room", 1, "0x000000");
         Location A = new Location("A", 200, 250, neighbs, catA, 0,1,1,1);
         Location B = new Location("B", 300, 450, neighbs, catB, 0,2,1,1);
         A.addNeighbor(B);
@@ -43,8 +44,8 @@ public class AssertTests
     public void depthTest1(){
         LinkedList<Location> locations = new LinkedList<>();
         List<Location> neighbs= new ArrayList<>();
-        Category catA = new Category("Hall", 0, color);
-        Category catB = new Category("Room", 1, color);
+        Category catA = new Category("Hall", 0, "0x111111");
+        Category catB = new Category("Room", 1, "0x010101");
         Location A = new Location("A", 200, 250, neighbs, catA, 0,1,1,1);
         Location B = new Location("B", 300, 450, neighbs, catB, 0,2,1,1);
         A.addNeighbor(B);
@@ -60,9 +61,9 @@ public class AssertTests
         LinkedList<Location> path = new LinkedList<>();
         LinkedList<Location> locations = new LinkedList<>();
         List<Location> neighbs= new ArrayList<>();
-        Category catA = new Category("Hall", 0, color);
+        Category catA = new Category("Hall", 0, "0x020202");
         Location A = new Location("A", 200, 250, neighbs, catA, 0,1,1,1);
-        Category catB = new Category("Room", 1, color);
+        Category catB = new Category("Room", 1, "0x000000");
         Location B = new Location("B", 300, 450, neighbs, catB, 0,2,1,1);
         Location C = new Location("C", 200, 250, neighbs, catA, 0,3,1,1);
         Location D = new Location("D", 0, 0, neighbs, catB, 0, 4, 1, 1);

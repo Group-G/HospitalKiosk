@@ -1,14 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="groupg.controller.AboutController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1252.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="21.0" layoutY="631.0" text="Lead Software Engineer:" />
+      <Label layoutX="38.0" layoutY="651.0" text="Samantha Comeau" />
+      <ImageView fitHeight="148.0" fitWidth="112.0" layoutX="47.0" layoutY="483.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/Headshots/Image%20uploaded%20from%20iOS.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="148.0" fitWidth="135.0" layoutX="201.0" layoutY="483.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/Headshots/Image%20uploaded%20from%20iOS%20copy%203.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="211.0" layoutY="631.0" text="Assistant Lead:" />
+      <Label layoutX="213.0" layoutY="651.0" text="Dylan McKillip" />
+      <ImageView fitHeight="123.0" fitWidth="147.0" layoutX="338.0" layoutY="502.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/Headshots/IMG_4738.JPG" />
+         </image>
+      </ImageView>
+      <Label layoutX="363.0" layoutY="633.0" text="Assistant Lead:" />
+      <Label layoutX="378.0" layoutY="651.0" text="Saul Woolf" />
+      <ImageView fitHeight="124.0" fitWidth="126.0" layoutX="946.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/Headshots/Mysteryman-silhouette-clip-art-man-profile-clipart_300-284.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="960.0" layoutY="633.0" text="Test Engineer:" />
+      <Label layoutX="959.0" layoutY="651.0" text="Ryan Benasutti" />
+      <ImageView fitHeight="140.0" fitWidth="116.0" layoutX="665.0" layoutY="487.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/Headshots/IMG_2740.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="665.0" layoutY="633.0" text="Project Manager:" />
+      <Label layoutX="665.0" layoutY="651.0" text="William Schwartz" />
+      <ImageView fitHeight="140.0" fitWidth="136.0" layoutX="512.0" layoutY="487.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/Headshots/Image%20uploaded%20from%20iOS%20copy%202.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="506.0" layoutY="633.0" text="Software Engineer:" />
+      <Label layoutX="515.0" layoutY="651.0" text="Alazar Genene" />
+      <ImageView fitHeight="124.0" fitWidth="126.0" layoutX="804.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/Headshots/IMG_0141.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="818.0" layoutY="631.0" text="Product Owner:" />
+      <Label layoutX="825.0" layoutY="651.0" text="Eric Peterson" />
+      <ImageView fitHeight="124.0" fitWidth="126.0" layoutX="1095.0" layoutY="498.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/Headshots/Image%20uploaded%20from%20iOS%20(1).jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="1084.0" layoutY="633.0" text="Documentation Analyst:" />
+      <Label layoutX="1099.0" layoutY="651.0" text="Daniel McDonough" />
+      <Label layoutX="327.0" layoutY="36.0" text="Faulkner Hospital Pathfinding Application About">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="124.0" fitWidth="126.0" layoutX="396.0" layoutY="298.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/Headshots/Screen%20Shot%202017-04-18%20at%206.33.37%20PM.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="417.0" layoutY="431.0" text="Professor:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="410.0" layoutY="452.0" text="Wilson Wong">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="124.0" fitWidth="126.0" layoutX="689.0" layoutY="298.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/Headshots/Image%20uploaded%20from%20iOS%20copy.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="703.0" layoutY="432.0" text="Team Coach:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="702.0" layoutY="452.0" text="Andrew Rottier">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label layoutX="388.0" layoutY="108.0" text="Worcester Polytechnic Institute Computer Science Department">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="510.0" layoutY="143.0" text="CS 3733 Software Engineering">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="446.0" layoutY="183.0" text="We would like to extend our gratitude to Andrew Shinn and">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="446.0" layoutY="201.0" text="everyone at Brigham and Women’s Faulkner Hospital for the">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="446.0" layoutY="219.0" text="opportunity to work on this project with them.">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>

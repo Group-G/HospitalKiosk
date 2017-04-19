@@ -104,20 +104,20 @@ public class WelcomeScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        acccordionDropDown.getPanes().clear();
-
-        for (Category category : Main.h.getAllCategories()) {
-            if (category.getPermission() <= permission) {
-                ListView<Location> locByCat = new ListView();
-                locByCat.getItems().addAll(Main.h.getLocationsByCategory(category.getCategory()));
-                locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-                acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " " +category.getPermission(), locByCat));
-                locByCat.setOnMouseClicked((MouseEvent event) -> {
-                    if (event.getClickCount() == 2)
-                        endField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
-                });
-            }
-        }
+//        acccordionDropDown.getPanes().clear();
+//
+//        for (Category category : Main.h.getAllCategories()) {
+//            if (category.getPermission() <= permission) {
+//                ListView<Location> locByCat = new ListView();
+//                locByCat.getItems().addAll(Main.h.getLocationsByCategory(category.getCategory()));
+//                locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+//                acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " " +category.getPermission(), locByCat));
+//                locByCat.setOnMouseClicked((MouseEvent event) -> {
+//                    if (event.getClickCount() == 2)
+//                        endField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
+//                });
+//            }
+//        }
 
         File qrcode = new File("qrcode.jpg");
         boolean exists = qrcode.exists();
@@ -848,8 +848,10 @@ public class WelcomeScreenController implements Initializable {
     public void QRgen(){
         //String details = "";
         //System.out.print("QRGEN!");
-        ObservableList<String> dir = dirList.getItems();
-        String textdir = dir.toString();
+        String textdir = new String();
+        for (int j = 0; j < dirList.getItems().size(); j++) {
+            textdir += (dirList.getItems().get(j)+ "\n");
+        }
         ByteArrayOutputStream out = QRCode.from(textdir).to(ImageType.JPG).stream();
         //System.out.print(out);
         File f = new File("qrcode.jpg");

@@ -26,6 +26,7 @@ public class Location implements Comparable
     private List<Location> neighbors = new LinkedList<>();
     private Location parent;
 
+
     public Location(String name, double x, double y, List<Location> neighbors, Category category, float weight, int ID, int floor, int building)
     {
         this.name = name;
@@ -53,7 +54,7 @@ public class Location implements Comparable
         this.weight = weight;
         this.floor = floor;
         this.building = building;
-        this.id = h.getNewFloorID();
+        this.id = h.getNewLocationID();
 //        System.out.println("Created Location: " + getSQL());
     }
 
@@ -259,7 +260,15 @@ public class Location implements Comparable
         {
             return false;
         }
-
+        HospitalData h = Main.h;
+//        if(h == null){
+//            System.out.println("fuck");
+//            return false;
+//        }
+        if(h.getLocationById(id) == null){
+            System.out.println("NEIGHBOR " + id + " does not exist??");
+            return false;
+        }
         neighbors.add(Main.h.getLocationById(id));
         return true;
     }

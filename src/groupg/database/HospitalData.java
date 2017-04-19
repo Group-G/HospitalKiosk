@@ -24,6 +24,7 @@ public class HospitalData {
     private  int FLOOR_NEW;
     private  static int dbStrLength = 40;
     public static String errorMessage = "";
+    private List<Integer> allIds = new ArrayList<>();
 
     public static RSA key = new RSA(64);
 //    public s
@@ -106,7 +107,7 @@ public class HospitalData {
             errorMessage = "String too long";
             return false;
         }
-        else if (input.matches("^[a-zA-Z0-9_]+$")) {
+        else if (!input.matches("^[a-zA-Z0-9_]+$")) {
 
             errorMessage = "String cannot contain special characters";
             return false;
@@ -692,6 +693,7 @@ public class HospitalData {
             }
         }
         return LOCATION_NEW;
+
     }
 
     public int getNewPersonelleID(){

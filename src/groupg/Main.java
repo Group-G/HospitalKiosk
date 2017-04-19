@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import javax.sound.midi.Soundbank;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -36,6 +37,7 @@ public class Main extends Application
     public static void main(String[] args)
     {
 
+
         dbExample.connectDB();
 
         Path path = Paths.get("HospitalDatabase");
@@ -50,6 +52,9 @@ public class Main extends Application
         }
 
         h = new HospitalData(dbExample);
+        System.out.println(h.checkString("hello"));
+        System.out.println(h.checkString("'2384@$*)&"));
+
 
         launch(args);
     }
