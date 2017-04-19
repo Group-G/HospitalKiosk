@@ -1127,7 +1127,7 @@ public class HospitalData {
                     }
                     else if (roomDataset.getColumnName(j).equals("TYPE"))
                     {
-                        FLOOR_NEW = Integer.parseInt(admins.getString(j));
+                        type = Integer.parseInt(admins.getString(j));
                     }
                 }
                 adminList.add(new Admin(un, pw, type));

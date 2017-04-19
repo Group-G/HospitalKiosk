@@ -332,13 +332,13 @@ public class JavaDBExample
             stmt.execute("INSERT INTO CATEGORY VALUES " +
                     "('Office', 0, '0xff000f'), " +
                     "('Bathroom', 0, '0xffdfff'), " +
-                    "('Hall', 0, '0xf0faff'), " +
-                    "('Elevator', 0, '0xf9ffff'), " +
+                    "('Hall', 0, '0x00faff'), " +
+                    "('Elevator', 0, '0xf90fff'), " +
                     "('Stairs', 0, '0xffff01'), " +
                     "('Waiting Area', 0, '0xf00fff'), " +
                     "('Break Room', 1, '0xfff00f'), " +
                     "('Kiosk', 0, '0xf99fff'), " +
-                    "('Emergency Room', 0, '0x99ffff') ");
+                    "('Emergency Room', 0, '0x99ff5f') ");
 
 //            INSERT TRACKIDS
 //            FORMAT
