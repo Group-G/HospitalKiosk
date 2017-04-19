@@ -1,10 +1,7 @@
 package groupg.database;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Created by  Alazar Genene, Saul Woolf, and Samantha Comeau on 4/1/17.
@@ -439,7 +436,7 @@ public class HospitalData {
     public List<Floor> getAllFloors() {
         List<Floor> allFloors = new ArrayList<>();
 
-        for(int i = 0; i < buildingsList.size(); i++) {
+        for(int i = buildingsList.size()-1; i >= 0 ; i--) {
             ArrayList<Floor> floorList = buildingsList.get(i).getFloorList();
 
 
@@ -1127,7 +1124,7 @@ public class HospitalData {
                     }
                     else if (roomDataset.getColumnName(j).equals("TYPE"))
                     {
-                        FLOOR_NEW = Integer.parseInt(admins.getString(j));
+                        type = Integer.parseInt(admins.getString(j));
                     }
                 }
                 adminList.add(new Admin(un, pw, type));
