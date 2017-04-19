@@ -330,9 +330,9 @@ public class JavaDBExample
             //FORMAT
             //(CATEGORY_NAME varchar(20), PERMISSIONS INT)
             stmt.execute("INSERT INTO CATEGORY VALUES " +
-                    "('Office', 0, '0xffffff'), " +
+                    "('Office', 0, '0xff000f'), " +
                     "('Bathroom', 0, '0xffdfff'), " +
-                    "('Hall', 0, '0xfffaff'), " +
+                    "('Hall', 0, '0xf0faff'), " +
                     "('Elevator', 0, '0xf9ffff'), " +
                     "('Stairs', 0, '0xffff01'), " +
                     "('Waiting Area', 0, '0xf00fff'), " +
