@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,10 +34,12 @@ public class EditCategoryAddController implements Initializable
 
     @FXML
     private RadioButton radiopublic, radioprivate;
+    @FXML
+    private Text errorText;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
-    {
+    public void initialize(URL url, ResourceBundle resourceBundle){
+        errorText.setVisible(false);
         final ToggleGroup group = new ToggleGroup();
         radiopublic.setToggleGroup(group);
         radioprivate.setToggleGroup(group);
@@ -64,26 +67,30 @@ public class EditCategoryAddController implements Initializable
 
     public void onAdd(ActionEvent event)
     {
-        if(catNameField.getText().equals("")){
-//throw error
-        }
-        if(radioprivate.isSelected()) {
-            Main.h.addCategory(catNameField.getText(), 1, colorField.getValue().toString());
-        }
-        else if(radiopublic.isSelected()){
-            Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString());
+        if(Main.h.checkString(catNameField.getText())){
+            if(radioprivate.isSelected()) {
+                Main.h.addCategory(catNameField.getText(), 1, colorField.getValue().toString());
+            }
+            else if(radiopublic.isSelected()){
+                Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString());
+            }
+            else{
+                //default public
+                Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString());
+            }
+            try
+            {
+                ResourceManager.getInstance().loadFXMLIntoScene("/view/editCategory.fxml", "Edit Categories", addBtn.getScene());
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+
         }
         else{
-            //default public
-            Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString());
+            errorText.setVisible(true);
         }
-        try
-        {
-            ResourceManager.getInstance().loadFXMLIntoScene("/view/editCategory.fxml", "Edit Categories", addBtn.getScene());
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+
     }
 }

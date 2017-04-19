@@ -36,7 +36,12 @@
             </HBox>
             <VBox prefHeight="276.0" prefWidth="600.0" spacing="20.0" GridPane.rowIndex="1">
                <children>
-                  <HBox alignment="CENTER" prefHeight="76.0" prefWidth="600.0" spacing="10.0">
+                  <HBox alignment="TOP_CENTER" prefHeight="18.0" prefWidth="600.0">
+                     <children>
+                        <Text fx:id="errorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="INVALID CATEGORY NAME!" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="16.0" prefWidth="600.0" spacing="10.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category Name:">
                            <font>
@@ -45,9 +50,6 @@
                         </Text>
                         <TextField fx:id="catNameField" prefHeight="25.0" prefWidth="192.0" promptText="Category Name" GridPane.rowIndex="1" />
                      </children>
-                     <padding>
-                        <Insets top="60.0" />
-                     </padding>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="20.0" prefWidth="600.0">
                      <children>
