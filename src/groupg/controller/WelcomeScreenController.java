@@ -149,7 +149,8 @@ public class WelcomeScreenController implements Initializable {
 
         startFieldHBox.getChildren().add(startField);
         endFieldHBox.getChildren().add(endField);
-        Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
+        //Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
+        Application.setUserAgentStylesheet(getClass().getResource("/view/material-fx-v0_3.css").toExternalForm());
         startField.getStyleClass().add("startfield");
         endField.getStyleClass().add("endfield");
         //Find closest location
@@ -241,7 +242,7 @@ public class WelcomeScreenController implements Initializable {
             if (newTab != null) {
             selectedTab = newTab;
             displayedLines.clear();
-            System.out.println("newTab: " + newTab);
+            //System.out.println("newTab: " + newTab);
             displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(navigation.getPath()
                     .stream()
                     .filter(elem -> elem.getFloorObj().getFloorNum().equals(newTab.getText()))
@@ -783,6 +784,7 @@ public class WelcomeScreenController implements Initializable {
             dirList.getItems().clear();
             qrcode.setVisible(false);
             displayedLines.clear();
+            lineOverlay.getChildren().clear();
             searchBtn.setText("Search");
         } else {
             searched = true;
