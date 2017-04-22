@@ -96,6 +96,9 @@ public class WelcomeScreenController implements Initializable {
     private List<Tab> tabList = new ArrayList<>();
     private boolean searched = false;
 
+    @FXML
+    private CheckBox handicapped;
+
     public static void setPermission(int p){
         permission = p;
     }
@@ -431,9 +434,9 @@ public class WelcomeScreenController implements Initializable {
             int startfloorID = startField.getCurrentSelection().getFloorID();
             int endfloorID = endField.getCurrentSelection().getFloorID();
             output.forEach(e -> {
-                if (e.getFloorObj().getID() == startfloorID || e.getFloorObj().getID() == endfloorID || e.getFloorObj().getFloorNum().equals("Faulkner 1")){
-                    filtered_output.add(e);
-                }
+                //if (e.getFloorObj().getID() == startfloorID || e.getFloorObj().getID() == endfloorID || e.getFloorObj().getFloorNum().equals("Faulkner 1")){
+                //    filtered_output.add(e);
+                //}
             });
 
             generateTextDirections(filtered_output.stream()
@@ -965,6 +968,15 @@ public class WelcomeScreenController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setHandicapped(){
+        if(handicapped.isSelected()){
+            h.setHandicapped(1);
+        } else {
+            h.setHandicapped(0);
+        }
+
     }
 
 //    public static void updateNodePD() {

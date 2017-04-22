@@ -14,6 +14,8 @@ public class HospitalData {
     private  List<Admin> adminList = new ArrayList<>();
     private  JavaDBExample dbExample;
 
+    public int handicapped = 0;
+
     //Values for TRACKIDS
     private  int LOCATION_NEW;
     private  int PERSONELLE_NEW;
@@ -480,6 +482,34 @@ public class HospitalData {
 
     }
     /**
+     * Returns list of all locations
+     * @return List of locations
+     */
+    public List<Location> getAllLocationsExceptStairs() {
+        List<Location> allNodes = new ArrayList<>();
+
+        for(int i = 0; i < buildingsList.size(); i++) {
+            ArrayList<Floor> floorList = buildingsList.get(i).getFloorList();
+
+
+            for(int f = 0; f < floorList.size(); f++) {
+                List<Location> locationList = floorList.get(f).getLocations();
+
+
+                for(int l = 0; l < locationList.size(); l++) {
+                    if(locationList.get(l).getCategory().equals("Stairs")){
+                        //don't add!!
+                    } else {
+
+                        allNodes.add(locationList.get(l));
+                    }
+                }
+            }
+        }
+        return allNodes;
+
+    }
+    /**
      * Returns all categories
      * @return all categories
      */
@@ -760,6 +790,9 @@ public class HospitalData {
         return dbStrLength;
     }
 
+    public void setHandicapped(int val){
+        this.handicapped = val;
+    }
 
     /**
      * pullBuildings
