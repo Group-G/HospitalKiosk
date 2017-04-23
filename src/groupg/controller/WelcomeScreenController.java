@@ -63,7 +63,7 @@ public class WelcomeScreenController implements Initializable {
 
         List<Floor> floors = Main.h.getAllFloors();
         for (int i = 0; i < floors.size(); i ++) {
-            Floor f = floors.get(i):
+            Floor f = floors.get(i);
             if (f.getBuildingID() == 1) {
                 UniqueFloor uf = new UniqueFloor(f, mapGroup, 544+i*7, 342+i*7, -600, -600);
                 FaulknerFloors.add(uf);
