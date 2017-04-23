@@ -18,19 +18,19 @@
    <children>
       <StackPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Pane>
+            <Pane fx:id="mapPane">
                <children>
                   <Group fx:id="mapGroup">
                      <children>
-                        <ImageView fx:id="imageViewBase" fitHeight="402.0" fitWidth="601.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="imageViewBase" pickOnBounds="true" preserveRatio="true" />
                         <Button mnemonicParsing="false" text="Button" />
                      </children>
                   </Group>
                </children>
             </Pane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="anchorPane" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <HBox fx:id="headerbbox" alignment="CENTER_RIGHT" prefHeight="56.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <HBox fx:id="headerbbox" alignment="CENTER_RIGHT" pickOnBounds="false" prefHeight="56.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Button mnemonicParsing="false" text="Button">
                            <HBox.margin>
@@ -39,7 +39,7 @@
                         </Button>
                         <TextField />
                         <Button mnemonicParsing="false" text="Button" />
-                        <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <Region pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                         <MenuButton mnemonicParsing="false" text="MenuButton">
                           <items>
                             <MenuItem mnemonicParsing="false" text="Action 1" />
@@ -51,16 +51,16 @@
                         </MenuButton>
                      </children>
                   </HBox>
-                  <HBox layoutY="55.0" prefHeight="214.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                  <HBox layoutX="14.0" layoutY="286.0" prefHeight="100.0" prefWidth="572.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+                  <HBox layoutY="55.0" pickOnBounds="false" prefHeight="214.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <HBox layoutX="14.0" layoutY="286.0" pickOnBounds="false" prefHeight="100.0" prefWidth="572.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
                      <children>
-                        <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="100.0">
+                        <VBox alignment="BOTTOM_LEFT" pickOnBounds="false" prefHeight="200.0" prefWidth="100.0">
                            <children>
                               <Button mnemonicParsing="false" text="Button" />
                            </children>
                         </VBox>
-                        <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                        <VBox fx:id="orientateVbox" alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="588.0">
+                        <Region pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <VBox fx:id="orientateVbox" alignment="BOTTOM_RIGHT" pickOnBounds="false" prefHeight="100.0" prefWidth="588.0">
                            <children>
                               <Button mnemonicParsing="false" text="Button" />
                               <Button mnemonicParsing="false" text="Button">
