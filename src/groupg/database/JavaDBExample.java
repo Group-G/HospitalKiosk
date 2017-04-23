@@ -298,17 +298,17 @@ public class JavaDBExample
             stmt.execute("INSERT INTO FLOOR VALUES " +
 
 
-                    "(0, 'Faulker Floor 1', 1, '/image/faulkner_1_cropped.png'), " +
-                    "(1, 'Faulker Floor 2', 1, '/image/faulkner_2_cropped.png'), " +
-                    "(2, 'Faulker Floor 3', 1, '/image/faulkner_3_cropped.png'), " +
-                    "(3, 'Faulker Floor 4', 1, '/image/faulkner_4_cropped.png'), " +
-                    "(4, 'Faulker Floor 5', 1, '/image/faulkner_5_cropped.png'), " +
-                    "(5, 'Faulker Floor 6', 1, '/image/faulkner_6_cropped.png'), " +
-                    "(6, 'Faulker Floor 7', 1, '/image/faulkner_7_cropped.png'), " +
-                    "(7, 'Belkin Floor 1', 0, '/image/belkin_1_cropped.png'), " +
-                    "(8, 'Belkin Floor 2', 0, '/image/belkin_2_cropped.png'), " +
-                    "(9, 'Belkin Floor 3', 0, '/image/belkin_3_cropped.png'), " +
-                    "(10, 'Belkin Floor 4', 0, '/image/belkin_4_cropped.png') " );
+                    "(0, 'Faulker Floor 1', 1, '/image/FaulknerMaps/Faulkner1.png'), " +
+                    "(1, 'Faulker Floor 2', 1, '/image/FaulknerMaps/Faulkner2.png'), " +
+                    "(2, 'Faulker Floor 3', 1, '/image/FaulknerMaps/Faulkner3.png'), " +
+                    "(3, 'Faulker Floor 4', 1, '/image/FaulknerMaps/Faulkner4.png'), " +
+                    "(4, 'Faulker Floor 5', 1, '/image/FaulknerMaps/Faulkner5.png'), " +
+                    "(5, 'Faulker Floor 6', 1, '/image/FaulknerMaps/Faulkner6.png'), " +
+                    "(6, 'Faulker Floor 7', 1, '/image/FaulknerMaps/Faulkner7.png'), " +
+                    "(7, 'Belkin Floor 1', 0, '/image/FaulknerMaps/Belkin1.png'), " +
+                    "(8, 'Belkin Floor 2', 0, '/image/FaulknerMaps/Belkin2.png'), " +
+                    "(9, 'Belkin Floor 3', 0, '/image/FaulknerMaps/Belkin3.png'), " +
+                    "(10, 'Belkin Floor 4', 0, '/image/FaulknerMaps/Belkin4.png') " );
 
 
 
