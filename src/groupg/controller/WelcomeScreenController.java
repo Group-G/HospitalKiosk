@@ -1,11 +1,16 @@
 package groupg.controller;
 
+import groupg.Main;
+import groupg.database.Floor;
 import groupg.jfx.ImageViewFactory;
 import groupg.jfx.ResourceManager;
+import groupg.jfx.UniqueFloor;
 import javafx.animation.Animation;
 import javafx.animation.Transition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
@@ -20,7 +25,9 @@ import javafx.scene.transform.Scale;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -36,6 +43,13 @@ public class WelcomeScreenController implements Initializable {
     private Pane mapPane;
     @FXML
     private AnchorPane anchorPane;
+    @FXML
+    private Button searchButton;
+
+    Scale scale = new Scale();
+    ImageView newmap = new ImageView();
+    double WIDNDOW_WIDTH = 0;
+    List<UniqueFloor> FaulknerFloors = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -46,12 +60,20 @@ public class WelcomeScreenController implements Initializable {
         imageViewBase.setPickOnBounds(true);
         //imageViewBase.fitWidthProperty().bind(mapPane.widthProperty());
         imageViewBase.setImage(new Image("/image/FaulknerMaps/Ground.png"));
-        ImageView newmap = new ImageView();
+
+        List<Floor> floors = Main.h.getAllFloors();
+        for (int i = 0; i < floors.size(); i ++) {
+            Floor f = floors.get(i):
+            if (f.getBuildingID() == 1) {
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 544+i*7, 342+i*7, -600, -600);
+                FaulknerFloors.add(uf);
+            }
+        }
+
         newmap.setImage(new Image(("/image/faulknerMaps/Faulkner1.png")));
-        newmap.setX(-544);
+        newmap.setX(544+60);
         newmap.setY(342);
         //imageViewBase.setViewport(new Rectangle2D(0, 0, 1000, 1000));
-        Scale scale = new Scale();
         //scale.setX(.15);
         //scale.setY(.15);
         //mapGroup.setTranslateX(-800);
@@ -63,8 +85,8 @@ public class WelcomeScreenController implements Initializable {
         mapPane.setOnMouseClicked((MouseEvent event) -> {
             System.out.println("clicked the pane!!!!");
 
-            moveImage(newmap, 544, 342).play();
-            moveImage(newmap, -800, 0).play();
+            resetZoom(WIDNDOW_WIDTH);
+            //moveImage(newmap, -800, 0).play();
 
 
             //System.out.println(mapPane.getWidth());
@@ -72,11 +94,27 @@ public class WelcomeScreenController implements Initializable {
         });
 
         mapPane.widthProperty().addListener((observable, oldValue, newValue) -> {
-            scale.setX((double)newValue / imageViewBase.getImage().getWidth());
-            scale.setY((double)newValue / imageViewBase.getImage().getWidth());
-            //newmap.setX(940/(1+scale.getMxx()));
-            //newmap.setY(593/(1+scale.getMxx()));
+            WIDNDOW_WIDTH = (double)newValue;
+            resetZoom(WIDNDOW_WIDTH);
             System.out.println("scale.getMxx() = " + scale.getMxx());
+        });
+
+        searchButton.setOnAction(event -> {
+            moveImage(newmap, 544, 342).play();
+        });
+
+        newmap.setOnMouseClicked(event -> {
+            event.consume();
+
+//            Scale newscale = new Scale();
+            double scaleVal = mapPane.getWidth()/newmap.getImage().getWidth();
+//            mapGroup.setTranslateX(-(newmap.getX())*scaleVal);
+//            mapGroup.setTranslateY(-(newmap.getY())*scaleVal);
+//            scale.setX(scaleVal);
+//            scale.setY(scaleVal);
+//            mapGroup.getTransforms().add(scale);
+            scaleImage(newmap.getX(), newmap.getY(), scaleVal).play();
+
         });
 
 
@@ -110,4 +148,78 @@ public class WelcomeScreenController implements Initializable {
         });
         return expandPanel;
     }
+
+    private Animation scaleImage(double x, double y, double scaleIn) {
+
+//        if(scale.getMxx() == scaleIn){
+//            System.out.println("dont transform");
+//            return new Transition() {
+//                @Override
+//                protected void interpolate(double frac) {
+//
+//                }
+//            };
+//        }
+
+        mapGroup.getTransforms().clear();
+        double curScale = scale.getMxx();
+        double curX = -mapGroup.getTranslateX()/curScale;
+        double curY = -mapGroup.getTranslateY()/curScale;
+
+
+
+
+
+        System.out.println("Starts at:");
+        System.out.println("scaleIn = " + curScale);
+        System.out.println("curX = " + curX);
+        System.out.println("curY = " + curY);
+        System.out.println("x = " + x*curScale);
+        System.out.println("y = " + y*curScale);
+        System.out.println();
+
+        mapGroup.getTransforms().add(scale);
+        final Animation expandPanel = new Transition() {
+            {
+                setCycleDuration(Duration.millis(2500));
+            }
+
+            @Override
+            protected void interpolate(double fraction) {
+                mapGroup.getTransforms().clear();
+                mapGroup.getTransforms().add(scale);
+
+                double newScale = curScale + fraction*(scaleIn-curScale);
+
+                scale.setX(newScale);
+                scale.setY(newScale);
+
+                double newX = curX+fraction*(x-curX);
+                mapGroup.setTranslateX(-newX*newScale);
+                double newY = curY+fraction*(y-curY);
+                mapGroup.setTranslateY(-newY*newScale);
+
+//                System.out.println("x = " + x);
+//                System.out.println("curX = " + curX);
+            }
+        };
+
+        expandPanel.setOnFinished(e-> {
+            System.out.println("Ends at:");
+            System.out.println("scaleIn = " + scale.getMxx());
+            System.out.println("curX = " + -mapGroup.getTranslateX());
+            System.out.println("curY = " + -mapGroup.getTranslateY());
+            System.out.println();
+        });
+        return expandPanel;
+    }
+
+
+    public void resetZoom(double width){
+        double newScale = width / imageViewBase.getImage().getWidth();
+        scaleImage(00, 00, newScale).play();
+    }
+
 }
+
+

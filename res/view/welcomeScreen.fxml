@@ -38,7 +38,7 @@
                            </HBox.margin>
                         </Button>
                         <TextField />
-                        <Button mnemonicParsing="false" text="Button" />
+                        <Button fx:id="searchButton" mnemonicParsing="false" text="Button" />
                         <Region pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                         <MenuButton mnemonicParsing="false" text="MenuButton">
                           <items>
