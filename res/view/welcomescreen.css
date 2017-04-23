@@ -925,7 +925,7 @@
 .menu-item {
     -fx-background-color: transparent;
     -fx-padding: 0.333333em 0.41777em 0.333333em 0.41777em;  /* 4 5 4 5 */
-    -fx-pref-width: 160px;
+    /*-fx-pref-width: 160px;*/
 }
 
 .menu-item > .left-container {
