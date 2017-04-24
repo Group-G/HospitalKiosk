@@ -97,7 +97,6 @@ public class AutoCompleteTextField extends TextField {
 
             return out;
         }
-
         return currentSelection;
     }
 

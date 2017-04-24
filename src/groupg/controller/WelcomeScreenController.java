@@ -14,10 +14,12 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -116,10 +118,24 @@ public class WelcomeScreenController implements Initializable {
         navigation = new NavigationFacade();
 
     }
+    private void setOnMouseClickedTwice()
+    {
+        searchBtn.setOnMousePressed((MouseEvent event) -> {
+            switch(event.getClickCount()){
+                case 2:
+
+                    break;
+                case 3:
+                    System.out.println("Three clicks");
+                    break;
+            }
+        });
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         acccordionDropDown.getPanes().clear();
+        EmptyLocation empty = new EmptyLocation();
         for (Category category : h.getAllCategories()) {
             if (category.getPermission() <= permission) {
                 ListView<Location> locByCat = new ListView();
@@ -127,8 +143,13 @@ public class WelcomeScreenController implements Initializable {
                 locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
                 acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " "/* +category.getPermission()*/, locByCat));
                 locByCat.setOnMouseClicked((MouseEvent event) -> {
-                    if (event.getClickCount() == 2)
+                    System.out.println(startField.getText().trim().isEmpty() && endField.getText().isEmpty());
+                    if(event.getClickCount() == 2 && startField.getText().isEmpty() && endField.getText().isEmpty()){
+                        startField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
+                    }
+                    else if(event.getClickCount() == 2 && !(startField.getText().isEmpty()) && endField.getText().isEmpty()) {
                         endField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
+                    }
                 });
             }
         }
@@ -283,8 +304,6 @@ public class WelcomeScreenController implements Initializable {
         locations.addAll(h.getAllLocations());
         startField.getEntries().addAll(locations);
         endField.getEntries().addAll(locations);
-
-
         //Fill drop downs
         waitAreaLV.getItems().addAll(h.getLocationsByCategory("Waiting Area"));
         waitAreaLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
