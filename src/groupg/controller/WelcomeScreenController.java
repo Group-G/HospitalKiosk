@@ -65,13 +65,13 @@ public class WelcomeScreenController implements Initializable {
         for (int i = 0; i < floors.size(); i ++) {
             Floor f = floors.get(i);
             if (f.getBuildingID() == 1) {
-                UniqueFloor uf = new UniqueFloor(f, mapGroup, 544+i*7, 342+i*7, -600, -600);
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 544+i*7, 342+i*7, 600, 600);
                 FaulknerFloors.add(uf);
             }
         }
 
         newmap.setImage(new Image(("/image/faulknerMaps/Faulkner1.png")));
-        newmap.setX(544+60);
+        newmap.setX(-544);
         newmap.setY(342);
         //imageViewBase.setViewport(new Rectangle2D(0, 0, 1000, 1000));
         //scale.setX(.15);
