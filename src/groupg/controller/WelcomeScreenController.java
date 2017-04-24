@@ -1,7 +1,6 @@
 
 package groupg.controller;
 
-
 import groupg.Main;
 import groupg.algorithm.NavigationAlgorithm;
 import groupg.algorithm.NavigationFacade;
@@ -118,19 +117,11 @@ public class WelcomeScreenController implements Initializable {
         navigation = new NavigationFacade();
 
     }
-    private void setOnMouseClickedTwice()
-    {
-        searchBtn.setOnMousePressed((MouseEvent event) -> {
-            switch(event.getClickCount()){
-                case 2:
 
-                    break;
-                case 3:
-                    System.out.println("Three clicks");
-                    break;
-            }
-        });
-    }
+//    public void checkTestBox(){
+//        CodeArea codeArea = new CodeArea();
+//
+//    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -143,8 +134,10 @@ public class WelcomeScreenController implements Initializable {
                 locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
                 acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " "/* +category.getPermission()*/, locByCat));
                 locByCat.setOnMouseClicked((MouseEvent event) -> {
-                    System.out.println(startField.getText().trim().isEmpty() && endField.getText().isEmpty());
                     if(event.getClickCount() == 2 && startField.getText().isEmpty() && endField.getText().isEmpty()){
+                        startField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
+                    }
+                    else if(event.getClickCount() == 2 && startField.getText().isEmpty() && !(endField.getText().isEmpty())){
                         startField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
                     }
                     else if(event.getClickCount() == 2 && !(startField.getText().isEmpty()) && endField.getText().isEmpty()) {
@@ -152,7 +145,8 @@ public class WelcomeScreenController implements Initializable {
                     }
                 });
             }
-        }
+
+
 
         File qrcode = new File("qrcode.jpg");
         boolean exists = qrcode.exists();
