@@ -69,7 +69,7 @@ public class WelcomeScreenController implements Initializable {
             }
         }
 
-        newmap.setImage(new Image(("/image/faulknerMaps/Faulkner1.png")));
+        newmap.setImage(new Image("/image/FaulknerMaps/Faulkner1.png"));
         newmap.setX(-544);
         newmap.setY(342);
         //imageViewBase.setViewport(new Rectangle2D(0, 0, 1000, 1000));
