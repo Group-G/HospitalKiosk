@@ -23,7 +23,6 @@
                   <Group fx:id="mapGroup">
                      <children>
                         <ImageView fx:id="imageViewBase" pickOnBounds="true" preserveRatio="true" />
-                        <Button mnemonicParsing="false" text="Button" />
                      </children>
                   </Group>
                </children>
@@ -32,25 +31,29 @@
                <children>
                   <HBox fx:id="headerbbox" alignment="CENTER_RIGHT" pickOnBounds="false" prefHeight="56.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Button">
+                        <Group>
+                           <children>
+                              <HBox prefHeight="31.0" prefWidth="287.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Button" />
+                                    <TextField />
+                                    <Button fx:id="searchButton" mnemonicParsing="false" text="Button" />
+                                 </children>
+                              </HBox>
+                              <Pane prefHeight="200.0" prefWidth="200.0" />
+                           </children>
                            <HBox.margin>
-                              <Insets left="20.0" />
+                              <Insets left="15.0" top="15.0" />
                            </HBox.margin>
-                        </Button>
-                        <TextField />
-                        <Button fx:id="searchButton" mnemonicParsing="false" text="Button" />
-                        <Region pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                        <MenuButton mnemonicParsing="false" text="MenuButton">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="Action 1" />
-                            <MenuItem mnemonicParsing="false" text="Action 2" />
-                          </items>
-                           <HBox.margin>
-                              <Insets right="20.0" />
-                           </HBox.margin>
-                        </MenuButton>
+                        </Group>
                      </children>
                   </HBox>
+                  <MenuButton alignment="TOP_RIGHT" mnemonicParsing="false" prefWidth="227.0" text="MenuButton">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Action 1" />
+                      <MenuItem mnemonicParsing="false" text="Action 2" />
+                    </items>
+                  </MenuButton>
                   <HBox layoutY="55.0" pickOnBounds="false" prefHeight="214.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                   <HBox layoutX="14.0" layoutY="286.0" pickOnBounds="false" prefHeight="100.0" prefWidth="572.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
                      <children>
