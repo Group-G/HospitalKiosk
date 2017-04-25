@@ -18,7 +18,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
-
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -48,7 +47,7 @@ public class WelcomeScreenController implements Initializable {
     //@FXML
     //private Pane dropDown;
     @FXML
-    private AnchorPane LayerA,LayerB,LayerC;
+    private AnchorPane LayerA,LayerB,LayerC,LayerD;
     @FXML
     private Accordion acccordionDropDown;
     @FXML
@@ -85,6 +84,7 @@ public class WelcomeScreenController implements Initializable {
         LayerC.setPickOnBounds(false);
         LayerA.setPickOnBounds(false);
         LayerB.setPickOnBounds(false);
+        LayerD.setPickOnBounds(false);
         //anchorPane.setPickOnBounds(false);
         imageViewBase.setPickOnBounds(true);
         imageViewBase.setImage(new Image("/image/FaulknerMaps/Ground.png"));

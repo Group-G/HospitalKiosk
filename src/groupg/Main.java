@@ -28,10 +28,10 @@ public class Main extends Application
         Parent root = FXMLLoader.load(getClass().getResource("/view/welcomeScreen.fxml"));
         primaryStage.setTitle("Welcome");
         primaryStage.setScene(new Scene(root, 1404, 800));
+        primaryStage.setFullScreen(true);
+        primaryStage.setResizable(false);
         primaryStage.show();
-
         primaryStage.setOnCloseRequest(event -> Main.h.publishDB());
-
     }
 
     public static void main(String[] args)
