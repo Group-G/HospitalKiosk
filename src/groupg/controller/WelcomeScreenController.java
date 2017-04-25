@@ -7,6 +7,7 @@ import javafx.animation.Animation;
 import javafx.animation.Transition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
@@ -54,6 +55,8 @@ public class WelcomeScreenController implements Initializable {
     private HBox startFieldHBox,endFieldHBox;
     @FXML
     private Button upButton, downButton, viewButton;
+    @FXML
+    private Pane menuPane;
 
 
     Scale scale = new Scale();
@@ -63,6 +66,7 @@ public class WelcomeScreenController implements Initializable {
     boolean onScreen = false;
     private static int permission = 0;
     int topFloor = 0;
+    private boolean menuOpen = false;
 
 
     @Override
@@ -84,6 +88,20 @@ public class WelcomeScreenController implements Initializable {
         //anchorPane.setPickOnBounds(false);
         imageViewBase.setPickOnBounds(true);
         imageViewBase.setImage(new Image("/image/FaulknerMaps/Ground.png"));
+        menuPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        menuPane.setBackground(new Background(new BackgroundFill(Color.web("#ececec"), CornerRadii.EMPTY, Insets.EMPTY)));
+        menuPane.setVisible(false);
+
+        menuBtn.setOnAction(event -> {
+            if(menuOpen){
+                menuPane.setVisible(false);
+                menuOpen = false;
+            }
+            else{
+                menuOpen = true;
+                menuPane.setVisible(true);
+            }
+        });
 
         List<Floor> floors = Main.h.getAllFloors();
         for (int i = 0; i < floors.size(); i ++) {
@@ -105,7 +123,7 @@ public class WelcomeScreenController implements Initializable {
         }
 
         mapGroup.getTransforms().add(scale);
-        System.out.println(mapPane.getWidth());
+//        System.out.println(mapPane.getWidth());
         mapPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         //mapPane.setMaxWidth(anchorPane.getMaxWidth());
         mapPane.setOnMouseClicked((MouseEvent event) -> {
@@ -117,13 +135,7 @@ public class WelcomeScreenController implements Initializable {
         mapPane.widthProperty().addListener((observable, oldValue, newValue) -> {
             WIDNDOW_WIDTH = (double)newValue;
             resetZoom(WIDNDOW_WIDTH, 1);
-            System.out.println("loginBtn.getPrefHeight() = " + loginBtn.getHeight());
-            System.out.println("loginBtn.getWidth() = " + loginBtn.getWidth());
-            System.out.println("aboutBtn.getPrefHeight() = " + aboutBtn.getHeight());
-            System.out.println("aboutBtn.getWidth() = " + aboutBtn.getWidth());
 
-            //dropDown.setPrefWidth(80);
-            //dropDown.setPrefHeight(mapPane.getHeight()*.869329);
         });
 
         viewButton.setOnAction(event -> {
