@@ -15,19 +15,22 @@ public class UniqueFloor {
     private double onY;
     private double offX;
     private double offY;
+    private int timeDelay;
 
 
-    public UniqueFloor(Floor floor, Group mapGroup, double onX, double onY, double offX, double offY){
+    public UniqueFloor(Floor floor, Group mapGroup, double onX, double onY, double offX, double offY, int timeDelay){
 
         this.floor = floor;
         this.onX = onX;
         this.onY = onY;
         this.offX = offX;
         this.offY = offY;
+        this.timeDelay = timeDelay;
         imageView.setImage(new Image(floor.getFilename()));
         imageView.setX(offX);
         imageView.setY(offY);
         mapGroup.getChildren().add(imageView);
+
     }
 
     public Floor getFloor() {
@@ -68,5 +71,17 @@ public class UniqueFloor {
 
     public void setOffY(double offY) {
         this.offY = offY;
+    }
+
+    public ImageView getImageView() {
+       return this.imageView;
+    }
+
+    public int getTimeDelay() {
+        return timeDelay;
+    }
+
+    public void setTimeDelay(int timeDelay) {
+        this.timeDelay = timeDelay;
     }
 }
