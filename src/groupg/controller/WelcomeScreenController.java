@@ -2,18 +2,11 @@ package groupg.controller;
 
 import groupg.Main;
 import groupg.database.Floor;
-import groupg.jfx.ImageViewFactory;
-import groupg.jfx.ResourceManager;
 import groupg.jfx.UniqueFloor;
 import javafx.animation.Animation;
 import javafx.animation.Transition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -26,7 +19,6 @@ import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -65,8 +57,15 @@ public class WelcomeScreenController implements Initializable {
         for (int i = 0; i < floors.size(); i ++) {
             Floor f = floors.get(i);
             if (f.getBuildingID() == 1) {
-                UniqueFloor uf = new UniqueFloor(f, mapGroup, 544+i*7, 342+i*7, 600, 600);
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 544+i*7, 342+i*15, 544+i*15, -600);
                 FaulknerFloors.add(uf);
+                uf.getImageView().setOnMouseClicked(event -> {
+                    event.consume();
+
+                    double scaleVal = mapPane.getWidth()/uf.getImageView().getImage().getWidth();
+                    scaleImage(uf.getImageView().getX(), uf.getImageView().getY(), scaleVal).play();
+
+                });
             }
         }
 
@@ -100,19 +99,15 @@ public class WelcomeScreenController implements Initializable {
         });
 
         searchButton.setOnAction(event -> {
-            moveImage(newmap, 544, 342).play();
+            for (int i = 0; i < FaulknerFloors.size(); i ++) {
+                moveImage(FaulknerFloors.get(i).getImageView(), FaulknerFloors.get(i).getOnX(), FaulknerFloors.get(i).getOnY()).play();
+            }
         });
 
         newmap.setOnMouseClicked(event -> {
             event.consume();
 
-//            Scale newscale = new Scale();
             double scaleVal = mapPane.getWidth()/newmap.getImage().getWidth();
-//            mapGroup.setTranslateX(-(newmap.getX())*scaleVal);
-//            mapGroup.setTranslateY(-(newmap.getY())*scaleVal);
-//            scale.setX(scaleVal);
-//            scale.setY(scaleVal);
-//            mapGroup.getTransforms().add(scale);
             scaleImage(newmap.getX(), newmap.getY(), scaleVal).play();
 
         });

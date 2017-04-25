@@ -69,4 +69,8 @@ public class UniqueFloor {
     public void setOffY(double offY) {
         this.offY = offY;
     }
+
+    public ImageView getImageView() {
+        return imageView;
+    }
 }
