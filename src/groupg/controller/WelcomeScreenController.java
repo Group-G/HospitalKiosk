@@ -7,6 +7,7 @@ import groupg.jfx.ResourceManager;
 import groupg.jfx.UniqueFloor;
 import javafx.animation.Animation;
 import javafx.animation.Transition;
+import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -44,9 +45,11 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private AnchorPane anchorPane;
     @FXML
-    private Button searchButton;
-    @FXML
+    private Button searchBtn;
+    //@FXML
     //private Pane dropDown;
+    @FXML
+    private AnchorPane LayerA,LayerB,LayerC;
 
 
     Scale scale = new Scale();
@@ -59,8 +62,11 @@ public class WelcomeScreenController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         //anchorPane.getChildren().add(dropDown);
         //dropDown.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-
-        anchorPane.setPickOnBounds(false);
+        Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
+        LayerC.setPickOnBounds(false);
+        LayerA.setPickOnBounds(false);
+        LayerB.setPickOnBounds(false);
+        //anchorPane.setPickOnBounds(false);
         imageViewBase.setPickOnBounds(true);
         imageViewBase.setImage(new Image("/image/FaulknerMaps/Ground.png"));
 
@@ -81,7 +87,7 @@ public class WelcomeScreenController implements Initializable {
         mapGroup.getTransforms().add(scale);
         System.out.println(mapPane.getWidth());
         mapPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        mapPane.setMaxWidth(anchorPane.getMaxWidth());
+        //mapPane.setMaxWidth(anchorPane.getMaxWidth());
         mapPane.setOnMouseClicked((MouseEvent event) -> {
             System.out.println("clicked the pane!!!!");
 
@@ -96,7 +102,7 @@ public class WelcomeScreenController implements Initializable {
             //dropDown.setPrefHeight(mapPane.getHeight()*.869329);
         });
 
-        searchButton.setOnAction(event -> {
+        searchBtn.setOnAction(event -> {
             if (onScreen == false) {
                 for (UniqueFloor uf: FaulknerFloors) {
                     moveImage(uf.getImageView(), uf.getOnX(), uf.getOnY(), 1250+uf.getTimeDelay()*100).play();
