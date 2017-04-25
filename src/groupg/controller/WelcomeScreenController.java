@@ -1,27 +1,15 @@
 package groupg.controller;
 
 import groupg.Main;
-import groupg.algorithm.NavigationFacade;
-import groupg.database.Category;
-import groupg.database.EmptyLocation;
 import groupg.database.Floor;
-import groupg.database.Location;
-import groupg.jfx.AutoCompleteTextField;
-import groupg.jfx.ImageViewFactory;
-import groupg.jfx.ResourceManager;
 import groupg.jfx.UniqueFloor;
 import javafx.animation.Animation;
 import javafx.animation.Transition;
-import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
-import javafx.scene.control.*;
+import javafx.scene.control.Accordion;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -33,11 +21,8 @@ import javafx.util.Duration;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import static groupg.Main.h;
 
 /**
  * Created by will on 4/21/17.
@@ -55,6 +40,10 @@ public class WelcomeScreenController implements Initializable {
     private AnchorPane anchorPane;
     @FXML
     private Button searchBtn;
+    @FXML
+    private Button menuBtn;
+    @FXML
+    private Button loginBtn, aboutBtn;
     //@FXML
     //private Pane dropDown;
     @FXML
@@ -65,54 +54,22 @@ public class WelcomeScreenController implements Initializable {
     private HBox startFieldHBox,endFieldHBox;
     @FXML
     private Button upButton, downButton, viewButton;
+
+
     Scale scale = new Scale();
     //ImageView newmap = new ImageView();
     double WIDNDOW_WIDTH = 0;
     List<UniqueFloor> FaulknerFloors = new ArrayList<>();
     boolean onScreen = false;
     private static int permission = 0;
-    private AutoCompleteTextField startField, endField;
-    private NavigationFacade navigation;
     int topFloor = 0;
 
-    public WelcomeScreenController() {
-        startField = new AutoCompleteTextField();
-        startField.setCurrentSelection(new EmptyLocation());
-        endField = new AutoCompleteTextField();
-        endField.setCurrentSelection(new EmptyLocation());
-
-        List<Location> kioskLocs = h.getLocationsByCategory("Kiosk");
-        if (kioskLocs.size() > 0)
-            startField.setCurrentSelection(kioskLocs.get(0));
-
-        navigation = new NavigationFacade();
-
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //anchorPane.getChildren().add(dropDown);
         //dropDown.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        startFieldHBox.getChildren().add(startField);
-        endFieldHBox.getChildren().add(endField);
-        //Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
-        Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
-        startField.getStyleClass().add("startfield");
-        endField.getStyleClass().add("endfield");
 
-        acccordionDropDown.getPanes().clear();
-        for (Category category : h.getAllCategories()) {
-            if (category.getPermission() <= permission) {
-                ListView<Location> locByCat = new ListView();
-                locByCat.getItems().addAll(h.getLocationsByCategory(category.getCategory()));
-                locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-                acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " "/* +category.getPermission()*/, locByCat));
-                locByCat.setOnMouseClicked((MouseEvent event) -> {
-                    if (event.getClickCount() == 2)
-                        endField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
-                });
-            }
-        }
 
         File qrcode = new File("qrcode.jpg");
         boolean exists = qrcode.exists();
@@ -137,10 +94,12 @@ public class WelcomeScreenController implements Initializable {
                 uf.getImageView().setOnMouseClicked( event -> {
 
                     event.consume();
+                    flipToFloor(uf.getTimeDelay() + 1);
+                    double scaleVal = mapPane.getWidth()/uf.getImageView().getImage().getWidth()*.65;
+                    double xoffset = mapPane.getWidth()*.35;
+                    double yoffset = mapPane.getHeight()*.35/2;
 
-                    flipToFloor(uf.getTimeDelay());
-                    double scaleVal = mapPane.getWidth()/uf.getImageView().getImage().getWidth();
-                    scaleImage(uf.getImageView().getX(), uf.getImageView().getY(), scaleVal, 1250).play();
+                    scaleImage(uf.getImageView().getX() - xoffset, uf.getImageView().getY() - yoffset, scaleVal, 1250).play();
                 });
             }
         }
@@ -158,6 +117,10 @@ public class WelcomeScreenController implements Initializable {
         mapPane.widthProperty().addListener((observable, oldValue, newValue) -> {
             WIDNDOW_WIDTH = (double)newValue;
             resetZoom(WIDNDOW_WIDTH, 1);
+            System.out.println("loginBtn.getPrefHeight() = " + loginBtn.getHeight());
+            System.out.println("loginBtn.getWidth() = " + loginBtn.getWidth());
+            System.out.println("aboutBtn.getPrefHeight() = " + aboutBtn.getHeight());
+            System.out.println("aboutBtn.getWidth() = " + aboutBtn.getWidth());
 
             //dropDown.setPrefWidth(80);
             //dropDown.setPrefHeight(mapPane.getHeight()*.869329);
@@ -202,6 +165,17 @@ public class WelcomeScreenController implements Initializable {
             System.out.println("Flipping to floor " + topFloor);
             flipToFloor(topFloor);
         });
+        viewButton.setGraphic(new ImageView(new Image("/image/Icons/location.png")));
+        upButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_in.png")));
+        downButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_out.png")));
+        searchBtn.setGraphic(new ImageView(new Image("/image/Icons/search.png")));
+        menuBtn.setGraphic(new ImageView(new Image("/image/Icons/menu.png")));
+        loginBtn.setGraphic(new ImageView(new Image("/image/Icons/admin.png")));
+        ImageView v = new ImageView(new Image("/image/Icons/info.png"));
+//        v.getTransforms().add(new Scale(.5, .5));
+        aboutBtn.setGraphic(v);
+
+
     }
     private void flipToFloor(int index){
         for(int j = 0; j < index; j++){
