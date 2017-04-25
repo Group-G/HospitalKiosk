@@ -1,14 +1,27 @@
 package groupg.controller;
 
 import groupg.Main;
+import groupg.algorithm.NavigationFacade;
+import groupg.database.Category;
+import groupg.database.EmptyLocation;
 import groupg.database.Floor;
+import groupg.database.Location;
+import groupg.jfx.AutoCompleteTextField;
+import groupg.jfx.ImageViewFactory;
+import groupg.jfx.ResourceManager;
 import groupg.jfx.UniqueFloor;
 import javafx.animation.Animation;
 import javafx.animation.Transition;
+import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -17,15 +30,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static groupg.Main.h;
 
 /**
  * Created by will on 4/21/17.
  */
 public class WelcomeScreenController implements Initializable {
+
 
     @FXML
     private Group mapGroup;
@@ -36,29 +54,77 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private AnchorPane anchorPane;
     @FXML
-    private Button searchButton;
-    @FXML
-    private Button viewButton;
-    @FXML
-    private Button upButton;
-    @FXML
-    private Button downButton;
+    private Button searchBtn;
+    //@FXML
     //private Pane dropDown;
-
-
+    @FXML
+    private AnchorPane LayerA,LayerB,LayerC;
+    @FXML
+    private Accordion acccordionDropDown;
+    @FXML
+    private HBox startFieldHBox,endFieldHBox;
+    @FXML
+    private Button upButton, downButton, viewButton;
     Scale scale = new Scale();
     //ImageView newmap = new ImageView();
     double WIDNDOW_WIDTH = 0;
     List<UniqueFloor> FaulknerFloors = new ArrayList<>();
     boolean onScreen = false;
+    private static int permission = 0;
+    private AutoCompleteTextField startField, endField;
+    private NavigationFacade navigation;
     int topFloor = 0;
+
+    public WelcomeScreenController() {
+        startField = new AutoCompleteTextField();
+        startField.setCurrentSelection(new EmptyLocation());
+        endField = new AutoCompleteTextField();
+        endField.setCurrentSelection(new EmptyLocation());
+
+        List<Location> kioskLocs = h.getLocationsByCategory("Kiosk");
+        if (kioskLocs.size() > 0)
+            startField.setCurrentSelection(kioskLocs.get(0));
+
+        navigation = new NavigationFacade();
+
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //anchorPane.getChildren().add(dropDown);
         //dropDown.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        startFieldHBox.getChildren().add(startField);
+        endFieldHBox.getChildren().add(endField);
+        //Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
+        Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
+        startField.getStyleClass().add("startfield");
+        endField.getStyleClass().add("endfield");
 
-        anchorPane.setPickOnBounds(false);
+        acccordionDropDown.getPanes().clear();
+        for (Category category : h.getAllCategories()) {
+            if (category.getPermission() <= permission) {
+                ListView<Location> locByCat = new ListView();
+                locByCat.getItems().addAll(h.getLocationsByCategory(category.getCategory()));
+                locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+                acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " "/* +category.getPermission()*/, locByCat));
+                locByCat.setOnMouseClicked((MouseEvent event) -> {
+                    if (event.getClickCount() == 2)
+                        endField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
+                });
+            }
+        }
+
+        File qrcode = new File("qrcode.jpg");
+        boolean exists = qrcode.exists();
+        if(exists){
+            qrcode.delete();
+        }
+
+
+        LayerC.setPickOnBounds(false);
+        LayerA.setPickOnBounds(false);
+        LayerB.setPickOnBounds(false);
+        //anchorPane.setPickOnBounds(false);
         imageViewBase.setPickOnBounds(true);
         imageViewBase.setImage(new Image("/image/FaulknerMaps/Ground.png"));
 
