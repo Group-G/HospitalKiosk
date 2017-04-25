@@ -2,18 +2,11 @@ package groupg.controller;
 
 import groupg.Main;
 import groupg.database.Floor;
-import groupg.jfx.ImageViewFactory;
-import groupg.jfx.ResourceManager;
 import groupg.jfx.UniqueFloor;
 import javafx.animation.Animation;
 import javafx.animation.Transition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -26,7 +19,6 @@ import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -70,7 +62,7 @@ public class WelcomeScreenController implements Initializable {
             }
         }
 
-        newmap.setImage(new Image(("/image/faulknerMaps/Faulkner1.png")));
+        newmap.setImage(new Image("/image/FaulknerMaps/Faulkner1.png"));
         newmap.setX(-544);
         newmap.setY(342);
         //imageViewBase.setViewport(new Rectangle2D(0, 0, 1000, 1000));
