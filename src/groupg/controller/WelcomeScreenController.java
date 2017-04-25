@@ -44,11 +44,6 @@ import static groupg.Main.main;
 //import static groupg.controller.AdminMainController.infoOverlay;
 //import static groupg.controller.AdminMainController.nodeOverlay;
 
-
-/**
- * @author Ryan Benasutti
- * @since 2017-03-30
- */
 public class WelcomeScreenController implements Initializable {
     @FXML
     private Button loginBtn, searchBtn;
@@ -447,9 +442,7 @@ public class WelcomeScreenController implements Initializable {
             int startfloorID = startField.getCurrentSelection().getFloorID();
             int endfloorID = endField.getCurrentSelection().getFloorID();
             output.forEach(e -> {
-                //if (e.getFloorObj().getID() == startfloorID || e.getFloorObj().getID() == endfloorID || e.getFloorObj().getFloorNum().equals("Faulkner 1")){
-                //    filtered_output.add(e);
-                //}
+                filtered_output.add(e);
             });
 
             generateTextDirections(filtered_output.stream()

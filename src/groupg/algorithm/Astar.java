@@ -139,8 +139,8 @@ public class Astar implements Navigation{
             }
         }
         else{
-            if (!(curr.getFloorID() == strt.getFloorID()) || (curr.getFloorID() == end.getFloorID())
-                    || curr.getFloorID() == Main.h.getFloorByName("Faulkner 1").getID()) {
+            if (!(curr.getFloorID() == strt.getFloorID() || (curr.getFloorID() == end.getFloorID())
+                    || curr.getFloorID() == Main.h.getFloorByName("Faulkner 1").getID())) {
                 gscore += 40000;
             }
         }
