@@ -23,7 +23,7 @@ import java.util.List;
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-public class NodeListenerFactory {
+public class    NodeListenerFactory {
     private static double orgSceneX, orgSceneY, orgTranslateX, orgTranslateY;
     public static UniqueNode currentSelection = null;
     private static double mouseX, mouseY;

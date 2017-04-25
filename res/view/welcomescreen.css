@@ -231,6 +231,7 @@
      * in the -fx-background-color list and represents main body of the control.
      * Insets are typically 2.
      */
+
     -fx-body-color: linear-gradient(
         to bottom,
         derive(-fx-color,34%) 0%,
