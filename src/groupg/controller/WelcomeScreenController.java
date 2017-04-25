@@ -46,8 +46,10 @@ public class WelcomeScreenController implements Initializable {
     private AnchorPane anchorPane;
     @FXML
     private Button searchBtn;
-    @FXML
+    //@FXML
     //private Pane dropDown;
+    @FXML
+    private AnchorPane LayerA,LayerB,LayerC;
 
 
     Scale scale = new Scale();
@@ -61,7 +63,9 @@ public class WelcomeScreenController implements Initializable {
         //anchorPane.getChildren().add(dropDown);
         //dropDown.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
-
+        LayerC.setPickOnBounds(false);
+        LayerA.setPickOnBounds(false);
+        LayerB.setPickOnBounds(false);
         //anchorPane.setPickOnBounds(false);
         imageViewBase.setPickOnBounds(true);
         imageViewBase.setImage(new Image("/image/FaulknerMaps/Ground.png"));
