@@ -177,15 +177,14 @@ public class WelcomeScreenController implements Initializable {
             System.out.println("Flipping to floor " + topFloor);
             flipToFloor(topFloor);
         });
-       // viewButton.setGraphic(new ImageView(new Image("/image/Icons/location.png")));
-       // upButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_in.png")));
-       // downButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_out.png")));
-       // searchBtn.setGraphic(new ImageView(new Image("/image/Icons/search.png")));
-       // menuBtn.setGraphic(new ImageView(new Image("/image/Icons/menu.png")));
-       // loginBtn.setGraphic(new ImageView(new Image("/image/Icons/admin.png")));
-       // ImageView v = new ImageView(new Image("/image/Icons/info.png"));
-//        v.getTransforms().add(new Scale(.5, .5));
-// aboutBtn.setGraphic(v);
+        viewButton.setGraphic(new ImageView(new Image("/image/Icons/location.png")));
+        upButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_in.png")));
+        downButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_out.png")));
+        searchBtn.setGraphic(new ImageView(new Image("/image/Icons/search.png")));
+        menuBtn.setGraphic(new ImageView(new Image("/image/Icons/menu.png")));
+        loginBtn.setGraphic(new ImageView(new Image("/image/Icons/admin.png")));
+        ImageView v = new ImageView(new Image("/image/Icons/info.png"));
+        aboutBtn.setGraphic(v);
 
 
     }
