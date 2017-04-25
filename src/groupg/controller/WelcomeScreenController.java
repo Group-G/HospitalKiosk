@@ -1,5 +1,5 @@
-
 package groupg.controller;
+
 
 import groupg.Main;
 import groupg.algorithm.NavigationAlgorithm;
@@ -99,6 +99,7 @@ public class WelcomeScreenController implements Initializable {
         permission = p;
     }
 
+
     public WelcomeScreenController() {
         startField = new AutoCompleteTextField();
         startField.setCurrentSelection(new EmptyLocation());
@@ -112,11 +113,19 @@ public class WelcomeScreenController implements Initializable {
         navigation = new NavigationFacade();
 
     }
+    private void setOnMouseClickedTwice()
+    {
+        searchBtn.setOnMousePressed((MouseEvent event) -> {
+            switch(event.getClickCount()){
+                case 2:
 
-//    public void checkTestBox(){
-//        CodeArea codeArea = new CodeArea();
-//
-//    }
+                    break;
+                case 3:
+                    System.out.println("Three clicks");
+                    break;
+            }
+        });
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -129,19 +138,19 @@ public class WelcomeScreenController implements Initializable {
                 locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
                 acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " "/* +category.getPermission()*/, locByCat));
                 locByCat.setOnMouseClicked((MouseEvent event) -> {
+                    System.out.println(startField.getText().trim().isEmpty() && endField.getText().isEmpty());
                     if(event.getClickCount() == 2 && startField.getText().isEmpty() && endField.getText().isEmpty()){
                         startField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
                     }
                     else if(event.getClickCount() == 2 && startField.getText().isEmpty() && !(endField.getText().isEmpty())){
                         startField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
                     }
-                    else if(event.getClickCount() == 2 && !(startField.getText().isEmpty()) && endField.getText().isEmpty()) {
+                    else if(event.getClickCount() == 2) {
                         endField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
                     }
                 });
             }
-
-
+        }
 
         File qrcode = new File("qrcode.jpg");
         boolean exists = qrcode.exists();
@@ -193,7 +202,7 @@ public class WelcomeScreenController implements Initializable {
         zoomGroup.getTransforms().add(newScale);
         zoomGroup.addEventHandler(MouseEvent.ANY, event -> {
             if (event.getButton() != MouseButton.MIDDLE &&
-                            !(event.getButton() == MouseButton.PRIMARY && event.isControlDown()))
+                    !(event.getButton() == MouseButton.PRIMARY && event.isControlDown()))
                 event.consume();
         });
 
@@ -252,42 +261,42 @@ public class WelcomeScreenController implements Initializable {
         //Listener for tab selection change
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             if (newTab != null) {
-            selectedTab = newTab;
-            displayedLines.clear();
-            System.out.println("newTab: " + newTab);
-            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(navigation.getPath()
-                    .stream()
-                    .filter(elem -> elem.getFloorObj().getFloorNum().equals(newTab.getText()))
-                    .collect(Collectors.toList())));
-            lineOverlay.getChildren().setAll(displayedLines);
-            //Set new nodes for this floor
+                selectedTab = newTab;
+                displayedLines.clear();
+                System.out.println("newTab: " + newTab);
+                displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(navigation.getPath()
+                        .stream()
+                        .filter(elem -> elem.getFloorObj().getFloorNum().equals(newTab.getText()))
+                        .collect(Collectors.toList())));
+                lineOverlay.getChildren().setAll(displayedLines);
+                //Set new nodes for this floor
 
-            //displayedNodes.addAll(floor.getLocations().stream().map(NodeFactory::getNode).collect(Collectors.toList()));
-            //nodeOverlay.getChildren().setAll(displayedNodes);
+                //displayedNodes.addAll(floor.getLocations().stream().map(NodeFactory::getNode).collect(Collectors.toList()));
+                //nodeOverlay.getChildren().setAll(displayedNodes);
 
-            //Clear lines
-            //displayedLines.clear();
-            //lineOverlay.getChildren().clear();
+                //Clear lines
+                //displayedLines.clear();
+                //lineOverlay.getChildren().clear();
 
-            //Clear current selection
-            //NodeListenerFactoryLite.currentSelection = null;
+                //Clear current selection
+                //NodeListenerFactoryLite.currentSelection = null;
 //            if (oldTab != null) {
 //                Main.h.getFloorByName(oldTab.getText()).setZoom(zoomGroup.getTransforms().get(0).getMxx());
 //            }
-            zoomGroup.getTransforms().clear();
-            Scale newZoom = new Scale();
-            double zoomVal = 1;
+                zoomGroup.getTransforms().clear();
+                Scale newZoom = new Scale();
+                double zoomVal = 1;
                 String filename = Main.h.getFloorByName(newTab.getText()).getFilename();
                 Image img = ResourceManager.getInstance().loadImage(filename);
                 zoomVal = pane.getWidth()/img.getWidth();
                 newZoom.setX(zoomVal);
                 newZoom.setY(zoomVal);
-            zoomGroup.getTransforms().add(newZoom);
-        }
+                zoomGroup.getTransforms().add(newZoom);
+            }
         });
 
         //Default selected tab
-       selectedTab = tabPane.getTabs().get(0);
+        selectedTab = tabPane.getTabs().get(0);
 
         //Add locations from DB
         locations.addAll(h.getAllLocations());
