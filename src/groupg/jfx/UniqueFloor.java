@@ -16,6 +16,7 @@ public class UniqueFloor {
     private double offX;
     private double offY;
     private int timeDelay;
+    private boolean onScreen;
 
 
     public UniqueFloor(Floor floor, Group mapGroup, double onX, double onY, double offX, double offY, int timeDelay){
@@ -83,5 +84,13 @@ public class UniqueFloor {
 
     public void setTimeDelay(int timeDelay) {
         this.timeDelay = timeDelay;
+    }
+
+    public boolean onScreen() {
+        return onScreen;
+    }
+
+    public void setOnScreen(boolean o) {
+        this.onScreen = o;
     }
 }

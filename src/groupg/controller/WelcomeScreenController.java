@@ -100,15 +100,20 @@ public class WelcomeScreenController implements Initializable {
         viewButton.setOnAction(event -> {
             if (onScreen == false) {
                 for (UniqueFloor uf: FaulknerFloors) {
-                    moveImage(uf.getImageView(), uf.getOnX(), uf.getOnY(), 1250+uf.getTimeDelay()*100).play();
+                    if(!uf.onScreen()) {
+                        moveImage(uf.getImageView(), uf.getOnX(), uf.getOnY(), 1250 + uf.getTimeDelay() * 100).play();
+                        uf.setOnScreen(true);
+                    }
 
                 }
                 topFloor = 6;
                 onScreen = true;
             } else {
                 for (UniqueFloor uf: FaulknerFloors) {
-
-                    moveImage(uf.getImageView(), uf.getOffX(), uf.getOffY(), 1750-uf.getTimeDelay()*100).play();
+                    if(uf.onScreen()) {
+                        moveImage(uf.getImageView(), uf.getOffX(), uf.getOffY(), 1750 - uf.getTimeDelay() * 100).play();
+                        uf.setOnScreen(false);
+                    }
                 }
                 onScreen = false;
                 topFloor = 0;
@@ -119,6 +124,7 @@ public class WelcomeScreenController implements Initializable {
             if(topFloor>6){
                 topFloor = 6;
             }
+            System.out.println("Flipping to floor " + topFloor);
             flipToFloor(topFloor);
 
         });
@@ -127,18 +133,26 @@ public class WelcomeScreenController implements Initializable {
             if(topFloor<0){
                 topFloor = 0;
             }
+            System.out.println("Flipping to floor " + topFloor);
             flipToFloor(topFloor);
         });
     }
     private void flipToFloor(int index){
         for(int j = 0; j < index; j++){
             UniqueFloor u = FaulknerFloors.get(j);
-            moveImage(u.getImageView(), u.getOnX(), u.getOnY(), 1250+u.getTimeDelay()*100).play();
+
+            if(!u.onScreen()) {
+                moveImage(u.getImageView(), u.getOnX(), u.getOnY(), 1250 + u.getTimeDelay() * 100).play();
+                u.setOnScreen(true);
+            }
 
         }
-        for(int j = index+1; j < FaulknerFloors.size(); j++){
+        for(int j = index; j < FaulknerFloors.size(); j++){
             UniqueFloor u = FaulknerFloors.get(j);
-            moveImage(u.getImageView(), u.getOffX(), u.getOffY(), 1750-u.getTimeDelay()*100).play();
+            if(u.onScreen()) {
+                moveImage(u.getImageView(), u.getOffX(), u.getOffY(), 1750 - u.getTimeDelay() * 100).play();
+                u.setOnScreen(false);
+            }
             onScreen = false;
         }
     }
