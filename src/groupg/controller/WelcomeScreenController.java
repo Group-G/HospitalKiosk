@@ -11,6 +11,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -56,7 +58,10 @@ public class WelcomeScreenController implements Initializable {
     private Button upButton, downButton, viewButton;
     @FXML
     private Pane menuPane;
-
+    @FXML
+    private MenuButton language;
+    @FXML
+    private MenuItem english,spanish,portugues,chinese;
 
     Scale scale = new Scale();
     //ImageView newmap = new ImageView();
@@ -177,12 +182,20 @@ public class WelcomeScreenController implements Initializable {
             System.out.println("Flipping to floor " + topFloor);
             flipToFloor(topFloor);
         });
+
+
+        //set button graphics
         viewButton.setGraphic(new ImageView(new Image("/image/Icons/location.png")));
         upButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_in.png")));
         downButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_out.png")));
         searchBtn.setGraphic(new ImageView(new Image("/image/Icons/search.png")));
         menuBtn.setGraphic(new ImageView(new Image("/image/Icons/menu.png")));
         loginBtn.setGraphic(new ImageView(new Image("/image/Icons/admin.png")));
+        language.setGraphic(new ImageView(new Image("/image/Icons/america.png"))); //default as english
+        english.setGraphic(new ImageView(new Image("/image/Icons/america.png")));
+        spanish.setGraphic(new ImageView(new Image("/image/Icons/spain.png")));
+        portugues.setGraphic(new ImageView(new Image("Image/Icons/portugal.png")));
+        chinese.setGraphic(new ImageView(new Image("Image/Icons/china.png")));
         ImageView v = new ImageView(new Image("/image/Icons/info.png"));
         aboutBtn.setGraphic(v);
 

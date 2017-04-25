@@ -69,9 +69,9 @@
     </AnchorPane>
     <AnchorPane fx:id="LayerA" prefHeight="200.0" prefWidth="200.0" StackPane.alignment="CENTER_RIGHT">
         <children>
-            <VBox fx:id="sidebar" alignment="CENTER_RIGHT" maxWidth="200.0" prefHeight="697.0" prefWidth="138.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox fx:id="sidebar" alignment="CENTER_RIGHT" maxWidth="231.0" prefHeight="697.0" prefWidth="231.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <children>
-                    <MenuButton fx:id="language" minWidth="134.0" mnemonicParsing="false" prefHeight="200.0" prefWidth="200.0" text="Language" wrapText="true">
+                    <MenuButton fx:id="language" minWidth="134.0" mnemonicParsing="false" prefHeight="200.0" prefWidth="200.0" text="English" wrapText="true">
                         <items>
                             <MenuItem fx:id="english" mnemonicParsing="false" text="English" />
                             <MenuItem fx:id="spanish" mnemonicParsing="false" text="Español" />
