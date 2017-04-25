@@ -2,19 +2,11 @@ package groupg.controller;
 
 import groupg.Main;
 import groupg.database.Floor;
-import groupg.jfx.ImageViewFactory;
-import groupg.jfx.ResourceManager;
 import groupg.jfx.UniqueFloor;
 import javafx.animation.Animation;
 import javafx.animation.Transition;
-import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -27,7 +19,6 @@ import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -45,11 +36,14 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private AnchorPane anchorPane;
     @FXML
-    private Button searchBtn;
-    //@FXML
-    //private Pane dropDown;
+    private Button searchButton;
     @FXML
-    private AnchorPane LayerA,LayerB,LayerC;
+    private Button viewButton;
+    @FXML
+    private Button upButton;
+    @FXML
+    private Button downButton;
+    //private Pane dropDown;
 
 
     Scale scale = new Scale();
@@ -57,16 +51,14 @@ public class WelcomeScreenController implements Initializable {
     double WIDNDOW_WIDTH = 0;
     List<UniqueFloor> FaulknerFloors = new ArrayList<>();
     boolean onScreen = false;
+    int topFloor = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //anchorPane.getChildren().add(dropDown);
         //dropDown.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
-        LayerC.setPickOnBounds(false);
-        LayerA.setPickOnBounds(false);
-        LayerB.setPickOnBounds(false);
-        //anchorPane.setPickOnBounds(false);
+
+        anchorPane.setPickOnBounds(false);
         imageViewBase.setPickOnBounds(true);
         imageViewBase.setImage(new Image("/image/FaulknerMaps/Ground.png"));
 
@@ -74,10 +66,13 @@ public class WelcomeScreenController implements Initializable {
         for (int i = 0; i < floors.size(); i ++) {
             Floor f = floors.get(i);
             if (f.getBuildingID() == 1) {
-                UniqueFloor uf = new UniqueFloor(f, mapGroup, 544+i*30, 342-i*30, 544+i*30, -600, i);
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 544+i*5, 342-i*14, 544+i*5, -600, i);
                 FaulknerFloors.add(uf);
                 uf.getImageView().setOnMouseClicked( event -> {
+
                     event.consume();
+
+                    flipToFloor(uf.getTimeDelay());
                     double scaleVal = mapPane.getWidth()/uf.getImageView().getImage().getWidth();
                     scaleImage(uf.getImageView().getX(), uf.getImageView().getY(), scaleVal, 1250).play();
                 });
@@ -87,7 +82,7 @@ public class WelcomeScreenController implements Initializable {
         mapGroup.getTransforms().add(scale);
         System.out.println(mapPane.getWidth());
         mapPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        //mapPane.setMaxWidth(anchorPane.getMaxWidth());
+        mapPane.setMaxWidth(anchorPane.getMaxWidth());
         mapPane.setOnMouseClicked((MouseEvent event) -> {
             System.out.println("clicked the pane!!!!");
 
@@ -102,19 +97,50 @@ public class WelcomeScreenController implements Initializable {
             //dropDown.setPrefHeight(mapPane.getHeight()*.869329);
         });
 
-        searchBtn.setOnAction(event -> {
+        viewButton.setOnAction(event -> {
             if (onScreen == false) {
                 for (UniqueFloor uf: FaulknerFloors) {
                     moveImage(uf.getImageView(), uf.getOnX(), uf.getOnY(), 1250+uf.getTimeDelay()*100).play();
+
                 }
+                topFloor = 6;
                 onScreen = true;
             } else {
                 for (UniqueFloor uf: FaulknerFloors) {
+
                     moveImage(uf.getImageView(), uf.getOffX(), uf.getOffY(), 1750-uf.getTimeDelay()*100).play();
                 }
                 onScreen = false;
+                topFloor = 0;
             }
         });
+        upButton.setOnAction(event -> {
+            topFloor++;
+            if(topFloor>6){
+                topFloor = 6;
+            }
+            flipToFloor(topFloor);
+
+        });
+        downButton.setOnAction(event -> {
+            topFloor--;
+            if(topFloor<0){
+                topFloor = 0;
+            }
+            flipToFloor(topFloor);
+        });
+    }
+    private void flipToFloor(int index){
+        for(int j = 0; j < index; j++){
+            UniqueFloor u = FaulknerFloors.get(j);
+            moveImage(u.getImageView(), u.getOnX(), u.getOnY(), 1250+u.getTimeDelay()*100).play();
+
+        }
+        for(int j = index+1; j < FaulknerFloors.size(); j++){
+            UniqueFloor u = FaulknerFloors.get(j);
+            moveImage(u.getImageView(), u.getOffX(), u.getOffY(), 1750-u.getTimeDelay()*100).play();
+            onScreen = false;
+        }
     }
 
     private Animation moveImage(ImageView image, double x, double y, double time) {
