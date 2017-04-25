@@ -2,11 +2,18 @@ package groupg.controller;
 
 import groupg.Main;
 import groupg.database.Floor;
+import groupg.jfx.ImageViewFactory;
+import groupg.jfx.ResourceManager;
 import groupg.jfx.UniqueFloor;
 import javafx.animation.Animation;
 import javafx.animation.Transition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -19,6 +26,7 @@ import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -37,46 +45,39 @@ public class WelcomeScreenController implements Initializable {
     private AnchorPane anchorPane;
     @FXML
     private Button searchButton;
+    @FXML
+    //private Pane dropDown;
+
 
     Scale scale = new Scale();
-    ImageView newmap = new ImageView();
+    //ImageView newmap = new ImageView();
     double WIDNDOW_WIDTH = 0;
     List<UniqueFloor> FaulknerFloors = new ArrayList<>();
+    boolean onScreen = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //imageViewBase.setImage(new Image("/image/"));
-        //Pane imagePane = new Pane();
-        //imageViewBase = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"), imagePane);
+        //anchorPane.getChildren().add(dropDown);
+        //dropDown.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+
         anchorPane.setPickOnBounds(false);
         imageViewBase.setPickOnBounds(true);
-        //imageViewBase.fitWidthProperty().bind(mapPane.widthProperty());
         imageViewBase.setImage(new Image("/image/FaulknerMaps/Ground.png"));
 
         List<Floor> floors = Main.h.getAllFloors();
         for (int i = 0; i < floors.size(); i ++) {
             Floor f = floors.get(i);
             if (f.getBuildingID() == 1) {
-                UniqueFloor uf = new UniqueFloor(f, mapGroup, 544+i*7, 342+i*15, 544+i*15, -600);
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 544+i*30, 342-i*30, 544+i*30, -600, i);
                 FaulknerFloors.add(uf);
-                uf.getImageView().setOnMouseClicked(event -> {
+                uf.getImageView().setOnMouseClicked( event -> {
                     event.consume();
-
                     double scaleVal = mapPane.getWidth()/uf.getImageView().getImage().getWidth();
-                    scaleImage(uf.getImageView().getX(), uf.getImageView().getY(), scaleVal).play();
-
+                    scaleImage(uf.getImageView().getX(), uf.getImageView().getY(), scaleVal, 1250).play();
                 });
             }
         }
 
-        newmap.setImage(new Image("/image/FaulknerMaps/Faulkner1.png"));
-        newmap.setX(-544);
-        newmap.setY(342);
-        //imageViewBase.setViewport(new Rectangle2D(0, 0, 1000, 1000));
-        //scale.setX(.15);
-        //scale.setY(.15);
-        //mapGroup.setTranslateX(-800);
-        mapGroup.getChildren().add(newmap);
         mapGroup.getTransforms().add(scale);
         System.out.println(mapPane.getWidth());
         mapPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
@@ -84,41 +85,33 @@ public class WelcomeScreenController implements Initializable {
         mapPane.setOnMouseClicked((MouseEvent event) -> {
             System.out.println("clicked the pane!!!!");
 
-            resetZoom(WIDNDOW_WIDTH);
-            //moveImage(newmap, -800, 0).play();
-
-
-            //System.out.println(mapPane.getWidth());
-            //System.out.println(imageViewBase.getWidth());
+            resetZoom(WIDNDOW_WIDTH, 1250);
         });
 
         mapPane.widthProperty().addListener((observable, oldValue, newValue) -> {
             WIDNDOW_WIDTH = (double)newValue;
-            resetZoom(WIDNDOW_WIDTH);
-            System.out.println("scale.getMxx() = " + scale.getMxx());
+            resetZoom(WIDNDOW_WIDTH, 1);
+
+            //dropDown.setPrefWidth(80);
+            //dropDown.setPrefHeight(mapPane.getHeight()*.869329);
         });
 
         searchButton.setOnAction(event -> {
-            for (int i = 0; i < FaulknerFloors.size(); i ++) {
-                moveImage(FaulknerFloors.get(i).getImageView(), FaulknerFloors.get(i).getOnX(), FaulknerFloors.get(i).getOnY()).play();
+            if (onScreen == false) {
+                for (UniqueFloor uf: FaulknerFloors) {
+                    moveImage(uf.getImageView(), uf.getOnX(), uf.getOnY(), 1250+uf.getTimeDelay()*100).play();
+                }
+                onScreen = true;
+            } else {
+                for (UniqueFloor uf: FaulknerFloors) {
+                    moveImage(uf.getImageView(), uf.getOffX(), uf.getOffY(), 1750-uf.getTimeDelay()*100).play();
+                }
+                onScreen = false;
             }
         });
-
-        newmap.setOnMouseClicked(event -> {
-            event.consume();
-
-            double scaleVal = mapPane.getWidth()/newmap.getImage().getWidth();
-            scaleImage(newmap.getX(), newmap.getY(), scaleVal).play();
-
-        });
-
-
-
-        //mapGroup.getChildren().add(imagePane);
-
     }
 
-    private Animation moveImage(ImageView image, double x, double y) {
+    private Animation moveImage(ImageView image, double x, double y, double time) {
 
         double curX = image.getX();
         double curY = image.getY();
@@ -126,7 +119,7 @@ public class WelcomeScreenController implements Initializable {
 
         final Animation expandPanel = new Transition() {
             {
-                setCycleDuration(Duration.millis(2500));
+                setCycleDuration(Duration.millis(time));
             }
 
             @Override
@@ -144,17 +137,7 @@ public class WelcomeScreenController implements Initializable {
         return expandPanel;
     }
 
-    private Animation scaleImage(double x, double y, double scaleIn) {
-
-//        if(scale.getMxx() == scaleIn){
-//            System.out.println("dont transform");
-//            return new Transition() {
-//                @Override
-//                protected void interpolate(double frac) {
-//
-//                }
-//            };
-//        }
+    private Animation scaleImage(double x, double y, double scaleIn, double time) {
 
         mapGroup.getTransforms().clear();
         double curScale = scale.getMxx();
@@ -162,21 +145,10 @@ public class WelcomeScreenController implements Initializable {
         double curY = -mapGroup.getTranslateY()/curScale;
 
 
-
-
-
-        System.out.println("Starts at:");
-        System.out.println("scaleIn = " + curScale);
-        System.out.println("curX = " + curX);
-        System.out.println("curY = " + curY);
-        System.out.println("x = " + x*curScale);
-        System.out.println("y = " + y*curScale);
-        System.out.println();
-
         mapGroup.getTransforms().add(scale);
         final Animation expandPanel = new Transition() {
             {
-                setCycleDuration(Duration.millis(2500));
+                setCycleDuration(Duration.millis(time));
             }
 
             @Override
@@ -193,26 +165,18 @@ public class WelcomeScreenController implements Initializable {
                 mapGroup.setTranslateX(-newX*newScale);
                 double newY = curY+fraction*(y-curY);
                 mapGroup.setTranslateY(-newY*newScale);
-
-//                System.out.println("x = " + x);
-//                System.out.println("curX = " + curX);
             }
         };
-
         expandPanel.setOnFinished(e-> {
-            System.out.println("Ends at:");
-            System.out.println("scaleIn = " + scale.getMxx());
-            System.out.println("curX = " + -mapGroup.getTranslateX());
-            System.out.println("curY = " + -mapGroup.getTranslateY());
-            System.out.println();
         });
+
         return expandPanel;
     }
 
 
-    public void resetZoom(double width){
+    public void resetZoom(double width, double time){
         double newScale = width / imageViewBase.getImage().getWidth();
-        scaleImage(00, 00, newScale).play();
+        scaleImage(00, 00, newScale, time).play();
     }
 
 }
