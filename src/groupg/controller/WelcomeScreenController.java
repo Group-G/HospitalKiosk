@@ -45,11 +45,6 @@ import static groupg.Main.main;
 //import static groupg.controller.AdminMainController.infoOverlay;
 //import static groupg.controller.AdminMainController.nodeOverlay;
 
-
-/**
- * @author Ryan Benasutti
- * @since 2017-03-30
- */
 public class WelcomeScreenController implements Initializable {
     @FXML
     private Button loginBtn, searchBtn;
