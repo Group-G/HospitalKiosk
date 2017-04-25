@@ -798,6 +798,7 @@ public class WelcomeScreenController implements Initializable {
             dirList.getItems().clear();
             qrcode.setVisible(false);
             displayedLines.clear();
+            lineOverlay.getChildren().clear();
             searchBtn.setText("Search");
         } else {
             searched = true;
