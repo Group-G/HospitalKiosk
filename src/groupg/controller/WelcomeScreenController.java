@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -37,6 +38,8 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static groupg.Main.h;
@@ -94,6 +97,23 @@ public class WelcomeScreenController implements Initializable {
 
     @FXML
     private CheckBox handicapped;
+
+    @FXML
+    private AnchorPane BasePane; // FXML のルート要素
+
+    @FXML
+    private void lightboxclickevent(MouseEvent mouseEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/lightbox.fxml"));
+            loader.load();
+            Lightbox controller = loader.getController();
+            controller.showOn(BasePane,qrcode);
+        } catch (IOException ex) {
+            // なんか適当にエラー処理でも
+            Logger.getLogger(WelcomeScreenController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 
     public static void setPermission(int p){
         permission = p;
@@ -422,23 +442,19 @@ public class WelcomeScreenController implements Initializable {
             }
         }
     }
-
     private void drawPath() {
         if (searched && startField.getCurrentSelection() != null && endField.getCurrentSelection() != null) {
             final List<LocationDecorator> output = new ArrayList<>();
             final List<LocationDecorator> filtered_output = new ArrayList<>();
-
             //Default algorithm
             if (AdminMainController.selectedAlgorithm == null)
                 AdminMainController.selectedAlgorithm = NavigationAlgorithm.A_STAR;
-
             //Use proper algorithm
             switch (AdminMainController.selectedAlgorithm) {
                 case A_STAR:
                     output.addAll(navigation.runAstar(startField.getCurrentSelection(),
                             endField.getCurrentSelection()));
                     break;
-
                 case DEPTH_FIRST:
                     output.addAll(navigation.runDepthFirst(startField.getCurrentSelection(),
                             endField.getCurrentSelection()));
@@ -994,6 +1010,13 @@ public class WelcomeScreenController implements Initializable {
         }
 
     }
+
+
+
+
+
+
+
 
 //    public static void updateNodePD() {
 //        if (NodeListenerFactory.currentSelection != null) {
