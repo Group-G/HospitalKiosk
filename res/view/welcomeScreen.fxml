@@ -6,6 +6,7 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -45,6 +46,13 @@
                                 <font>
                                     <Font size="18.0" />
                                 </font>
+                           <graphic>
+                              <ImageView fitHeight="47.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image/Icons/menu.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                             </Button>
                         <Pane prefHeight="67.0" prefWidth="325.0">
                            <children>
@@ -55,14 +63,27 @@
                                 <font>
                                     <Font size="18.0" />
                                 </font>
+                           <graphic>
+                              <ImageView fitHeight="45.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image/Icons/search.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                             </Button>
                         </children>
                     </HBox>
                   <Region prefHeight="533.0" prefWidth="457.0" />
                     <HBox alignment="BOTTOM_LEFT" prefHeight="28.0" prefWidth="457.0" VBox.vgrow="ALWAYS">
                         <children>
-                            <Button fx:id="aboutBtn" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="67.0" prefWidth="67.0" />
-                        <Button fx:id="loginBtn" mnemonicParsing="false" prefHeight="67.0" prefWidth="67.0" />
+                            <Button fx:id="aboutBtn" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="67.0" prefWidth="67.0">
+                           <graphic>
+                              <ImageView fitHeight="38.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
+                           </graphic></Button>
+                        <Button fx:id="loginBtn" mnemonicParsing="false" prefHeight="67.0" prefWidth="67.0">
+                           <graphic>
+                              <ImageView fitHeight="46.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                           </graphic></Button>
                         </children>
                     </HBox>
                 </children>
@@ -88,9 +109,30 @@
                         </font>
                     </MenuButton>
                   <Region prefHeight="667.0" prefWidth="134.0" />
-                    <Button fx:id="viewButton" mnemonicParsing="false" />
-                    <Button fx:id="upButton" mnemonicParsing="false" />
-                    <Button fx:id="downButton" mnemonicParsing="false" />
+                    <Button fx:id="viewButton" mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fitHeight="38.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/Icons/location.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                    <Button fx:id="upButton" mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/Icons/zoom_in.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                    <Button fx:id="downButton" mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/Icons/zoom_out.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
                 </children>
                <padding>
                   <Insets bottom="15.0" right="15.0" top="15.0" />
