@@ -234,9 +234,9 @@
                         </font>
                     </MenuButton>
                     <TabPane fx:id="tabPane" prefHeight="581.0" prefWidth="773.0" tabClosingPolicy="UNAVAILABLE" />
-                    <Button fx:id="currLocation" mnemonicParsing="false" text="CurrentLocation" />
-                    <Button fx:id="zoomup" mnemonicParsing="false" text="Zoom+" />
-                    <Button fx:id="zoomdown" mnemonicParsing="false" text="Zoom-" />
+                    <Button fx:id="viewButton" mnemonicParsing="false" text="CurrentLocation" />
+                    <Button fx:id="upButton" mnemonicParsing="false" text="Zoom+" />
+                    <Button fx:id="downButton" mnemonicParsing="false" text="Zoom-" />
                 </children>
                 <padding>
                     <Insets left="10.0" right="10.0" />

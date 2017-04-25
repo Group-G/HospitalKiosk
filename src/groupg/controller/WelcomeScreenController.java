@@ -148,7 +148,7 @@ public class WelcomeScreenController implements Initializable {
         mapGroup.getTransforms().add(scale);
         System.out.println(mapPane.getWidth());
         mapPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        mapPane.setMaxWidth(anchorPane.getMaxWidth());
+        //mapPane.setMaxWidth(anchorPane.getMaxWidth());
         mapPane.setOnMouseClicked((MouseEvent event) -> {
             System.out.println("clicked the pane!!!!");
 
