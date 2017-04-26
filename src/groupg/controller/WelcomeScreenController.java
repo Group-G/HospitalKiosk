@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -20,6 +19,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
+
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -39,29 +39,26 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private Pane mapPane;
     @FXML
-    private AnchorPane anchorPane;
-    @FXML
     private Button searchBtn;
     @FXML
     private Button menuBtn;
     @FXML
     private Button loginBtn, aboutBtn;
-    //@FXML
-    //private Pane dropDown;
     @FXML
     private AnchorPane LayerA,LayerB,LayerC,LayerD;
     @FXML
-    private Accordion acccordionDropDown;
-    @FXML
-    private HBox startFieldHBox,endFieldHBox;
-    @FXML
-    private Button upButton, downButton, viewButton;
+    private Button upButton, downButton, viewButton, menuExitBtn;
     @FXML
     private Pane menuPane;
+    @FXML
+    private Pane fadePane;
     @FXML
     private MenuButton language;
     @FXML
     private MenuItem english,spanish,portugues,chinese;
+//    @FXML
+//    private Rectangle fadeRect;
+
 
     Scale scale = new Scale();
     //ImageView newmap = new ImageView();
@@ -80,8 +77,7 @@ public class WelcomeScreenController implements Initializable {
 
 
         File qrcode = new File("qrcode.jpg");
-        boolean exists = qrcode.exists();
-        if(exists){
+        if(qrcode.exists()){
             qrcode.delete();
         }
 
@@ -97,14 +93,29 @@ public class WelcomeScreenController implements Initializable {
         menuPane.setBackground(new Background(new BackgroundFill(Color.web("#ececec"), CornerRadii.EMPTY, Insets.EMPTY)));
         menuPane.setVisible(false);
 
+//        fadePane.setBackground(new Background(new BackgroundFill(Color.web("#ececec"), CornerRadii.EMPTY, Insets.EMPTY)));
+        fadePane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
+
+        fadePane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        fadePane.setVisible(false);
+
         menuBtn.setOnAction(event -> {
-            if(menuOpen){
-                menuPane.setVisible(false);
-                menuOpen = false;
-            }
-            else{
+            if(!menuOpen){
                 menuOpen = true;
                 menuPane.setVisible(true);
+                menuPane.setPickOnBounds(true);
+                fadePane.setVisible(true);
+            }
+        });
+
+        menuExitBtn.setOnAction(event ->{
+            if(menuOpen){
+                menuPane.setVisible(false);
+                menuPane.setPickOnBounds(false);
+                menuOpen = false;
+                fadePane.setVisible(false);
+
+
             }
         });
 
@@ -112,7 +123,7 @@ public class WelcomeScreenController implements Initializable {
         for (int i = 0; i < floors.size(); i ++) {
             Floor f = floors.get(i);
             if (f.getBuildingID() == 1) {
-                UniqueFloor uf = new UniqueFloor(f, mapGroup, 544+i*5, 342-i*14, 544+i*5, -600, i);
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 544+i*5, 342-i*12, 544+i*5, -600, i);
                 FaulknerFloors.add(uf);
                 uf.getImageView().setOnMouseClicked( event -> {
 
@@ -133,15 +144,26 @@ public class WelcomeScreenController implements Initializable {
         //mapPane.setMaxWidth(anchorPane.getMaxWidth());
         mapPane.setOnMouseClicked((MouseEvent event) -> {
             System.out.println("clicked the pane!!!!");
-
             resetZoom(WIDNDOW_WIDTH, 1250);
         });
 
         mapPane.widthProperty().addListener((observable, oldValue, newValue) -> {
             WIDNDOW_WIDTH = (double)newValue;
             resetZoom(WIDNDOW_WIDTH, 1);
+            fadePane.setPrefWidth((double)newValue);
+//            fadeRect.setWidth((double)newValue);
 
         });
+
+        mapPane.heightProperty().addListener((observable, oldValue, newValue) -> {
+            menuPane.setPrefHeight((double)newValue);
+            fadePane.setPrefHeight((double)newValue);
+//            fadeRect.setHeight((double)newValue);
+
+
+        });
+
+
 
         viewButton.setOnAction(event -> {
             if (onScreen == false) {
@@ -196,8 +218,7 @@ public class WelcomeScreenController implements Initializable {
         spanish.setGraphic(new ImageView(new Image("/image/Icons/spain.png")));
         portugues.setGraphic(new ImageView(new Image("Image/Icons/portugal.png")));
         chinese.setGraphic(new ImageView(new Image("Image/Icons/china.png")));
-        ImageView v = new ImageView(new Image("/image/Icons/info.png"));
-        aboutBtn.setGraphic(v);
+        aboutBtn.setGraphic(new ImageView(new Image("/image/Icons/info.png")));
 
 
     }

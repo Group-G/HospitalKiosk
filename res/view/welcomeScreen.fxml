@@ -37,18 +37,18 @@
 
     <AnchorPane fx:id="LayerB" prefHeight="200.0" prefWidth="200.0">
         <children>
-            <VBox prefHeight="697.0" prefWidth="472.0">
+            <VBox prefHeight="697.0" prefWidth="372.0">
                 <children>
-                    <HBox prefHeight="67.0" prefWidth="457.0">
+                    <HBox prefHeight="67.0" prefWidth="327.0">
                         <children>
                             <Button fx:id="menuBtn" mnemonicParsing="false" prefHeight="67.0" prefWidth="67.0">
                                 <font>
                                     <Font size="18.0" />
                                 </font>
                             </Button>
-                        <Pane prefHeight="67.0" prefWidth="325.0">
+                        <Pane prefHeight="67.0" prefWidth="224.0">
                            <children>
-                              <TextField prefHeight="67.0" prefWidth="324.0" />
+                              <TextField prefHeight="67.0" prefWidth="224.0" />
                            </children>
                         </Pane>
                             <Button fx:id="searchBtn" mnemonicParsing="false" prefHeight="67.0" prefWidth="67.0">
@@ -58,7 +58,6 @@
                             </Button>
                         </children>
                     </HBox>
-                  <Pane fx:id="menuPane" prefHeight="498.0" prefWidth="457.0" />
                   <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                 </children>
                <padding>
@@ -104,6 +103,28 @@
                   <Insets bottom="15.0" left="15.0" />
                </padding>
               </HBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane pickOnBounds="false" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Pane fx:id="fadePane" pickOnBounds="false" prefHeight="697.0" prefWidth="1262.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane pickOnBounds="false" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Pane fx:id="menuPane" pickOnBounds="false" prefHeight="697.0" prefWidth="300.0">
+               <children>
+                  <VBox pickOnBounds="false" prefHeight="697.0" prefWidth="300.0">
+                     <children>
+                        <HBox alignment="TOP_RIGHT" pickOnBounds="false" prefHeight="40.0" prefWidth="300.0">
+                           <children>
+                              <Button fx:id="menuExitBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </Pane>
          </children>
       </AnchorPane>
 </children>
