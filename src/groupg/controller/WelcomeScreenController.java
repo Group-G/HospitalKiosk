@@ -128,11 +128,8 @@ public class WelcomeScreenController implements Initializable {
 
                     event.consume();
                     flipToFloor(uf.getTimeDelay() + 1);
-                    double scaleVal = mapPane.getWidth()/uf.getImageView().getImage().getWidth()*.65;
-                    double xoffset = mapPane.getWidth()*.35;
-                    double yoffset = mapPane.getHeight()*.35/2;
+                    zoomFloor(uf);
 
-                    scaleImage(uf.getImageView().getX() - xoffset, uf.getImageView().getY() - yoffset, scaleVal, 1250).play();
                 });
             }
         }
@@ -165,27 +162,9 @@ public class WelcomeScreenController implements Initializable {
 
 
         viewButton.setOnAction(event -> {
-//            if (onScreen == false) {
-//                for (UniqueFloor uf: FaulknerFloors) {
-//                    if(!uf.onScreen()) {
-//                        moveImage(uf.getImageView(), uf.getOnX(), uf.getOnY(), 1250 + uf.getTimeDelay() * 100).play();
-//                        uf.setOnScreen(true);
-//                    }
-//
-//                }
-//                currentFloor = 7;
-//                onScreen = true;
-//            } else {
-//                for (UniqueFloor uf: FaulknerFloors) {
-//                    if(uf.onScreen()) {
-//                        moveImage(uf.getImageView(), uf.getOffX(), uf.getOffY(), 1750 - uf.getTimeDelay() * 100).play();
-//                        uf.setOnScreen(false);
-//                    }
-//                }
-//                onScreen = false;
-//                currentFloor = 1;
-//            }
+            zoomFloor(FaulknerFloors.get(0));
             flipToFloor(1);
+//            resetZoom(FaulknerFloors.get(0).get)
         });
         upButton.setOnAction(event -> {
 
@@ -215,6 +194,13 @@ public class WelcomeScreenController implements Initializable {
         spanish.setGraphic(new ImageView(new Image("/image/Icons/spain.png")));
         portugues.setGraphic(new ImageView(new Image("Image/Icons/portugal.png")));
         chinese.setGraphic(new ImageView(new Image("Image/Icons/china.png")));
+    }
+    private void zoomFloor(UniqueFloor uf){
+        double scaleVal = mapPane.getWidth()/uf.getImageView().getImage().getWidth()*.65;
+        double xoffset = mapPane.getWidth()*.35;
+        double yoffset = mapPane.getHeight()*.35/2;
+
+        scaleImage(uf.getImageView().getX() - xoffset, uf.getImageView().getY() - yoffset, scaleVal, 1250).play();
     }
     private void flipToFloor(int index){
 
