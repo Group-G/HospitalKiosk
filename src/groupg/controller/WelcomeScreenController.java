@@ -20,13 +20,15 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
-import static groupg.Main.h;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static groupg.Main.h;
 
 /**
  * Created by will on 4/21/17.
@@ -162,7 +164,7 @@ public class WelcomeScreenController implements Initializable {
         for (int i = 0; i < floors.size(); i ++) {
             Floor f = floors.get(i);
             if (f.getBuildingID() == 1) {
-                UniqueFloor uf = new UniqueFloor(f, mapGroup, 544+i*5, 342-i*12, 544+i*5, -600, i);
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 1248+i*12, 785-i*25, 1250+i*12, -600, i);
                 FaulknerFloors.add(uf);
                 uf.getImageView().setOnMouseClicked( event -> {
 
