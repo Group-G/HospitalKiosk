@@ -4,7 +4,6 @@ import groupg.Main;
 import groupg.algorithm.NodeNeighbors;
 import groupg.controller.AdminMainController;
 import groupg.database.Category;
-import groupg.database.HospitalData;
 import groupg.database.Location;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -26,7 +25,7 @@ import java.util.List;
 public class NodeListenerFactory {
     private static double orgSceneX, orgSceneY, orgTranslateX, orgTranslateY;
     public static UniqueNode currentSelection = null;
-    private static double mouseX, mouseY;
+    public static double mouseX, mouseY;
 
     /**
      * Makes Nodes draggable and clickable with mouse listeners

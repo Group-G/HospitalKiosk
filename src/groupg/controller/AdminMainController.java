@@ -2,7 +2,6 @@ package groupg.controller;
 
 import groupg.algorithm.NavigationAlgorithm;
 import groupg.database.Floor;
-import static groupg.Main.h;
 import groupg.jfx.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -23,13 +22,15 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import static groupg.Main.h;
+
 /**
  * @author Ryan Benasutti
  * @since 2017-03-30
  */
 public class AdminMainController implements Initializable {
     @FXML
-    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, showAllCons, editAdminBtn, editAlgorithm;
+    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, showAllCons, editAdminBtn;
     @FXML
     private TabPane tabPane;
     @FXML
@@ -50,6 +51,7 @@ public class AdminMainController implements Initializable {
     private static int scale = 1;
     private static int xdif = 0;
     private static Group zoomGroupGlobal;
+    private double mouseX = 0, mouseY = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -125,6 +127,30 @@ public class AdminMainController implements Initializable {
                 !(event.getButton() == MouseButton.PRIMARY && event.isControlDown()))
                 event.consume();
         });
+
+        imageView.setOnMouseMoved(mouseEvent -> {
+            mouseX = mouseEvent.getX();
+            mouseY = mouseEvent.getY();
+        });
+
+        pane.setOnKeyPressed(keyEvent -> {
+            switch (keyEvent.getText()) {
+                case "a":
+                    UniqueNode node = NodeFactory.getNode(mouseX,
+                                                          mouseY,
+                                                          currentFloor.getID());
+                    h.setLocation(node.getLocation().getID(), node.getLocation());
+                    displayedNodes.add(node);
+                    nodeOverlay.getChildren().setAll(displayedNodes);
+                    updateNodePD();
+                    break;
+
+                case "d":
+                    System.out.println("d");
+                    break;
+            }
+        });
+
         canvasWrapper.getChildren().addAll(pane, infoOverlay);
 
         //Default algorithm
