@@ -1035,4 +1035,57 @@ public class WelcomeScreenController implements Initializable {
 //        }
 //    }
 
+    public Location getClosestOfCategory(Location start, Category cat) {
+        List<Location> filteredLocs = new ArrayList<>();
+        List<Location> filterFloor = new ArrayList<>();
+        HashMap<Floor, Location> hm = new HashMap<>();
+        for (Location aloc: Main.h.getAllLocations()){
+            if(aloc.getCategory().equals(cat)){
+                filteredLocs.add(aloc);
+            }
+        }
+        if(!filteredLocs.isEmpty()) {
+            for (Floor floor:Main.h.getAllFloors()) {
+                List<Location> floorLoc = new ArrayList<>();
+                for(Location loca:filteredLocs) {
+                    if(loca.getFloorID()==floor.getID()){
+                        floorLoc.add(loca);
+                    }
+                }
+                Location close = closestTo(start,floorLoc);
+                if(close != start){
+                    hm.put(floor, close);
+                }
+            }
+            if(hm.containsKey(Main.h.getFloorById(start.getFloorID()))) {
+                return hm.get(Main.h.getFloorById(start.getFloorID()));
+            }
+            else {
+                for(Floor floor:Main.h.getAllFloors()) {
+                    if(hm.containsKey(floor)) {
+                        return hm.get(floor);
+                    }
+                }
+            }
+        }
+        else {
+            return start;
+        }
+        return start;
+    }
+
+    private Location closestTo(Location closest, List<Location> locs){
+        Location bestLoc = closest;
+        double bestDist = Double.MAX_VALUE;
+        double curr;
+        for (Location loc: locs) {
+            curr = loc.lengthTo(closest);
+            if(curr < bestDist){
+                bestDist = curr;
+                bestLoc = loc;
+            }
+        }
+        return bestLoc;
+    }
+
 }
