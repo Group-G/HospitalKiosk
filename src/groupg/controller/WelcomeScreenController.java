@@ -1,7 +1,9 @@
 package groupg.controller;
 
 import groupg.Main;
+import groupg.database.Category;
 import groupg.database.Floor;
+import groupg.database.Location;
 import groupg.jfx.UniqueFloor;
 import javafx.animation.Animation;
 import javafx.animation.Transition;
@@ -9,9 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -19,7 +19,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
-
+import static groupg.Main.h;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -56,8 +56,9 @@ public class WelcomeScreenController implements Initializable {
     private MenuButton language;
     @FXML
     private MenuItem english,spanish,portugues,chinese;
-
-
+    @FXML
+    private Accordion acccordionDropDown;
+    //private static int permission = 0;
 
     Scale scale = new Scale();
     double WIDNDOW_WIDTH = 0;
@@ -68,9 +69,15 @@ public class WelcomeScreenController implements Initializable {
     private boolean menuOpen = false;
 
 
+    public static void setPermission(int p){
+        permission = p;
+    }
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        //menuPaneVBox.getChildren().add(acccordionDropDown);
+        acccordionDropDown.getPanes().clear();
 
         File qrcode = new File("qrcode.jpg");
         if(qrcode.exists()){
@@ -88,7 +95,36 @@ public class WelcomeScreenController implements Initializable {
 
 //        menuPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         menuPane.setBackground(new Background(new BackgroundFill(Color.web("#ffffff"), CornerRadii.EMPTY, Insets.EMPTY)));
+        //menuPane.getChildren().add(acccordionDropDown);
         menuPane.setVisible(false);
+
+
+        for (Category category : Main.h.getAllCategories()) {
+            if (category.getPermission() <= permission) {
+                ListView<Location> locByCat = new ListView();
+                locByCat.getItems().addAll(h.getLocationsByCategory(category.getCategory()));
+                locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+                acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " "/* +category.getPermission()*/, locByCat));
+               /* locByCat.setOnMouseClicked((MouseEvent event) -> {
+                    //System.out.println(startField.getText().trim().isEmpty() && endField.getText().isEmpty());
+
+                    if(event.getClickCount() == 2 && startField.getText().isEmpty() && endField.getText().isEmpty()){
+                        startField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
+                    }
+                    else if(event.getClickCount() == 2 && startField.getText().isEmpty() && !(endField.getText().isEmpty())){
+                        startField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
+                    }
+                    else if(event.getClickCount() == 2) {
+                        endField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
+                    }
+                }); */
+            }
+        }
+
+
+
+
+
 
         fadePane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
         fadePane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
