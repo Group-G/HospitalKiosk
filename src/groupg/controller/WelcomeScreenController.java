@@ -4,6 +4,7 @@ import groupg.Main;
 import groupg.database.Category;
 import groupg.database.Floor;
 import groupg.database.Location;
+import groupg.jfx.ResourceManager;
 import groupg.jfx.UniqueFloor;
 import javafx.animation.Animation;
 import javafx.animation.Transition;
@@ -21,6 +22,7 @@ import javafx.scene.transform.Scale;
 import javafx.util.Duration;
 import static groupg.Main.h;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -214,6 +216,22 @@ public class WelcomeScreenController implements Initializable {
         downButton.setOnAction(event -> {
 
             flipToFloor(currentFloor-1);
+        });
+
+        aboutBtn.setOnAction(event -> {
+            try {
+                ResourceManager.getInstance().loadFXMLIntoScene("/view/aboutscreen.fxml", "Welcome", aboutBtn.getScene());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        loginBtn.setOnAction(event -> {
+            try {
+                ResourceManager.getInstance().loadFXMLIntoScene("/view/adminLogin.fxml", "Welcome", aboutBtn.getScene());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
 
 

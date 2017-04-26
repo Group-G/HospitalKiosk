@@ -1,9 +1,20 @@
 package groupg.jfx;
 
 import groupg.database.Floor;
+import groupg.database.Location;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.transform.Scale;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by will on 4/23/17.
@@ -17,9 +28,12 @@ public class UniqueFloor {
     private double offY;
     private int timeDelay;
     private boolean onScreen = true;
+    private static Pane nodePane = new Pane();
+    private Group group = new Group();
 
 
     public UniqueFloor(Floor floor, Group mapGroup, double onX, double onY, double offX, double offY, int timeDelay){
+
 
         this.floor = floor;
         this.onX = onX;
@@ -30,9 +44,16 @@ public class UniqueFloor {
         imageView.setImage(new Image(floor.getFilename()));
         imageView.setX(onX);
         imageView.setY(onY);
-//        imageView.setStyle("-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0.5, -10.0, 24.0);" +
-//                "-fx-background-color: white;");
-        mapGroup.getChildren().add(imageView);
+        for (Location l : floor.getLocations()){
+            Circle c = new Circle(l.getX(), l.getY(), 10);
+            nodePane.getChildren().add(c);
+        }
+        //nodePane.getTransforms().add(new Scale(.7, .7));
+        nodePane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(20))));
+        nodePane.setPickOnBounds(false);
+        group.getChildren().add(imageView);
+        group.getChildren().add(nodePane);
+        mapGroup.getChildren().add(group);
 
     }
 
