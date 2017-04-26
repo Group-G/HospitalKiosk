@@ -2,6 +2,7 @@ package groupg.database;
 
 import java.sql.*;
 import java.util.*;
+import me.xdrop.fuzzywuzzy.FuzzySearch;
 
 /**
  * Created by  Alazar Genene, Saul Woolf, and Samantha Comeau on 4/1/17.
@@ -31,6 +32,8 @@ public class HospitalData {
 
 
     public HospitalData(JavaDBExample dbExample) {
+
+        //System.out.println(FuzzySearch.ratio("mysmilarstring","myawfullysimilarstirng"));
 
         this.dbExample = dbExample;
 

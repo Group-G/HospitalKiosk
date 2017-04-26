@@ -15,8 +15,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     runtime 'org.apache.derby:derby:10.13.1.1'
     compile 'com.github.kenglxn.QRGen:javase:2.2.0'
+    compile 'me.xdrop:fuzzywuzzy:1.1.7'
     compile group: 'com.google.zxing', name: 'javase', version: '1.7'
     compile group: 'com.google.zxing', name: 'core', version: '1.7'
+
 }
 
 sourceSets {
