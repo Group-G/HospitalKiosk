@@ -128,7 +128,7 @@ public class AdminMainController implements Initializable {
                 event.consume();
         });
 
-        imageView.setOnMouseMoved(mouseEvent -> {
+        zoomGroup.setOnMouseMoved(mouseEvent -> {
             mouseX = mouseEvent.getX();
             mouseY = mouseEvent.getY();
         });
