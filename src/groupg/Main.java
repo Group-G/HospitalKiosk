@@ -24,18 +24,24 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/view/welcomeScreen.fxml"));
+        Scene s = new Scene(root, 1404, 800);
+
+        String css = this.getClass().getResource("/view/material-fx-v0_3.css").toExternalForm();
+        s.getStylesheets().add(css);
+
         primaryStage.setTitle("Welcome");
-        primaryStage.setScene(new Scene(root, 1404, 800));
+        primaryStage.setScene(s);
         primaryStage.setFullScreen(true);
         primaryStage.setResizable(false);
         primaryStage.setFullScreenExitHint("");
         primaryStage.show();
         primaryStage.setOnCloseRequest(event -> Main.h.publishDB());
+
+
     }
 
     public static void main(String[] args)
     {
-
 
         dbExample.connectDB();
 

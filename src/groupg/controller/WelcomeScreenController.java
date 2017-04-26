@@ -51,29 +51,25 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private Pane menuPane;
     @FXML
-    private Pane fadePane;
+    private Pane fadePane, searchPane;
     @FXML
     private MenuButton language;
     @FXML
     private MenuItem english,spanish,portugues,chinese;
-//    @FXML
-//    private Rectangle fadeRect;
+
 
 
     Scale scale = new Scale();
-    //ImageView newmap = new ImageView();
     double WIDNDOW_WIDTH = 0;
     List<UniqueFloor> FaulknerFloors = new ArrayList<>();
     boolean onScreen = false;
     private static int permission = 0;
-    int topFloor = 0;
+    int currentFloor = 7;
     private boolean menuOpen = false;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //anchorPane.getChildren().add(dropDown);
-        //dropDown.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
 
         File qrcode = new File("qrcode.jpg");
@@ -86,18 +82,21 @@ public class WelcomeScreenController implements Initializable {
         LayerA.setPickOnBounds(false);
         LayerB.setPickOnBounds(false);
         LayerD.setPickOnBounds(false);
-        //anchorPane.setPickOnBounds(false);
+
         imageViewBase.setPickOnBounds(true);
         imageViewBase.setImage(new Image("/image/FaulknerMaps/Ground.png"));
-        menuPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        menuPane.setBackground(new Background(new BackgroundFill(Color.web("#ececec"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+//        menuPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        menuPane.setBackground(new Background(new BackgroundFill(Color.web("#ffffff"), CornerRadii.EMPTY, Insets.EMPTY)));
         menuPane.setVisible(false);
 
-//        fadePane.setBackground(new Background(new BackgroundFill(Color.web("#ececec"), CornerRadii.EMPTY, Insets.EMPTY)));
         fadePane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
-
         fadePane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         fadePane.setVisible(false);
+
+        searchPane.setStyle("-fx-background-color: rgba(255, 255, 255); ");
+        searchPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
+        searchPane.setVisible(true);
 
         menuBtn.setOnAction(event -> {
             if(!menuOpen){
@@ -166,64 +165,64 @@ public class WelcomeScreenController implements Initializable {
 
 
         viewButton.setOnAction(event -> {
-            if (onScreen == false) {
-                for (UniqueFloor uf: FaulknerFloors) {
-                    if(!uf.onScreen()) {
-                        moveImage(uf.getImageView(), uf.getOnX(), uf.getOnY(), 1250 + uf.getTimeDelay() * 100).play();
-                        uf.setOnScreen(true);
-                    }
-
-                }
-                topFloor = 6;
-                onScreen = true;
-            } else {
-                for (UniqueFloor uf: FaulknerFloors) {
-                    if(uf.onScreen()) {
-                        moveImage(uf.getImageView(), uf.getOffX(), uf.getOffY(), 1750 - uf.getTimeDelay() * 100).play();
-                        uf.setOnScreen(false);
-                    }
-                }
-                onScreen = false;
-                topFloor = 0;
-            }
+//            if (onScreen == false) {
+//                for (UniqueFloor uf: FaulknerFloors) {
+//                    if(!uf.onScreen()) {
+//                        moveImage(uf.getImageView(), uf.getOnX(), uf.getOnY(), 1250 + uf.getTimeDelay() * 100).play();
+//                        uf.setOnScreen(true);
+//                    }
+//
+//                }
+//                currentFloor = 7;
+//                onScreen = true;
+//            } else {
+//                for (UniqueFloor uf: FaulknerFloors) {
+//                    if(uf.onScreen()) {
+//                        moveImage(uf.getImageView(), uf.getOffX(), uf.getOffY(), 1750 - uf.getTimeDelay() * 100).play();
+//                        uf.setOnScreen(false);
+//                    }
+//                }
+//                onScreen = false;
+//                currentFloor = 1;
+//            }
+            flipToFloor(1);
         });
         upButton.setOnAction(event -> {
-            topFloor++;
-            if(topFloor>6){
-                topFloor = 6;
-            }
-            System.out.println("Flipping to floor " + topFloor);
-            flipToFloor(topFloor);
+
+            flipToFloor(currentFloor+1);
 
         });
         downButton.setOnAction(event -> {
-            topFloor--;
-            if(topFloor<0){
-                topFloor = 0;
-            }
-            System.out.println("Flipping to floor " + topFloor);
-            flipToFloor(topFloor);
+
+            flipToFloor(currentFloor-1);
         });
 
 
         //set button graphics
-        viewButton.setGraphic(new ImageView(new Image("/image/Icons/location.png")));
-        upButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_in.png")));
-        downButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_out.png")));
-        searchBtn.setGraphic(new ImageView(new Image("/image/Icons/search.png")));
-        menuBtn.setGraphic(new ImageView(new Image("/image/Icons/menu.png")));
-        loginBtn.setGraphic(new ImageView(new Image("/image/Icons/admin.png")));
+        viewButton.setGraphic(new ImageView(new Image("/image/Icons/location.png",30, 30, false, false)));
+        upButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_in.png",30, 30, false, false)));
+        downButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_out.png",30, 30, false, false)));
+        searchBtn.setGraphic(new ImageView(new Image("/image/Icons/search.png",30, 30, false, false)));
+        menuBtn.setGraphic(new ImageView(new Image("/image/Icons/menu.png",30, 30, false, false)));
+        loginBtn.setGraphic(new ImageView(new Image("/image/Icons/admin.png",30, 30, false, false)));
+        aboutBtn.setGraphic(new ImageView(new Image("/image/Icons/info.png",30, 30, false, false)));
+        menuExitBtn.setGraphic(new ImageView(new Image("/image/Icons/close.png",30, 30, false, false)));
+
+
         language.setGraphic(new ImageView(new Image("/image/Icons/america.png"))); //default as english
+
         english.setGraphic(new ImageView(new Image("/image/Icons/america.png")));
         spanish.setGraphic(new ImageView(new Image("/image/Icons/spain.png")));
         portugues.setGraphic(new ImageView(new Image("Image/Icons/portugal.png")));
         chinese.setGraphic(new ImageView(new Image("Image/Icons/china.png")));
-        aboutBtn.setGraphic(new ImageView(new Image("/image/Icons/info.png")));
-
-
     }
     private void flipToFloor(int index){
-        for(int j = 0; j < index; j++){
+
+        if(index <= 7 && index >= 1) {
+            System.out.println("Flipping to floor " + index);
+            currentFloor = index;
+        }
+        for(int j = 0; j < currentFloor; j++){
             UniqueFloor u = FaulknerFloors.get(j);
 
             if(!u.onScreen()) {
@@ -232,7 +231,7 @@ public class WelcomeScreenController implements Initializable {
             }
 
         }
-        for(int j = index; j < FaulknerFloors.size(); j++){
+        for(int j = currentFloor; j < FaulknerFloors.size(); j++){
             UniqueFloor u = FaulknerFloors.get(j);
             if(u.onScreen()) {
                 moveImage(u.getImageView(), u.getOffX(), u.getOffY(), 1750 - u.getTimeDelay() * 100).play();
@@ -301,8 +300,43 @@ public class WelcomeScreenController implements Initializable {
         expandPanel.setOnFinished(e-> {
         });
 
-        return expandPanel;
-    }
+//    private Animation moveMenu(boolean on, double time) {
+//
+////        double cX =
+////        if(on)
+//        mapGroup.getTransforms().clear();
+//        double curScale = scale.getMxx();
+//        double curX = -mapGroup.getTranslateX()/curScale;
+//        double curY = -mapGroup.getTranslateY()/curScale;
+//
+//
+//        mapGroup.getTransforms().add(scale);
+//        final Animation expandPanel = new Transition() {
+//            {
+//                setCycleDuration(Duration.millis(time));
+//            }
+//
+//            @Override
+//            protected void interpolate(double fraction) {
+//                mapGroup.getTransforms().clear();
+//                mapGroup.getTransforms().add(scale);
+//
+//                double newScale = curScale + fraction*(scaleIn-curScale);
+//
+//                scale.setX(newScale);
+//                scale.setY(newScale);
+//
+//                double newX = curX+fraction*(x-curX);
+//                mapGroup.setTranslateX(-newX*newScale);
+//                double newY = curY+fraction*(y-curY);
+//                mapGroup.setTranslateY(-newY*newScale);
+//            }
+//        };
+//        expandPanel.setOnFinished(e-> {
+//        });
+//
+//        return expandPanel;
+//    }
 
 
     public void resetZoom(double width, double time){

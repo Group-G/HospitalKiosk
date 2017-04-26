@@ -28,8 +28,8 @@ public class UniqueFloor {
         this.offY = offY;
         this.timeDelay = timeDelay;
         imageView.setImage(new Image(floor.getFilename()));
-        imageView.setX(offX);
-        imageView.setY(offY);
+        imageView.setX(onX);
+        imageView.setY(onY);
         mapGroup.getChildren().add(imageView);
 
     }
