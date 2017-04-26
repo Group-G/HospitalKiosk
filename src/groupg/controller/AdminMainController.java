@@ -136,17 +136,34 @@ public class AdminMainController implements Initializable {
         pane.setOnKeyPressed(keyEvent -> {
             switch (keyEvent.getText()) {
                 case "a":
-                    UniqueNode node = NodeFactory.getNode(mouseX,
-                                                          mouseY,
-                                                          currentFloor.getID());
+                    UniqueNode prevSel = NodeListenerFactory.currentSelection; //Save selection
+
+                    //Make new node
+                    UniqueNode node = NodeFactory.getNode(mouseX, mouseY, currentFloor.getID());
                     h.setLocation(node.getLocation().getID(), node.getLocation());
                     displayedNodes.add(node);
                     nodeOverlay.getChildren().setAll(displayedNodes);
+
+                    //Connect to prev selection
+                    if (prevSel != null)
+                    {
+                        node.getLocation().getNeighbors().add(prevSel.getLocation());
+                        prevSel.getLocation().getNeighbors().add(node.getLocation());
+                    }
+
+                    //Show new connection
+                    drawConnections(node);
+                    updateNodePD();
+
+                    //Select new node and prompt for edit
+                    NodeListenerFactory.updateSelection(node);
+                    NodeListenerFactory.editNodeName();
                     updateNodePD();
                     break;
 
                 case "d":
-                    System.out.println("d");
+                    if (NodeListenerFactory.currentSelection != null)
+                        NodeListenerFactory.deleteCurrentSelection();
                     break;
             }
         });
@@ -217,7 +234,7 @@ public class AdminMainController implements Initializable {
 
     public void onAddNode(ActionEvent actionEvent) {
 
-        System.out.println(zoomGroupGlobal.getScaleX() + ", " + zoomGroupGlobal.getScaleY()  + ", " + zoomGroupGlobal.getScaleZ());
+        System.out.println(zoomGroupGlobal.getScaleX() + ", " + zoomGroupGlobal.getScaleY() + ", " + zoomGroupGlobal.getScaleZ());
         UniqueNode node = NodeFactory.getNode(imageView.getImage().widthProperty().doubleValue() / 2.0,
                                               imageView.getImage().heightProperty().doubleValue() / 2.0,
                                               currentFloor.getID());
