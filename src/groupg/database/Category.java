@@ -1,7 +1,5 @@
 package groupg.database;
 
-import javafx.scene.paint.Color;
-
 /**
  * @author Saul Woolf
  * @since 2017-04-07
@@ -10,7 +8,19 @@ public class Category {
     private String category = "";
     private int permission = -1;
     private String color;
+    private int quicksearchOn = 0;
 
+    public Category(String category, int permission, String color, int quicksearch) {
+        if(color.charAt(0) == '#'){
+            color = color.substring(1);
+            color = "0x" + color;
+        }
+        this.category = category;
+        this.permission = permission;
+        this.color = color;
+        this.quicksearchOn = quicksearch;
+
+    }
     public Category(String category, int permission, String color) {
         if(color.charAt(0) == '#'){
             color = color.substring(1);
@@ -63,5 +73,13 @@ public class Category {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public int getQuicksearchOn() {
+        return quicksearchOn;
+    }
+
+    public void setQuicksearchOn(int quicksearchOn) {
+        this.quicksearchOn = quicksearchOn;
     }
 }
