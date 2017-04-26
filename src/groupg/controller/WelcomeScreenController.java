@@ -33,7 +33,7 @@ public class WelcomeScreenController implements Initializable {
 
 
     @FXML
-    private Group mapGroup;
+    private Group mapGroup, menuGroup;
     @FXML
     private ImageView imageViewBase;
     @FXML
@@ -97,6 +97,7 @@ public class WelcomeScreenController implements Initializable {
         menuPane.setBackground(new Background(new BackgroundFill(Color.web("#ffffff"), CornerRadii.EMPTY, Insets.EMPTY)));
         //menuPane.getChildren().add(acccordionDropDown);
         menuPane.setVisible(false);
+//        menuPane
 
 
         for (Category category : Main.h.getAllCategories()) {
@@ -140,16 +141,17 @@ public class WelcomeScreenController implements Initializable {
                 menuPane.setVisible(true);
                 menuPane.setPickOnBounds(true);
                 fadePane.setVisible(true);
+                moveMenu(true, 25).play();
             }
         });
 
         menuExitBtn.setOnAction(event ->{
             if(menuOpen){
-                menuPane.setVisible(false);
+//                menuPane.setVisible(false);
                 menuPane.setPickOnBounds(false);
                 menuOpen = false;
                 fadePane.setVisible(false);
-
+                moveMenu(false, 25).play();
 
             }
         });
@@ -177,6 +179,8 @@ public class WelcomeScreenController implements Initializable {
         mapPane.setOnMouseClicked((MouseEvent event) -> {
             System.out.println("clicked the pane!!!!");
             resetZoom(WIDNDOW_WIDTH, 1250);
+//            zoomFloor(FaulknerFloors.get(0));
+            flipToFloor(7);
         });
 
         mapPane.widthProperty().addListener((observable, oldValue, newValue) -> {
@@ -198,9 +202,9 @@ public class WelcomeScreenController implements Initializable {
 
 
         viewButton.setOnAction(event -> {
-            zoomFloor(FaulknerFloors.get(0));
+//            zoomFloor(FaulknerFloors.get(0));
             flipToFloor(1);
-//            resetZoom(FaulknerFloors.get(0).get)
+            zoomFloor(FaulknerFloors.get(0));
         });
         upButton.setOnAction(event -> {
 
@@ -244,7 +248,8 @@ public class WelcomeScreenController implements Initializable {
             System.out.println("Flipping to floor " + index);
             currentFloor = index;
         }
-        for(int j = 0; j < currentFloor; j++){
+//        System.out.println("Keeping floors " + (currentFloor) +" down");
+        for(int j = 0; j < currentFloor && j < FaulknerFloors.size(); j++){
             UniqueFloor u = FaulknerFloors.get(j);
 
             if(!u.onScreen()) {
@@ -253,6 +258,7 @@ public class WelcomeScreenController implements Initializable {
             }
 
         }
+//        System.out.println("Removing floors " + (currentFloor+1) + " up");
         for(int j = currentFloor; j < FaulknerFloors.size(); j++){
             UniqueFloor u = FaulknerFloors.get(j);
             if(u.onScreen()) {
@@ -324,43 +330,40 @@ public class WelcomeScreenController implements Initializable {
         return expandPanel;
     }
 
-//    private Animation moveMenu(boolean on, double time) {
-//
-////        double cX =
-////        if(on)
-//        mapGroup.getTransforms().clear();
-//        double curScale = scale.getMxx();
-//        double curX = -mapGroup.getTranslateX()/curScale;
-//        double curY = -mapGroup.getTranslateY()/curScale;
-//
-//
-//        mapGroup.getTransforms().add(scale);
-//        final Animation expandPanel = new Transition() {
-//            {
-//                setCycleDuration(Duration.millis(time));
-//            }
-//
-//            @Override
-//            protected void interpolate(double fraction) {
-//                mapGroup.getTransforms().clear();
-//                mapGroup.getTransforms().add(scale);
-//
-//                double newScale = curScale + fraction*(scaleIn-curScale);
-//
-//                scale.setX(newScale);
-//                scale.setY(newScale);
-//
-//                double newX = curX+fraction*(x-curX);
-//                mapGroup.setTranslateX(-newX*newScale);
-//                double newY = curY+fraction*(y-curY);
-//                mapGroup.setTranslateY(-newY*newScale);
-//            }
-//        };
-//        expandPanel.setOnFinished(e-> {
-//        });
-//
-//        return expandPanel;
-//    }
+    private Animation moveMenu(boolean on, double time) {
+
+
+
+        final Animation expandPanel = new Transition() {
+            {
+                setCycleDuration(Duration.millis(time));
+            }
+
+            @Override
+            protected void interpolate(double fraction) {
+                double cx,cy=0,tx,ty=0;
+                if(on){
+                    tx = 0;
+                    cx = -menuPane.getWidth();
+                }
+                else{
+                    tx = -menuPane.getWidth();
+                    cx = 0;
+                }
+
+
+
+                double newX = cx+fraction*(tx-cx);
+                menuGroup.setTranslateX(newX);
+                double newY = cy+fraction*(ty-cy);
+                menuGroup.setTranslateY(newY);
+            }
+        };
+        expandPanel.setOnFinished(e-> {
+        });
+
+        return expandPanel;
+    }
 
 
     public void resetZoom(double width, double time){
