@@ -21,6 +21,7 @@ import java.util.ResourceBundle;
  */
 public class EditAdminAddController implements Initializable
 {
+    EditAdminController ed = new EditAdminController();
     @FXML
     private Button cancelBtn, addBtn;
     @FXML
@@ -49,6 +50,8 @@ public class EditAdminAddController implements Initializable
 
     public void onAdd(ActionEvent event)
     {
+        ed.setNumOfAdmins(ed.getNumOfAdmins()+1);
+        System.out.println(ed.getNumOfAdmins());
         if(usernameField.getText().equals("")){
 //throw error
         }
