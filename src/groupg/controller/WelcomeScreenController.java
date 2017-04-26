@@ -271,8 +271,8 @@ public class WelcomeScreenController implements Initializable {
 
         mapGroup.getTransforms().clear();
         double curScale = scale.getMxx();
-        double curX = -mapGroup.getTranslateX()/curScale;
-        double curY = -mapGroup.getTranslateY()/curScale;
+        double curX = -mapGroup.getTranslateX() / curScale;
+        double curY = -mapGroup.getTranslateY() / curScale;
 
 
         mapGroup.getTransforms().add(scale);
@@ -286,19 +286,21 @@ public class WelcomeScreenController implements Initializable {
                 mapGroup.getTransforms().clear();
                 mapGroup.getTransforms().add(scale);
 
-                double newScale = curScale + fraction*(scaleIn-curScale);
+                double newScale = curScale + fraction * (scaleIn - curScale);
 
                 scale.setX(newScale);
                 scale.setY(newScale);
 
-                double newX = curX+fraction*(x-curX);
-                mapGroup.setTranslateX(-newX*newScale);
-                double newY = curY+fraction*(y-curY);
-                mapGroup.setTranslateY(-newY*newScale);
+                double newX = curX + fraction * (x - curX);
+                mapGroup.setTranslateX(-newX * newScale);
+                double newY = curY + fraction * (y - curY);
+                mapGroup.setTranslateY(-newY * newScale);
             }
         };
-        expandPanel.setOnFinished(e-> {
+        expandPanel.setOnFinished(e -> {
         });
+        return expandPanel;
+    }
 
 //    private Animation moveMenu(boolean on, double time) {
 //
