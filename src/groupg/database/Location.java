@@ -26,7 +26,6 @@ public class Location implements Comparable
     private List<Location> neighbors = new LinkedList<>();
     private Location parent;
 
-
     public Location(String name, double x, double y, List<Location> neighbors, Category category, float weight, int ID, int floor, int building)
     {
         this.name = name;
@@ -39,8 +38,6 @@ public class Location implements Comparable
         this.floor = floor;
         this.building = building;
         this.id = ID;
-//        System.out.println("Created Location: " + getSQL());
-
     }
 
     public Location(String name, double x, double y, List<Location> neighbors, Category category, float weight, int floor, int building)
@@ -55,7 +52,6 @@ public class Location implements Comparable
         this.floor = floor;
         this.building = building;
         this.id = h.getNewLocationID();
-//        System.out.println("Created Location: " + getSQL());
     }
 
     /**

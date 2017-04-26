@@ -21,17 +21,11 @@ public class UniqueNode extends Circle {
     }
 
     public void setUnhighlighted() {
-//        switch (location.getCategory().toString()) {
-//            default:
-//                break;
-//        }
         color = location.getCategory().getColor();
         color = color.substring(0, 8) + "99";
-//        System.out.println(color);
         setFill(Color.web(color));
         setStroke(Color.web("0x00000099"));
         setStrokeWidth(1);
-//        setStrokeType(StrokeType.OUTSIDE);
     }
 
     public void setHighlighted() {
