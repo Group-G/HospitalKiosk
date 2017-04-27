@@ -648,6 +648,18 @@ public class HospitalData {
         categories.add(new Category(newCategory, permission, color));
         return false;
     }
+    public boolean addCategory(String newCategory, int permission, String color, int quickSearch) {
+        for(Category c : categories){
+
+            if(c.getCategory().equals(newCategory))
+            {
+                return false;
+            }
+        }
+//        System.out.println("ADDING " +newCategory+ ".");
+        categories.add(new Category(newCategory, permission, color, quickSearch));
+        return false;
+    }
 
     /**
      *Removes a category from categories

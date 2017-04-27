@@ -31,7 +31,8 @@ public class EditCategoryAddController implements Initializable
     private TextField catNameField;
     @FXML
     private ColorPicker colorField;
-
+    @FXML
+    private CheckBox quickSearchable;
     @FXML
     private RadioButton radiopublic, radioprivate;
     @FXML
@@ -68,15 +69,25 @@ public class EditCategoryAddController implements Initializable
     public void onAdd(ActionEvent event)
     {
         if(Main.h.checkString(catNameField.getText())){
-            if(radioprivate.isSelected()) {
-                Main.h.addCategory(catNameField.getText(), 1, colorField.getValue().toString());
+            if(quickSearchable.isSelected()) {
+                if (radioprivate.isSelected()) {
+                    Main.h.addCategory(catNameField.getText(), 1, colorField.getValue().toString(), 1);
+                } else if (radiopublic.isSelected()) {
+                    Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString(), 1);
+                } else {
+                    //default public
+                    Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString(), 1);
+                }
             }
-            else if(radiopublic.isSelected()){
-                Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString());
-            }
-            else{
-                //default public
-                Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString());
+            else {
+                if (radioprivate.isSelected()) {
+                    Main.h.addCategory(catNameField.getText(), 1, colorField.getValue().toString());
+                } else if (radiopublic.isSelected()) {
+                    Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString());
+                } else {
+                    //default public
+                    Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString());
+                }
             }
             try
             {
