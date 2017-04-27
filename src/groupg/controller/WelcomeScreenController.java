@@ -273,7 +273,7 @@ public class WelcomeScreenController implements Initializable {
             UniqueFloor u = FaulknerFloors.get(j);
 
             if(!u.onScreen()) {
-                moveImage(u.getImageView(), u.getOnX(), u.getOnY(), 1250 + u.getTimeDelay() * 100).play();
+                moveMiniMap(u.getGroup(), u.getOnX(), u.getOnY(), 1250 + u.getTimeDelay() * 100).play();
                 u.setOnScreen(true);
             }
 
@@ -282,17 +282,17 @@ public class WelcomeScreenController implements Initializable {
         for(int j = currentFloor; j < FaulknerFloors.size(); j++){
             UniqueFloor u = FaulknerFloors.get(j);
             if(u.onScreen()) {
-                moveImage(u.getImageView(), u.getOffX(), u.getOffY(), 1750 - u.getTimeDelay() * 100).play();
+                moveMiniMap(u.getGroup(), u.getOffX(), u.getOffY(), 1750 - u.getTimeDelay() * 100).play();
                 u.setOnScreen(false);
             }
             onScreen = false;
         }
     }
 
-    private Animation moveImage(ImageView image, double x, double y, double time) {
+    private Animation moveMiniMap(Group group, double x, double y, double time) {
 
-        double curX = image.getX();
-        double curY = image.getY();
+        double curX = group.getTranslateX();
+        double curY = group.getTranslateY();
 
 
         final Animation expandPanel = new Transition() {
@@ -303,9 +303,9 @@ public class WelcomeScreenController implements Initializable {
             @Override
             protected void interpolate(double fraction) {
                 double newX = curX+fraction*(x-curX);
-                image.setX(newX);
+                group.setTranslateX(newX);
                 double newY = curY+fraction*(y-curY);
-                image.setY(newY);
+                group.setTranslateY(newY);
             }
         };
 

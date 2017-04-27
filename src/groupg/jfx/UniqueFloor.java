@@ -28,13 +28,14 @@ public class UniqueFloor {
     private double offY;
     private int timeDelay;
     private boolean onScreen = true;
-    private static Pane nodePane = new Pane();
+    //private static Pane nodePane = new Pane();
     private Group group = new Group();
+    private List<Circle> points;
 
 
     public UniqueFloor(Floor floor, Group mapGroup, double onX, double onY, double offX, double offY, int timeDelay){
 
-
+        points = new ArrayList<>();
         this.floor = floor;
         this.onX = onX;
         this.onY = onY;
@@ -42,17 +43,21 @@ public class UniqueFloor {
         this.offY = offY;
         this.timeDelay = timeDelay;
         imageView.setImage(new Image(floor.getFilename()));
-        imageView.setX(onX);
-        imageView.setY(onY);
+        group.setTranslateX(onX);
+        group.setTranslateY(onY);
+        double scale = 1.275;
         for (Location l : floor.getLocations()){
-            Circle c = new Circle(l.getX(), l.getY(), 10);
-            nodePane.getChildren().add(c);
+            if(!l.getCategory().getCategory().equals("")  && !l.getCategory().getCategory().equals("Hall")){
+                System.out.println(l.getCategory().getCategory());
+                Circle c = new Circle(l.getX()*scale, l.getY()*scale, 20);
+                points.add(c);
+            }
         }
         //nodePane.getTransforms().add(new Scale(.7, .7));
-        nodePane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(20))));
-        nodePane.setPickOnBounds(false);
+        //nodePane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(20))));
+        //nodePane.setPickOnBounds(false);
         group.getChildren().add(imageView);
-        group.getChildren().add(nodePane);
+        group.getChildren().addAll(points);
         mapGroup.getChildren().add(group);
 
     }
@@ -99,6 +104,10 @@ public class UniqueFloor {
 
     public ImageView getImageView() {
        return this.imageView;
+    }
+
+    public Group getGroup() {
+        return this.group;
     }
 
     public int getTimeDelay() {
