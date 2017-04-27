@@ -646,8 +646,20 @@ public class HospitalData {
         }
 //        System.out.println("ADDING " +newCategory+ ".");
         categories.add(new Category(newCategory, permission, color));
-        return false;
+        return true;
     }
+
+    public boolean addCategory(Category cat) {
+        for (Category c : categories) {
+
+            if (c.getCategory().equals(cat)) {
+                return false;
+            }
+        }
+        categories.add(cat);
+        return true;
+    }
+
     public boolean addCategory(String newCategory, int permission, String color, int quickSearch) {
         for(Category c : categories){
 
@@ -658,7 +670,7 @@ public class HospitalData {
         }
 //        System.out.println("ADDING " +newCategory+ ".");
         categories.add(new Category(newCategory, permission, color, quickSearch));
-        return false;
+        return true;
     }
 
     /**

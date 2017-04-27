@@ -72,7 +72,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="20.0" prefWidth="600.0">
                      <children>
-                        <CheckBox id="quickSearchable" mnemonicParsing="false" text="Quick Search Visible">
+                        <CheckBox id="quickSearchable" fx:id="quickSearchable" mnemonicParsing="false" text="Quick Search Visible">
                            <font>
                               <Font size="16.0" />
                            </font>

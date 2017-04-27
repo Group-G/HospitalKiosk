@@ -21,6 +21,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -34,6 +35,7 @@ import net.glxn.qrgen.core.image.ImageType;
 import net.glxn.qrgen.javase.QRCode;
 
 import javax.imageio.ImageIO;
+import javax.swing.text.html.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
@@ -150,13 +152,29 @@ public class WelcomeScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         acccordionDropDown.getPanes().clear();
+
         EmptyLocation empty = new EmptyLocation();
+        ListView<Category> quickList = new ListView<>();
+        for (Category c : Main.h.getAllCategories()){
+            if(c.getQuicksearchOn() == 1 && c.getPermission() <= permission) {
+                quickList.getItems().add(c);
+            }
+            quickList.setOnMouseClicked((MouseEvent event) -> {
+                if(event.getClickCount() == 2){
+                    endField.setCurrentSelection(getClosestOfCategory(startField.getCurrentSelection(), quickList.getSelectionModel().getSelectedItem()));
+                }
+            });
+        }
+
+
+        TitledPane quickSearch = new TitledPane("Quick Search", quickList);
+        acccordionDropDown.getPanes().add(quickSearch);
         for (Category category : h.getAllCategories()) {
             if (category.getPermission() <= permission) {
                 ListView<Location> locByCat = new ListView();
                 locByCat.getItems().addAll(h.getLocationsByCategory(category.getCategory()));
                 locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-                acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " "/* +category.getPermission()*/, locByCat));
+                acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " ", locByCat));
                 locByCat.setOnMouseClicked((MouseEvent event) -> {
                     System.out.println(startField.getText().trim().isEmpty() && endField.getText().isEmpty());
                     if(event.getClickCount() == 2 && startField.getText().isEmpty() && endField.getText().isEmpty()){

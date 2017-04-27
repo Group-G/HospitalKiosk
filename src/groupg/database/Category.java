@@ -4,7 +4,7 @@ package groupg.database;
  * @author Saul Woolf
  * @since 2017-04-07
  */
-public class Category {
+public class Category implements Comparable {
     private String category = "";
     private int permission = -1;
     private String color;
@@ -81,5 +81,10 @@ public class Category {
 
     public void setQuicksearchOn(int quicksearchOn) {
         this.quicksearchOn = quicksearchOn;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return toString().compareTo(o.toString());
     }
 }
