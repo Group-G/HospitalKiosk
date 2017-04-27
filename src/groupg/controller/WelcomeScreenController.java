@@ -112,19 +112,6 @@ public class WelcomeScreenController implements Initializable {
                 locByCat.getItems().addAll(h.getLocationsByCategory(category.getCategory()));
                 locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
                 acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " "/* +category.getPermission()*/, locByCat));
-               /* locByCat.setOnMouseClicked((MouseEvent event) -> {
-                    //System.out.println(startField.getText().trim().isEmpty() && endField.getText().isEmpty());
-
-                    if(event.getClickCount() == 2 && startField.getText().isEmpty() && endField.getText().isEmpty()){
-                        startField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
-                    }
-                    else if(event.getClickCount() == 2 && startField.getText().isEmpty() && !(endField.getText().isEmpty())){
-                        startField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
-                    }
-                    else if(event.getClickCount() == 2) {
-                        endField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
-                    }
-                }); */
             }
         }
 
@@ -173,7 +160,7 @@ public class WelcomeScreenController implements Initializable {
                 uf.getImageView().setOnMouseClicked( event -> {
 
                     event.consume();
-                    flipToFloor(uf.getTimeDelay() + 1);
+                    flipToFloor(uf.getFloorIndex() + 1);
                     zoomFloor(uf);
 
                 });
@@ -185,7 +172,7 @@ public class WelcomeScreenController implements Initializable {
                 uf.getImageView().setOnMouseClicked( event -> {
 
                     event.consume();
-                    flipToFloor(uf.getTimeDelay() + 1);
+                    flipToFloor(uf.getFloorIndex() + 1);
                     zoomFloor(uf);
 
                 });
@@ -224,7 +211,7 @@ public class WelcomeScreenController implements Initializable {
         viewButton.setOnAction(event -> {
 //            zoomFloor(FaulknerFloors.get(0));
             flipToFloor(1);
-            zoomFloor(FaulknerFloors.get(0));
+            zoomFloor(FaulknerFloors.get(5));
         });
         upButton.setOnAction(event -> {
 
@@ -299,37 +286,16 @@ public class WelcomeScreenController implements Initializable {
         for(int j = 0;  j < FaulknerFloors.size(); j++){
             UniqueFloor u = FaulknerFloors.get(j);
 
-            if(!u.onScreen()) {
-                moveMiniMap(u.getGroup(), u.getOnX(), u.getOnY(), 1250 + u.getTimeDelay() * 100).play();
+            if(u.getFloorIndex() <= index && !u.onScreen()) {
+                moveMiniMap(u.getGroup(), u.getOnX(), u.getOnY(), 1250 + u.getFloorIndex() * 100).play();
                 u.setOnScreen(true);
             }
-
-        }
-//        System.out.println("Removing floors " + (currentFloor+1) + " up");
-        for(int j = currentFloor; j < FaulknerFloors.size(); j++){
-            UniqueFloor u = FaulknerFloors.get(j);
-            onScreen = false;
-            if(u.getTimeDelay() < currentFloor){
-                if(!u.onScreen()) {
-                    moveMiniMap(u.getGroup(), u.getOnX(), u.getOnY(), 1250 + u.getTimeDelay() * 100).play();
-                    u.setOnScreen(true);
-                }
-            }
-            else{
-                if(u.onScreen()) {
-                    moveMiniMap(u.getGroup(), u.getOffX(), u.getOffY(), 1750 - u.getTimeDelay() * 100).play();
-                    u.setOnScreen(false);
-
-                    onScreen = false;
-
-                }
+            else if(u.getFloorIndex() > index && u.onScreen()) {
+                moveMiniMap(u.getGroup(), u.getOffX(), u.getOffY(), 1750 - u.getFloorIndex() * 100).play();
+                u.setOnScreen(false);
             }
 
-
-
         }
-
-//        System.out.println("Removing floors " + (currentFloor+1) + " up");
 
 
 

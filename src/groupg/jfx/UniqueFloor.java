@@ -2,16 +2,10 @@ package groupg.jfx;
 
 import groupg.database.Floor;
 import groupg.database.Location;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.transform.Scale;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +20,14 @@ public class UniqueFloor {
     private double onY;
     private double offX;
     private double offY;
-    private int timeDelay;
+    private int index;
     private boolean onScreen = true;
     //private static Pane nodePane = new Pane();
     private Group group = new Group();
     private List<Circle> points;
 
 
-    public UniqueFloor(Floor floor, Group mapGroup, double onX, double onY, double offX, double offY, int timeDelay){
+    public UniqueFloor(Floor floor, Group mapGroup, double onX, double onY, double offX, double offY, int index){
 
         points = new ArrayList<>();
         this.floor = floor;
@@ -41,7 +35,7 @@ public class UniqueFloor {
         this.onY = onY;
         this.offX = offX;
         this.offY = offY;
-        this.timeDelay = timeDelay;
+        this.index = index;
         imageView.setImage(new Image(floor.getFilename()));
         group.setTranslateX(onX);
         group.setTranslateY(onY);
@@ -110,12 +104,12 @@ public class UniqueFloor {
         return this.group;
     }
 
-    public int getTimeDelay() {
-        return timeDelay;
+    public int getFloorIndex() {
+        return index;
     }
 
-    public void setTimeDelay(int timeDelay) {
-        this.timeDelay = timeDelay;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public boolean onScreen() {
