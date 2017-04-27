@@ -40,8 +40,6 @@ public class NodeFactory {
      */
     public static UniqueNode getNode(Location location) {
         UniqueNode circle = new UniqueNode(NODE_RADIUS, location);
-        //circle.setStroke(Color.BLACK);
-        //circle.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
         circle.setFill(Color.web(location.getCategory().getColor()));
         circle.setCenterX(location.getX());
         circle.setCenterY(location.getY());

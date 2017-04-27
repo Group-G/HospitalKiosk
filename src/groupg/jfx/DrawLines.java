@@ -2,6 +2,7 @@ package groupg.jfx;
 
 import groupg.database.Location;
 
+import javax.xml.soap.Node;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class DrawLines
         for (int i = 0; i < locations.size() - 1; i++)
         {
             Location current = locations.get(i),
-                    next = locations.get(i + 1);
+                     next = locations.get(i + 1);
             out.add(LineFactory.getLine(current, next));
         }
         return out;

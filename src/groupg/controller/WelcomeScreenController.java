@@ -7,6 +7,7 @@ import groupg.algorithm.NavigationFacade;
 import groupg.database.*;
 
 import groupg.jfx.*;
+import javafx.scene.paint.Color;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -21,6 +22,10 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -34,10 +39,12 @@ import net.glxn.qrgen.core.image.ImageType;
 import net.glxn.qrgen.javase.QRCode;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -289,6 +296,19 @@ public class WelcomeScreenController implements Initializable {
                         .filter(elem -> elem.getFloorObj().getFloorNum().equals(newTab.getText()))
                         .collect(Collectors.toList())));
                 lineOverlay.getChildren().setAll(displayedLines);
+
+                displayedCircles.clear();
+                if(h.getFloorById(startField.getCurrentSelection().getFloorID()).getFloorNum() == newTab.getText()){
+                    Circle c = new Circle(startField.getCurrentSelection().getX(), startField.getCurrentSelection().getY(), 10);
+                    c.setFill(Color.GREEN);
+                    displayedCircles.add(c);
+                } else if (h.getFloorById(endField.getCurrentSelection().getFloorID()).getFloorNum() == newTab.getText()){
+                    Circle c2 = new Circle(endField.getCurrentSelection().getX(), endField.getCurrentSelection().getY(), 10);
+                    c2.setFill(Color.RED);
+                    displayedCircles.add(c2);
+                }
+                nodeOverlay.getChildren().setAll(displayedCircles);
+
                 //Set new nodes for this floor
 
                 //displayedNodes.addAll(floor.getLocations().stream().map(NodeFactory::getNode).collect(Collectors.toList()));
@@ -510,6 +530,17 @@ public class WelcomeScreenController implements Initializable {
                     .map(elem -> (Location) elem)
                     .collect(Collectors.toList())));
             lineOverlay.getChildren().setAll(displayedLines);
+
+            /*/Set new nodes for this floor
+            displayedCircles.clear();
+            Circle c = new Circle(startField.getCurrentSelection().getX(), startField.getCurrentSelection().getY(), 10);
+            c.setFill(Color.GREEN);
+            displayedCircles.add(c);
+            Circle c2 = new Circle(startField.getCurrentSelection().getX(), startField.getCurrentSelection().getY(), 10);
+            c2.setFill(Color.RED);
+            displayedCircles.add(c2);
+            displayedCircles.add(NodeFactory.getNode(endField.getCurrentSelection()));
+            nodeOverlay.getChildren().setAll(displayedCircles);*/
 
         }
     }
@@ -817,6 +848,8 @@ public class WelcomeScreenController implements Initializable {
             dirList.getItems().clear();
             qrcode.setVisible(false);
             displayedLines.clear();
+            displayedNodes.clear();
+            nodeOverlay.getChildren().clear();
             lineOverlay.getChildren().clear();
             searchBtn.setText("Search");
         } else {
@@ -1010,30 +1043,6 @@ public class WelcomeScreenController implements Initializable {
         }
 
     }
-
-
-
-
-
-
-
-
-//    public static void updateNodePD() {
-//        if (NodeListenerFactory.currentSelection != null) {
-//            //Update property display
-//            PropertyDisplay pd = displayedPanels.get(0);
-//            pd.setProperty("X value", "" + NodeListenerFactoryLite.currentSelection.getLocation().getX());
-//            pd.setProperty("Y value", "" + NodeListenerFactoryLite.currentSelection.getLocation().getY());
-//            pd.setProperty("Name", NodeListenerFactoryLite.currentSelection.getLocation().getName());
-//            pd.setProperty("Category", NodeListenerFactoryLite.currentSelection.getLocation().getCategory().getCategory());
-//            pd.setProperty("# of Neighbors", NodeListenerFactoryLite.currentSelection.getLocation().getNeighbors().size() + "");
-//            pd.setProperty("ID", "" + NodeListenerFactoryLite.currentSelection.getLocation().getID());
-//            pd.setProperty("Permissions", "" + NodeListenerFactoryLite.currentSelection.getLocation().getCategory().getPermission() + "");
-//            displayedPanels.set(0, pd);
-//            AdminMainController.infoOverlay.getChildren().clear();
-//            AdminMainController.infoOverlay.getChildren().addAll(displayedPanels);
-//        }
-//    }
 
     public Location getClosestOfCategory(Location start, Category cat) {
         List<Location> filteredLocs = new ArrayList<>();

@@ -1407,6 +1407,11 @@
         -fx-border-color: #000000;
         -fx-border-radius: 3.4, 2, 2;
 }
+
+.startnode{
+    -fx-background-color: #000000;
+}
+
 /*******************************************************************************
  *                                                                             *
  * PasswordField                                                               *
