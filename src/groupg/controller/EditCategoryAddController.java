@@ -31,7 +31,8 @@ public class EditCategoryAddController implements Initializable
     private TextField catNameField;
     @FXML
     private ColorPicker colorField;
-
+    @FXML
+    private CheckBox quickSearchable;
     @FXML
     private RadioButton radiopublic, radioprivate;
     @FXML
@@ -43,6 +44,7 @@ public class EditCategoryAddController implements Initializable
         final ToggleGroup group = new ToggleGroup();
         radiopublic.setToggleGroup(group);
         radioprivate.setToggleGroup(group);
+        quickSearchable.setAllowIndeterminate(false);
         group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             public void changed(ObservableValue<? extends Toggle> ov,
                                 Toggle old_toggle, Toggle new_toggle) {
@@ -68,15 +70,20 @@ public class EditCategoryAddController implements Initializable
     public void onAdd(ActionEvent event)
     {
         if(Main.h.checkString(catNameField.getText())){
-            if(radioprivate.isSelected()) {
-                Main.h.addCategory(catNameField.getText(), 1, colorField.getValue().toString());
+
+
+            if (radioprivate.isSelected() && quickSearchable.isSelected()) {
+                Main.h.addCategory(catNameField.getText(), 1, colorField.getValue().toString(), 1);
+            } else if (radiopublic.isSelected() && quickSearchable.isSelected()) {
+                Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString(), 1);
+            } else if (radioprivate.isSelected() && !quickSearchable.isSelected()){
+                Main.h.addCategory(catNameField.getText(), 1, colorField.getValue().toString(), 0);
+            } else if (radiopublic.isSelected() && !quickSearchable.isSelected()) {
+                Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString(), 0);
             }
-            else if(radiopublic.isSelected()){
-                Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString());
-            }
-            else{
+            else {
                 //default public
-                Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString());
+                Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString(), 0);
             }
             try
             {

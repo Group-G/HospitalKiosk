@@ -1,8 +1,10 @@
 package groupg.database;
 
 import java.sql.*;
-import java.util.*;
-import me.xdrop.fuzzywuzzy.FuzzySearch;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by  Alazar Genene, Saul Woolf, and Samantha Comeau on 4/1/17.
@@ -230,7 +232,8 @@ public class HospitalData {
             {
                 cat = cat + ",";
             }
-            cat = cat + "(\'" + categories.get(i).getCategory() + "\', " + categories.get(i).getPermission() + ", \'"+ categories.get(i).getColor() +"\')";
+            cat = cat + "(\'" + categories.get(i).getCategory() + "\', " + categories.get(i).getPermission() + ", \'"+
+                    categories.get(i).getColor() + "\', "+ categories.get(i).getQuicksearchOn()+ ")";
         }
         System.out.println("Categories: " + cat);
 
@@ -643,7 +646,31 @@ public class HospitalData {
         }
 //        System.out.println("ADDING " +newCategory+ ".");
         categories.add(new Category(newCategory, permission, color));
-        return false;
+        return true;
+    }
+
+    public boolean addCategory(Category cat) {
+        for (Category c : categories) {
+
+            if (c.getCategory().equals(cat)) {
+                return false;
+            }
+        }
+        categories.add(cat);
+        return true;
+    }
+
+    public boolean addCategory(String newCategory, int permission, String color, int quickSearch) {
+        for(Category c : categories){
+
+            if(c.getCategory().equals(newCategory))
+            {
+                return false;
+            }
+        }
+//        System.out.println("ADDING " +newCategory+ ".");
+        categories.add(new Category(newCategory, permission, color, quickSearch));
+        return true;
     }
 
     /**
@@ -1103,7 +1130,7 @@ public class HospitalData {
 
 
             String aCat = "FAILED TO PULL", color = "FAILED TO PULL";
-            int permission = -1;
+            int permission = -1, quicksearch = -1;
             while (cats.next()) {
                 for (int j = 1; j <= roomColumns; j++) {
                     if (roomDataset.getColumnName(j).equals("CATEGORY_NAME")) {
@@ -1115,9 +1142,12 @@ public class HospitalData {
                     if (roomDataset.getColumnName(j).equals("COLOR")) {
                         color = cats.getString(j);
                     }
+                    if (roomDataset.getColumnName(j).equals("QUICKSEARCH")) {
+                        quicksearch = Integer.parseInt(cats.getString(j));
+                    }
 
                 }
-                categories.add(new Category(aCat, permission, color));
+                categories.add(new Category(aCat, permission, color, quicksearch));
 
             }
             return true;
