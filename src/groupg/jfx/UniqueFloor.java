@@ -39,6 +39,8 @@ public class UniqueFloor {
         imageView.setImage(new Image(floor.getFilename()));
         group.setTranslateX(onX);
         group.setTranslateY(onY);
+        //imageView.setX(onX);
+        //imageView.setY(onY);
         double scale = 1.275;
         for (Location l : floor.getLocations()){
             if(!l.getCategory().getCategory().equals("")  && !l.getCategory().getCategory().equals("Hall")){

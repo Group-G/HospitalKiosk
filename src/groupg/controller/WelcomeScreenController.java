@@ -274,7 +274,7 @@ public class WelcomeScreenController implements Initializable {
         System.out.println("yoffset = " + yoffset);
         System.out.println("xoffset = " + xoffset);
 
-        scaleImage(uf.getImageView().getX() - xoffset, uf.getImageView().getY() - yoffset,scaleVal,  1250).play();
+        scaleImage(uf.getGroup().getTranslateX() - xoffset, uf.getGroup().getTranslateY() - yoffset,scaleVal,  1250).play();
     }
     private void flipToFloor(int index){
 
