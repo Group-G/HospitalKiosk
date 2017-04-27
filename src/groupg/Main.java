@@ -26,7 +26,7 @@ public class Main extends Application
         Parent root = FXMLLoader.load(getClass().getResource("/view/welcomeScreen.fxml"));
         Scene s = new Scene(root, 1404, 800);
 
-        String css = this.getClass().getResource("/view/material-fx-v0_3.css").toExternalForm();
+        String css = this.getClass().getResource("/view/welcomescreen.css").toExternalForm();
         s.getStylesheets().add(css);
 
         primaryStage.setTitle("Welcome");

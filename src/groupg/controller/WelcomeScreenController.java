@@ -4,6 +4,7 @@ import groupg.Main;
 import groupg.database.Category;
 import groupg.database.Floor;
 import groupg.database.Location;
+import groupg.jfx.ResourceManager;
 import groupg.jfx.UniqueFloor;
 import javafx.animation.Animation;
 import javafx.animation.Transition;
@@ -19,12 +20,15 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
-import static groupg.Main.h;
+
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static groupg.Main.h;
 
 /**
  * Created by will on 4/21/17.
@@ -97,6 +101,8 @@ public class WelcomeScreenController implements Initializable {
         menuPane.setBackground(new Background(new BackgroundFill(Color.web("#ffffff"), CornerRadii.EMPTY, Insets.EMPTY)));
         //menuPane.getChildren().add(acccordionDropDown);
         menuPane.setVisible(false);
+        menuPane.setPickOnBounds(false);
+
 //        menuPane
 
 
@@ -157,10 +163,24 @@ public class WelcomeScreenController implements Initializable {
         });
 
         List<Floor> floors = Main.h.getAllFloors();
+        int fa = 0, b=0;
         for (int i = 0; i < floors.size(); i ++) {
             Floor f = floors.get(i);
             if (f.getBuildingID() == 1) {
-                UniqueFloor uf = new UniqueFloor(f, mapGroup, 544+i*5, 342-i*12, 544+i*5, -600, i);
+                fa++;
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 1248+i*12, 785-i*25, 1250+i*12, -1600, fa);
+                FaulknerFloors.add(uf);
+                uf.getImageView().setOnMouseClicked( event -> {
+
+                    event.consume();
+                    flipToFloor(uf.getTimeDelay() + 1);
+                    zoomFloor(uf);
+
+                });
+            }
+            else if (f.getBuildingID() == 0) {
+                b++;
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 1065+i*12, 435-i*25, 1065+i*12, -700, b);
                 FaulknerFloors.add(uf);
                 uf.getImageView().setOnMouseClicked( event -> {
 
@@ -216,6 +236,22 @@ public class WelcomeScreenController implements Initializable {
             flipToFloor(currentFloor-1);
         });
 
+        aboutBtn.setOnAction(event -> {
+            try {
+                ResourceManager.getInstance().loadFXMLIntoScene("/view/aboutscreen.fxml", "Welcome", aboutBtn.getScene());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        loginBtn.setOnAction(event -> {
+            try {
+                ResourceManager.getInstance().loadFXMLIntoScene("/view/adminLogin.fxml", "Welcome", aboutBtn.getScene());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
 
         //set button graphics
         viewButton.setGraphic(new ImageView(new Image("/image/Icons/location.png",30, 30, false, false)));
@@ -236,11 +272,22 @@ public class WelcomeScreenController implements Initializable {
         chinese.setGraphic(new ImageView(new Image("Image/Icons/china.png")));
     }
     private void zoomFloor(UniqueFloor uf){
-        double scaleVal = mapPane.getWidth()/uf.getImageView().getImage().getWidth()*.65;
-        double xoffset = mapPane.getWidth()*.35;
-        double yoffset = mapPane.getHeight()*.35/2;
+//        double scaleValH = mapPane.getWidth()/uf.getImageView().getImage().getWidth()*.7;
+        double scaleValV = mapPane.getHeight()/uf.getImageView().getImage().getHeight()*.9;
+        double scaleVal = scaleValV;
+//        if(scaleValV>scaleValH){
+//            scaleVal = scaleValV;
+//        }
+        double xoffset = mapPane.getWidth()*0.3;
+        double yoffset = mapPane.getHeight()*0.15;
+        xoffset = mapPane.getWidth()/4;
+        yoffset = mapPane.getHeight()/6;
+        System.out.println();
+        System.out.println("scaleVal = " + scaleVal);
+        System.out.println("yoffset = " + yoffset);
+        System.out.println("xoffset = " + xoffset);
 
-        scaleImage(uf.getImageView().getX() - xoffset, uf.getImageView().getY() - yoffset, scaleVal, 1250).play();
+        scaleImage(uf.getImageView().getX() - xoffset, uf.getImageView().getY() - yoffset,scaleVal,  1250).play();
     }
     private void flipToFloor(int index){
 
@@ -249,11 +296,11 @@ public class WelcomeScreenController implements Initializable {
             currentFloor = index;
         }
 //        System.out.println("Keeping floors " + (currentFloor) +" down");
-        for(int j = 0; j < currentFloor && j < FaulknerFloors.size(); j++){
+        for(int j = 0;  j < FaulknerFloors.size(); j++){
             UniqueFloor u = FaulknerFloors.get(j);
 
             if(!u.onScreen()) {
-                moveImage(u.getImageView(), u.getOnX(), u.getOnY(), 1250 + u.getTimeDelay() * 100).play();
+                moveMiniMap(u.getGroup(), u.getOnX(), u.getOnY(), 1250 + u.getTimeDelay() * 100).play();
                 u.setOnScreen(true);
             }
 
@@ -261,18 +308,37 @@ public class WelcomeScreenController implements Initializable {
 //        System.out.println("Removing floors " + (currentFloor+1) + " up");
         for(int j = currentFloor; j < FaulknerFloors.size(); j++){
             UniqueFloor u = FaulknerFloors.get(j);
-            if(u.onScreen()) {
-                moveImage(u.getImageView(), u.getOffX(), u.getOffY(), 1750 - u.getTimeDelay() * 100).play();
-                u.setOnScreen(false);
-            }
             onScreen = false;
+            if(u.getTimeDelay() < currentFloor){
+                if(!u.onScreen()) {
+                    moveMiniMap(u.getGroup(), u.getOnX(), u.getOnY(), 1250 + u.getTimeDelay() * 100).play();
+                    u.setOnScreen(true);
+                }
+            }
+            else{
+                if(u.onScreen()) {
+                    moveMiniMap(u.getGroup(), u.getOffX(), u.getOffY(), 1750 - u.getTimeDelay() * 100).play();
+                    u.setOnScreen(false);
+
+                    onScreen = false;
+
+                }
+            }
+
+
+
         }
+
+//        System.out.println("Removing floors " + (currentFloor+1) + " up");
+
+
+
     }
 
-    private Animation moveImage(ImageView image, double x, double y, double time) {
+    private Animation moveMiniMap(Group group, double x, double y, double time) {
 
-        double curX = image.getX();
-        double curY = image.getY();
+        double curX = group.getTranslateX();
+        double curY = group.getTranslateY();
 
 
         final Animation expandPanel = new Transition() {
@@ -283,9 +349,9 @@ public class WelcomeScreenController implements Initializable {
             @Override
             protected void interpolate(double fraction) {
                 double newX = curX+fraction*(x-curX);
-                image.setX(newX);
+                group.setTranslateX(newX);
                 double newY = curY+fraction*(y-curY);
-                image.setY(newY);
+                group.setTranslateY(newY);
             }
         };
 
