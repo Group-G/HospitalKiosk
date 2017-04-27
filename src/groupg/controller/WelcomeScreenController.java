@@ -308,20 +308,16 @@ public class WelcomeScreenController implements Initializable {
 //        System.out.println("Removing floors " + (currentFloor+1) + " up");
         for(int j = currentFloor; j < FaulknerFloors.size(); j++){
             UniqueFloor u = FaulknerFloors.get(j);
-            if(u.onScreen()) {
-                moveMiniMap(u.getGroup(), u.getOffX(), u.getOffY(), 1750 - u.getTimeDelay() * 100).play();
-                u.setOnScreen(false);
-            }
             onScreen = false;
             if(u.getTimeDelay() < currentFloor){
                 if(!u.onScreen()) {
-                    moveImage(u.getImageView(), u.getOnX(), u.getOnY(), 1250 + u.getTimeDelay() * 100).play();
+                    moveMiniMap(u.getGroup(), u.getOnX(), u.getOnY(), 1250 + u.getTimeDelay() * 100).play();
                     u.setOnScreen(true);
                 }
             }
             else{
                 if(u.onScreen()) {
-                    moveImage(u.getImageView(), u.getOffX(), u.getOffY(), 1750 - u.getTimeDelay() * 100).play();
+                    moveMiniMap(u.getGroup(), u.getOffX(), u.getOffY(), 1750 - u.getTimeDelay() * 100).play();
                     u.setOnScreen(false);
 
                     onScreen = false;
