@@ -101,6 +101,8 @@ public class WelcomeScreenController implements Initializable {
         menuPane.setBackground(new Background(new BackgroundFill(Color.web("#ffffff"), CornerRadii.EMPTY, Insets.EMPTY)));
         //menuPane.getChildren().add(acccordionDropDown);
         menuPane.setVisible(false);
+        menuPane.setPickOnBounds(false);
+
 //        menuPane
 
 
@@ -161,10 +163,24 @@ public class WelcomeScreenController implements Initializable {
         });
 
         List<Floor> floors = Main.h.getAllFloors();
+        int fa = 0, b=0;
         for (int i = 0; i < floors.size(); i ++) {
             Floor f = floors.get(i);
             if (f.getBuildingID() == 1) {
-                UniqueFloor uf = new UniqueFloor(f, mapGroup, 1248+i*12, 785-i*25, 1250+i*12, -600, i);
+                fa++;
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 1248+i*12, 785-i*25, 1250+i*12, -1600, fa);
+                FaulknerFloors.add(uf);
+                uf.getImageView().setOnMouseClicked( event -> {
+
+                    event.consume();
+                    flipToFloor(uf.getTimeDelay() + 1);
+                    zoomFloor(uf);
+
+                });
+            }
+            else if (f.getBuildingID() == 0) {
+                b++;
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 1065+i*12, 435-i*25, 1065+i*12, -700, b);
                 FaulknerFloors.add(uf);
                 uf.getImageView().setOnMouseClicked( event -> {
 
@@ -256,11 +272,22 @@ public class WelcomeScreenController implements Initializable {
         chinese.setGraphic(new ImageView(new Image("Image/Icons/china.png")));
     }
     private void zoomFloor(UniqueFloor uf){
-        double scaleVal = mapPane.getWidth()/uf.getImageView().getImage().getWidth()*.65;
-        double xoffset = mapPane.getWidth()*.35;
-        double yoffset = mapPane.getHeight()*.35/2;
+//        double scaleValH = mapPane.getWidth()/uf.getImageView().getImage().getWidth()*.7;
+        double scaleValV = mapPane.getHeight()/uf.getImageView().getImage().getHeight()*.9;
+        double scaleVal = scaleValV;
+//        if(scaleValV>scaleValH){
+//            scaleVal = scaleValV;
+//        }
+        double xoffset = mapPane.getWidth()*0.3;
+        double yoffset = mapPane.getHeight()*0.15;
+        xoffset = mapPane.getWidth()/4;
+        yoffset = mapPane.getHeight()/6;
+        System.out.println();
+        System.out.println("scaleVal = " + scaleVal);
+        System.out.println("yoffset = " + yoffset);
+        System.out.println("xoffset = " + xoffset);
 
-        scaleImage(uf.getImageView().getX() - xoffset, uf.getImageView().getY() - yoffset, scaleVal, 1250).play();
+        scaleImage(uf.getImageView().getX() - xoffset, uf.getImageView().getY() - yoffset,scaleVal,  1250).play();
     }
     private void flipToFloor(int index){
 
@@ -269,24 +296,32 @@ public class WelcomeScreenController implements Initializable {
             currentFloor = index;
         }
 //        System.out.println("Keeping floors " + (currentFloor) +" down");
-        for(int j = 0; j < currentFloor && j < FaulknerFloors.size(); j++){
+        for(int j = 0;  j < FaulknerFloors.size(); j++){
             UniqueFloor u = FaulknerFloors.get(j);
+            if(u.getTimeDelay() < currentFloor){
+                if(!u.onScreen()) {
+                    moveImage(u.getImageView(), u.getOnX(), u.getOnY(), 1250 + u.getTimeDelay() * 100).play();
+                    u.setOnScreen(true);
+                }
+            }
+            else{
+                if(u.onScreen()) {
+                    moveImage(u.getImageView(), u.getOffX(), u.getOffY(), 1750 - u.getTimeDelay() * 100).play();
+                    u.setOnScreen(false);
 
-            if(!u.onScreen()) {
-                moveImage(u.getImageView(), u.getOnX(), u.getOnY(), 1250 + u.getTimeDelay() * 100).play();
-                u.setOnScreen(true);
+                    onScreen = false;
+
+                }
             }
 
+
+
         }
+
 //        System.out.println("Removing floors " + (currentFloor+1) + " up");
-        for(int j = currentFloor; j < FaulknerFloors.size(); j++){
-            UniqueFloor u = FaulknerFloors.get(j);
-            if(u.onScreen()) {
-                moveImage(u.getImageView(), u.getOffX(), u.getOffY(), 1750 - u.getTimeDelay() * 100).play();
-                u.setOnScreen(false);
-            }
-            onScreen = false;
-        }
+
+
+
     }
 
     private Animation moveImage(ImageView image, double x, double y, double time) {
