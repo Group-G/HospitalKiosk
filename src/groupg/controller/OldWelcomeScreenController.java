@@ -104,7 +104,7 @@ public class OldWelcomeScreenController implements Initializable {
 
     public OldWelcomeScreenController() {
         startField = new AutoCompleteTextField();
-        startField.setCurrentSelection(new EmptyLocation());
+
         endField = new AutoCompleteTextField();
         endField.setCurrentSelection(new EmptyLocation());
 
@@ -779,7 +779,7 @@ public class OldWelcomeScreenController implements Initializable {
         }
     }
 
-    public void onSearch(ActionEvent actionEvent) {
+    public void onSearch(ActionEvent f) {
         if (searched == true) {
             searched = false;
             updateTabs(new ArrayList<>());
