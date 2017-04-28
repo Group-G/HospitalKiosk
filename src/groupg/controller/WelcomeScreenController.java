@@ -1,10 +1,8 @@
 package groupg.controller;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import groupg.Main;
-import groupg.database.Category;
-import groupg.database.EmptyLocation;
-import groupg.database.Floor;
-import groupg.database.Location;
+import groupg.database.*;
 import groupg.jfx.AutoCompleteTextField;
 import groupg.jfx.ResourceManager;
 import groupg.jfx.UniqueFloor;
@@ -25,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
 
+import java.beans.EventHandler;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -39,39 +38,28 @@ import static groupg.Main.h;
  */
 public class WelcomeScreenController implements Initializable {
 
-
     @FXML
-    private Group mapGroup, menuGroup;
+    private GridPane Floorselectgrid;
+    @FXML
+    private Group mapGroup, menuGroup,textFieldGroup;
     @FXML
     private ImageView imageViewBase;
     @FXML
-    private Pane mapPane;
+    private Pane mapPane, menuPane,fadePane, searchPane, FloorSelectPane;
     @FXML
-    private Button searchBtn;
+    private VBox VBoxSelectPane;
     @FXML
-    private Button menuBtn;
-    @FXML
-    private Button loginBtn, aboutBtn;
+    private Button menuBtn,loginBtn, aboutBtn,searchBtn,upButton, downButton, viewButton, menuExitBtn;
     @FXML
     private AnchorPane LayerA,LayerB,LayerC,LayerD;
-    @FXML
-    private Button upButton, downButton, viewButton, menuExitBtn;
-    @FXML
-    private Pane menuPane;
-    @FXML
-    private Pane fadePane, searchPane;
     @FXML
     private MenuButton language;
     @FXML
     private MenuItem english,spanish,portugues,chinese;
     @FXML
     private Accordion acccordionDropDown;
-    @FXML
-    private Group textFieldGroup;
     private AutoCompleteTextField searchField;
-
     //private static int permission = 0;
-
     Scale scale = new Scale();
     double WIDNDOW_WIDTH = 0;
     List<UniqueFloor> FaulknerFloors = new ArrayList<>();
@@ -79,7 +67,7 @@ public class WelcomeScreenController implements Initializable {
     private static int permission = 0;
     int currentFloor = 7;
     private boolean menuOpen = false;
-
+    List<Floor> floors = Main.h.getAllFloors();
 
     public static void setPermission(int p){
         permission = p;
@@ -90,7 +78,7 @@ public class WelcomeScreenController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         //String css = this.getClass().getResource("/view/welcomescreen.css").toExternalForm();
         Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
-
+        FloorSelectPane.setVisible(false);
         //menuPaneVBox.getChildren().add(acccordionDropDown);
         searchField = new AutoCompleteTextField();
         searchField.setCurrentSelection(new EmptyLocation());
@@ -181,11 +169,12 @@ public class WelcomeScreenController implements Initializable {
                 UniqueFloor uf = new UniqueFloor(f, mapGroup, 1325, 1185, 1325, -1600, fa);
                 FaulknerFloors.add(uf);
                 uf.getImageView().setOnMouseClicked( event -> {
-
+                    System.out.println("Faulkner!");
+                    removefloors();
                     event.consume();
                     flipToFloor(uf.getFloorIndex());
                     zoomFloor(uf);
-
+                  getfloors(f.getBuildingID());
                 });
             }
             else if (f.getBuildingID() == 0) {
@@ -193,11 +182,12 @@ public class WelcomeScreenController implements Initializable {
                 UniqueFloor uf = new UniqueFloor(f, mapGroup, 1065+i*12, 435-i*25, 1065+i*12, -700, b);
                 FaulknerFloors.add(uf);
                 uf.getImageView().setOnMouseClicked( event -> {
-
+                    System.out.println("BELKIN!");
+                    removefloors();
                     event.consume();
                     flipToFloor(uf.getFloorIndex());
                     zoomFloor(uf);
-
+                    getfloors(f.getBuildingID());
                 });
             }
         }
@@ -211,6 +201,7 @@ public class WelcomeScreenController implements Initializable {
             resetZoom(WIDNDOW_WIDTH, 1250);
 //            zoomFloor(FaulknerFloors.get(0));
             flipToFloor(7);
+            FloorSelectPane.setVisible(false);
         });
 
         mapPane.widthProperty().addListener((observable, oldValue, newValue) -> {
@@ -272,15 +263,13 @@ public class WelcomeScreenController implements Initializable {
         loginBtn.setGraphic(new ImageView(new Image("/image/Icons/admin.png",30, 30, false, false)));
         aboutBtn.setGraphic(new ImageView(new Image("/image/Icons/info.png",30, 30, false, false)));
         menuExitBtn.setGraphic(new ImageView(new Image("/image/Icons/close.png",30, 30, false, false)));
-
-
         language.setGraphic(new ImageView(new Image("/image/Icons/america.png"))); //default as english
-
         english.setGraphic(new ImageView(new Image("/image/Icons/america.png")));
         spanish.setGraphic(new ImageView(new Image("/image/Icons/spain.png")));
         portugues.setGraphic(new ImageView(new Image("Image/Icons/portugal.png")));
         chinese.setGraphic(new ImageView(new Image("Image/Icons/china.png")));
     }
+
     private void zoomFloor(UniqueFloor uf){
 //        double scaleValH = mapPane.getWidth()/uf.getImageView().getImage().getWidth()*.7;
         double scaleValV = mapPane.getHeight()/uf.getImageView().getImage().getHeight()*.9;
@@ -299,12 +288,38 @@ public class WelcomeScreenController implements Initializable {
 
         scaleImage(uf.getGroup().getTranslateX() - xoffset, uf.getGroup().getTranslateY() - yoffset,scaleVal,  1250).play();
     }
-    private void flipToFloor(int index){
 
+    private void setHighlight(int floorindex){
+
+    }
+
+    private void getfloors(int buildingID){
+        List<Floor> floors = Main.h.getBuildingById(buildingID).getFloorList();
+        for(int j = 0; j< floors.size(); j++){
+
+            Button button = new Button(Integer.toString(j+1));
+            //VBoxSelectPane.getChildren().add(j+1, button);
+
+
+
+            Floorselectgrid.add(button, 0, j+1 );
+            button.setOnMouseClicked((MouseEvent event) -> {
+                       flipToFloor(Integer.parseInt(button.getText()));
+                    });
+            //button.
+        }
+    }
+private void removefloors(){
+        Floorselectgrid.getChildren().clear();
+}
+
+    private void flipToFloor(int index){
+        FloorSelectPane.setVisible(true);
         if(index <= 7 && index >= 0) {
             System.out.println("Flipping to floor " + index);
             currentFloor = index;
         }
+
 //        System.out.println("Keeping floors " + (currentFloor) +" down");
         for(int j = 0;  j < FaulknerFloors.size(); j++){
             UniqueFloor u = FaulknerFloors.get(j);
@@ -321,10 +336,11 @@ public class WelcomeScreenController implements Initializable {
             }
 
         }
-
-
-
     }
+
+
+
+
 
     private Animation moveMiniMap(Group group, double x, double y, double time) {
 
