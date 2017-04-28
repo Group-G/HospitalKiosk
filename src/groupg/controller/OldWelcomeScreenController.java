@@ -10,7 +10,6 @@ import groupg.database.*;
 import groupg.jfx.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -31,15 +30,12 @@ import javafx.scene.transform.Scale;
 import net.glxn.qrgen.core.image.ImageType;
 import net.glxn.qrgen.javase.QRCode;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static groupg.Main.h;
-import static groupg.Main.main;
 //import static groupg.controller.AdminMainController.infoOverlay;
 //import static groupg.controller.AdminMainController.nodeOverlay;
 
@@ -152,7 +148,7 @@ public class OldWelcomeScreenController implements Initializable {
         startFieldHBox.getChildren().add(startField);
         endFieldHBox.getChildren().add(endField);
         //Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
-        Application.setUserAgentStylesheet(getClass().getResource("/view/material-fx-v0_3.css").toExternalForm());
+        ///Application.setUserAgentStylesheet(getClass().getResource("/view/material-fx-v0_3.css").toExternalForm());
         startField.getStyleClass().add("startfield");
         endField.getStyleClass().add("endfield");
         //Find closest location
@@ -171,7 +167,7 @@ public class OldWelcomeScreenController implements Initializable {
             }
         });
 
-        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"), imageViewPane);
+        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/Old/faulkner_1_cropped.png"), imageViewPane);
         Group zoomGroup = new Group(imageView,lineOverlay,nodeOverlay);
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -798,49 +794,49 @@ public class OldWelcomeScreenController implements Initializable {
 
     public void onFloor1(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/Old/faulkner_1_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor2(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_2_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/Old/faulkner_2_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor3(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_3_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/Old/faulkner_3_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor4(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_4_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/Old/faulkner_4_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor5(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_5_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/Old/faulkner_5_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor6(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_6_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/Old/faulkner_6_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
 
     public void onFloor7(Event event) {
         try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_7_cropped.png"));
+            imageView.setImage(ResourceManager.getInstance().loadImage("/image/Old/faulkner_7_cropped.png"));
         } catch (NullPointerException e) {
         }
     }
