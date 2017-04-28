@@ -22,7 +22,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
-
 import java.beans.EventHandler;
 import java.io.File;
 import java.io.IOException;
@@ -227,15 +226,6 @@ public class WelcomeScreenController implements Initializable {
             flipToFloor(1);
             zoomFloor(FaulknerFloors.get(4));
         });
-        upButton.setOnAction(event -> {
-
-            flipToFloor(currentFloor+1);
-
-        });
-        downButton.setOnAction(event -> {
-
-            flipToFloor(currentFloor-1);
-        });
 
         aboutBtn.setOnAction(event -> {
             try {
@@ -256,8 +246,8 @@ public class WelcomeScreenController implements Initializable {
 
         //set button graphics
         viewButton.setGraphic(new ImageView(new Image("/image/Icons/location.png",30, 30, false, false)));
-        upButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_in.png",30, 30, false, false)));
-        downButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_out.png",30, 30, false, false)));
+       // upButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_in.png",30, 30, false, false)));
+        //downButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_out.png",30, 30, false, false)));
         searchBtn.setGraphic(new ImageView(new Image("/image/Icons/search.png",30, 30, false, false)));
         menuBtn.setGraphic(new ImageView(new Image("/image/Icons/menu.png",30, 30, false, false)));
         loginBtn.setGraphic(new ImageView(new Image("/image/Icons/admin.png",30, 30, false, false)));

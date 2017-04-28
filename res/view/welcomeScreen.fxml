@@ -127,8 +127,6 @@
                      </children>
                   </VBox>
                     <Button fx:id="viewButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
-                    <Button fx:id="upButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
-                    <Button fx:id="downButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
                 </children>
                <padding>
                   <Insets bottom="15.0" right="15.0" top="15.0" />
