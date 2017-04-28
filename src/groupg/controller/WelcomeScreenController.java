@@ -2,8 +2,10 @@ package groupg.controller;
 
 import groupg.Main;
 import groupg.database.Category;
+import groupg.database.EmptyLocation;
 import groupg.database.Floor;
 import groupg.database.Location;
+import groupg.jfx.AutoCompleteTextField;
 import groupg.jfx.ResourceManager;
 import groupg.jfx.UniqueFloor;
 import javafx.animation.Animation;
@@ -62,6 +64,10 @@ public class WelcomeScreenController implements Initializable {
     private MenuItem english,spanish,portugues,chinese;
     @FXML
     private Accordion acccordionDropDown;
+    @FXML
+    private Group textFieldGroup;
+    private AutoCompleteTextField searchField;
+
     //private static int permission = 0;
 
     Scale scale = new Scale();
@@ -81,6 +87,12 @@ public class WelcomeScreenController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //menuPaneVBox.getChildren().add(acccordionDropDown);
+        searchField = new AutoCompleteTextField();
+        searchField.setCurrentSelection(new EmptyLocation());
+        searchField.getEntries().addAll(h.getAllLocations());
+        searchField.setPrefHeight(50);
+
+        textFieldGroup.getChildren().add(searchField);
         acccordionDropDown.getPanes().clear();
 
         File qrcode = new File("qrcode.jpg");
@@ -111,7 +123,7 @@ public class WelcomeScreenController implements Initializable {
                 ListView<Location> locByCat = new ListView();
                 locByCat.getItems().addAll(h.getLocationsByCategory(category.getCategory()));
                 locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-                acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " "/* +category.getPermission()*/, locByCat));
+                acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " ", locByCat));
             }
         }
 
@@ -127,6 +139,12 @@ public class WelcomeScreenController implements Initializable {
         searchPane.setStyle("-fx-background-color: rgba(255, 255, 255); ");
         searchPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
         searchPane.setVisible(true);
+
+        searchBtn.setOnMouseClicked((MouseEvent event) -> {
+            // go to the node
+            // dispaly the node
+
+        });
 
         menuBtn.setOnAction(event -> {
             if(!menuOpen){
@@ -278,7 +296,7 @@ public class WelcomeScreenController implements Initializable {
     }
     private void flipToFloor(int index){
 
-        if(index <= 7 && index >= 1) {
+        if(index <= 7 && index >= 0) {
             System.out.println("Flipping to floor " + index);
             currentFloor = index;
         }
@@ -401,6 +419,10 @@ public class WelcomeScreenController implements Initializable {
     public void resetZoom(double width, double time){
         double newScale = width / imageViewBase.getImage().getWidth();
         scaleImage(00, 00, newScale, time).play();
+    }
+
+    public void onSearch(){
+
     }
 
 }

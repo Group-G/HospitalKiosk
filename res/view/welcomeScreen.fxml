@@ -52,11 +52,10 @@
                                     <Insets bottom="3.0" left="3.0" top="3.0" />
                                  </HBox.margin>
                                   </Button>
-                              <TextField prefHeight="40.0" prefWidth="199.0">
-                                 <HBox.margin>
-                                    <Insets bottom="3.0" top="3.0" />
-                                 </HBox.margin>
-                              </TextField>
+                              <Group fx:id="textFieldGroup">
+                                  <children>
+                                  </children>
+                              </Group>
                                   <Button fx:id="searchBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0">
                                       <font>
                                           <Font size="18.0" />
