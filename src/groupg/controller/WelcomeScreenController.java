@@ -300,14 +300,19 @@ public class WelcomeScreenController implements Initializable {
             Button button = new Button(Integer.toString(j+1));
             //VBoxSelectPane.getChildren().add(j+1, button);
 
-
-
             Floorselectgrid.add(button, 0, j+1 );
             button.setOnMouseClicked((MouseEvent event) -> {
                        flipToFloor(Integer.parseInt(button.getText()));
                     });
-            //button.
+            button.setOnMouseEntered((MouseEvent event) ->{
+                button.setStyle("-fx-pref-width: 500; -fx-pref-height: 100; -fx-alignment: center; -fx-background-color:#333333");
+            });
+            button.setOnMouseExited((MouseEvent event) ->{
+                button.setStyle("-fx-pref-width: 500; -fx-pref-height: 100; -fx-alignment: center; -fx-background-color:#dddddd");
+            });
+            button.setStyle("-fx-pref-width: 500; -fx-pref-height: 100;-fx-alignment: center; -fx-background-color:#dddddd");
         }
+
     }
 private void removefloors(){
         Floorselectgrid.getChildren().clear();
