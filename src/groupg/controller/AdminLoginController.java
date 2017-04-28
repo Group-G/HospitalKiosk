@@ -2,7 +2,6 @@ package groupg.controller;
 
 import groupg.Main;
 import groupg.database.Admin;
-import static groupg.Main.h;
 import groupg.jfx.ResourceManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +16,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static groupg.Main.h;
 
 /**
  * @author Ryan Benasutti
@@ -37,6 +38,7 @@ public class AdminLoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         errorText.setVisible(false);
+        //Application.setUserAgentStylesheet(getClass().getResource("").toExternalForm());
         /*
         cancelBtn.getScene().setOnMouseMoved(event -> {
             System.out.println("mouse event triggered");

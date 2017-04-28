@@ -9,7 +9,9 @@ import groupg.jfx.AutoCompleteTextField;
 import groupg.jfx.ResourceManager;
 import groupg.jfx.UniqueFloor;
 import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.animation.Transition;
+import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -86,6 +88,9 @@ public class WelcomeScreenController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //String css = this.getClass().getResource("/view/welcomescreen.css").toExternalForm();
+        Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
+
         //menuPaneVBox.getChildren().add(acccordionDropDown);
         searchField = new AutoCompleteTextField();
         searchField.setCurrentSelection(new EmptyLocation());
@@ -173,12 +178,12 @@ public class WelcomeScreenController implements Initializable {
             Floor f = floors.get(i);
             if (f.getBuildingID() == 1) {
                 fa++;
-                UniqueFloor uf = new UniqueFloor(f, mapGroup, 1248+i*12, 785-i*25, 1250+i*12, -1600, fa);
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 1325, 1185, 1325, -1600, fa);
                 FaulknerFloors.add(uf);
                 uf.getImageView().setOnMouseClicked( event -> {
 
                     event.consume();
-                    flipToFloor(uf.getFloorIndex() + 1);
+                    flipToFloor(uf.getFloorIndex());
                     zoomFloor(uf);
 
                 });
@@ -190,7 +195,7 @@ public class WelcomeScreenController implements Initializable {
                 uf.getImageView().setOnMouseClicked( event -> {
 
                     event.consume();
-                    flipToFloor(uf.getFloorIndex() + 1);
+                    flipToFloor(uf.getFloorIndex());
                     zoomFloor(uf);
 
                 });
@@ -229,7 +234,7 @@ public class WelcomeScreenController implements Initializable {
         viewButton.setOnAction(event -> {
 //            zoomFloor(FaulknerFloors.get(0));
             flipToFloor(1);
-            zoomFloor(FaulknerFloors.get(5));
+            zoomFloor(FaulknerFloors.get(4));
         });
         upButton.setOnAction(event -> {
 
@@ -305,11 +310,13 @@ public class WelcomeScreenController implements Initializable {
             UniqueFloor u = FaulknerFloors.get(j);
 
             if(u.getFloorIndex() <= index && !u.onScreen()) {
-                moveMiniMap(u.getGroup(), u.getOnX(), u.getOnY(), 1250 + u.getFloorIndex() * 100).play();
+                //moveMiniMap(u.getGroup(), u.getOnX(), u.getOnY(), 1250 + u.getFloorIndex() * 100).play();
+                fadeGroup(u, true, 250).play();
                 u.setOnScreen(true);
             }
             else if(u.getFloorIndex() > index && u.onScreen()) {
-                moveMiniMap(u.getGroup(), u.getOffX(), u.getOffY(), 1750 - u.getFloorIndex() * 100).play();
+               // moveMiniMap(u.getGroup(), u.getOffX(), u.getOffY(), 1750 - u.getFloorIndex() * 100).play();
+                fadeGroup(u, false, 250).play();
                 u.setOnScreen(false);
             }
 
@@ -343,6 +350,37 @@ public class WelcomeScreenController implements Initializable {
 
         });
         return expandPanel;
+    }
+
+    private Animation fadeGroup(UniqueFloor uf,boolean fadeIn, double time) {
+
+        double start, end;
+        if(fadeIn){
+            uf.getGroup().setTranslateX(uf.getOnX());
+            uf.getGroup().setTranslateY(uf.getOnY());
+            start = 0;
+            end = 1;
+        }
+        else{
+            start = 1;
+            end = 0;
+        }
+
+
+        final FadeTransition ft =new FadeTransition(Duration.millis(time), uf.getGroup());
+        ft.setFromValue(start);
+        ft.setToValue(end);
+        ft.setCycleCount(1);
+        ft.setAutoReverse(true);
+
+        ft.setOnFinished(event -> {
+            if(!fadeIn) {
+                uf.getGroup().setTranslateX(uf.getOffX());
+                uf.getGroup().setTranslateY(uf.getOffY());
+            }
+        });
+
+        return ft;
     }
 
     private Animation scaleImage(double x, double y, double scaleIn, double time) {

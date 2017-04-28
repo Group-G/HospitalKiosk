@@ -151,7 +151,7 @@
                                  <children>
                                     <ImageView fitHeight="506.0" fitWidth="1047.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../image/faulkner_2.png" />
+                                          <Image url="@../image/Old/faulkner_2.png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -174,7 +174,7 @@
                                  <children>
                                     <ImageView fitHeight="525.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../image/faulkner_3.png" />
+                                          <Image url="@../image/Old/faulkner_3.png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -197,7 +197,7 @@
                                  <children>
                                     <ImageView fitHeight="498.0" fitWidth="915.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../image/faulkner_4_cropped.png" />
+                                          <Image url="@../image/Old/faulkner_4_cropped.png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -220,7 +220,7 @@
                                  <children>
                                     <ImageView fitHeight="516.0" fitWidth="878.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../image/faulkner_5.png" />
+                                          <Image url="@../image/Old/faulkner_5.png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -243,7 +243,7 @@
                                  <children>
                                     <ImageView fitHeight="521.0" fitWidth="881.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../image/faulkner_6.png" />
+                                          <Image url="@../image/Old/faulkner_6.png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -266,7 +266,7 @@
                                  <children>
                                     <ImageView fitHeight="511.0" fitWidth="876.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../image/faulkner_7.png" />
+                                          <Image url="@../image/Old/faulkner_7.png" />
                                        </image>
                                     </ImageView>
                                  </children>
