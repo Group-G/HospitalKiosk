@@ -35,7 +35,8 @@
             </HBox>
             <VBox prefHeight="276.0" prefWidth="600.0" spacing="20.0" GridPane.rowIndex="1">
                <children>
-                  <HBox alignment="CENTER" prefHeight="76.0" prefWidth="600.0" spacing="10.0">
+                  <Text fx:id="errorText" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0" spacing="10.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username">
                            <font>
@@ -44,11 +45,8 @@
                         </Text>
                         <TextField fx:id="usernameField" prefHeight="25.0" prefWidth="192.0" promptText="Category Name" GridPane.rowIndex="1" />
                      </children>
-                     <padding>
-                        <Insets top="60.0" />
-                     </padding>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="600.0" spacing="10.0">
+                  <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="10.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
                            <font>

@@ -69,21 +69,20 @@ public class EditCategoryAddController implements Initializable
 
     public void onAdd(ActionEvent event)
     {
-        if(Main.h.checkString(catNameField.getText())){
-
+        if(h.checkString(catNameField.getText())){
 
             if (radioprivate.isSelected() && quickSearchable.isSelected()) {
-                Main.h.addCategory(catNameField.getText(), 1, colorField.getValue().toString(), 1);
+                h.addCategory(catNameField.getText(), 1, colorField.getValue().toString(), 1);
             } else if (radiopublic.isSelected() && quickSearchable.isSelected()) {
-                Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString(), 1);
+                h.addCategory(catNameField.getText(), 0, colorField.getValue().toString(), 1);
             } else if (radioprivate.isSelected() && !quickSearchable.isSelected()){
-                Main.h.addCategory(catNameField.getText(), 1, colorField.getValue().toString(), 0);
+                h.addCategory(catNameField.getText(), 1, colorField.getValue().toString(), 0);
             } else if (radiopublic.isSelected() && !quickSearchable.isSelected()) {
-                Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString(), 0);
+                h.addCategory(catNameField.getText(), 0, colorField.getValue().toString(), 0);
             }
             else {
                 //default public
-                Main.h.addCategory(catNameField.getText(), 0, colorField.getValue().toString(), 0);
+                h.addCategory(catNameField.getText(), 0, colorField.getValue().toString(), 0);
             }
             try
             {
@@ -96,6 +95,7 @@ public class EditCategoryAddController implements Initializable
 
         }
         else{
+            errorText.setText(h.getErrorMessage());
             errorText.setVisible(true);
         }
 

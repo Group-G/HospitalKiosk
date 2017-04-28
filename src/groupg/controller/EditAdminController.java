@@ -83,9 +83,15 @@ public class EditAdminController implements Initializable
             errorText.setVisible(true);
             return;
         }
-        h.removeAdmin(addList.getSelectionModel().getSelectedItem());
-        addList.getItems().remove(addList.getSelectionModel().getSelectedItem());
-        setNumOfAdmins(getNumOfAdmins()-1);
+        if(addList.getSelectionModel().getSelectedItem() == h.getCurrentAdmin()){
+            errorText.setText("You cannot delete yourself!");
+            errorText.setVisible(true);
+        } else {
+            h.removeAdmin(addList.getSelectionModel().getSelectedItem());
+            addList.getItems().remove(addList.getSelectionModel().getSelectedItem());
+            setNumOfAdmins(getNumOfAdmins()-1);
+        }
+
     }
 
     public void onEdit(ActionEvent actionEvent)

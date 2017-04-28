@@ -17,6 +17,7 @@ public class HospitalData {
     private  List<Admin> adminList = new ArrayList<>();
     private  JavaDBExample dbExample;
 
+    private Admin currentAdmin = new Admin("", "aa", 99);
     public int handicapped = 0;
 
     //Values for TRACKIDS
@@ -125,12 +126,19 @@ public class HospitalData {
     }
     public static boolean checkString(String input){
         if(input.length() >40){
-            errorMessage = "String too long";
+            errorMessage = "String too long.";
             return false;
         }
         else if (!(input.replace(" ", "")).matches("^[a-zA-Z0-9_]+$")) {
+            errorMessage = "String cannot contain special characters.";
+            return false;
+        }
+        return true;
+    }
 
-            errorMessage = "String cannot contain special characters";
+    public static boolean checkEmptyString(String input){
+        if(input.equals("")){
+            errorMessage = "Empty input box!";
             return false;
         }
         return true;
@@ -262,7 +270,7 @@ public class HospitalData {
                 return admin;
             }
         }
-        return new Admin("", "", 0);
+        return new Admin("", "", 99);
     }
 
     public boolean getCheckUsername(String username){
@@ -271,7 +279,16 @@ public class HospitalData {
                 return true;
             }
         }
+        errorMessage = "This username does not exist.";
         return false;
+    }
+
+    public Admin getCurrentAdmin(){
+        return this.currentAdmin;
+    }
+
+    public void setCurrentAdmin(Admin a){
+        this.currentAdmin = a;
     }
 
 
