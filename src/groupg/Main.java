@@ -19,19 +19,30 @@ import java.nio.file.Paths;
 public class Main extends Application
 {
     private static JavaDBExample dbExample = new JavaDBExample();
-    private static HospitalData h;
+    public static HospitalData h;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/view/welcomeScreen.fxml"));
+        Scene s = new Scene(root, 1404, 800);
+
+        String css = this.getClass().getResource("/view/welcomescreen.css").toExternalForm();
+        s.getStylesheets().add(css);
+
         primaryStage.setTitle("Welcome");
-        primaryStage.setScene(new Scene(root, 1404, 800));
+        primaryStage.setScene(s);
+        primaryStage.setFullScreen(true);
+        primaryStage.setResizable(true);
+        primaryStage.setFullScreenExitHint("");
         primaryStage.show();
-        primaryStage.setOnCloseRequest(event -> HospitalData.publishDB());
+        primaryStage.setOnCloseRequest(event -> Main.h.publishDB());
+
+
     }
 
     public static void main(String[] args)
     {
+
         dbExample.connectDB();
 
         Path path = Paths.get("HospitalDatabase");
@@ -46,6 +57,8 @@ public class Main extends Application
         }
 
         h = new HospitalData(dbExample);
+        h.pullDB();
+
 
         launch(args);
     }

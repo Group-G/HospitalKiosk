@@ -137,8 +137,8 @@ public class JavaDBExample
 
             stmt.execute("CREATE TABLE CONNECTIONS(LOCATION_ONE int, LOCATION_TWO int)");
             stmt.execute("CREATE TABLE PEOPLELOCATIONS(PERSON_ID int, OFFICE_ID int)");
-            stmt.execute("CREATE TABLE ADMINS(ADMIN_UN varchar(40) NOT NULL Primary Key, ADMIN_PW varchar(40))");
-            stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(40), PERMISSIONS INT)");
+            stmt.execute("CREATE TABLE ADMINS(ADMIN_UN varchar(40) NOT NULL, ADMIN_PW varchar(40), TYPE int)");
+            stmt.execute("CREATE TABLE CATEGORY(CATEGORY_NAME varchar(40), PERMISSIONS INT, COLOR varchar(10))");
 
             stmt.execute("CREATE TABLE TRACKID(LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)");
 
@@ -224,10 +224,10 @@ public class JavaDBExample
             stmt.execute("CREATE TABLE PEOPLELOCATIONS" + m2+ " (PERSON_ID int, OFFICE_ID int)");
             stmt.execute("INSERT INTO PEOPLELOCATIONS" + m2+ "  SELECT * FROM PEOPLELOCATIONS" + m1);
 
-            stmt.execute("CREATE TABLE ADMINS" + m2+ " (ADMIN_UN varchar(40) NOT NULL Primary Key, ADMIN_PW varchar(40))");
+            stmt.execute("CREATE TABLE ADMINS" + m2+ " (ADMIN_UN varchar(40) NOT NULL, ADMIN_PW varchar(40), TYPE int)");
             stmt.execute("INSERT INTO ADMINS" + m2+ "  SELECT * FROM ADMINS" + m1);
 
-            stmt.execute("CREATE TABLE CATEGORY" + m2+ " (CATEGORY_NAME varchar(40), PERMISSIONS INT)");
+            stmt.execute("CREATE TABLE CATEGORY" + m2+ " (CATEGORY_NAME varchar(40), PERMISSIONS INT, COLOR varchar(10))");
             stmt.execute("INSERT INTO CATEGORY" + m2+ "  SELECT * FROM CATEGORY" + m1);
 
             stmt.execute("CREATE TABLE TRACKID" + m2+ " (LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)");
@@ -298,17 +298,17 @@ public class JavaDBExample
             stmt.execute("INSERT INTO FLOOR VALUES " +
 
 
-                    "(0, 'Faulker Floor 1', 1, '/image/faulkner_1_cropped.png'), " +
-                    "(1, 'Faulker Floor 2', 1, '/image/faulkner_2_cropped.png'), " +
-                    "(2, 'Faulker Floor 3', 1, '/image/faulkner_3_cropped.png'), " +
-                    "(3, 'Faulker Floor 4', 1, '/image/faulkner_4_cropped.png'), " +
-                    "(4, 'Faulker Floor 5', 1, '/image/faulkner_5_cropped.png'), " +
-                    "(5, 'Faulker Floor 6', 1, '/image/faulkner_6_cropped.png'), " +
-                    "(6, 'Faulker Floor 7', 1, '/image/faulkner_7_cropped.png'), " +
-                    "(7, 'Belkin Floor 1', 0, '/image/belkin_1_cropped.png'), " +
-                    "(8, 'Belkin Floor 2', 0, '/image/belkin_2_cropped.png'), " +
-                    "(9, 'Belkin Floor 3', 0, '/image/belkin_3_cropped.png'), " +
-                    "(10, 'Belkin Floor 4', 0, '/image/belkin_4_cropped.png') " );
+                    "(0, 'Faulker Floor 1', 1, '/image/FaulknerMaps/Faulkner1.png'), " +
+                    "(1, 'Faulker Floor 2', 1, '/image/FaulknerMaps/Faulkner2.png'), " +
+                    "(2, 'Faulker Floor 3', 1, '/image/FaulknerMaps/Faulkner3.png'), " +
+                    "(3, 'Faulker Floor 4', 1, '/image/FaulknerMaps/Faulkner4.png'), " +
+                    "(4, 'Faulker Floor 5', 1, '/image/FaulknerMaps/Faulkner5.png'), " +
+                    "(5, 'Faulker Floor 6', 1, '/image/FaulknerMaps/Faulkner6.png'), " +
+                    "(6, 'Faulker Floor 7', 1, '/image/FaulknerMaps/Faulkner7.png'), " +
+                    "(7, 'Belkin Floor 1', 0, '/image/FaulknerMaps/Belkin1.png'), " +
+                    "(8, 'Belkin Floor 2', 0, '/image/FaulknerMaps/Belkin2.png'), " +
+                    "(9, 'Belkin Floor 3', 0, '/image/FaulknerMaps/Belkin3.png'), " +
+                    "(10, 'Belkin Floor 4', 0, '/image/FaulknerMaps/Belkin4.png') " );
 
 
 
@@ -322,29 +322,29 @@ public class JavaDBExample
             //INSERT ADMIN
             //FORMAT
             //(ADMIN_ID int, ADMIN_UN char(20), ADMIN_PW char(20))
-            stmt.execute("INSERT INTO ADMINS VALUES " +
-                    "('admin', 'guest'), " +
-                    "('sjcomeau', 'sjc')");
+//            stmt.execute("INSERT INTO ADMINS VALUES " +
+//                    "('admin', 'guest'), " +
+//                    "('sjcomeau', 'sjc')");
 
             //INSERT CATEGORY
             //FORMAT
             //(CATEGORY_NAME varchar(20), PERMISSIONS INT)
             stmt.execute("INSERT INTO CATEGORY VALUES " +
-                    "('Office', 0), " +
-                    "('Bathroom', 0), " +
-                    "('Hall', 0), " +
-                    "('Elevator', 0), " +
-                    "('Stairs', 0), " +
-                    "('Waiting Area', 0), " +
-                    "('Break Room', 1), " +
-                    "('Kiosk', 0), " +
-                    "('Emergency Room', 0) ");
+                    "('Office', 0, '0xff000f'), " +
+                    "('Bathroom', 0, '0xffdfff'), " +
+                    "('Hall', 0, '0x00faff'), " +
+                    "('Elevator', 0, '0xf90fff'), " +
+                    "('Stairs', 0, '0xffff01'), " +
+                    "('Waiting Area', 0, '0xf00fff'), " +
+                    "('Break Room', 1, '0xfff00f'), " +
+                    "('Kiosk', 0, '0xf99fff'), " +
+                    "('Emergency Room', 0, '0x99ff5f') ");
 
-            //INSERT TRACKIDS
-            //FORMAT
-            //(LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)
-//            stmt.execute("INSERT INTO TRACKID VALUES " +
-//                    "(3, 3, 2, 11) ");
+//            INSERT TRACKIDS
+//            FORMAT
+//            (LOCATION_ID int, PERSONELLE_ID int, BUILDING_ID int, FLOOR_ID int)
+            stmt.execute("INSERT INTO TRACKID VALUES " +
+                    "(0, 0, 0, 11) ");
 
 
             //Print
@@ -461,6 +461,7 @@ public class JavaDBExample
         catch (SQLException e)
         {
             System.out.println("WRITING TO DATABASE FAILED");
+            e.printStackTrace();
             System.out.println("RESTORING FROM BACKUP");
             restoreBackup();
             System.out.println("BACKUP RESTORATION COMPLETE");

@@ -1,9 +1,9 @@
 package groupg.jfx;
 
+import groupg.Main;
 import groupg.algorithm.NodeNeighbors;
 import groupg.controller.AdminMainController;
 import groupg.database.Category;
-import groupg.database.HospitalData;
 import groupg.database.Location;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -14,7 +14,6 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +25,7 @@ import java.util.List;
 public class NodeListenerFactory {
     private static double orgSceneX, orgSceneY, orgTranslateX, orgTranslateY;
     public static UniqueNode currentSelection = null;
-    private static double mouseX, mouseY;
+    public static double mouseX, mouseY;
 
     /**
      * Makes Nodes draggable and clickable with mouse listeners
@@ -51,47 +50,23 @@ public class NodeListenerFactory {
             ContextMenu contextMenu = new ContextMenu();
 
             MenuItem changeName = new MenuItem("Change Name");
-            changeName.setOnAction(s ->
-                                   {
-                                       TextInputDialog dialog = new TextInputDialog(currentSelection.getLocation().getName());
-                                       dialog.setTitle("Change Name");
-                                       dialog.setGraphic(null);
-                                       dialog.setHeaderText("Change Name");
-                                       dialog.setContentText("Please enter a new name:");
-                                       dialog.showAndWait()
-                                             .filter(result -> !result.equals(""))
-                                             .ifPresent(result -> {
-                                                 if (result.length() >= HospitalData.maxStringLength())
-                                                    currentSelection.getLocation().setName(result.substring(0, HospitalData.maxStringLength() - 1));
-                                                 else
-                                                     currentSelection.getLocation().setName(result);
-                                             });
-
-                                       AdminMainController.updateNodePD();
-                                   });
+            changeName.setOnAction(s -> editNodeName());
 
             Menu changeCat = new Menu("Change Category");
-            List<Category> catsFromDB = HospitalData.getAllCategories();
+            List<Category> catsFromDB = Main.h.getAllCategories();
             catsFromDB.forEach(s ->
                                {
                                    MenuItem item = new MenuItem(s.getCategory());
                                    item.setOnAction(e -> {
                                        currentSelection.getLocation().setCategory(s);
+                                       currentSelection.setHighlighted();
                                        AdminMainController.updateNodePD();
                                    });
                                    changeCat.getItems().add(item);
                                });
 
             MenuItem remove = new MenuItem("Remove Node");
-            remove.setOnAction(event1 ->
-                               {
-                                   currentSelection.getLocation().getNeighbors().forEach(elem -> elem.getNeighbors().remove(currentSelection.getLocation()));
-                                   HospitalData.removeLocationById(currentSelection.getLocation().getID());
-                                   AdminMainController.displayedNodes.remove(currentSelection);
-
-                                   AdminMainController.updateNodePD();
-                                   AdminMainController.lineOverlay.getChildren().clear();
-                               });
+            remove.setOnAction(event1 -> deleteCurrentSelection());
 
             MenuItem autogen = new MenuItem("Generate Connections");
             autogen.setOnAction(event1 -> {
@@ -102,10 +77,10 @@ public class NodeListenerFactory {
                 for (Location neighbor : neighbors) {
                     currentSelection.getLocation().addNeighbor(neighbor);
                     neighbor.addNeighbor(currentSelection.getLocation());
-                    HospitalData.addConnection(currentSelection.getLocation().getID(), neighbor.getID());
+                    Main.h.addConnection(currentSelection.getLocation().getID(), neighbor.getID());
                 }
 
-                HospitalData.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
+                Main.h.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
                 AdminMainController.drawConnections(currentSelection);
                 AdminMainController.updateNodePD();
             });
@@ -189,14 +164,47 @@ public class NodeListenerFactory {
      *
      * @param node New selection
      */
-    private static void updateSelection(UniqueNode node) {
+    public static void updateSelection(UniqueNode node) {
         //Clear highlight
         if (currentSelection != null)
-            currentSelection.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
+            currentSelection.setUnhighlighted();
 
         currentSelection = node;
-        currentSelection.setFill(Color.RED.deriveColor(1, 1, 1, 0.3));
+        currentSelection.setHighlighted();
         AdminMainController.drawConnections(currentSelection);
         AdminMainController.updateNodePD();
+    }
+
+    /**
+     * Edits the name of the currently selected node
+     */
+    public static void editNodeName() {
+        TextInputDialog dialog = new TextInputDialog(currentSelection.getLocation().getName());
+        dialog.setTitle("Change Name");
+        dialog.setGraphic(null);
+        dialog.setHeaderText("Change Name");
+        dialog.setContentText("Please enter a new name:");
+        dialog.showAndWait()
+              .filter(result -> !result.equals(""))
+              .ifPresent(result -> {
+                  if (result.length() >= Main.h.maxStringLength())
+                      currentSelection.getLocation().setName(result.substring(0, Main.h.maxStringLength() - 1));
+                  else
+                      currentSelection.getLocation().setName(result);
+              });
+
+        AdminMainController.updateNodePD();
+    }
+
+    /**
+     * Deletes the currently selected node
+     */
+    public static void deleteCurrentSelection() {
+        currentSelection.getLocation().getNeighbors().forEach(elem -> elem.getNeighbors().remove(currentSelection.getLocation()));
+        Main.h.removeLocationById(currentSelection.getLocation().getID());
+        AdminMainController.displayedNodes.remove(currentSelection);
+
+        AdminMainController.updateNodePD();
+        AdminMainController.lineOverlay.getChildren().clear();
     }
 }

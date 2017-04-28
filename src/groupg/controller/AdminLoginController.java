@@ -1,7 +1,7 @@
 package groupg.controller;
 
+import groupg.Main;
 import groupg.database.Admin;
-import groupg.database.HospitalData;
 import groupg.jfx.ResourceManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,10 +11,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static groupg.Main.h;
 
 /**
  * @author Ryan Benasutti
@@ -35,6 +38,7 @@ public class AdminLoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         errorText.setVisible(false);
+        //Application.setUserAgentStylesheet(getClass().getResource("").toExternalForm());
         /*
         cancelBtn.getScene().setOnMouseMoved(event -> {
             System.out.println("mouse event triggered");
@@ -83,11 +87,22 @@ public class AdminLoginController implements Initializable {
     }
 
     private void attemptLogin(ActionEvent actionEvent) {
-        Admin admin = HospitalData.getAdminByUsername(usernameField.getText());
-        if (admin != null && admin.getPassword().equals(passField.getText())) {
+        Admin admin = Main.h.getAdminByUsername(usernameField.getText());
+        BigInteger m = new BigInteger(passField.getText().getBytes());
+        BigInteger hashed = m.modPow(h.key.publicKey, h.key.modulus);
+
+        if (admin != null && admin.login(hashed)) {
             errorText.setVisible(false);
             try {
-                ResourceManager.getInstance().loadFXMLIntoScene("/view/adminMain.fxml", "Admin Main", cancelBtn.getScene());
+                if(admin.getType().equals("Admin")){
+                    ResourceManager.getInstance().loadFXMLIntoScene("/view/adminMain.fxml", "Admin Main", cancelBtn.getScene());
+                    System.out.println("Logged into User");
+                }
+                else{
+                    //WelcomeScreenController.setPermission(1);
+                    ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Admin Main", cancelBtn.getScene());
+                    System.out.println("Logged into User");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

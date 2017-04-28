@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1252.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.AboutController">
+         <children>
+            <HBox alignment="CENTER" prefHeight="61.0" prefWidth="1256.0">
+               <children>
+                  <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                  <Label text="Faulkner Hospital Pathfinding Application Developers">
+                     <font>
+                        <Font size="29.0" />
+                     </font>
+                  </Label>
+                  <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="163.0" prefWidth="1256.0">
+               <children>
+                  <Region prefHeight="151.0" prefWidth="214.0" HBox.hgrow="ALWAYS" />
+                  <HBox alignment="CENTER" prefHeight="151.0" prefWidth="516.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="152.0" prefWidth="530.0">
+                           <children>
+                              <Label text="Worcester Polytechnic Institute Computer Science Department">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="TOP_CENTER" prefHeight="36.0" prefWidth="276.0" text="CS 3733 Software Engineering">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label text="We would like to extend our gratitude to Andrew Shinn and">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label text="everyone at Brigham and Women’s Faulkner Hospital for the">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label text="opportunity to work on this project with them.">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="211.0" prefWidth="1256.0">
+               <children>
+                  <Region prefHeight="200.0" prefWidth="38.0" HBox.hgrow="ALWAYS" />
+                  <VBox alignment="CENTER" prefHeight="273.0" prefWidth="117.0">
+                     <children>
+                        <ImageView fitHeight="124.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/Headshots/Wong.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="17.0" prefWidth="70.0" text="Professor:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label text="Wilson Wong">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets right="50.0" />
+                     </HBox.margin>
+
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <ImageView fitHeight="124.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/Headshots/Andrew.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Team Coach:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label text="Andrew Rottier">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <Region prefHeight="200.0" prefWidth="41.0" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Region prefHeight="146.0" prefWidth="85.0" HBox.hgrow="ALWAYS" />
+                  <VBox alignment="CENTER" prefHeight="146.0" prefWidth="127.0">
+                     <children>
+                        <Label text="Documentation Analyst:" />
+                        <Label text="Daniel McDonough" />
+                        <ImageView fitHeight="112.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/Headshots/Daniel.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="146.0" prefWidth="125.0">
+                     <children>
+                        <ImageView fitHeight="148.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/Headshots/Hunter.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Product Owner:" />
+                        <Label text="Eric Peterson" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Software Engineer:" />
+                        <Label text="Alazar Genene" />
+                        <ImageView fitHeight="148.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/Headshots/Alazar.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="146.0" prefWidth="151.0">
+                     <children>
+                        <ImageView fitHeight="148.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/Headshots/Will.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Project Manager:" />
+                        <Label text="William Schwartz" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Test Engineer:" />
+                        <Label text="Ryan Benasutti" />
+                        <ImageView fitHeight="148.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/Headshots/Ryan.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="146.0" prefWidth="150.0">
+                     <children>
+                        <ImageView fitHeight="148.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/Headshots/Saul.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Assistant Lead:" />
+                        <Label text="Saul Woolf" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Dylan McKillip" />
+                        <Label text="Assistant Lead:" />
+                        <ImageView fitHeight="148.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/Headshots/Dylan.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="146.0" prefWidth="160.0">
+                     <children>
+                        <ImageView fitHeight="148.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/Headshots/Sam.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Samantha Comeau" />
+                        <Label text="Lead Software Engineer:" />
+                     </children>
+                  </VBox>
+                  <Region prefHeight="146.0" prefWidth="85.0" HBox.hgrow="ALWAYS" />
+               </children></HBox>
+            <HBox alignment="CENTER" prefHeight="195.0" prefWidth="1256.0">
+               <children>
+                  <Region prefHeight="184.0" prefWidth="177.0" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#onCancel" prefHeight="62.0" prefWidth="134.0" text="Back">
+                     <HBox.margin>
+                        <Insets right="50.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Region prefHeight="184.0" prefWidth="98.0" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>

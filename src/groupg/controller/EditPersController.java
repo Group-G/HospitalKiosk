@@ -1,6 +1,6 @@
 package groupg.controller;
 
-import groupg.database.HospitalData;
+import static groupg.Main.h;
 import groupg.database.Person;
 import groupg.jfx.ResourceManager;
 import javafx.event.ActionEvent;
@@ -27,7 +27,7 @@ public class EditPersController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        persList.getItems().setAll(HospitalData.getAllPeople()); //Add all people from DB to listview
+        persList.getItems().setAll(h.getAllPeople()); //Add all people from DB to listview
     }
 
     public void onCancel(ActionEvent actionEvent)
@@ -58,7 +58,7 @@ public class EditPersController implements Initializable
     {
         if (persList.getSelectionModel().getSelectedItem() != null)
         {
-            HospitalData.removePersonById(persList.getSelectionModel().getSelectedItem().getId());
+            h.removePersonById(persList.getSelectionModel().getSelectedItem().getId());
             persList.getItems().remove(persList.getSelectionModel().getSelectedIndex());
         }
     }

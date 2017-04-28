@@ -1,682 +1,479 @@
-
 package groupg.controller;
 
-import groupg.algorithm.NavigationAlgorithm;
-import groupg.algorithm.NavigationFacade;
-import groupg.database.EmptyLocation;
-import groupg.database.HospitalData;
-import groupg.database.Location;
-import groupg.database.LocationDecorator;
-import groupg.jfx.*;
+import com.sun.org.apache.xpath.internal.SourceTree;
+import groupg.Main;
+import groupg.database.*;
+import groupg.jfx.AutoCompleteTextField;
+import groupg.jfx.ResourceManager;
+import groupg.jfx.UniqueFloor;
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
+import javafx.animation.Transition;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
-
+import javafx.util.Duration;
+import java.beans.EventHandler;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import static groupg.Main.h;
 
 /**
- * @author Ryan Benasutti
- * @since 2017-03-30
+ * Created by will on 4/21/17.
  */
 public class WelcomeScreenController implements Initializable {
+
     @FXML
-    private Button loginBtn, searchBtn;
+    private GridPane Floorselectgrid;
     @FXML
-    private HBox startFieldHBox, endFieldHBox;
+    private Group mapGroup, menuGroup,textFieldGroup;
     @FXML
-    private ListView<String> dirList;
+    private ImageView imageViewBase;
     @FXML
-    private GridPane canvasWrapper;
-    private Pane lineOverlay;
-    private ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
-    private Location closestLocToClick;
-    private ImageView imageView;
-    private AutoCompleteTextField startField, endField;
-    private NavigationFacade navigation;
-    private LinkedList<Location> locations = new LinkedList<>();
+    private Pane mapPane, menuPane,fadePane, searchPane, FloorSelectPane;
+    @FXML
+    private VBox VBoxSelectPane;
+    @FXML
+    private Button menuBtn,loginBtn, aboutBtn,searchBtn,upButton, downButton, viewButton, menuExitBtn;
+    @FXML
+    private AnchorPane LayerA,LayerB,LayerC,LayerD;
     @FXML
     private MenuButton language;
     @FXML
-    private MenuItem english, spanish, chinese, portugues;
+    private MenuItem english,spanish,portugues,chinese;
     @FXML
-    private Label start, end;
-    @FXML
-    private Text directions;
-    @FXML
-    private TitledPane wareaPane, bathPane, hdeskPane, exitPane, docPane, officePane;
-    @FXML
-    private ListView<Location> waitAreaLV, bathroomLV, ServicesLV, exitsLV, doctorLV, officeLV;
-    @FXML
-    private TabPane tabPane;
-    private Tab selectedTab;
-    private String lang = "Eng";
+    private Accordion acccordionDropDown;
+    private AutoCompleteTextField searchField;
+    //private static int permission = 0;
+    Scale scale = new Scale();
+    double WIDNDOW_WIDTH = 0;
+    List<UniqueFloor> FaulknerFloors = new ArrayList<>();
+    boolean onScreen = false;
+    private static int permission = 0;
+    int currentFloor = 7;
+    private boolean menuOpen = false;
+    List<Floor> floors = Main.h.getAllFloors();
 
-    public WelcomeScreenController() {
-        startField = new AutoCompleteTextField();
-        startField.setCurrentSelection(new EmptyLocation());
-        endField = new AutoCompleteTextField();
-        endField.setCurrentSelection(new EmptyLocation());
-
-        List<Location> kioskLocs = HospitalData.getLocationsByCategory("Kiosk");
-        if (kioskLocs.size() > 0)
-            startField.setCurrentSelection(kioskLocs.get(0));
-
-        navigation = new NavigationFacade();
+    public static void setPermission(int p){
+        permission = p;
     }
+
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        Pane imageViewPane = new Pane();
-        imageViewPane.setPickOnBounds(true);
-        lineOverlay = new Pane();
-        lineOverlay.setPickOnBounds(true);
-        startFieldHBox.getChildren().add(startField);
-        endFieldHBox.getChildren().add(endField);
-
+    public void initialize(URL location, ResourceBundle resources) {
+        //String css = this.getClass().getResource("/view/welcomescreen.css").toExternalForm();
         Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
-        startField.getStyleClass().add("startfield");
-        endField.getStyleClass().add("endfield");
-        //Find closest location
-        imageViewPane.setOnMouseClicked(event -> {
-            double shortest = Double.MAX_VALUE;
-            for (Location l : HospitalData.getAllLocations()) {
-                if (closestLocToClick == null) {
-                    closestLocToClick = l;
-                } else {
-                    Double newShortest = l.lengthTo(new EmptyLocation(event.getX(), event.getY()));
-                    if (newShortest < shortest) {
-                        shortest = newShortest;
-                        closestLocToClick = l;
-                    }
-                }
+        FloorSelectPane.setVisible(false);
+        //menuPaneVBox.getChildren().add(acccordionDropDown);
+        searchField = new AutoCompleteTextField();
+        searchField.setCurrentSelection(new EmptyLocation());
+        searchField.getEntries().addAll(h.getAllLocations());
+        searchField.setPrefHeight(50);
+
+        textFieldGroup.getChildren().add(searchField);
+        acccordionDropDown.getPanes().clear();
+
+        File qrcode = new File("qrcode.jpg");
+        if(qrcode.exists()){
+            qrcode.delete();
+        }
+
+
+        LayerC.setPickOnBounds(false);
+        LayerA.setPickOnBounds(false);
+        LayerB.setPickOnBounds(false);
+        LayerD.setPickOnBounds(false);
+
+        imageViewBase.setPickOnBounds(true);
+        imageViewBase.setImage(new Image("/image/FaulknerMaps/Ground.png"));
+
+//        menuPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        menuPane.setBackground(new Background(new BackgroundFill(Color.web("#ffffff"), CornerRadii.EMPTY, Insets.EMPTY)));
+        //menuPane.getChildren().add(acccordionDropDown);
+        menuPane.setVisible(false);
+        menuPane.setPickOnBounds(false);
+
+//        menuPane
+
+
+        for (Category category : Main.h.getAllCategories()) {
+            if (category.getPermission() <= permission) {
+                ListView<Location> locByCat = new ListView();
+                locByCat.getItems().addAll(h.getLocationsByCategory(category.getCategory()));
+                locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+                acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " ", locByCat));
+            }
+        }
+
+
+
+
+
+
+        fadePane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
+        fadePane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        fadePane.setVisible(false);
+
+        searchPane.setStyle("-fx-background-color: rgba(255, 255, 255); ");
+        searchPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
+        searchPane.setVisible(true);
+
+        searchBtn.setOnMouseClicked((MouseEvent event) -> {
+            // go to the node
+            // dispaly the node
+
+        });
+
+        menuBtn.setOnAction(event -> {
+            if(!menuOpen){
+                menuOpen = true;
+                menuPane.setVisible(true);
+                menuPane.setPickOnBounds(true);
+                fadePane.setVisible(true);
+                moveMenu(true, 25).play();
             }
         });
 
-        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"), imageViewPane);
-        Group zoomGroup = new Group(imageView, lineOverlay);
-        ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
-        pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        pane.setPannable(true);
-        zoomGroup.addEventHandler(MouseEvent.ANY, event -> {
-            if (event.getButton() != MouseButton.MIDDLE &&
-                !(event.getButton() == MouseButton.PRIMARY && event.isControlDown()))
-                event.consume();
-        });
+        menuExitBtn.setOnAction(event ->{
+            if(menuOpen){
+//                menuPane.setVisible(false);
+                menuPane.setPickOnBounds(false);
+                menuOpen = false;
+                fadePane.setVisible(false);
+                moveMenu(false, 25).play();
 
-        pane.addEventFilter(ScrollEvent.SCROLL, e -> {
-            if (e.isAltDown()) {
-                double zoom_fac = 1.05;
-                double delta_y = e.getDeltaY();
-                if (delta_y < 0) {
-                    zoom_fac = 2.0 - zoom_fac;
-                }
-                Scale newScale = new Scale();
-                newScale.setX(zoomGroup.getScaleX() * zoom_fac);
-                newScale.setY(zoomGroup.getScaleY() * zoom_fac);
-                zoomGroup.getTransforms().add(newScale);
-                e.consume();
             }
         });
-        canvasWrapper.getChildren().addAll(pane);
 
-        HospitalData.getAllFloors().forEach(floor -> {
-            Tab tab = new Tab(floor.getFloorNum());
-            tab.setOnSelectionChanged(event -> imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename())));
-            tabPane.getTabs().add(tab);
-        });
-
-        //Listener for tab selection change
-        tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
-            selectedTab = newTab;
-            displayedLines.clear();
-            System.out.println(navigation.getPath().size());
-            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(navigation.getPath()
-                                                                                                    .stream()
-                                                                                                    .filter(elem -> elem.getFloorObj().getFloorNum().equals(newTab.getText()))
-                                                                                                    .collect(Collectors.toList())));
-            lineOverlay.getChildren().setAll(displayedLines);
-        });
-
-        //Default selected tab
-        selectedTab = tabPane.getTabs().get(0);
-
-        //Add locations from DB
-        locations.addAll(HospitalData.getAllLocations());
-        startField.getEntries().addAll(locations);
-        endField.getEntries().addAll(locations);
-
-        //Fill drop downs
-        waitAreaLV.getItems().addAll(HospitalData.getLocationsByCategory("Waiting Area"));
-        waitAreaLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        waitAreaLV.setOnMouseClicked((MouseEvent event) -> {
-            if (event.getClickCount() == 2)
-                endField.setCurrentSelection(waitAreaLV.getSelectionModel().getSelectedItem());
-        });
-
-        bathroomLV.getItems().addAll(HospitalData.getLocationsByCategory("Bathroom"));
-        bathroomLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        bathroomLV.setOnMouseClicked((MouseEvent event) -> {
-            if (event.getClickCount() == 2)
-                endField.setCurrentSelection(bathroomLV.getSelectionModel().getSelectedItem());
-        });
-
-        ServicesLV.getItems().addAll(HospitalData.getLocationsByCategory("Service"));
-        ServicesLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        ServicesLV.setOnMouseClicked((MouseEvent event) -> {
-            if (event.getClickCount() == 2)
-                endField.setCurrentSelection(ServicesLV.getSelectionModel().getSelectedItem());
-        });
-
-        exitsLV.getItems().addAll(HospitalData.getLocationsByCategory("Exit"));
-        exitsLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        exitsLV.setOnMouseClicked((MouseEvent event) -> {
-            if (event.getClickCount() == 2)
-                endField.setCurrentSelection(exitsLV.getSelectionModel().getSelectedItem());
-        });
-
-        doctorLV.getItems().addAll(HospitalData.getLocationsByCategory("Doctor"));
-        doctorLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        doctorLV.setOnMouseClicked((MouseEvent event) -> {
-            if (event.getClickCount() == 2)
-                endField.setCurrentSelection(doctorLV.getSelectionModel().getSelectedItem());
-        });
-
-        officeLV.getItems().addAll(HospitalData.getLocationsByCategory("Office"));
-        officeLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        officeLV.setOnMouseClicked((MouseEvent event) -> {
-            if (event.getClickCount() == 2)
-                endField.setCurrentSelection(officeLV.getSelectionModel().getSelectedItem());
-        });
-
-        dirList.setCellFactory(list -> new ListCell<String>() {
-            {
-                Text text = new Text();
-                text.wrappingWidthProperty().bind(list.widthProperty().subtract(15));
-                text.textProperty().bind(itemProperty());
-                setPrefWidth(0);
-                setGraphic(text);
-            }
-        });
-    }
-
-    private void drawPath() {
-        if (startField.getCurrentSelection() != null && endField.getCurrentSelection() != null) {
-            final List<LocationDecorator> output = new ArrayList<>();
-            final List<LocationDecorator> filtered_output = new ArrayList<>();
-
-            //Default algorithm
-            if (AdminMainController.selectedAlgorithm == null)
-                AdminMainController.selectedAlgorithm = NavigationAlgorithm.A_STAR;
-
-            //Use proper algorithm
-            switch (AdminMainController.selectedAlgorithm) {
-                case A_STAR:
-                    output.addAll(navigation.runAstar(startField.getCurrentSelection(), endField.getCurrentSelection()));
-                    break;
-
-                case DEPTH_FIRST:
-                    output.addAll(navigation.runDepthFirst(startField.getCurrentSelection(), endField.getCurrentSelection()));
-                    break;
-            }
-            int startfloorID = startField.getCurrentSelection().getFloorID();
-            int endfloorID = endField.getCurrentSelection().getFloorID();
-            output.forEach(e -> {
-                //if (e.getFloorObj().getID() == startfloorID || e.getFloorObj().getID() == endfloorID){
-                    filtered_output.add(e);
-                //}
-            });
-
-            generateTextDirections(filtered_output.stream()
-                    .map(elem -> (Location) elem)
-                    .collect(Collectors.toList()));
-            //Filter out locations not on this floor
-            try {
-                //Highlight tabs with paths
-                tabPane.getTabs().parallelStream().forEach(elem -> {
-                    elem.setStyle("");
-                    if (filtered_output.parallelStream()
-                              .map(item -> item.getFloorObj().getFloorNum())
-                              .collect(Collectors.toList())
-                              .contains(elem.getText())) {
-                        elem.setStyle("-fx-background-color: #f4f142");
-                    }
+        List<Floor> floors = Main.h.getAllFloors();
+        int fa = 0, b=0;
+        for (int i = 0; i < floors.size(); i ++) {
+            Floor f = floors.get(i);
+            if (f.getBuildingID() == 1) {
+                fa++;
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 1325, 1185, 1325, -1600, fa);
+                FaulknerFloors.add(uf);
+                uf.getImageView().setOnMouseClicked( event -> {
+                    System.out.println("Faulkner!");
+                    removefloors();
+                    event.consume();
+                    flipToFloor(uf.getFloorIndex());
+                    zoomFloor(uf);
+                  getfloors(f.getBuildingID());
                 });
-
-                //Filter output based on current tab
-                List<LocationDecorator> tempList = filtered_output.stream()
-                                                         .filter(elem -> elem.getFloorObj().getFloorNum().equals(selectedTab.getText()))
-                                                         .collect(Collectors.toList());
-
-                //Move filtered items back
-                filtered_output.clear();
-                filtered_output.addAll(tempList);
-//                for (int i = 0; i < tempList.size(); i++) {
-//                    output.set(i, tempList.get(i));
-//                }
-            } catch (NullPointerException e) {
-                System.out.println("nullptr while filtering to draw");
             }
-            displayedLines.clear();
-            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(filtered_output.stream()
-                                                                                                .map(elem -> (Location) elem)
-                                                                                                .collect(Collectors.toList())));
-            lineOverlay.getChildren().setAll(displayedLines);
-
-        }
-    }
-
-    // TODO check for adjacent nodes before instructing a turn
-    private void generateTextDirections(List<Location> locations) {
-        ObservableList<String> directions = FXCollections.observableArrayList();
-        boolean enterElivator = false;
-        boolean samepath = false;
-        boolean straight = false;
-        System.out.println(locations.size());
-            // if there is only 1 node in the list
-            if (locations.size() < 2) {
-                switch (lang) {
-                    case "Eng":
-                        directions.add("Please enter a valid start and end location to display locations");
-                        break;
-                    case "Span":
-                        directions.add("Por favor, ingrese una ubicación inicial y final");
-                        break;
-                    case "Port":
-                        directions.add("Insira um local inicial e final para obter instruções");
-                        break;
-                    case "Chin":
-                        directions.add("请输入开始和结束位置以获取路线");
-                        break;
-                }
-                dirList.setItems(directions);
-            // if there are multiple nodes in the list
-            } else {
-                double preAngle = 90; // start facing top of the map
-                double curaAngle = 0;
-                double turn;
-                // go though all locations
-                for (int loc = 0; loc < locations.size(); loc++) {
-                    // if the node is the last node
-                    if (loc == locations.size() - 1) {
-                        switch ( lang){
-                            case "Eng":
-                                directions.add("You have reached your destination");
-                                break;
-                            case "Span":
-                                directions.add("Ten llegado a tu destino");
-                                break;
-                            case "Port":
-                                directions.add("Você chegou ao seu destino");
-                                break;
-                            case "Chin":
-                                directions.add("你已到达目的地");
-                                break;
-                            default:
-                                directions.add("you have reached your destination");
-                        }
-                        // if the node is not the last node
-                    } else {
-                            // get the current angle of the node
-                            curaAngle = getAngle(locations.get(loc), locations.get(loc + 1));
-                            // from current facing position calculate turn
-                            turn = (curaAngle - preAngle + 360 + 90) % 360;
-                            // as long as this isn't the first node
-                            if (loc != 0) { //TODO change if we ever add start orientation
-                                // if this is an elevator or stair case
-                                if (enterElivator == false && HospitalData.getAllCategories().contains(locations.get(loc).getCategory())&& (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Elevator")
-                                        || (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Stairs"))))
-                                {
-                                    enterElivator = true;
-                                    //languages other than english currently only specify elevators
-                                    switch(lang){
-                                        case "Eng":
-                                            directions.add("Take " + locations.get(loc).getCategory().getCategory() + " to Floor " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
-                                            break;
-                                        case "Span":
-                                            directions.add("Toma el ascensor hasta piso " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
-                                            break;
-                                        case "Port":
-                                            directions.add("Pegue o elevador até o chão " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
-                                            break;
-                                        case "Chin":
-                                            directions.add("把电梯带到地板上 " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
-                                            break;
-                                        default: directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
-                                            break;
-                                    }
-                                    //directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + HospitalData.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
-                                }
-                                // if this not an elevator or stair case
-                                else
-                                {
-                                        enterElivator = false;
-                                        if(samepath == false && locations.get(loc).getNeighbors().stream().filter(elm -> elm.getCategory().getCategory().equalsIgnoreCase("Hall")).collect(Collectors.toList()).size() < 2){
-
-
-                                            switch (lang){
-                                                case "Eng":
-                                                    directions.add("Continue on same path");
-                                                    break;
-                                                case "Span":
-                                                    directions.add("Continuar por el mismo camino");
-                                                    break;
-                                                case "Port":
-                                                    directions.add("Continue no mesmo caminho");
-                                                    break;
-                                                case "Chin":
-                                                    directions.add("在同一路径上继续");
-                                                    break;
-                                                default:
-                                                    directions.add("Continue on same path");
-                                                    break;
-                                            }
-
-                                            samepath = true;
-                                        }else {
-                                            samepath = false;
-                                            String turnD = getTurn(turn);
-
-
-                                            if ( straight == false && (turnD == "Go straight" ||turnD == "Derecho" || turnD== "Siga em frente" || turnD =="笔直走")) {
-                                                //System.out.println("found 1 go straight");
-                                                straight = true;
-                                                directions.add(getTurn(turn));
-                                            } else {
-                                                if (turnD != "Go straight" && turnD!="Derecho" && turnD !="Siga em frente"&& turnD != "笔直走") {
-                                                    straight =false;
-                                                }
-                                            }
-                                            if (straight == false) {
-                                                directions.add(getTurn(turn));
-                                            }
-                                        }
-                                }
-                            }
-
-                    }
-                    // set the current angle to the previous angle
-                    preAngle = curaAngle;
-                }
-                dirList.setItems(directions);
+            else if (f.getBuildingID() == 0) {
+                b++;
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 1065+i*12, 435-i*25, 1065+i*12, -700, b);
+                FaulknerFloors.add(uf);
+                uf.getImageView().setOnMouseClicked( event -> {
+                    System.out.println("BELKIN!");
+                    removefloors();
+                    event.consume();
+                    flipToFloor(uf.getFloorIndex());
+                    zoomFloor(uf);
+                    getfloors(f.getBuildingID());
+                });
             }
-    }
+        }
 
-    private String getTurn(double turn) {
-        /*
-        0 right
-        45 slight right
-        90 straight
-        135 slight left
-        180 left
-        225 backwards slight left
-        270 backwards
-        315 backwards slight right
-        */
-        if (turn > 315 + 22.5 || turn <= 22.5) {
-            switch (lang) {
-                case "Eng":
-                    return "Take right";
-                case "Span":
-                    return "Toma un derecho";
-                case "Port":
-                    return "Tome un direito";
-                case "Chin":
-                    return "你对吧";
-                default:
-                    return "Take right";
+        mapGroup.getTransforms().add(scale);
+//        System.out.println(mapPane.getWidth());
+        mapPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        //mapPane.setMaxWidth(anchorPane.getMaxWidth());
+        mapPane.setOnMouseClicked((MouseEvent event) -> {
+            System.out.println("clicked the pane!!!!");
+            resetZoom(WIDNDOW_WIDTH, 1250);
+//            zoomFloor(FaulknerFloors.get(0));
+            flipToFloor(7);
+            FloorSelectPane.setVisible(false);
+        });
+
+        mapPane.widthProperty().addListener((observable, oldValue, newValue) -> {
+            WIDNDOW_WIDTH = (double)newValue;
+            resetZoom(WIDNDOW_WIDTH, 1);
+            fadePane.setPrefWidth((double)newValue);
+//            fadeRect.setWidth((double)newValue);
+
+        });
+
+        mapPane.heightProperty().addListener((observable, oldValue, newValue) -> {
+            menuPane.setPrefHeight((double)newValue);
+            fadePane.setPrefHeight((double)newValue);
+//            fadeRect.setHeight((double)newValue);
+
+
+        });
+
+
+
+        viewButton.setOnAction(event -> {
+//            zoomFloor(FaulknerFloors.get(0));
+            flipToFloor(1);
+            zoomFloor(FaulknerFloors.get(4));
+        });
+
+        aboutBtn.setOnAction(event -> {
+            try {
+                ResourceManager.getInstance().loadFXMLIntoScene("/view/aboutscreen.fxml", "Welcome", aboutBtn.getScene());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        });
 
-        }
-        if (turn > 22.5 && turn <= 45 + 22.5) {
-            switch (lang) {
-                case "Eng":
-                    return "Take slight right";
-                case "Span":
-                    return "Tomar ligeramente a la derecha";
-                case "Port":
-                    return "Leve ligeiramente à direita";
-                case "Chin":
-                    return "采取轻微的权利";
+        loginBtn.setOnAction(event -> {
+            try {
+                ResourceManager.getInstance().loadFXMLIntoScene("/view/adminLogin.fxml", "Welcome", aboutBtn.getScene());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return "Take slight right";
-        }
-        if (turn > 45 + 22.5 && turn <= 90 + 22.5) {
-            switch (lang) {
-                case "Eng":
-                    return "Go straight";
-                case "Span":
-                    return "Derecho";
-                case "Port":
-                    return "Siga em frente";
-                case "Chin":
-                    return "笔直走";
-            }
-            return "Go straight";
-        }
-        if (turn > 90 + 22.5 && turn <= 135 + 22.5) {
-            switch (lang) {
-                case "Eng":
-                    return "Take slight left";
-                case "Span":
-                    return "Tomar ligeramente a la izquierda";
-                case "Port":
-                    return "Leve ligeiramente à esquerda";
-                case "Chin":
-                    return "轻轻一点";
-            }
-            return "Take slight left";
-        }
-        if (turn > 135 + 22.5 && turn <= 180 + 22.5) {
-            switch (lang) {
-                case "Eng":
-                    return "Take left";
-                case "Span":
-                    return "gire a izquierda";
-                case "Port":
-                    return "Pegue un esquerda";
-                case "Chin":
-                    return "拿左";
-            }
-            return "Take left";
-        }
-        if (turn > 180 + 22.5 && turn <= 225 + 22.5) {
-            switch (lang) {
-                case "Eng":
-                    return "Back and slight left";
-                case "Span":
-                    return "Atrás e izquierda ligera";
-                case "Port":
-                    return "Costas e esquerda ligeira";
-                case "Chin":
-                    return "背部和轻微的左";
-            }
-            return "Back and slight left";
-        }
-        if (turn > 225 + 22.5 && turn <= 270 + 22.5) {
-            switch (lang) {
-                case "Eng":
-                    return "Go backwards";
-                case "Span":
-                    return "Dar marcha atrás";
-                case "Port":
-                    return "Ir para trás";
-                case "Chin":
-                    return "倒退";
-            }
-            return "Go backwards";
-        }
-        if (turn > 270 + 22.5 && turn <= 315 + 22.5) {
-            switch (lang) {
-                case "Eng":
-                    return "Back and slight right";
-                case "Span":
-                    return "Atrás y ligero derecho";
-                case "Port":
-                    return "Costas e ligeira direita";
-                case "Chin":
-                    return "回来和轻微的权利";
-            }
-            return "Back and slight right";
-        }
+        });
 
-        return "";
+
+        //set button graphics
+        viewButton.setGraphic(new ImageView(new Image("/image/Icons/location.png",30, 30, false, false)));
+       // upButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_in.png",30, 30, false, false)));
+        //downButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_out.png",30, 30, false, false)));
+        searchBtn.setGraphic(new ImageView(new Image("/image/Icons/search.png",30, 30, false, false)));
+        menuBtn.setGraphic(new ImageView(new Image("/image/Icons/menu.png",30, 30, false, false)));
+        loginBtn.setGraphic(new ImageView(new Image("/image/Icons/admin.png",30, 30, false, false)));
+        aboutBtn.setGraphic(new ImageView(new Image("/image/Icons/info.png",30, 30, false, false)));
+        menuExitBtn.setGraphic(new ImageView(new Image("/image/Icons/close.png",30, 30, false, false)));
+        language.setGraphic(new ImageView(new Image("/image/Icons/america.png"))); //default as english
+        english.setGraphic(new ImageView(new Image("/image/Icons/america.png")));
+        spanish.setGraphic(new ImageView(new Image("/image/Icons/spain.png")));
+        portugues.setGraphic(new ImageView(new Image("Image/Icons/portugal.png")));
+        chinese.setGraphic(new ImageView(new Image("Image/Icons/china.png")));
     }
 
-    private double getAngle(Location curNode, Location nextNode) {
-        return (((Math.atan2(curNode.getY() - nextNode.getY(), nextNode.getX() - curNode.getX())) * 180 / Math.PI) + 360) % 360;
+    private void zoomFloor(UniqueFloor uf){
+//        double scaleValH = mapPane.getWidth()/uf.getImageView().getImage().getWidth()*.7;
+        double scaleValV = mapPane.getHeight()/uf.getImageView().getImage().getHeight()*.9;
+        double scaleVal = scaleValV;
+//        if(scaleValV>scaleValH){
+//            scaleVal = scaleValV;
+//        }
+        double xoffset = mapPane.getWidth()*0.3;
+        double yoffset = mapPane.getHeight()*0.15;
+        xoffset = mapPane.getWidth()/4;
+        yoffset = mapPane.getHeight()/6;
+        System.out.println();
+        System.out.println("scaleVal = " + scaleVal);
+        System.out.println("yoffset = " + yoffset);
+        System.out.println("xoffset = " + xoffset);
+
+        scaleImage(uf.getGroup().getTranslateX() - xoffset, uf.getGroup().getTranslateY() - yoffset,scaleVal,  1250).play();
     }
 
-    public void onLogin(ActionEvent actionEvent) {
-        try {
-            ResourceManager.getInstance().loadFXMLIntoScene("/view/adminLogin.fxml", "Login", loginBtn.getScene());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void onSearch(ActionEvent actionEvent) {
-        drawPath();
-    }
-
-    public void onFloor1(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor2(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_2_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor3(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_3_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor4(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_4_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor5(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_5_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor6(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_6_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor7(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_7_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void changelangE(ActionEvent actionEvent) {
-        lang = "Eng";
-        start.setText("Start:");
-        end.setText("End:");
-        directions.setText("Directions:");
-        loginBtn.setText("Login");
-        searchBtn.setText("Search");
-        wareaPane.setText("Waiting Areas");
-        bathPane.setText("Bathrooms");
-        hdeskPane.setText("Services");
-        exitPane.setText("Exits");
-        docPane.setText("Doctors");
-        language.setText("Language");
-        ObservableList<String> directions = FXCollections.observableArrayList();
-        directions.add("Please enter a start and end location to display locations");
-        dirList.setItems(directions);
-    }
-
-    public void changelangS(ActionEvent actionEvent) {
-        lang = "Span";
-        start.setText("Comienzo:");
-        end.setText("Fin:");
-        directions.setText("Direcciones:");
-        loginBtn.setText("Inicio");
-        searchBtn.setText("Busca");
-        wareaPane.setText("Área de Espera");
-        bathPane.setText("Baño");
-        hdeskPane.setText("Servicios");
-        exitPane.setText("Salidas");
-        docPane.setText("Doctores");
-        language.setText("Idiomas");
-        ObservableList<String> directions = FXCollections.observableArrayList();
-        directions.add("Por favor, ingrese una ubicación inicial y final");
-        dirList.setItems(directions);
-    }
-
-    public void changelangP(ActionEvent actionEvent) {
-        lang = "Port";
-        start.setText("Enceta:");
-        end.setText("Fim:");
-        directions.setText("Instruções:");
-        loginBtn.setText("Entra");
-        searchBtn.setText("Busca");
-        wareaPane.setText("Área de Espera");
-        bathPane.setText("Banheiro");
-        hdeskPane.setText("Serviços");
-        exitPane.setText("Saída");
-        docPane.setText("Médicos");
-        language.setText("Línguas");
-        ObservableList<String> directions = FXCollections.observableArrayList();
-        directions.add("Você chegou ao seu destino");
-        dirList.setItems(directions);
+    private void setHighlight(int floorindex){
 
     }
 
-    public void changelangC(ActionEvent actionEvent) {
-        lang = "Chin";
-        start.setText("开始");
-        end.setText("终点");
-        directions.setText("说明");
-        loginBtn.setText("注册");
-        searchBtn.setText("搜查");
-        wareaPane.setText("等候区");
-        bathPane.setText("盥洗室");
-        hdeskPane.setText("服务");
-        exitPane.setText("紧急出口");
-        docPane.setText("医生");
-        language.setText("语");
-        ObservableList<String> directions = FXCollections.observableArrayList();
-        directions.add("请输入开始和结束位置以获取路线");
-        dirList.setItems(directions);
+    private void getfloors(int buildingID){
+        List<Floor> floors = Main.h.getBuildingById(buildingID).getFloorList();
+        for(int j = 0; j< floors.size(); j++){
+
+            Button button = new Button(Integer.toString(j+1));
+            //VBoxSelectPane.getChildren().add(j+1, button);
+
+            Floorselectgrid.add(button, 0, j+1 );
+            button.setOnMouseClicked((MouseEvent event) -> {
+                       flipToFloor(Integer.parseInt(button.getText()));
+                    });
+            button.setOnMouseEntered((MouseEvent event) ->{
+                button.setStyle("-fx-pref-width: 500; -fx-pref-height: 100; -fx-alignment: center; -fx-background-color:#333333");
+            });
+            button.setOnMouseExited((MouseEvent event) ->{
+                button.setStyle("-fx-pref-width: 500; -fx-pref-height: 100; -fx-alignment: center; -fx-background-color:#dddddd");
+            });
+            button.setStyle("-fx-pref-width: 500; -fx-pref-height: 100;-fx-alignment: center; -fx-background-color:#dddddd");
+        }
+
     }
+private void removefloors(){
+        Floorselectgrid.getChildren().clear();
 }
+
+    private void flipToFloor(int index){
+        FloorSelectPane.setVisible(true);
+        if(index <= 7 && index >= 0) {
+            System.out.println("Flipping to floor " + index);
+            currentFloor = index;
+        }
+
+//        System.out.println("Keeping floors " + (currentFloor) +" down");
+        for(int j = 0;  j < FaulknerFloors.size(); j++){
+            UniqueFloor u = FaulknerFloors.get(j);
+
+            if(u.getFloorIndex() <= index && !u.onScreen()) {
+                //moveMiniMap(u.getGroup(), u.getOnX(), u.getOnY(), 1250 + u.getFloorIndex() * 100).play();
+                fadeGroup(u, true, 250).play();
+                u.setOnScreen(true);
+            }
+            else if(u.getFloorIndex() > index && u.onScreen()) {
+               // moveMiniMap(u.getGroup(), u.getOffX(), u.getOffY(), 1750 - u.getFloorIndex() * 100).play();
+                fadeGroup(u, false, 250).play();
+                u.setOnScreen(false);
+            }
+
+        }
+    }
+
+
+
+
+
+    private Animation moveMiniMap(Group group, double x, double y, double time) {
+
+        double curX = group.getTranslateX();
+        double curY = group.getTranslateY();
+
+
+        final Animation expandPanel = new Transition() {
+            {
+                setCycleDuration(Duration.millis(time));
+            }
+
+            @Override
+            protected void interpolate(double fraction) {
+                double newX = curX+fraction*(x-curX);
+                group.setTranslateX(newX);
+                double newY = curY+fraction*(y-curY);
+                group.setTranslateY(newY);
+            }
+        };
+
+        expandPanel.setOnFinished(e-> {
+
+        });
+        return expandPanel;
+    }
+
+    private Animation fadeGroup(UniqueFloor uf,boolean fadeIn, double time) {
+
+        double start, end;
+        if(fadeIn){
+            uf.getGroup().setTranslateX(uf.getOnX());
+            uf.getGroup().setTranslateY(uf.getOnY());
+            start = 0;
+            end = 1;
+        }
+        else{
+            start = 1;
+            end = 0;
+        }
+
+
+        final FadeTransition ft =new FadeTransition(Duration.millis(time), uf.getGroup());
+        ft.setFromValue(start);
+        ft.setToValue(end);
+        ft.setCycleCount(1);
+        ft.setAutoReverse(true);
+
+        ft.setOnFinished(event -> {
+            if(!fadeIn) {
+                uf.getGroup().setTranslateX(uf.getOffX());
+                uf.getGroup().setTranslateY(uf.getOffY());
+            }
+        });
+
+        return ft;
+    }
+
+    private Animation scaleImage(double x, double y, double scaleIn, double time) {
+
+        mapGroup.getTransforms().clear();
+        double curScale = scale.getMxx();
+        double curX = -mapGroup.getTranslateX() / curScale;
+        double curY = -mapGroup.getTranslateY() / curScale;
+
+
+        mapGroup.getTransforms().add(scale);
+        final Animation expandPanel = new Transition() {
+            {
+                setCycleDuration(Duration.millis(time));
+            }
+
+            @Override
+            protected void interpolate(double fraction) {
+                mapGroup.getTransforms().clear();
+                mapGroup.getTransforms().add(scale);
+
+                double newScale = curScale + fraction * (scaleIn - curScale);
+
+                scale.setX(newScale);
+                scale.setY(newScale);
+
+                double newX = curX + fraction * (x - curX);
+                mapGroup.setTranslateX(-newX * newScale);
+                double newY = curY + fraction * (y - curY);
+                mapGroup.setTranslateY(-newY * newScale);
+            }
+        };
+        expandPanel.setOnFinished(e -> {
+        });
+        return expandPanel;
+    }
+
+    private Animation moveMenu(boolean on, double time) {
+
+
+
+        final Animation expandPanel = new Transition() {
+            {
+                setCycleDuration(Duration.millis(time));
+            }
+
+            @Override
+            protected void interpolate(double fraction) {
+                double cx,cy=0,tx,ty=0;
+                if(on){
+                    tx = 0;
+                    cx = -menuPane.getWidth();
+                }
+                else{
+                    tx = -menuPane.getWidth();
+                    cx = 0;
+                }
+
+
+
+                double newX = cx+fraction*(tx-cx);
+                menuGroup.setTranslateX(newX);
+                double newY = cy+fraction*(ty-cy);
+                menuGroup.setTranslateY(newY);
+            }
+        };
+        expandPanel.setOnFinished(e-> {
+        });
+
+        return expandPanel;
+    }
+
+
+    public void resetZoom(double width, double time){
+        double newScale = width / imageViewBase.getImage().getWidth();
+        scaleImage(00, 00, newScale, time).play();
+    }
+
+    public void onSearch(){
+
+    }
+
+}
+
+
