@@ -56,7 +56,7 @@ import static groupg.Main.main;
 //import static groupg.controller.AdminMainController.infoOverlay;
 //import static groupg.controller.AdminMainController.nodeOverlay;
 
-public class WelcomeScreenController implements Initializable {
+public class DevelopWelcomeScreenController implements Initializable {
     @FXML
     private Button loginBtn, searchBtn;
     @FXML
@@ -119,7 +119,7 @@ public class WelcomeScreenController implements Initializable {
             controller.showOn(BasePane,qrcode);
         } catch (IOException ex) {
             // なんか適当にエラー処理でも
-            Logger.getLogger(WelcomeScreenController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DevelopWelcomeScreenController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -129,7 +129,7 @@ public class WelcomeScreenController implements Initializable {
     }
 
 
-    public WelcomeScreenController() {
+    public DevelopWelcomeScreenController() {
         startField = new AutoCompleteTextField();
         startField.setCurrentSelection(new EmptyLocation());
         endField = new AutoCompleteTextField();
