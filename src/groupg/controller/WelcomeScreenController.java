@@ -24,6 +24,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
 
@@ -528,6 +529,33 @@ private void removefloors(){
             }
 
         }
+
+    public Animation animatePath(Circle circle, List<Location> path, double time){
+        double currx = circle.getTranslateX();
+        double curry = circle.getTranslateY();
+
+        final Animation animatePath = new Transition() {
+            {
+                setCycleDuration(Duration.millis(time));
+            }
+
+            @Override
+            protected void interpolate(double frac) {
+                double newx = currx+frac+(path.get(0).getX()-currx);
+                circle.setTranslateX(newx);
+                double newy = curry+frac+(path.get(0).getY()-curry);
+                circle.setTranslateY(newy);
+            }
+        };
+
+        path.remove(path.get(0));
+        if(path.isEmpty()){
+            return animatePath;
+        }
+        else{
+            animatePath(circle, path, time);
+        }
+        return null; //should never happen ever!
+    }
+
 }
-
-
