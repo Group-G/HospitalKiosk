@@ -80,7 +80,7 @@ public class WelcomeScreenController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //String css = this.getClass().getResource("/view/welcomescreen.css").toExternalForm();
-        Application.setUserAgentStylesheet(getClass().getResource("/view/developWelcomescreen.css").toExternalForm());
+        //Application.setUserAgentStylesheet(getClass().getResource("/view/developWelcomescreen.css").toExternalForm());
         FloorSelectPane.setVisible(false);
         //menuPaneVBox.getChildren().add(acccordionDropDown);
         searchField = new AutoCompleteTextField();
