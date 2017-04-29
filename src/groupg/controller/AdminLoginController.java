@@ -114,7 +114,7 @@ public class AdminLoginController implements Initializable {
                         System.out.println("Logged into User");
                     }
                     else{
-                        DevelopWelcomeScreenController.setPermission(1);
+                        WelcomeScreenController.setPermission(1);
                         ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Admin Main", cancelBtn.getScene());
                         System.out.println("Logged into User");
                     }
