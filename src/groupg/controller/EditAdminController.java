@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,12 +30,25 @@ public class EditAdminController implements Initializable
     private ListView<Admin> addList;
 
     private ObservableList<String> cats = FXCollections.observableArrayList();
+    private static int numOfAdmins = 2;
+    @FXML
+    private Text errorText;
+
+    public int getNumOfAdmins() {
+        return numOfAdmins;
+    }
+
+    public void setNumOfAdmins(int numOfAdmins) {
+        this.numOfAdmins = numOfAdmins;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        errorText.setVisible(false);
         cats.clear();
         addList.getItems().setAll(h.getAllAdmins());
+
     }
 
     public void onCancel(ActionEvent actionEvent)
@@ -56,6 +70,7 @@ public class EditAdminController implements Initializable
         {
             ResourceManager.getInstance().loadFXMLIntoScene("/view/editAdminAdd.fxml", "Add New Admin", newBtn.getScene());
         }
+
         catch (IOException e)
         {
             e.printStackTrace();
@@ -64,8 +79,19 @@ public class EditAdminController implements Initializable
 
     public void onDelete(ActionEvent actionEvent)
     {
-        h.removeAdmin(addList.getSelectionModel().getSelectedItem());
-        addList.getItems().remove(addList.getSelectionModel().getSelectedItem());
+        if(getNumOfAdmins() == 2){
+            errorText.setVisible(true);
+            return;
+        }
+        if(addList.getSelectionModel().getSelectedItem() == h.getCurrentAdmin()){
+            errorText.setText("You cannot delete yourself!");
+            errorText.setVisible(true);
+        } else {
+            h.removeAdmin(addList.getSelectionModel().getSelectedItem());
+            addList.getItems().remove(addList.getSelectionModel().getSelectedItem());
+            setNumOfAdmins(getNumOfAdmins()-1);
+        }
+
     }
 
     public void onEdit(ActionEvent actionEvent)

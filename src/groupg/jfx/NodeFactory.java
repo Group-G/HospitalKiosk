@@ -37,6 +37,7 @@ public class NodeFactory {
         return circle;
     }
 
+
     /**
      * Constructs a UniqueNode for a Node from a Location
      *

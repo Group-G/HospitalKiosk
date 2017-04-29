@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,12 +22,15 @@ import java.util.ResourceBundle;
  */
 public class EditAdminAddController implements Initializable
 {
+    EditAdminController ed = new EditAdminController();
     @FXML
     private Button cancelBtn, addBtn;
     @FXML
     private TextField usernameField, passwordField;
     @FXML
     private RadioButton perm0, perm1;
+    @FXML
+    private Text errorText;
 
 
     @Override
@@ -49,44 +53,63 @@ public class EditAdminAddController implements Initializable
 
     public void onAdd(ActionEvent event)
     {
-        if(usernameField.getText().equals("")){
-//throw error
-        }
-        if(passwordField.getText().equals("")){
-//throw error
-        }
-        if(perm0.isSelected()) {
-            if(h.getCheckUsername(usernameField.getText())){
-                //throw error already exists
+        ed.setNumOfAdmins(ed.getNumOfAdmins()+1);
+        System.out.println(ed.getNumOfAdmins());
+        if(!h.checkEmptyString(usernameField.getText().trim())){
+            errorText.setText(h.getErrorMessage());
+            errorText.setVisible(true);
+        }else if(!h.checkEmptyString(passwordField.getText().trim())){
+            errorText.setText(h.getErrorMessage());
+            errorText.setVisible(true);
+        } else {
+            if (perm0.isSelected()) {
+                if (h.getCheckUsername(usernameField.getText())) {
+                    errorText.setText("This username already exists.");
+                    errorText.setVisible(true);
+                } else {
+                    Main.h.addAdmin(new Admin(usernameField.getText(), passwordField.getText(), 0));
+
+                    try {
+                        ResourceManager.getInstance().loadFXMLIntoScene("/view/editAdmin.fxml", "Edit Admins", addBtn.getScene());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else if (perm1.isSelected()) {
+                if (h.getCheckUsername(usernameField.getText())) {
+                    errorText.setText("This username already exists.");
+                    errorText.setVisible(true);
+                } else {
+                    Main.h.addAdmin(new Admin(usernameField.getText(), passwordField.getText(), 1));
+
+                    try {
+                        ResourceManager.getInstance().loadFXMLIntoScene("/view/editAdmin.fxml", "Edit Admins", addBtn.getScene());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             } else {
-                Main.h.addAdmin(new Admin(usernameField.getText(), passwordField.getText(), 0));
-            }
-        }
-        else if(perm1.isSelected()){
-            if(h.getCheckUsername(usernameField.getText())){
-                //throw error already exists
-            } else {
-                Main.h.addAdmin(new Admin(usernameField.getText(), passwordField.getText(), 1));
-            }
-        }
-        else{
-            //default less permissions
-            if(h.getCheckUsername(usernameField.getText())){
-                //throw error already exists
-            } else {
-                Main.h.addAdmin(new Admin(usernameField.getText(), passwordField.getText(), 0));
+                //default less permissions
+                if (h.getCheckUsername(usernameField.getText())) {
+                    errorText.setText("This username already exists.");
+                    errorText.setVisible(true);
+                } else {
+                    Main.h.addAdmin(new Admin(usernameField.getText(), passwordField.getText(), 0));
+
+                    try {
+                        ResourceManager.getInstance().loadFXMLIntoScene("/view/editAdmin.fxml", "Edit Admins", addBtn.getScene());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+
+
+
             }
         }
 
 
-
-        try
-        {
-            ResourceManager.getInstance().loadFXMLIntoScene("/view/editAdmin.fxml", "Edit Admins", addBtn.getScene());
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
     }
 }

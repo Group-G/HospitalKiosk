@@ -57,7 +57,6 @@ public class AdminMainController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Change listener for removed nodes
         displayedNodes.addListener((ListChangeListener<UniqueNode>) c -> nodeOverlay.getChildren().setAll(displayedNodes));
-
         nodeOverlay = new Pane();
         nodeOverlay.setPickOnBounds(false);
         lineOverlay = new Pane();

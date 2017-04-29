@@ -3,6 +3,7 @@ package groupg.algorithm;
 import groupg.database.Location;
 import groupg.database.LocationDecorator;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import static groupg.Main.h;
 /**
  * @author Dynan McKillip
  * @author Ryan Benasutti
+ * @editor Samantha Comeau
  * @since 2017-04-10
  */
 public class NavigationFacade {
@@ -18,7 +20,15 @@ public class NavigationFacade {
     private LinkedList<LocationDecorator> path;
 
     public NavigationFacade() {
-        List<Location> locations = h.getAllLocations();
+        List<Location> locations = new ArrayList<>();
+        if(h.handicapped == 1){
+            //if the user selected handicapped
+            locations = h.getAllLocationsExceptStairs();
+        } else {
+            //if they didn't select handicapped
+            locations = h.getAllLocations();
+        }
+
         astar = new Astar(locations);
         dFirst = new DepthFirst(locations);
         bFirst = new BreadthFirst(locations);

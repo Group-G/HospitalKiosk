@@ -1,7 +1,10 @@
 package groupg.database;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by  Alazar Genene, Saul Woolf, and Samantha Comeau on 4/1/17.
@@ -13,6 +16,9 @@ public class HospitalData {
     private  List<Person> peopleList = new ArrayList<>();
     private  List<Admin> adminList = new ArrayList<>();
     private  JavaDBExample dbExample;
+
+    private Admin currentAdmin = new Admin("", "aa", 99);
+    public int handicapped = 0;
 
     //Values for TRACKIDS
     private  int LOCATION_NEW;
@@ -29,6 +35,8 @@ public class HospitalData {
 
 
     public HospitalData(JavaDBExample dbExample) {
+
+        //System.out.println(FuzzySearch.ratio("mysmilarstring","myawfullysimilarstirng"));
 
         this.dbExample = dbExample;
 
@@ -118,12 +126,19 @@ public class HospitalData {
     }
     public static boolean checkString(String input){
         if(input.length() >40){
-            errorMessage = "String too long";
+            errorMessage = "String too long.";
             return false;
         }
-        else if (!input.matches("^[a-zA-Z0-9_]+$")) {
+        else if (!(input.replace(" ", "")).matches("^[a-zA-Z0-9_]+$")) {
+            errorMessage = "String cannot contain special characters.";
+            return false;
+        }
+        return true;
+    }
 
-            errorMessage = "String cannot contain special characters";
+    public static boolean checkEmptyString(String input){
+        if(input.equals("")){
+            errorMessage = "Empty input box!";
             return false;
         }
         return true;
@@ -225,7 +240,8 @@ public class HospitalData {
             {
                 cat = cat + ",";
             }
-            cat = cat + "(\'" + categories.get(i).getCategory() + "\', " + categories.get(i).getPermission() + ", \'"+ categories.get(i).getColor() +"\')";
+            cat = cat + "(\'" + categories.get(i).getCategory() + "\', " + categories.get(i).getPermission() + ", \'"+
+                    categories.get(i).getColor() + "\', "+ categories.get(i).getQuicksearchOn()+ ")";
         }
         System.out.println("Categories: " + cat);
 
@@ -254,7 +270,7 @@ public class HospitalData {
                 return admin;
             }
         }
-        return new Admin("", "", 0);
+        return new Admin("", "", 99);
     }
 
     public boolean getCheckUsername(String username){
@@ -263,7 +279,16 @@ public class HospitalData {
                 return true;
             }
         }
+        errorMessage = "This username does not exist.";
         return false;
+    }
+
+    public Admin getCurrentAdmin(){
+        return this.currentAdmin;
+    }
+
+    public void setCurrentAdmin(Admin a){
+        this.currentAdmin = a;
     }
 
 
@@ -480,6 +505,34 @@ public class HospitalData {
 
     }
     /**
+     * Returns list of all locations
+     * @return List of locations
+     */
+    public List<Location> getAllLocationsExceptStairs() {
+        List<Location> allNodes = new ArrayList<>();
+
+        for(int i = 0; i < buildingsList.size(); i++) {
+            ArrayList<Floor> floorList = buildingsList.get(i).getFloorList();
+
+
+            for(int f = 0; f < floorList.size(); f++) {
+                List<Location> locationList = floorList.get(f).getLocations();
+
+
+                for(int l = 0; l < locationList.size(); l++) {
+                    if(locationList.get(l).getCategory().equals("Stairs")){
+                        //don't add!!
+                    } else {
+
+                        allNodes.add(locationList.get(l));
+                    }
+                }
+            }
+        }
+        return allNodes;
+
+    }
+    /**
      * Returns all categories
      * @return all categories
      */
@@ -610,7 +663,31 @@ public class HospitalData {
         }
 //        System.out.println("ADDING " +newCategory+ ".");
         categories.add(new Category(newCategory, permission, color));
-        return false;
+        return true;
+    }
+
+    public boolean addCategory(Category cat) {
+        for (Category c : categories) {
+
+            if (c.getCategory().equals(cat)) {
+                return false;
+            }
+        }
+        categories.add(cat);
+        return true;
+    }
+
+    public boolean addCategory(String newCategory, int permission, String color, int quickSearch) {
+        for(Category c : categories){
+
+            if(c.getCategory().equals(newCategory))
+            {
+                return false;
+            }
+        }
+//        System.out.println("ADDING " +newCategory+ ".");
+        categories.add(new Category(newCategory, permission, color, quickSearch));
+        return true;
     }
 
     /**
@@ -760,6 +837,9 @@ public class HospitalData {
         return dbStrLength;
     }
 
+    public void setHandicapped(int val){
+        this.handicapped = val;
+    }
 
     /**
      * pullBuildings
@@ -1067,7 +1147,7 @@ public class HospitalData {
 
 
             String aCat = "FAILED TO PULL", color = "FAILED TO PULL";
-            int permission = -1;
+            int permission = -1, quicksearch = -1;
             while (cats.next()) {
                 for (int j = 1; j <= roomColumns; j++) {
                     if (roomDataset.getColumnName(j).equals("CATEGORY_NAME")) {
@@ -1079,9 +1159,12 @@ public class HospitalData {
                     if (roomDataset.getColumnName(j).equals("COLOR")) {
                         color = cats.getString(j);
                     }
+                    if (roomDataset.getColumnName(j).equals("QUICKSEARCH")) {
+                        quicksearch = Integer.parseInt(cats.getString(j));
+                    }
 
                 }
-                categories.add(new Category(aCat, permission, color));
+                categories.add(new Category(aCat, permission, color, quicksearch));
 
             }
             return true;

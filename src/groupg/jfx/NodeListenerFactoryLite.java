@@ -3,7 +3,7 @@ package groupg.jfx;
 import groupg.Main;
 import groupg.algorithm.NodeNeighbors;
 import groupg.controller.AdminMainController;
-import groupg.controller.WelcomeScreenController;
+import groupg.controller.DevelopWelcomeScreenController;
 import groupg.database.Category;
 import groupg.database.HospitalData;
 import groupg.database.Location;

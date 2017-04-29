@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
@@ -67,6 +68,15 @@
                            </HBox.margin>
                         </RadioButton>
                         <RadioButton fx:id="radioprivate" mnemonicParsing="false" text="Staff" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="20.0" prefWidth="600.0">
+                     <children>
+                        <CheckBox id="quickSearchable" fx:id="quickSearchable" mnemonicParsing="false" text="Quick Search Visible">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </CheckBox>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="39.0" prefWidth="600.0">
