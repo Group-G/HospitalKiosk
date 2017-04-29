@@ -300,10 +300,10 @@ public class WelcomeScreenController implements Initializable {
         List<Floor> floors = Main.h.getBuildingById(buildingID).getFloorList();
         for(int j = 0; j< floors.size(); j++){
 
-            Button button = new Button(Integer.toString(j+1));
+            Button button = new Button(Integer.toString(floors.size()-j));
             //VBoxSelectPane.getChildren().add(j+1, button);
 
-            Floorselectgrid.add(button, 0, j+1 );
+            Floorselectgrid.add(button, 0, floors.size()-j-1 );
             button.setOnMouseClicked((MouseEvent event) -> {
                        flipToFloor(Integer.parseInt(button.getText()));
                     });
