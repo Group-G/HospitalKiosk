@@ -31,9 +31,9 @@ public class Main extends Application
 
         primaryStage.setTitle("Welcome");
         primaryStage.setScene(s);
-        primaryStage.setFullScreen(true);
-        primaryStage.setResizable(true);
-        primaryStage.setFullScreenExitHint("");
+        //primaryStage.setFullScreen(true);
+        //primaryStage.setResizable(true);
+       // primaryStage.setFullScreenExitHint("");
         primaryStage.show();
         primaryStage.setOnCloseRequest(event -> Main.h.publishDB());
 

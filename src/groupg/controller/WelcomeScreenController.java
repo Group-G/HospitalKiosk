@@ -13,6 +13,7 @@ import javafx.animation.Transition;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -300,25 +301,34 @@ public class WelcomeScreenController implements Initializable {
         List<Floor> floors = Main.h.getBuildingById(buildingID).getFloorList();
         for(int j = 0; j< floors.size(); j++){
 
-            Button button = new Button(Integer.toString(floors.size()-j));
+            Button button = new Button(Integer.toString(j+1));
             //VBoxSelectPane.getChildren().add(j+1, button);
-
             Floorselectgrid.add(button, 0, floors.size()-j-1 );
+            Floorselectgrid.setHalignment(button, HPos.CENTER);
             button.setOnMouseClicked((MouseEvent event) -> {
                        flipToFloor(Integer.parseInt(button.getText()));
                     });
             button.setOnMouseEntered((MouseEvent event) ->{
-                button.setStyle("-fx-pref-width: 500; -fx-pref-height: 100; -fx-alignment: center; -fx-background-color:#333333");
+                button.setStyle("-fx-pref-width: 50; -fx-pref-height: 100; -fx-alignment: center; -fx-background-color:#dddddd; -fx-border-radius:0px; -fx-padding: 5px;" +
+                        "    -fx-border-insets: 5px;" +
+                        "    -fx-background-insets: 5px;");
             });
             button.setOnMouseExited((MouseEvent event) ->{
-                button.setStyle("-fx-pref-width: 500; -fx-pref-height: 100; -fx-alignment: center; -fx-background-color:#dddddd");
+                button.setStyle("-fx-pref-width: 50; -fx-pref-height: 100; -fx-alignment: center; -fx-background-color:#ffffff;-fx-border-radius:0px;-fx-padding: 5px;" +
+                        "    -fx-border-insets: 5px;" +
+                        "    -fx-background-insets: 5px;");
             });
-            button.setStyle("-fx-pref-width: 500; -fx-pref-height: 100;-fx-alignment: center; -fx-background-color:#dddddd");
+            button.setStyle("-fx-pref-width: 50; -fx-pref-height: 100;-fx-alignment: center; -fx-background-color:#ffffff;-fx-border-radius:0px;-fx-padding: 5px;" +
+                    "    -fx-border-insets: 5px;" +
+                    "    -fx-background-insets: 5px;");
         }
 
     }
 private void removefloors(){
         Floorselectgrid.getChildren().clear();
+    while(Floorselectgrid.getRowConstraints().size() > 0){
+        Floorselectgrid.getRowConstraints().remove(0);
+    }
 }
 
     private void flipToFloor(int index){
