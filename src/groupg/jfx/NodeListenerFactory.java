@@ -1,5 +1,6 @@
 package groupg.jfx;
 
+import groupg.Main;
 import groupg.algorithm.NodeNeighbors;
 import groupg.controller.AdminMainController;
 import groupg.database.Category;
@@ -14,7 +15,6 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
  * @author Ryan Benasutti
  * @since 2017-04-01
  */
-public class NodeListenerFactory {
+public class    NodeListenerFactory {
     private static double orgSceneX, orgSceneY, orgTranslateX, orgTranslateY;
     public static UniqueNode currentSelection = null;
     private static double mouseX, mouseY;
@@ -61,8 +61,8 @@ public class NodeListenerFactory {
                                        dialog.showAndWait()
                                              .filter(result -> !result.equals(""))
                                              .ifPresent(result -> {
-                                                 if (result.length() >= HospitalData.maxStringLength())
-                                                    currentSelection.getLocation().setName(result.substring(0, HospitalData.maxStringLength() - 1));
+                                                 if (result.length() >= Main.h.maxStringLength())
+                                                    currentSelection.getLocation().setName(result.substring(0, Main.h.maxStringLength() - 1));
                                                  else
                                                      currentSelection.getLocation().setName(result);
                                              });
@@ -71,12 +71,13 @@ public class NodeListenerFactory {
                                    });
 
             Menu changeCat = new Menu("Change Category");
-            List<Category> catsFromDB = HospitalData.getAllCategories();
+            List<Category> catsFromDB = Main.h.getAllCategories();
             catsFromDB.forEach(s ->
                                {
                                    MenuItem item = new MenuItem(s.getCategory());
                                    item.setOnAction(e -> {
                                        currentSelection.getLocation().setCategory(s);
+                                       currentSelection.setHighlighted();
                                        AdminMainController.updateNodePD();
                                    });
                                    changeCat.getItems().add(item);
@@ -86,7 +87,7 @@ public class NodeListenerFactory {
             remove.setOnAction(event1 ->
                                {
                                    currentSelection.getLocation().getNeighbors().forEach(elem -> elem.getNeighbors().remove(currentSelection.getLocation()));
-                                   HospitalData.removeLocationById(currentSelection.getLocation().getID());
+                                   Main.h.removeLocationById(currentSelection.getLocation().getID());
                                    AdminMainController.displayedNodes.remove(currentSelection);
 
                                    AdminMainController.updateNodePD();
@@ -102,10 +103,10 @@ public class NodeListenerFactory {
                 for (Location neighbor : neighbors) {
                     currentSelection.getLocation().addNeighbor(neighbor);
                     neighbor.addNeighbor(currentSelection.getLocation());
-                    HospitalData.addConnection(currentSelection.getLocation().getID(), neighbor.getID());
+                    Main.h.addConnection(currentSelection.getLocation().getID(), neighbor.getID());
                 }
 
-                HospitalData.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
+                Main.h.setLocation(currentSelection.getLocation().getID(), currentSelection.getLocation());
                 AdminMainController.drawConnections(currentSelection);
                 AdminMainController.updateNodePD();
             });
@@ -192,10 +193,10 @@ public class NodeListenerFactory {
     private static void updateSelection(UniqueNode node) {
         //Clear highlight
         if (currentSelection != null)
-            currentSelection.setFill(Color.BLACK.deriveColor(1, 1, 1, 0.3));
+            currentSelection.setUnhighlighted();
 
         currentSelection = node;
-        currentSelection.setFill(Color.RED.deriveColor(1, 1, 1, 0.3));
+        currentSelection.setHighlighted();
         AdminMainController.drawConnections(currentSelection);
         AdminMainController.updateNodePD();
     }

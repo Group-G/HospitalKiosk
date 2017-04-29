@@ -2,7 +2,7 @@ package groupg.controller;
 
 import groupg.algorithm.NavigationAlgorithm;
 import groupg.database.Floor;
-import groupg.database.HospitalData;
+import static groupg.Main.h;
 import groupg.jfx.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -29,27 +29,32 @@ import java.util.stream.Collectors;
  */
 public class AdminMainController implements Initializable {
     @FXML
-    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, editAlgorithm;
+    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, showAllCons, editAdminBtn, editAlgorithm;
     @FXML
     private TabPane tabPane;
     @FXML
     private GridPane canvasWrapper;
     @FXML
     private MenuButton changeAlgorithmDD;
-    public static Pane imageViewPane, nodeOverlay, lineOverlay, infoOverlay;
+    private static Pane imageViewPane;
+    private static Pane nodeOverlay;
+    public static Pane lineOverlay;
+    public static Pane infoOverlay;
     public static ObservableList<UniqueNode> displayedNodes = FXCollections.observableArrayList();
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
-    public static ObservableList<PropertyDisplay> displayedPanels = FXCollections.observableArrayList();
+    private static ObservableList<PropertyDisplay> displayedPanels = FXCollections.observableArrayList();
     private ImageView imageView;
     private static Floor currentFloor;
     private static Tab selectedTab;
     public static NavigationAlgorithm selectedAlgorithm;
+    private static int scale = 1;
+    private static int xdif = 0;
+    private static Group zoomGroupGlobal;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Change listener for removed nodes
         displayedNodes.addListener((ListChangeListener<UniqueNode>) c -> nodeOverlay.getChildren().setAll(displayedNodes));
-
         nodeOverlay = new Pane();
         nodeOverlay.setPickOnBounds(false);
         lineOverlay = new Pane();
@@ -59,12 +64,12 @@ public class AdminMainController implements Initializable {
 
         //Default current floor to first floor available
         if (currentFloor == null)
-            currentFloor = HospitalData.getAllFloors().get(0);
+            currentFloor = h.getAllFloors().get(0);
 
         imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage(currentFloor.getFilename()), imageViewPane);
 
         //Add tabs for each floor
-        HospitalData.getAllFloors().forEach(floor -> {
+        h.getAllFloors().forEach(floor -> {
             Tab tab = new Tab(floor.getFloorNum());
             tab.setOnSelectionChanged(event -> {
                 imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename()));
@@ -109,6 +114,7 @@ public class AdminMainController implements Initializable {
 
         //Add layers
         Group zoomGroup = new Group(imageView, lineOverlay, nodeOverlay);
+        zoomGroupGlobal = zoomGroup;
         ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -126,8 +132,9 @@ public class AdminMainController implements Initializable {
 
         for (NavigationAlgorithm val : NavigationAlgorithm.values()) {
             MenuItem item = new MenuItem(val.toString());
-            item.setOnAction(actionEvent -> selectedAlgorithm = val);
+            item.setOnAction(actionEvent -> onChangeAlgorithm(val));
             changeAlgorithmDD.getItems().add(item);
+//            System.out.println("we are here!!!");
         }
     }
 
@@ -138,7 +145,8 @@ public class AdminMainController implements Initializable {
      */
     public static void drawConnections(UniqueNode node) {
         //Draw lines to the neighbors
-        displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesFromLocation(node.getLocation(), node.getLocation().getNeighbors()));
+        displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesFromLocation(node.getLocation(),
+                                                                                           node.getLocation().getNeighborsSameFloor(node.getLocation().getFloorID())));
         lineOverlay.getChildren().setAll(displayedLines);
     }
 
@@ -155,6 +163,7 @@ public class AdminMainController implements Initializable {
             pd.setProperty("Category", NodeListenerFactory.currentSelection.getLocation().getCategory().getCategory());
             pd.setProperty("# of Neighbors", NodeListenerFactory.currentSelection.getLocation().getNeighbors().size() + "");
             pd.setProperty("ID", "" + NodeListenerFactory.currentSelection.getLocation().getID());
+            pd.setProperty("Permissions", "" + NodeListenerFactory.currentSelection.getLocation().getCategory().getPermission() + "");
             displayedPanels.set(0, pd);
             AdminMainController.infoOverlay.getChildren().clear();
             AdminMainController.infoOverlay.getChildren().addAll(displayedPanels);
@@ -162,7 +171,7 @@ public class AdminMainController implements Initializable {
     }
 
     public void onLogout(ActionEvent actionEvent) {
-        HospitalData.publishDB(); //Save changes to disk
+        h.publishDB(); //Save changes to disk
 
         try {
             ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", logoutBtn.getScene());
@@ -171,11 +180,21 @@ public class AdminMainController implements Initializable {
         }
     }
 
+    public void onAdminEdit(ActionEvent actionEvent) {
+        try {
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/editAdmin.fxml", "Edit Admins", editAdminBtn.getScene());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void onAddNode(ActionEvent actionEvent) {
-        UniqueNode node = NodeFactory.getNode(imageView.getImage().widthProperty().doubleValue()/2.0,
-                                              imageView.getImage().heightProperty().doubleValue()/2.0,
+
+        System.out.println(zoomGroupGlobal.getScaleX() + ", " + zoomGroupGlobal.getScaleY()  + ", " + zoomGroupGlobal.getScaleZ());
+        UniqueNode node = NodeFactory.getNode(imageView.getImage().widthProperty().doubleValue() / 2.0,
+                                              imageView.getImage().heightProperty().doubleValue() / 2.0,
                                               currentFloor.getID());
-        HospitalData.setLocation(node.getLocation().getID(), node.getLocation());
+        h.setLocation(node.getLocation().getID(), node.getLocation());
         displayedNodes.add(node);
         nodeOverlay.getChildren().setAll(displayedNodes);
         updateNodePD();
@@ -187,6 +206,11 @@ public class AdminMainController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void onChangeAlgorithm(NavigationAlgorithm algorithm) {
+        System.out.println("Changed Algorithm to " + algorithm.toString());
+        selectedAlgorithm = algorithm;
     }
 
     public void onEditPers(ActionEvent event) {
@@ -203,5 +227,12 @@ public class AdminMainController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void onShowAllCons(ActionEvent actionEvent) {
+        displayedLines.clear();
+        displayedNodes.forEach(node -> displayedLines.addAll(DrawLines.drawLinesFromLocation(node.getLocation(),
+                                                                                             node.getLocation().getNeighborsSameFloor(node.getLocation().getFloorID()))));
+        lineOverlay.getChildren().setAll(displayedLines);
     }
 }

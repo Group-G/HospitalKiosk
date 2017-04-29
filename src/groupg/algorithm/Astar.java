@@ -1,11 +1,13 @@
 package groupg.algorithm;
 
-import groupg.database.HospitalData;
+import groupg.Main;
 import groupg.database.Location;
 
 import javax.xml.bind.SchemaOutputResolver;
 import java.util.LinkedList;
 import java.util.List;
+
+import static groupg.Main.h;
 
 /**
  * Created by Dylan on 4/1/17.
@@ -122,7 +124,7 @@ public class Astar implements Navigation{
     private double computeScore(Location curr, Location strt, Location end){
         double hscore = curr.lengthTo(end);
         double gscore = 0;
-        if ((HospitalData.getAllCategories().contains(curr.getCategory()))
+        if ((h.getAllCategories().contains(curr.getCategory()))
                 && ((curr.getCategory().getCategory().equalsIgnoreCase("Elevator")
                     || curr.getCategory().getCategory().equalsIgnoreCase("Stairs"))
                     || curr.getCategory().getCategory().equalsIgnoreCase("Stair"))
@@ -131,12 +133,20 @@ public class Astar implements Navigation{
             //hscore += 200
             gscore += 1500;
         }
-        if((curr.getFloorID()!=strt.getFloorID())&&(curr.getFloorID()!=end.getFloorID())){
-            gscore+=40000;
+        if(strt.getBuilding() == end.getBuilding()) {
+            if ((curr.getFloorID() != strt.getFloorID()) && (curr.getFloorID() != end.getFloorID())) {
+                gscore += 40000;
+            }
+        }
+        else{
+            if (!(curr.getFloorID() == strt.getFloorID() || (curr.getFloorID() == end.getFloorID())
+                    || curr.getFloorID() == Main.h.getFloorByName("Faulkner 1").getID())) {
+                gscore += 40000;
+            }
         }
         Location itr = curr;
         Location parent = itr.getParent();
-        if(!(parent == null)){
+        if(!(parent == null)) {
             while(parent.getID()!=strt.getID()){
                 gscore+= parent.lengthTo(itr);
                 itr = parent;
@@ -144,7 +154,7 @@ public class Astar implements Navigation{
             }
         }
         double score = hscore + gscore;
-        System.out.println("the score reported was" + score);
+        //System.out.println("the score reported was" + score);
         return score;
     }
 
@@ -154,31 +164,5 @@ public class Astar implements Navigation{
             location.setFcost(Double.MAX_VALUE);
         }
     }
-    //    /**
-//     * function that gets all of the neighbors of a specific node
-//     * @param loc a location
-//     * @return All the neighbors of the given location
-//     */
-//    public LinkedList<Location> getNeighbors(Location loc){
-//        LinkedList<Location> neigh = new LinkedList<>();
-//        for (Location id:loc.getNeighbors()){
-//            neigh.add(getLocation(id.getID()));
-//        }
-//        return neigh;
-//    }
-//
-//    /**
-//     * getLocation returns the location for the specified ID
-//     * @param id the id number of a specific location
-//     * @return the Location with the given ID
-//     */
-//    private Location getLocation(Integer id){
-//        Location idLoc = null;
-//        for (Location l:locations) {
-//            if(l.getID()==id){
-//                idLoc = l;
-//            }
-//        }
-//        return idLoc;
-//    }
+
 }

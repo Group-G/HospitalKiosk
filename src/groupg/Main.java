@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import javax.sound.midi.Soundbank;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,7 +21,7 @@ import java.nio.file.Paths;
 public class Main extends Application
 {
     private static JavaDBExample dbExample = new JavaDBExample();
-    private static HospitalData h;
+    public static HospitalData h;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -27,11 +29,15 @@ public class Main extends Application
         primaryStage.setTitle("Welcome");
         primaryStage.setScene(new Scene(root, 1404, 800));
         primaryStage.show();
-        primaryStage.setOnCloseRequest(event -> HospitalData.publishDB());
+
+        primaryStage.setOnCloseRequest(event -> Main.h.publishDB());
+
     }
 
     public static void main(String[] args)
     {
+
+
         dbExample.connectDB();
 
         Path path = Paths.get("HospitalDatabase");
@@ -46,6 +52,8 @@ public class Main extends Application
         }
 
         h = new HospitalData(dbExample);
+        h.pullDB();
+
 
         launch(args);
     }

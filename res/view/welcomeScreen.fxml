@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuButton?>
@@ -21,7 +22,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="canvoos" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1262.0" styleClass="canvoos" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.WelcomeScreenController">
+<AnchorPane id="canvoos" fx:id="BasePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1262.0" styleClass="canvoos" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.WelcomeScreenController">
    <children>
       <HBox id="header" alignment="CENTER" layoutX="-1.0" layoutY="2.0" prefHeight="100.0" prefWidth="1261.0" spacing="100.0" styleClass="header" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -90,7 +91,7 @@
                         </Button>
                      </children>
                   </HBox>
-                  <Accordion prefHeight="474.0" prefWidth="297.0">
+                  <Accordion fx:id="acccordionDropDown" prefHeight="435.0" prefWidth="215.0">
                     <panes>
                       <TitledPane fx:id="wareaPane" animated="false" prefHeight="360.0" prefWidth="242.0" text="Waiting Areas">
                         <content>
@@ -104,11 +105,11 @@
                               <Font size="17.0" />
                            </font>
                       </TitledPane>
-                      <TitledPane fx:id="bathPane" animated="false" text="Bathrooms">
+                      <TitledPane fx:id="docPane" animated="false" prefHeight="364.0" prefWidth="301.0" text="Doctors">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <ListView fx:id="bathroomLV" />
+                                    <ListView fx:id="doctorLV" prefHeight="400.0" prefWidth="215.0" />
                                  </children></AnchorPane>
                         </content>
                            <font>
@@ -119,8 +120,20 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <ListView fx:id="ServicesLV" />
+                                    <ListView fx:id="ServicesLV" prefHeight="400.0" prefWidth="215.0" />
                                  </children></AnchorPane>
+                           </content>
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </TitledPane>
+                        <TitledPane fx:id="officePane" animated="false" prefHeight="364.0" prefWidth="301.0" text="Offices">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ListView fx:id="officeLV" prefHeight="400.0" prefWidth="215.0" />
+                                 </children>
+                              </AnchorPane>
                            </content>
                            <font>
                               <Font size="17.0" />
@@ -130,44 +143,39 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <ListView fx:id="exitsLV" />
+                                    <ListView fx:id="exitsLV" prefHeight="400.0" prefWidth="215.0" />
                                  </children></AnchorPane>
                            </content>
                            <font>
                               <Font size="17.0" />
                            </font>
                         </TitledPane>
-                      <TitledPane fx:id="docPane" animated="false" prefHeight="364.0" prefWidth="301.0" text="Doctors">
+                      <TitledPane fx:id="bathPane" animated="false" text="Bathrooms">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <ListView fx:id="doctorLV" />
-                                 </children></AnchorPane>
+                                    <ListView fx:id="bathroomLV" prefHeight="400.0" prefWidth="215.0" />
+                                 </children>
+                              </AnchorPane>
                         </content>
                            <font>
                               <Font size="17.0" />
                            </font>
                       </TitledPane>
-                        <TitledPane fx:id="officePane" animated="false" prefHeight="364.0" prefWidth="301.0" text="Offices">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <ListView fx:id="officeLV" />
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                           <font>
-                              <Font size="17.0" />
-                           </font>
-                        </TitledPane>
                     </panes>
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Accordion>
+                  <HBox alignment="CENTER" prefHeight="46.0" prefWidth="215.0">
+                     <children>
+                        <CheckBox fx:id="handicapped" mnemonicParsing="false" onAction="#setHandicapped" text="Handicapped?" />
+                        <Button fx:id="AboutBtn" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#onAbout" text="About" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
-            <StackPane HBox.hgrow="ALWAYS">
+            <StackPane id="stackpane" styleClass="stackpane" HBox.hgrow="ALWAYS">
                <children>
                   <TabPane fx:id="tabPane" prefHeight="581.0" prefWidth="886.0" tabClosingPolicy="UNAVAILABLE" />
                   <GridPane fx:id="canvasWrapper">
@@ -183,18 +191,22 @@
                   </GridPane>
                </children>
             </StackPane>
-            <VBox alignment="TOP_CENTER" maxWidth="200.0" prefHeight="581.0" prefWidth="170.0" HBox.hgrow="ALWAYS">
+            <VBox fx:id="sidebar" alignment="TOP_CENTER" maxWidth="200.0" prefHeight="581.0" prefWidth="170.0" HBox.hgrow="ALWAYS">
                <children>
                   <Text fx:id="directions" strokeType="OUTSIDE" strokeWidth="0.0" text="Directions:">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Text>
-                  <ListView fx:id="dirList" editable="true" prefHeight="547.0" prefWidth="131.0">
+                  <ListView fx:id="dirList" editable="true" prefHeight="390.0" prefWidth="131.0">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                   </ListView>
+                  <ImageView fx:id="qrcode" fitHeight="150.0" fitWidth="137.0" onMouseClicked="#lightboxclickevent" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets top="7.0" />
+                     </VBox.margin></ImageView>
                </children>
                <padding>
                   <Insets left="10.0" right="10.0" />

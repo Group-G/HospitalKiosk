@@ -1,7 +1,7 @@
 package groupg.controller;
 
 import groupg.database.Category;
-import groupg.database.HospitalData;
+import static groupg.Main.h;
 import groupg.jfx.ResourceManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,10 +29,9 @@ public class EditCategoryController implements Initializable
     private ObservableList<String> cats = FXCollections.observableArrayList();
 
     @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
+    public void initialize(URL location, ResourceBundle resources) {
         cats.clear();
-        catList.getItems().setAll(HospitalData.getAllCategories());
+        catList.getItems().setAll(h.getAllCategories());
     }
 
     public void onCancel(ActionEvent actionEvent)
@@ -61,7 +60,7 @@ public class EditCategoryController implements Initializable
 
     public void onDelete(ActionEvent actionEvent)
     {
-        HospitalData.removeCategory(catList.getSelectionModel().getSelectedItem());
+        h.removeCategory(catList.getSelectionModel().getSelectedItem());
         catList.getItems().remove(catList.getSelectionModel().getSelectedItem());
     }
 }

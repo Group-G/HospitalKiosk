@@ -1,9 +1,12 @@
 package groupg.database;
 
+import groupg.Main;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+import static groupg.Main.h;
 
 /**
  * @author Dylan McKillip
@@ -22,6 +25,7 @@ public class Location implements Comparable
     private Category category;
     private List<Location> neighbors = new LinkedList<>();
     private Location parent;
+
 
     public Location(String name, double x, double y, List<Location> neighbors, Category category, float weight, int ID, int floor, int building)
     {
@@ -50,7 +54,7 @@ public class Location implements Comparable
         this.weight = weight;
         this.floor = floor;
         this.building = building;
-        this.id = HospitalData.getNewFloorID();
+        this.id = h.getNewLocationID();
 //        System.out.println("Created Location: " + getSQL());
     }
 
@@ -211,6 +215,13 @@ public class Location implements Comparable
         return neighbors;
     }
 
+    public List<Location> getNeighborsSameFloor(int floorID)
+    {
+        return neighbors.stream()
+                        .filter(node -> floorID == node.getFloorID())
+                        .collect(Collectors.toList());
+    }
+
     public void setNeighbors(List<Location> neighbors)
     {
         this.neighbors = neighbors;
@@ -249,8 +260,15 @@ public class Location implements Comparable
         {
             return false;
         }
-
-        neighbors.add(HospitalData.getLocationById(id));
+        if(h == null){
+            System.out.println("fuck");
+            return false;
+        }
+        if(h.getLocationById(id) == null){
+            System.out.println("NEIGHBOR " + id + " does not exist??");
+            return false;
+        }
+        neighbors.add(Main.h.getLocationById(id));
         return true;
     }
 

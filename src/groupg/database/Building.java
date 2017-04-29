@@ -1,6 +1,7 @@
 package groupg.database;
 
 import java.util.ArrayList;
+import static groupg.Main.h;
 
 /**
  * Created by  Alazar Genene, Saul Woolf, and Samantha Comeau on 4/1/17.
@@ -34,7 +35,7 @@ public class Building{
      * This constructor is used for interactions with the UI.
      */
     public Building(String name, int numFloors) {
-        this.id = HospitalData.getNewBuildingID();
+        this.id = h.getNewBuildingID();
         this.name = name;
         this.numFloors = numFloors;
     }

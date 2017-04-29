@@ -1,7 +1,10 @@
 package groupg.controller;
 
-import groupg.database.HospitalData;
+import static groupg.Main.h;
+
+import groupg.Main;
 import groupg.database.Location;
+import groupg.database.HospitalData;
 import groupg.database.Person;
 import groupg.jfx.AutoCompleteTextField;
 import groupg.jfx.ResourceManager;
@@ -15,6 +18,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
+
+import static groupg.Main.h;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,6 +41,8 @@ public class EditPersFineController implements Initializable
     private ListView<Location> locList;
     @FXML
     private HBox locHBox;
+    @FXML
+    private Text errorText;
 
     private Person pers;
     private AutoCompleteTextField locField = new AutoCompleteTextField();
@@ -45,7 +53,7 @@ public class EditPersFineController implements Initializable
     {
         locField.setMinWidth(200);
         locField.setPromptText("Location");
-        possibleLocs.addAll(HospitalData.getAllLocations()); //Grab all locs from DB
+        possibleLocs.addAll(h.getAllLocations()); //Grab all locs from DB
         locField.getEntries().addAll(possibleLocs);
         ObservableList<Node> children = FXCollections.observableArrayList(locHBox.getChildren());
         children.add(locField);
@@ -84,15 +92,29 @@ public class EditPersFineController implements Initializable
     {
         try
         {
-            ResourceManager.getInstance().loadFXMLIntoScene("/view/editPers.fxml", "Edit Personnel", confirmBtn.getScene());
-            List<Location> locations = new ArrayList<>();
-            locations.addAll(locList.getItems());
-            HospitalData.setPerson(pers.getId(),
-                                   new Person(nameField.getText(),
-                                              titleField.getText(),
-                                              locations.stream()
-                                                       .map(Location::getID)
-                                                       .collect(Collectors.toList()), 0));
+            if(!h.checkEmptyString(nameField.getText())){
+                errorText.setText("The name field must contain a value.");
+                errorText.setVisible(true);
+            } else if(!h.checkEmptyString(titleField.getText())){
+                errorText.setText("The title field must contain a value. Some examples include 'Dr.', 'Nurse', 'Pediatrician'");
+                errorText.setVisible(true);
+            } else if(!h.checkString(nameField.getText().trim())){
+                errorText.setText("There is an error in the name field.");
+                errorText.setVisible(true);
+            } else if(!h.checkString(titleField.getText().trim())){
+                errorText.setText("There is an error in the title field.");
+                errorText.setVisible(true);
+            } else {
+                ResourceManager.getInstance().loadFXMLIntoScene("/view/editPers.fxml", "Edit Personnel", confirmBtn.getScene());
+                List<Location> locations = new ArrayList<>();
+                locations.addAll(locList.getItems());
+                h.setPerson(pers.getId(),
+                        new Person(nameField.getText(),
+                                titleField.getText(),
+                                locations.stream()
+                                        .map(Location::getID)
+                                        .collect(Collectors.toList()), 0));
+            }
         }
         catch (IOException e)
         {
@@ -106,7 +128,7 @@ public class EditPersFineController implements Initializable
         nameField.setText(pers.getName());
         titleField.setText(pers.getTitle());
         locList.getItems().setAll(pers.getLocations().stream()
-                                      .map(HospitalData::getLocationById)
+                                      .map(Main.h::getLocationById)
                                       .collect(Collectors.toList())); //Add person's locs from DB
     }
 }

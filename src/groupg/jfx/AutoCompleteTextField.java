@@ -1,5 +1,6 @@
 package groupg.jfx;
 
+import groupg.Main;
 import groupg.database.HospitalData;
 import groupg.database.Location;
 import javafx.geometry.Side;
@@ -7,12 +8,16 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import me.xdrop.fuzzywuzzy.FuzzySearch;
+import sun.awt.image.ImageWatched;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+
+import static groupg.Main.h;
 
 /**
  * @author Ryan Benasutti
@@ -35,9 +40,23 @@ public class AutoCompleteTextField extends TextField {
                                        else {
                                            if (entries.size() > 0) {
                                                LinkedList<Location> searchResult = new LinkedList<>();
-                                               searchResult.addAll(entries.stream()
+                                               LinkedList<Location> searchResult2 = new LinkedList<>();
+
+                                               for(Location loc : h.getAllLocations()){
+                                                   if(FuzzySearch.ratio(loc.getName().toLowerCase(), getText().toLowerCase()) > 25){
+                                                       searchResult2.add(loc);
+                                                   }
+                                               }
+
+                                               searchResult2.addAll(entries.stream()
                                                                           .filter(e -> e.toString().toLowerCase().contains(getText().toLowerCase()))
                                                                           .collect(Collectors.toList()));
+
+                                               for(Location lo : searchResult2){
+                                                   if(!searchResult.contains(lo)){
+                                                       searchResult.add(lo);
+                                                   }
+                                               }
 
                                                populatePopup(searchResult);
 
@@ -88,7 +107,7 @@ public class AutoCompleteTextField extends TextField {
         if (currentSelection == null) {
             Location out = null;
 
-            for (Location elem : HospitalData.getAllLocations())
+            for (Location elem : h.getAllLocations())
                 if (elem.toString().equals(getText())) {
                     out = elem;
                     break;
@@ -96,7 +115,6 @@ public class AutoCompleteTextField extends TextField {
 
             return out;
         }
-
         return currentSelection;
     }
 
