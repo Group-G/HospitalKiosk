@@ -22,9 +22,10 @@ public class UniqueFloor {
     private double offY;
     private int index;
     private boolean onScreen = true;
+    private double nodeOffset = 1;
     //private static Pane nodePane = new Pane();
     private Group group = new Group();
-    private List<Circle> points;
+    private List<UFuniqueNode> points;
 
 
     public UniqueFloor(Floor floor, Group mapGroup, double onX, double onY, double offX, double offY, int index){
@@ -41,11 +42,11 @@ public class UniqueFloor {
         group.setTranslateY(onY);
         //imageView.setX(onX);
         //imageView.setY(onY);
-        double scale = 1.275;
+        double nodeOffset = 1.275;
         for (Location l : floor.getLocations()){
             if(!l.getCategory().getCategory().equals("")  && !l.getCategory().getCategory().equals("Hall")){
                 System.out.println(l.getCategory().getCategory());
-                Circle c = new Circle(l.getX()*scale, l.getY()*scale, 20);
+                UFuniqueNode c = new UFuniqueNode(10, l, nodeOffset);
                 points.add(c);
             }
         }
@@ -56,6 +57,10 @@ public class UniqueFloor {
         group.getChildren().addAll(points);
         mapGroup.getChildren().add(group);
 
+    }
+
+    public double getNodeOffset() {
+        return nodeOffset;
     }
 
     public Floor getFloor() {
@@ -120,5 +125,9 @@ public class UniqueFloor {
 
     public void setOnScreen(boolean o) {
         this.onScreen = o;
+    }
+
+    public List<UFuniqueNode> getPoints() {
+        return this.points;
     }
 }

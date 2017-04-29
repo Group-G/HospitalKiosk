@@ -5,6 +5,7 @@ import groupg.Main;
 import groupg.database.*;
 import groupg.jfx.AutoCompleteTextField;
 import groupg.jfx.ResourceManager;
+import groupg.jfx.UFuniqueNode;
 import groupg.jfx.UniqueFloor;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
@@ -14,12 +15,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
 import java.beans.EventHandler;
@@ -83,6 +88,14 @@ public class WelcomeScreenController implements Initializable {
         searchField.setCurrentSelection(new EmptyLocation());
         searchField.getEntries().addAll(h.getAllLocations());
         searchField.setPrefHeight(50);
+        searchField.setOnKeyPressed(key -> {
+
+            if (key.getCode() == KeyCode.ENTER) {
+                onSearch();
+            }
+        });
+
+        searchBtn.setOnAction(event -> onSearch());
 
         textFieldGroup.getChildren().add(searchField);
         acccordionDropDown.getPanes().clear();
@@ -471,9 +484,42 @@ private void removefloors(){
     }
 
     public void onSearch(){
+        System.out.println("insearch");
+        if(searchField == null){
+            return;
+        }
 
-    }
+        UniqueFloor curUniqueFloor;
+        Location searchNode = searchField.getCurrentSelection();
+        int floorID = searchNode.getFloorID();
+        for (Floor f : Main.h.getAllFloors())
+        {
+            if (Main.h.getFloorById(floorID).equals(f))
+            {
+                System.out.println("the floor equal the floor" + f.getFloorNum());
+                for (UniqueFloor uf : FaulknerFloors)
+                {
+                    if(uf.getFloor().equals(f))
+                    {
+                        System.out.println("got the floor");
+                        curUniqueFloor = uf;
+                        flipToFloor(curUniqueFloor.getFloorIndex());
+                        System.out.println(uf.getPoints().size());
+                        for(int i = 0; i < uf.getPoints().size(); i++ ) {
+                            if (uf.getPoints().get(i).getLocation().getID() == searchNode.getID()){
+                                System.out.println("FOUND ID");
+                                uf.getPoints().get(i).setRadius(20);
+                                uf.getPoints().get(i).setFill(Color.RED);
+                            }
+                        }
+                        //System.out.println(uf.getGroup().getChildren().size());
+                        }
+                    }
+                }
 
+            }
+
+        }
 }
 
 

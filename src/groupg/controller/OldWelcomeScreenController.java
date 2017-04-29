@@ -379,6 +379,7 @@ public class OldWelcomeScreenController implements Initializable {
                 setGraphic(hbox);
             }
         });
+
         if(permission == 1){
             loginBtn.setText("Logout");
         }
