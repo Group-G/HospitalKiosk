@@ -18,7 +18,7 @@ public class Tuple<A, B> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tuple<?, ?> tuple = (Tuple<?, ?>) o;
-        return tuple.left.equals(left);
+        return tuple.left.equals(left) && tuple.right.equals(right);
     }
 
     public A getLeft() {

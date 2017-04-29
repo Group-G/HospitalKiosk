@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="697.0" prefWidth="1262.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.WelcomeScreenController">
+<children>
+    <AnchorPane fx:id="LayerC" prefHeight="200.0" prefWidth="200.0">
+        <children>
+            <StackPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <children>
+                    <Pane fx:id="mapPane">
+                        <children>
+                            <Group fx:id="mapGroup">
+                                <children>
+                                    <ImageView fx:id="imageViewBase" pickOnBounds="true" preserveRatio="true" />
+                                </children>
+                            </Group>
+                        </children>
+                    </Pane>
+                </children>
+            </StackPane>
+        </children>
+    </AnchorPane>
+
+    <AnchorPane fx:id="LayerB" prefHeight="200.0" prefWidth="200.0">
+        <children>
+            <VBox prefHeight="697.0" prefWidth="313.0">
+                <children>
+                  <Pane>
+                     <children>
+                          <HBox fx:id="searchPane" prefHeight="44.0" prefWidth="283.0">
+                              <children>
+                                  <Button fx:id="menuBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0">
+                                      <font>
+                                          <Font size="18.0" />
+                                      </font>
+                                 <HBox.margin>
+                                    <Insets bottom="3.0" left="3.0" top="3.0" />
+                                 </HBox.margin>
+                                  </Button>
+                              <Group fx:id="textFieldGroup">
+                                  <children>
+                                  </children>
+                              </Group>
+                                  <Button fx:id="searchBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0">
+                                      <font>
+                                          <Font size="18.0" />
+                                      </font>
+                                 <HBox.margin>
+                                    <Insets bottom="3.0" right="3.0" top="3.0" />
+                                 </HBox.margin>
+                                  </Button>
+                              </children>
+                          </HBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Pane>
+                </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </VBox>
+        </children>
+    </AnchorPane>
+    <AnchorPane fx:id="LayerA" prefHeight="200.0" prefWidth="200.0" StackPane.alignment="CENTER_RIGHT">
+        <children>
+              <Button fx:id="viewButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="50.0" />
+              <MenuButton fx:id="language" minWidth="134.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" text="English" wrapText="true" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+                  <items>
+                      <MenuItem fx:id="english" mnemonicParsing="false" text="English" />
+                      <MenuItem fx:id="spanish" mnemonicParsing="false" text="Español" />
+                      <MenuItem fx:id="portugues" mnemonicParsing="false" text="Português" />
+                      <MenuItem fx:id="chinese" mnemonicParsing="false" text="中文" />
+                  </items>
+                  <font>
+                      <Font size="20.0" />
+                  </font>
+              </MenuButton>
+            <VBox fx:id="sidebar" alignment="CENTER_RIGHT" maxWidth="231.0" prefHeight="697.0" prefWidth="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <children>
+                  <Pane fx:id="FloorSelectPane" prefHeight="318.0" prefWidth="160.0">
+                     <children>
+                        <HBox alignment="CENTER" fillHeight="false" prefHeight="39.0" prefWidth="160.0">
+                           <children>
+                              <VBox fx:id="VBoxSelectPane" alignment="CENTER" prefHeight="413.0" prefWidth="87.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
+                                 <children>
+                                    <Label fx:id="lblFloor" alignment="CENTER" prefHeight="17.0" prefWidth="192.0" text="FLOORS">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <GridPane fx:id="Floorselectgrid" alignment="CENTER" prefHeight="22.0" prefWidth="85.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="48.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                    </GridPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </Pane>
+                </children>
+               <padding>
+                  <Insets bottom="15.0" right="15.0" top="15.0" />
+               </padding>
+            </VBox>
+        </children>
+    </AnchorPane>
+      <AnchorPane fx:id="LayerD" prefHeight="200.0" prefWidth="200.0">
+         <children>
+              <HBox alignment="BOTTOM_LEFT" prefHeight="77.0" prefWidth="457.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+                  <children>
+                      <Button fx:id="aboutBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+                  <Button fx:id="loginBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+                  </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" />
+               </padding>
+              </HBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane pickOnBounds="false" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Pane fx:id="fadePane" pickOnBounds="false" prefHeight="697.0" prefWidth="1262.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane pickOnBounds="false" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Group fx:id="menuGroup">
+               <children>
+                  <Pane fx:id="menuPane" pickOnBounds="false" prefHeight="697.0" prefWidth="300.0">
+                     <children>
+                        <VBox pickOnBounds="false" prefHeight="697.0" prefWidth="300.0">
+                           <children>
+                              <HBox alignment="TOP_RIGHT" pickOnBounds="false" prefHeight="40.0" prefWidth="300.0">
+                                 <children>
+                                    <Button fx:id="menuExitBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+                                 </children>
+                              </HBox>
+                               <Accordion fx:id="acccordionDropDown" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </Pane>
+               </children>
+            </Group>
+         </children>
+      </AnchorPane>
+</children>
+</StackPane>

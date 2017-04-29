@@ -8,8 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import javax.sound.midi.Soundbank;
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,17 +24,24 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/view/welcomeScreen.fxml"));
-        primaryStage.setTitle("Welcome");
-        primaryStage.setScene(new Scene(root, 1404, 800));
-        primaryStage.show();
+        Scene s = new Scene(root, 1404, 800);
 
+        String css = this.getClass().getResource("/view/welcomescreen.css").toExternalForm();
+        s.getStylesheets().add(css);
+
+        primaryStage.setTitle("Welcome");
+        primaryStage.setScene(s);
+        //primaryStage.setFullScreen(true);
+        //primaryStage.setResizable(true);
+       // primaryStage.setFullScreenExitHint("");
+        primaryStage.show();
         primaryStage.setOnCloseRequest(event -> Main.h.publishDB());
+
 
     }
 
     public static void main(String[] args)
     {
-
 
         dbExample.connectDB();
 

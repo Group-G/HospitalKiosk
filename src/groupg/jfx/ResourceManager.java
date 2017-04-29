@@ -33,17 +33,17 @@ public class ResourceManager
     {
         images = new ConcurrentHashMap<>(7);
         List<String> imageNames = new ArrayList<>();
-        imageNames.add("/image/faulkner_1_cropped.png");
-        imageNames.add("/image/faulkner_2_cropped.png");
-        imageNames.add("/image/faulkner_3_cropped.png");
-        imageNames.add("/image/faulkner_4_cropped.png");
-        imageNames.add("/image/faulkner_5_cropped.png");
-        imageNames.add("/image/faulkner_6_cropped.png");
-        imageNames.add("/image/faulkner_7_cropped.png");
-        imageNames.add("/image/belkin_1_cropped.png");
-        imageNames.add("/image/belkin_2_cropped.png");
-        imageNames.add("/image/belkin_3_cropped.png");
-        imageNames.add("/image/belkin_4_cropped.png");
+        imageNames.add("/image/Old/faulkner_1_cropped.png");
+        imageNames.add("/image/Old/faulkner_2_cropped.png");
+        imageNames.add("/image/Old/faulkner_3_cropped.png");
+        imageNames.add("/image/Old/faulkner_4_cropped.png");
+        imageNames.add("/image/Old/faulkner_5_cropped.png");
+        imageNames.add("/image/Old/faulkner_6_cropped.png");
+        imageNames.add("/image/Old/faulkner_7_cropped.png");
+        imageNames.add("/image/Old/belkin_1_cropped.png");
+        imageNames.add("/image/Old/belkin_2_cropped.png");
+        imageNames.add("/image/Old/belkin_3_cropped.png");
+        imageNames.add("/image/Old/belkin_4_cropped.png");
         new Thread(() -> imageNames.parallelStream().forEach(elem -> images.put(elem, loadImage(elem)))).start();
     }
 
