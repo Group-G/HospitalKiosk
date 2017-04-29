@@ -1,11 +1,12 @@
 package groupg.controller;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import groupg.Main;
-import groupg.database.*;
+import groupg.database.Category;
+import groupg.database.EmptyLocation;
+import groupg.database.Floor;
+import groupg.database.Location;
 import groupg.jfx.AutoCompleteTextField;
 import groupg.jfx.ResourceManager;
-import groupg.jfx.UFuniqueNode;
 import groupg.jfx.UniqueFloor;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
@@ -16,19 +17,16 @@ import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
-import java.beans.EventHandler;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -82,7 +80,7 @@ public class WelcomeScreenController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //String css = this.getClass().getResource("/view/welcomescreen.css").toExternalForm();
-        Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
+        Application.setUserAgentStylesheet(getClass().getResource("/view/developWelcomescreen.css").toExternalForm());
         FloorSelectPane.setVisible(false);
         //menuPaneVBox.getChildren().add(acccordionDropDown);
         searchField = new AutoCompleteTextField();
@@ -270,8 +268,8 @@ public class WelcomeScreenController implements Initializable {
         language.setGraphic(new ImageView(new Image("/image/Icons/america.png"))); //default as english
         english.setGraphic(new ImageView(new Image("/image/Icons/america.png")));
         spanish.setGraphic(new ImageView(new Image("/image/Icons/spain.png")));
-        portugues.setGraphic(new ImageView(new Image("Image/Icons/portugal.png")));
-        chinese.setGraphic(new ImageView(new Image("Image/Icons/china.png")));
+        portugues.setGraphic(new ImageView(new Image("/image/Icons/portugal.png")));
+        chinese.setGraphic(new ImageView(new Image("/image/Icons/china.png")));
     }
 
     private void zoomFloor(UniqueFloor uf){
