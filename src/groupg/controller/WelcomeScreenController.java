@@ -385,6 +385,24 @@ public class WelcomeScreenController implements Initializable {
                 });
             }
         }
+        UniqueFloor bRoof = new UniqueFloor(new Floor(0, "/image/FaulknerMaps/BelkinR.png", "Belkin Roof"), mapGroup, 3350, 2625, 3350, -700, b+1);
+        bRoof.getImageView().setOnMouseClicked(event -> {
+            System.out.println("BELKIN!");
+            removefloors();
+            event.consume();
+            flipToFloor(bRoof.getFloorIndex());
+            zoomFloor(bRoof);
+        });
+        UniqueFloor fRoof = new UniqueFloor(new Floor(1, "/image/FaulknerMaps/FaulknerR.png", "Faulkner Roof"), mapGroup, 1313, 1090, 1310, -1600, fa+1);
+        fRoof.getImageView().setOnMouseClicked(event -> {
+            System.out.println("BELKIN!");
+            removefloors();
+            event.consume();
+            flipToFloor(fRoof.getFloorIndex());
+            zoomFloor(fRoof);
+        });
+        FaulknerFloors.add(bRoof);
+        FaulknerFloors.add(fRoof);
 
         mapGroup.getTransforms().add(scale);
 //        System.out.println(mapPane.getWidth());
@@ -392,15 +410,15 @@ public class WelcomeScreenController implements Initializable {
         //mapPane.setMaxWidth(anchorPane.getMaxWidth());
         mapPane.setOnMouseClicked((MouseEvent event) -> {
             System.out.println("clicked the pane!!!!");
-            resetZoom(WINDOW_HEIGHT, 1250);
+            resetZoom(WINDOW_WIDTH, 1250);
 //            zoomFloor(FaulknerFloors.get(0));
-            flipToFloor(7);
+            flipToFloor(8);
             FloorSelectPane.setVisible(false);
         });
 
         mapPane.widthProperty().addListener((observable, oldValue, newValue) -> {
             WINDOW_WIDTH = (double) newValue;
-            resetZoom(WINDOW_HEIGHT, 1);
+            resetZoom(WINDOW_WIDTH, 1);
             fadePane.setPrefWidth((double) newValue);
 //            scale.setPivotX(-(double)newValue/2);
 //            fadeRect.setWidth((double)newValue);
@@ -525,7 +543,7 @@ public class WelcomeScreenController implements Initializable {
 
     private void flipToFloor(int index) {
         FloorSelectPane.setVisible(true);
-        if (index <= 7 && index >= 0) {
+        if (index <= 7  && index >= 0) {
             System.out.println("Flipping to floor " + index);
             currentFloor = index;
         }
@@ -609,8 +627,8 @@ public class WelcomeScreenController implements Initializable {
 
         mapGroup.getTransforms().clear();
         double curScale = scale.getMxx();
-        double curX = -mapGroup.getTranslateX();
-        double curY = -mapGroup.getTranslateY();
+        double curX = -mapGroup.getTranslateX()/scaleIn;
+        double curY = -mapGroup.getTranslateY()/scaleIn;
 
 
         mapGroup.getTransforms().add(scale);
@@ -629,9 +647,6 @@ public class WelcomeScreenController implements Initializable {
                 double newY = curY + fraction * (y - curY);
                 double newX = curX + fraction * (x - curX);
                 double newScale = curScale + fraction * (scaleIn - curScale);
-
-                mapGroup.getChildren().add(new Circle(newX, newY, 10));
-//                mapGroup.getChildren().add(new Circle(uf.getGroup().getTranslateX(), uf.getGroup().getTranslateY(), 10));
 
                 mapGroup.setTranslateX(-newX *scaleIn);
                 mapGroup.setTranslateY(-newY *scaleIn);
@@ -681,8 +696,8 @@ public class WelcomeScreenController implements Initializable {
     }
 
 
-    public void resetZoom(double height, double time) {
-        double newScale = height / imageViewBase.getImage().getHeight();
+    public void resetZoom(double width, double time) {
+        double newScale = width / imageViewBase.getImage().getWidth();
         scaleImage(0, 0, newScale, time, false).play();
     }
 
