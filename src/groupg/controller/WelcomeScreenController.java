@@ -25,6 +25,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
 import net.glxn.qrgen.core.image.ImageType;
@@ -32,10 +33,12 @@ import net.glxn.qrgen.javase.QRCode;
 
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static groupg.Main.h;
@@ -81,11 +84,99 @@ public class WelcomeScreenController implements Initializable {
     private CheckBox handicapped;
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
     NavigationFacade navigation;
+    private static  LocalTime currentTime = LocalTime.now();
+    private static LocalDate currentDate = LocalDate.now();
+    private static DayOfWeek dow = currentDate.getDayOfWeek();
+    @FXML
+    private Text errorText;
+
 
     public static void setPermission(int p) {
         permission = p;
     }
 
+    private static boolean isVisitingHrs(){
+        String currDay = getDow().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        if(currDay.equals("Monday") || currDay.equals("Tuesday") || currDay.equals("Wednesday") || currDay.equals("Thursday") || currDay.equals("Friday") || currDay.equals("Saturday") || currDay.equals("Sunday"))
+        {
+            String s = getCurrentTime().format(DateTimeFormatter.ISO_LOCAL_TIME);
+            String noon = getCurrentTime().NOON.format(DateTimeFormatter.ISO_LOCAL_TIME);
+            LocalTime eight = LocalTime.parse("20:00", DateTimeFormatter.ISO_LOCAL_TIME);
+            String eightPm = eight.format(DateTimeFormatter.ISO_LOCAL_TIME);
+            StringBuilder sb = new StringBuilder(s);
+            int i,j,k;
+            i = 0;
+            j = 0;
+            k = 0;
+            while(i < s.length()){
+                char ch = s.charAt(i);
+                if(ch == ' ' || ch == ':' || ch == '.'){
+                    String before = s.substring(0,i);
+                    String after = s.substring(i+1);
+                    s = before+after;
+
+                }
+
+                else
+                    i++;
+            }
+            StringBuilder timeNow = new StringBuilder();
+            String nowTime = new String();
+            for(int z = 0; z <s.length()-3;z++){
+                char ch = s.charAt(z);
+                timeNow.append(ch);
+            }
+            nowTime = s.substring(0,s.length()-3);
+
+            System.out.println(nowTime);
+            while(j< noon.length()){
+                char ch = noon.charAt(j);
+                if(ch == ' ' || ch == ':' || ch == '.'){
+                    String before = noon.substring(0,j);
+                    String after = noon.substring(j+1);
+                    noon = before+after;
+
+                }
+
+                else
+                    j++;
+            }
+            System.out.println(noon);
+            while(k < eightPm.length()){
+                char ch = eightPm.charAt(k);
+                if(ch == ' ' || ch == ':' || ch == '.'){
+                    String before = eightPm.substring(0,k);
+                    String after = eightPm.substring(k+1);
+                    eightPm = before+after;
+
+                }
+                else
+                    k++;
+            }
+            System.out.println(eightPm);
+            int currTime = Integer.parseInt(nowTime);
+            int noonTime = Integer.parseInt(noon);
+            int eightTime = Integer.parseInt(eightPm);
+
+            if(currTime < noonTime){
+                return false;
+            }
+            else if(currTime > noonTime && currTime < eightTime){
+                return true;
+            }
+            else return false;
+        }
+        else
+            return false;
+    }
+
+    public static LocalTime getCurrentTime() {
+        // TODO Auto-generated method stub
+        return currentTime;
+    }
+    public static DayOfWeek getDow(){
+        return dow;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -208,6 +299,7 @@ public class WelcomeScreenController implements Initializable {
 
         TitledPane quickSearch = new TitledPane("Quick Search", quickList);
         acccordionDropDown.getPanes().add(quickSearch);
+
         for (Category category : h.getAllCategories()) {
             if (category.getCategory().contains("Hall") || category.getCategory().contains("Elevator") || category.getCategory().contains("Stairs") || category.getCategory().contains("Kiosk")) {
 
@@ -350,6 +442,13 @@ public class WelcomeScreenController implements Initializable {
         // upButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_in.png",30, 30, false, false)));
         //downButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_out.png",30, 30, false, false)));
         searchBtn.setGraphic(new ImageView(new Image("/image/Icons/search.png", 30, 30, false, false)));
+        if(isVisitingHrs() == false){
+            errorText.setVisible(true);
+            return;
+        }
+        else{
+            errorText.setVisible(false);
+        }
         menuBtn.setGraphic(new ImageView(new Image("/image/Icons/menu.png", 30, 30, false, false)));
         loginBtn.setGraphic(new ImageView(new Image("/image/Icons/admin.png", 30, 30, false, false)));
         aboutBtn.setGraphic(new ImageView(new Image("/image/Icons/info.png", 30, 30, false, false)));

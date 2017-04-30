@@ -837,7 +837,7 @@ public class HospitalData {
         return dbStrLength;
     }
 
-    public void setHandicapped(int val){
+    public void  setHandicapped(int val){
         this.handicapped = val;
     }
 
@@ -971,8 +971,10 @@ public class HospitalData {
             ResultSetMetaData roomDataset = locations.getMetaData();
 
             int roomColumns = roomDataset.getColumnCount();
-
+            java.sql.Time startTime = null;
+            java.sql.Time endTime = null;
             int id = -1, x_coord = -1, y_coord = -1, buildingID = -1, floorId = -1;
+            ;
             Category category = new Category("FAILED TO PULL", 0, "#ffffff");
             String locationName = "FAILED TO PULL";
 
@@ -1000,6 +1002,12 @@ public class HospitalData {
                     }
                     else if(roomDataset.getColumnName(j).equals("BUILDING_ID")){
                         buildingID = Integer.parseInt(locations.getString(j));
+                    }
+                    else if(roomDataset.getColumnName(j).equals("startTime")){
+                        startTime = locations.getTime(j);
+                    }
+                    else if(roomDataset.getColumnName(j).equals("endTime")){
+                        endTime = locations.getTime(j);
                     }
                     else
                     {

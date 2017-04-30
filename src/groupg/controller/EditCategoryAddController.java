@@ -3,6 +3,7 @@ package groupg.controller;
 import static groupg.Main.h;
 
 import groupg.Main;
+import groupg.database.Category;
 import groupg.jfx.ResourceManager;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -17,6 +18,8 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -37,6 +40,7 @@ public class EditCategoryAddController implements Initializable
     private RadioButton radiopublic, radioprivate;
     @FXML
     private Text errorText;
+    List<Category> quickSearch = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
