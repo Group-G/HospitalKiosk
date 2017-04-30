@@ -159,7 +159,25 @@
                                     <Button fx:id="menuExitBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
                                  </children>
                               </HBox>
-                               <Accordion fx:id="acccordionDropDown" />
+                              <VBox prefHeight="200.0" prefWidth="240.0">
+                                 <children>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" prefHeight="80.0" text="Button" />
+                                          <VBox fx:id="fieldsBox" prefHeight="97.0" prefWidth="220.0" />
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Button mnemonicParsing="false" prefHeight="80.0" text="Button" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                     <Accordion fx:id="acccordionDropDown" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="40.0" right="40.0" />
+                                 </VBox.margin>
+                              </VBox>
                            </children>
                         </VBox>
                      </children>

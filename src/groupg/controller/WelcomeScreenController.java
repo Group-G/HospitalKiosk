@@ -11,7 +11,6 @@ import groupg.jfx.UniqueFloor;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.Transition;
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
@@ -120,6 +119,9 @@ public class WelcomeScreenController implements Initializable {
         menuPane.setVisible(false);
         menuPane.setPickOnBounds(false);
 
+        mapPane.setTranslateX(0);
+        mapPane.setTranslateY(-200);
+//        mapGroup
 //        menuPane
 
 
@@ -191,7 +193,7 @@ public class WelcomeScreenController implements Initializable {
             }
             else if (f.getBuildingID() == 0) {
                 b++;
-                UniqueFloor uf = new UniqueFloor(f, mapGroup, 1065+i*12, 435-i*25, 1065+i*12, -700, b);
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 3350, 2625, 3350, -700, b);
                 FaulknerFloors.add(uf);
                 uf.getImageView().setOnMouseClicked( event -> {
                     System.out.println("BELKIN!");
@@ -416,6 +418,7 @@ private void removefloors(){
         return ft;
     }
 
+
     private Animation scaleImage(double x, double y, double scaleIn, double time) {
 
         mapGroup.getTransforms().clear();
@@ -425,6 +428,10 @@ private void removefloors(){
 
 
         mapGroup.getTransforms().add(scale);
+        double px = scale.getPivotX();
+        double py = scale.getPivotY();
+        System.out.println("px + \", \"+py = " + px + ", "+py);
+
         final Animation expandPanel = new Transition() {
             {
                 setCycleDuration(Duration.millis(time));
@@ -436,14 +443,30 @@ private void removefloors(){
                 mapGroup.getTransforms().add(scale);
 
                 double newScale = curScale + fraction * (scaleIn - curScale);
+                double newY = curY + fraction * (y - curY);
+                double newX = curX + fraction * (x - curX);
 
+                mapGroup.setTranslateX(-newX * newScale);
+                mapGroup.setTranslateY(-newY * newScale);
+                scale.setPivotX(newX);
+                scale.setPivotX(newY);
+
+
+                newScale = curScale + fraction * (scaleIn - curScale);
                 scale.setX(newScale);
                 scale.setY(newScale);
 
-                double newX = curX + fraction * (x - curX);
-                mapGroup.setTranslateX(-newX * newScale);
-                double newY = curY + fraction * (y - curY);
-                mapGroup.setTranslateY(-newY * newScale);
+
+
+
+//                fraction = Math.pow(fraction, .7);
+
+
+
+//                scale.setPivotX(newX);
+//                scale.setPivotY(newY);
+
+
             }
         };
         expandPanel.setOnFinished(e -> {
