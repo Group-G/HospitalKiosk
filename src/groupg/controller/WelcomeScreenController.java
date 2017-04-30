@@ -694,6 +694,15 @@ public class WelcomeScreenController implements Initializable {
     }
 
     public Animation animatePath(Circle circle, List<Location> path, double time) {
+    public Animation drawPath(List<Location> path, double time){
+        Circle pathCircle = new Circle();
+        pathCircle.setCenterX(path.get(0).getX());
+        pathCircle.setCenterY(path.get(0).getY());
+        return animatePath(pathCircle, path, time);
+    }
+
+
+    private Animation animatePath(Circle circle, List<Location> path, double time){
         double currx = circle.getTranslateX();
         double curry = circle.getTranslateY();
 
