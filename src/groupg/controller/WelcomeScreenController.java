@@ -92,6 +92,8 @@ public class WelcomeScreenController implements Initializable {
     private CheckBox handicapped;
     @FXML
     private Text errorText;
+    @FXML
+    private ToggleButton handiBtn;
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
     NavigationFacade navigation;
     Group GroundLines = new Group();
@@ -544,6 +546,7 @@ public class WelcomeScreenController implements Initializable {
         searchBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/search.png", 30, 30, false, false)));
         menuBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/menu.png", 30, 30, false, false)));
         loginBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/admin.png", 30, 30, false, false)));
+        handiBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/handicapped.png", 30, 30, false, false)));
         aboutBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/info.png", 30, 30, false, false)));
         menuExitBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/close.png", 30, 30, false, false)));
         language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/america.png"))); //default as english
@@ -1274,7 +1277,7 @@ public class WelcomeScreenController implements Initializable {
             Pane dirPane = new Pane();
             Pane dicks = new Pane();
             dicks.getChildren().add(qrcode);
-            dicks.setPadding(new Insets(20, 0, 20, 0));
+//            dicks.setPadding(new Insets(20, 0, 20, 0));
 
             //dicks.getChildren().add(dirList);
             dirBox.setPrefHeight(mapPane.getHeight());
