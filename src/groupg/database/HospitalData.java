@@ -91,10 +91,6 @@ public class HospitalData {
             connection = DriverManager.getConnection("jdbc:derby:HospitalDatabase;create=true");
             Statement stmt = connection.createStatement();
 
-            Building b = new Building(-2, "Ground", 1);
-
-            b.addFloor(new Floor(-3,-2, "/image/FaulknerMaps/Ground.png","Ground"));
-            buildingsList.add(b);
 
             //Only return true if all pulls are successful
             if(pullCategories(stmt)) {
