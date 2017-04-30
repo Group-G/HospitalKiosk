@@ -1,6 +1,7 @@
 package groupg.jfx;
 
 import groupg.database.Location;
+import groupg.database.Person;
 import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
@@ -8,10 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static groupg.Main.h;
@@ -48,6 +46,17 @@ public class AutoCompleteTextField extends TextField {
                                                searchResult2.addAll(h.getAllLocations()
                                                                      .stream()
                                                                      .filter(elem -> FuzzySearch.ratio(elem.getName().toLowerCase(), getText().toLowerCase()) > 25)
+                                                                     .collect(Collectors.toList()));
+
+                                               searchResult2.addAll(h.getAllPeople()
+                                                                     .stream()
+                                                                     .map(Person::getLocations)
+                                                                     .map(loc -> {
+                                                                         if (loc.size() != 0)
+                                                                             return h.getLocationById(loc.get(0));
+                                                                         return null;
+                                                                     })
+                                                                     .filter(Objects::nonNull)
                                                                      .collect(Collectors.toList()));
 
                                                searchResult2.addAll(entries.stream()
