@@ -19,31 +19,59 @@ import java.util.function.Consumer;
 /**
  * Created by ryan on 3/31/17.
  */
-public class ResourceManager
-{
+public class ResourceManager {
     private static ResourceManager ourInstance = new ResourceManager();
     private static ConcurrentMap<String, Image> images;
 
-    public static ResourceManager getInstance()
-    {
+    public static ResourceManager getInstance() {
         return ourInstance;
     }
 
-    private ResourceManager()
-    {
-        images = new ConcurrentHashMap<>(7);
-        List<String> imageNames = new ArrayList<>();
-        imageNames.add("/image/Old/faulkner_1_cropped.png");
-        imageNames.add("/image/Old/faulkner_2_cropped.png");
-        imageNames.add("/image/Old/faulkner_3_cropped.png");
-        imageNames.add("/image/Old/faulkner_4_cropped.png");
-        imageNames.add("/image/Old/faulkner_5_cropped.png");
-        imageNames.add("/image/Old/faulkner_6_cropped.png");
-        imageNames.add("/image/Old/faulkner_7_cropped.png");
-        imageNames.add("/image/Old/belkin_1_cropped.png");
-        imageNames.add("/image/Old/belkin_2_cropped.png");
-        imageNames.add("/image/Old/belkin_3_cropped.png");
-        imageNames.add("/image/Old/belkin_4_cropped.png");
+    private ResourceManager() {
+        images = new ConcurrentHashMap<>(31);
+        List<String> imageNames = new ArrayList<>(31);
+
+        imageNames.add("/image/FaulknerMaps/Belkin1.png");
+        imageNames.add("/image/FaulknerMaps/Belkin2.png");
+        imageNames.add("/image/FaulknerMaps/Belkin3.png");
+        imageNames.add("/image/FaulknerMaps/Belkin4.png");
+        imageNames.add("/image/FaulknerMaps/BelkinR.png");
+        imageNames.add("/image/FaulknerMaps/Faulkner1.png");
+        imageNames.add("/image/FaulknerMaps/Faulkner2.png");
+        imageNames.add("/image/FaulknerMaps/Faulkner3.png");
+        imageNames.add("/image/FaulknerMaps/Faulkner4.png");
+        imageNames.add("/image/FaulknerMaps/Faulkner5.png");
+        imageNames.add("/image/FaulknerMaps/Faulkner6.png");
+        imageNames.add("/image/FaulknerMaps/Faulkner7.png");
+        imageNames.add("/image/FaulknerMaps/FaulknerR.png");
+        imageNames.add("/image/FaulknerMaps/Ground.png");
+
+        imageNames.add("/image/Headshots/Alazar.png");
+        imageNames.add("/image/Headshots/Andrew.png");
+        imageNames.add("/image/Headshots/Daniel.png");
+        imageNames.add("/image/Headshots/Dylan.png");
+        imageNames.add("/image/Headshots/Hunter.png");
+        imageNames.add("/image/Headshots/Ryan.png");
+        imageNames.add("/image/Headshots/Sam.png");
+        imageNames.add("/image/Headshots/Saul.png");
+        imageNames.add("/image/Headshots/Will.png");
+        imageNames.add("/image/Headshots/Wong.png");
+
+        imageNames.add("/image/Icons/admin.png");
+        imageNames.add("/image/Icons/america.png");
+        imageNames.add("/image/Icons/china.png");
+        imageNames.add("/image/Icons/close.png");
+        imageNames.add("/image/Icons/info.png");
+        imageNames.add("/image/Icons/location.png");
+        imageNames.add("/image/Icons/menu.png");
+        imageNames.add("/image/Icons/pin.png");
+        imageNames.add("/image/Icons/portugal.png");
+        imageNames.add("/image/Icons/search.png");
+        imageNames.add("/image/Icons/swap.png");
+        imageNames.add("/image/Icons/spain.png");
+        imageNames.add("/image/Icons/zoom_in.png");
+        imageNames.add("/image/Icons/zoom_out.png");
+
         new Thread(() -> imageNames.parallelStream().forEach(elem -> images.put(elem, loadImage(elem)))).start();
     }
 
@@ -53,11 +81,10 @@ public class ResourceManager
      * @param fileName Relative path for FXML file
      * @param title    Title for Scene
      * @param scene    Scene to load into
-     * @throws IOException FXMLLoader.load may fail to retrieve file
+     * @throws IOException          FXMLLoader.load may fail to retrieve file
      * @throws NullPointerException FXMLLoader.load may fail to retrieve file
      */
-    public <T> T loadFXMLIntoScene(String fileName, String title, Scene scene, Consumer<T> consumer) throws IOException, NullPointerException
-    {
+    public <T> T loadFXMLIntoScene(String fileName, String title, Scene scene, Consumer<T> consumer) throws IOException, NullPointerException {
         FXMLLoader loader = new FXMLLoader(ResourceManager.getInstance().getClass().getResource(fileName));
 //        loader.setClassLoader(T.class.getClassLoader());
         Parent root = loader.load();
@@ -78,11 +105,10 @@ public class ResourceManager
      * @param fileName Relative path for FXML file
      * @param title    Title for Scene
      * @param scene    Scene to load into
-     * @throws IOException FXMLLoader.load may fail to retrieve file
+     * @throws IOException          FXMLLoader.load may fail to retrieve file
      * @throws NullPointerException FXMLLoader.load may fail to retrieve file
      */
-    public <T> T loadFXMLIntoScene(String fileName, String title, Scene scene) throws IOException, NullPointerException
-    {
+    public <T> T loadFXMLIntoScene(String fileName, String title, Scene scene) throws IOException, NullPointerException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
         Parent root = loader.load();
         Platform.runLater(() ->
@@ -103,21 +129,17 @@ public class ResourceManager
      * @param scene      Scene to load into
      * @param controller Controller to use
      */
-    public void loadFXMLIntoSceneWithController(String fileName, String title, Scene scene, Initializable controller)
-    {
+    public void loadFXMLIntoSceneWithController(String fileName, String title, Scene scene, Initializable controller) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
         loader.setController(controller);
         Platform.runLater(() ->
                           {
-                              try
-                              {
+                              try {
                                   Stage stage = (Stage) scene.getWindow();
                                   stage.setTitle(title);
                                   stage.setScene(new Scene(loader.load(), scene.getWidth(), scene.getHeight()));
                                   stage.show();
-                              }
-                              catch (IOException e)
-                              {
+                              } catch (IOException e) {
                                   e.printStackTrace();
                               }
                           });
@@ -131,11 +153,10 @@ public class ResourceManager
      * @param scene    Scene to load into
      * @param width    Width of Dialog
      * @param height   Height of Dialog
-     * @throws IOException FXMLLoader.load may fail to retrieve file
+     * @throws IOException          FXMLLoader.load may fail to retrieve file
      * @throws NullPointerException FXMLLoader.load may fail to retrieve file
      */
-    public <T> T loadFXMLIntoDialog(String fileName, String title, Scene scene, double width, double height) throws IOException, NullPointerException
-    {
+    public <T> T loadFXMLIntoDialog(String fileName, String title, Scene scene, double width, double height) throws IOException, NullPointerException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
         Parent root = loader.load();
         Platform.runLater(() -> {
@@ -157,7 +178,10 @@ public class ResourceManager
     public Image loadImage(String fileName, int width, int height, boolean preserveRatio, boolean smooth) {
         if (images.containsKey(fileName))
             return images.get(fileName);
-        return new Image(fileName, width, height, preserveRatio, smooth);
+
+        Image image = new Image(fileName, width, height, preserveRatio, smooth);
+        images.put(fileName, image);
+        return image;
     }
 
     public Image loadImage(String fileName, int width, int height) {
@@ -166,5 +190,14 @@ public class ResourceManager
 
     public Image loadImage(String fileName) {
         return loadImage(fileName, 2265, 1290);
+    }
+
+    public Image loadImageNatural(String fileName) {
+        if (images.containsKey(fileName))
+            return images.get(fileName);
+
+        Image image = new Image(fileName);
+        images.put(fileName, image);
+        return image;
     }
 }

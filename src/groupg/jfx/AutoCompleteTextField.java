@@ -1,20 +1,15 @@
 package groupg.jfx;
 
-import groupg.Main;
-import groupg.database.HospitalData;
 import groupg.database.Location;
+import groupg.database.Person;
 import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
-import sun.awt.image.ImageWatched;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static groupg.Main.h;
@@ -42,28 +37,48 @@ public class AutoCompleteTextField extends TextField {
                                                LinkedList<Location> searchResult = new LinkedList<>();
                                                LinkedList<Location> searchResult2 = new LinkedList<>();
 
-                                               for(Location loc : h.getAllLocations()){
-                                                   if(FuzzySearch.ratio(loc.getName().toLowerCase(), getText().toLowerCase()) > 25){
-                                                       searchResult2.add(loc);
-                                                   }
-                                               }
+//                                               for (Location loc : h.getAllLocations()) {
+//                                                   if (FuzzySearch.ratio(loc.getName().toLowerCase(), getText().toLowerCase()) > 25) {
+//                                                       searchResult2.add(loc);
+//                                                   }
+//                                               }
+
+                                               searchResult2.addAll(h.getAllLocations()
+                                                                     .stream()
+                                                                     .filter(elem -> FuzzySearch.ratio(elem.getName().toLowerCase(), getText().toLowerCase()) > 25)
+                                                                     .collect(Collectors.toList()));
+
+                                               searchResult2.addAll(h.getAllPeople()
+                                                                     .stream()
+                                                                     .map(Person::getLocations)
+                                                                     .map(loc -> {
+                                                                         if (loc.size() != 0)
+                                                                             return h.getLocationById(loc.get(0));
+                                                                         return null;
+                                                                     })
+                                                                     .filter(Objects::nonNull)
+                                                                     .collect(Collectors.toList()));
 
                                                searchResult2.addAll(entries.stream()
-                                                                          .filter(e -> e.toString().toLowerCase().contains(getText().toLowerCase()))
-                                                                          .collect(Collectors.toList()));
+                                                                           .filter(e -> e.toString().toLowerCase().contains(getText().toLowerCase()))
+                                                                           .collect(Collectors.toList()));
 
-                                               for(Location lo : searchResult2){
-                                                   if(!searchResult.contains(lo)){
-                                                       searchResult.add(lo);
-                                                   }
-                                               }
+//                                               for (Location lo : searchResult2) {
+//                                                   if (!searchResult.contains(lo)) {
+//                                                       searchResult.add(lo);
+//                                                   }
+//                                               }
+
+                                               searchResult2.forEach(elem -> {
+                                                   if (!searchResult.contains(elem))
+                                                       searchResult.add(elem);
+                                               });
 
                                                populatePopup(searchResult);
 
                                                if (!entriesPopup.isShowing())
                                                    entriesPopup.show(AutoCompleteTextField.this, Side.BOTTOM, 0, 0);
-                                           }
-                                           else
+                                           } else
                                                entriesPopup.hide();
                                        }
                                    });
