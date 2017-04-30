@@ -3,23 +3,30 @@ package groupg.controller;
 import groupg.algorithm.NavigationAlgorithm;
 import groupg.database.Floor;
 import groupg.jfx.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static groupg.Main.h;
@@ -30,13 +37,15 @@ import static groupg.Main.h;
  */
 public class AdminMainController implements Initializable {
     @FXML
-    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, showAllCons, editAdminBtn;
+    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, showAllCons, editAdminBtn, saveBtn;
     @FXML
     private TabPane tabPane;
     @FXML
     private GridPane canvasWrapper;
     @FXML
     private MenuButton changeAlgorithmDD;
+    @FXML
+    private AnchorPane mainpane;
     private static Pane imageViewPane;
     private static Pane nodeOverlay;
     public static Pane lineOverlay;
@@ -132,6 +141,24 @@ public class AdminMainController implements Initializable {
             mouseY = mouseEvent.getY();
         });
 
+        saveBtn.setOnAction(event -> {
+            h.publishDB();
+            try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Lightbox.fxml"));
+            loader.load();
+            Lightbox controller = loader.getController();
+                Timeline timeline = new Timeline(new KeyFrame(
+                        Duration.millis(500),
+                        ae -> controller.showin(mainpane)));
+                timeline.play();
+                 //Save changes to disk
+            }
+            catch (IOException ex) {
+                // なんか適当にエラー処理でも
+                Logger.getLogger(AdminMainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+
         pane.setOnKeyPressed(keyEvent -> {
             switch (keyEvent.getText()) {
                 case "a":
@@ -214,8 +241,6 @@ public class AdminMainController implements Initializable {
     }
 
     public void onLogout(ActionEvent actionEvent) {
-        h.publishDB(); //Save changes to disk
-
         try {
             ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", logoutBtn.getScene());
         } catch (IOException e) {
