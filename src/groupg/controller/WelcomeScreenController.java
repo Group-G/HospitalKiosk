@@ -5,9 +5,7 @@ import groupg.algorithm.NavigationAlgorithm;
 import groupg.algorithm.NavigationFacade;
 import groupg.database.*;
 import groupg.jfx.*;
-import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
-import javafx.animation.Transition;
+import javafx.animation.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,6 +22,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.CircleBuilder;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
@@ -710,40 +711,30 @@ public class WelcomeScreenController implements Initializable {
 
     }
 
-    public Animation drawPath(List<Location> path, double time){
-        Circle pathCircle = new Circle();
-        pathCircle.setCenterX(path.get(0).getX());
-        pathCircle.setCenterY(path.get(0).getY());
-        return animatePaths(pathCircle, path, time);
-    }
-
-
-    private Animation animatePaths(Circle circle, List<Location> path, double time){
-        double currx = circle.getTranslateX();
-        double curry = circle.getTranslateY();
-
-        final Animation animatePath = new Transition() {
-            {
-                setCycleDuration(Duration.millis(time));
-            }
-
-            @Override
-            protected void interpolate(double frac) {
-                double newx = currx + frac + (path.get(0).getX() - currx);
-                circle.setTranslateX(newx);
-                double newy = curry + frac + (path.get(0).getY() - curry);
-                circle.setTranslateY(newy);
-            }
-        };
-
-        path.remove(path.get(0));
-        if (path.isEmpty()) {
-            return animatePath;
-        } else {
-            animatePaths(circle, path, time);
+    public void animatePath(List<LocationDecorator> path, double time){
+        final Group group = new Group();
+        final Circle pathCircle = new Circle(path.get(0).getX(), path.get(0).getY(), 8);
+        pathCircle.setFill(Color.DARKRED);
+        final Path animPath = new Path();
+        for (int i=1;i<path.size();i++){
+            animPath.getElements().add(new MoveTo(path.get(i).getX(),path.get(i).getY()));
         }
-        return null; //should never happen ever!
+
+        group.getChildren().add(animPath);
+        group.getChildren().add(pathCircle);
+
+        final PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.seconds(time));
+        pathTransition.setDelay(Duration.seconds(.1));
+        pathTransition.setPath(animPath);
+        pathTransition.setNode(pathCircle);
+        pathTransition
+                .setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pathTransition.setCycleCount(1);
+        pathTransition.setAutoReverse(false);
+        pathTransition.play();
     }
+
 
     public Location getClosestOfCategory(Location start, Category cat) {
         List<Location> filteredLocs = new ArrayList<>();
@@ -1157,6 +1148,9 @@ public class WelcomeScreenController implements Initializable {
                         .collect(Collectors.toList())));
                 uf.getLines().getChildren().setAll(displayedLines);
             }
+
+            animatePath(output, 2000);
+
             System.out.println("groudn lknes" + GroundNodes.size());
             for (Location l: GroundNodes) {
                 l.setX((int)(l.getX()*2.79));
