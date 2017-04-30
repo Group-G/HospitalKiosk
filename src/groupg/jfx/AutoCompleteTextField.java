@@ -37,12 +37,6 @@ public class AutoCompleteTextField extends TextField {
                                                LinkedList<Location> searchResult = new LinkedList<>();
                                                LinkedList<Location> searchResult2 = new LinkedList<>();
 
-//                                               for (Location loc : h.getAllLocations()) {
-//                                                   if (FuzzySearch.ratio(loc.getName().toLowerCase(), getText().toLowerCase()) > 25) {
-//                                                       searchResult2.add(loc);
-//                                                   }
-//                                               }
-
                                                searchResult2.addAll(h.getAllLocations()
                                                                      .stream()
                                                                      .filter(elem -> FuzzySearch.ratio(elem.getName().toLowerCase(), getText().toLowerCase()) > 25)
@@ -63,13 +57,10 @@ public class AutoCompleteTextField extends TextField {
                                                                            .filter(e -> e.toString().toLowerCase().contains(getText().toLowerCase()))
                                                                            .collect(Collectors.toList()));
 
-//                                               for (Location lo : searchResult2) {
-//                                                   if (!searchResult.contains(lo)) {
-//                                                       searchResult.add(lo);
-//                                                   }
-//                                               }
+                                               LinkedList<Location> filtered = new LinkedList<>();
+                                               filtered.addAll(searchResult2.stream().filter(elem -> !elem.getName().equals("My Node")).collect(Collectors.toList()));
 
-                                               searchResult2.forEach(elem -> {
+                                               filtered.forEach(elem -> {
                                                    if (!searchResult.contains(elem))
                                                        searchResult.add(elem);
                                                });
