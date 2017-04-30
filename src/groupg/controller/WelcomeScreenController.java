@@ -31,13 +31,13 @@ import net.glxn.qrgen.javase.QRCode;
 
 import java.io.*;
 import java.net.URL;
-import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import static groupg.Main.h;
-import static groupg.Main.main;
 
 /**
  * Created by will on 4/21/17.
@@ -266,7 +266,7 @@ public class WelcomeScreenController implements Initializable {
 
             } else {
                 if (category.getPermission() <= permission) {
-                    ListView<Location> locByCat = new ListView();
+                    ListView<Location> locByCat = new ListView<>();
                     locByCat.getItems().addAll(h.getLocationsByCategory(category.getCategory()));
                     locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
                     acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " ", locByCat));
@@ -427,19 +427,19 @@ public class WelcomeScreenController implements Initializable {
 
 
         //set button graphics
-        viewButton.setGraphic(new ImageView(new Image("/image/Icons/location.png", 30, 30, false, false)));
+        viewButton.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/location.png", 30, 30, false, false)));
         // upButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_in.png",30, 30, false, false)));
         //downButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_out.png",30, 30, false, false)));
-        searchBtn.setGraphic(new ImageView(new Image("/image/Icons/search.png", 30, 30, false, false)));
-        menuBtn.setGraphic(new ImageView(new Image("/image/Icons/menu.png", 30, 30, false, false)));
-        loginBtn.setGraphic(new ImageView(new Image("/image/Icons/admin.png", 30, 30, false, false)));
-        aboutBtn.setGraphic(new ImageView(new Image("/image/Icons/info.png", 30, 30, false, false)));
-        menuExitBtn.setGraphic(new ImageView(new Image("/image/Icons/close.png", 30, 30, false, false)));
-        language.setGraphic(new ImageView(new Image("/image/Icons/america.png"))); //default as english
-        english.setGraphic(new ImageView(new Image("/image/Icons/america.png")));
-        spanish.setGraphic(new ImageView(new Image("/image/Icons/spain.png")));
-        portugues.setGraphic(new ImageView(new Image("/image/Icons/portugal.png")));
-        chinese.setGraphic(new ImageView(new Image("/image/Icons/china.png")));
+        searchBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/search.png", 30, 30, false, false)));
+        menuBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/menu.png", 30, 30, false, false)));
+        loginBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/admin.png", 30, 30, false, false)));
+        aboutBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/info.png", 30, 30, false, false)));
+        menuExitBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/close.png", 30, 30, false, false)));
+        language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/america.png"))); //default as english
+        english.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/america.png")));
+        spanish.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/spain.png")));
+        portugues.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/portugal.png")));
+        chinese.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/china.png")));
 
 
     }
