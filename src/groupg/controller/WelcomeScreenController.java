@@ -392,6 +392,7 @@ public class WelcomeScreenController implements Initializable {
             event.consume();
             flipToFloor(bRoof.getFloorIndex());
             zoomFloor(bRoof);
+            getfloors(bRoof.getFloor().getBuildingID());
         });
         UniqueFloor fRoof = new UniqueFloor(new Floor(1, "/image/FaulknerMaps/FaulknerR.png", "Faulkner Roof"), mapGroup, 1313, 1090, 1310, -1600, fa+1);
         fRoof.getImageView().setOnMouseClicked(event -> {
@@ -400,6 +401,7 @@ public class WelcomeScreenController implements Initializable {
             event.consume();
             flipToFloor(fRoof.getFloorIndex());
             zoomFloor(fRoof);
+            getfloors(fRoof.getFloor().getBuildingID());
         });
         FaulknerFloors.add(bRoof);
         FaulknerFloors.add(fRoof);
