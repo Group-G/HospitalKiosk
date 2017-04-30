@@ -37,6 +37,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static groupg.Main.h;
+import static groupg.Main.main;
 
 /**
  * Created by will on 4/21/17.
@@ -79,6 +80,7 @@ public class WelcomeScreenController implements Initializable {
     private CheckBox handicapped;
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
     NavigationFacade navigation;
+    Group GroundLines = new Group();
 
 
 
@@ -89,6 +91,65 @@ public class WelcomeScreenController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        navigation = new NavigationFacade();
+
+        dirList = new ListView<>();
+
+        dirList.setCellFactory(list -> new ListCell<String>() {
+            @Override
+            protected void updateItem(final String item, final boolean empty) {
+                super.updateItem(item, empty);
+
+                // if null, display nothing
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                    return;
+                }
+
+                setText(null);
+                final HBox hbox = new HBox();
+
+                Text text = new Text(item);
+                hbox.setMaxWidth(dirList.getPrefWidth());
+                text.wrappingWidthProperty().bind(hbox.widthProperty().subtract(10));
+                text.textProperty().bind(itemProperty());
+                setPrefWidth(0);
+                setPrefHeight(60);
+
+                Label iconLabel = new Label();
+                String url;
+                if (item.contains("same") || item.contains("straight")) {
+                    url = "/image/directions/forward.png";
+                }
+                else if (item.contains("left")){
+                    url = "/image/directions/left.png";
+                }
+                else if (item.contains("right")){
+                    url = "/image/directions/right.png";
+                }
+                else if (item.contains("back")){
+                    url = "/image/directions/backward.png";
+                }
+                else if (item.contains("stairs")){
+                    url = "/image/directions/upstair.png";
+                }
+                else if (item.contains("reached")){
+                    url = "/image/directions/destination.png";
+                }
+                else if (item.contains("levator")) {
+                    url = "/image/directions/elevator.jpg";
+                } else {
+                    url = "/image/directions/startlocation.png";
+                }
+
+                iconLabel.setGraphic(new ImageView(new Image(url,20, 20, false, false)));
+                iconLabel.setPadding(new Insets(0,5,0,0));
+
+                hbox.getChildren().addAll(iconLabel, text);
+                setGraphic(hbox);
+            }
+        });
         //String css = this.getClass().getResource("/view/welcomescreen.css").toExternalForm();
         //Application.setUserAgentStylesheet(getClass().getResource("/view/developWelcomescreen.css").toExternalForm());
         FloorSelectPane.setVisible(false);
@@ -109,9 +170,7 @@ public class WelcomeScreenController implements Initializable {
         endField.setPrefHeight(50);
 
         List<Location> kioskLocs = h.getLocationsByCategory("Kiosk");
-        if (kioskLocs.size() > 0) {
-            startField.setCurrentSelection(kioskLocs.get(0));
-        }
+
         searchField.setOnKeyPressed(key -> {
 
             if (key.getCode() == KeyCode.ENTER) {
@@ -123,23 +182,17 @@ public class WelcomeScreenController implements Initializable {
 
         startField.setOnKeyPressed(key -> {
             if (key.getCode() == KeyCode.ENTER) {
-                if (startField.getCurrentSelection().getX() == 0 || endField.getCurrentSelection().getX() == 0) {
-                    return;
+                if (startField.getCurrentSelection().getX() != 0) {
+                    onSearch(startField.getCurrentSelection());
                 }
-                System.out.println("endField = " + endField.getCurrentSelection().getID());
-                System.out.println("endField = " + endField.getCurrentSelection().getX());
-                System.out.println("get the directions!!!");
             }
         });
 
         endField.setOnKeyPressed(key -> {
             if (key.getCode() == KeyCode.ENTER) {
-                if (startField.getCurrentSelection().getX() == 0 || endField.getCurrentSelection().getX() == 0) {
-                    return;
+                if (endField.getCurrentSelection().getX() != 0) {
+                    onSearch(endField.getCurrentSelection());
                 }
-                System.out.println("endField = " + endField.getCurrentSelection().getID());
-                System.out.println("endField = " + endField.getCurrentSelection().getX());
-                System.out.println("get the directions!!!");
             }
         });
 
@@ -155,7 +208,7 @@ public class WelcomeScreenController implements Initializable {
             }
             System.out.println("endField = " + endField.getCurrentSelection().getID());
             System.out.println("endField = " + endField.getCurrentSelection().getX());
-            System.out.println("get the directions!!!");
+            drawPath();
         });
 
 
@@ -261,7 +314,9 @@ public class WelcomeScreenController implements Initializable {
 
             }
         });
+        //TODO ggroupnd tliems
 
+        mapGroup.getChildren().add(GroundLines);
         List<Floor> floors = Main.h.getAllFloors();
         int fa = 0, b = 0;
         for (int i = 0; i < floors.size(); i++) {
@@ -329,6 +384,9 @@ public class WelcomeScreenController implements Initializable {
             WINDOW_WIDTH = (double) newValue;
             resetZoom(WINDOW_WIDTH, 1);
             fadePane.setPrefWidth((double) newValue);
+            if (kioskLocs.size() > 0) {
+                startField.setCurrentSelection(kioskLocs.get(0));
+            }
 //            scale.setPivotX(-(double)newValue/2);
 //            fadeRect.setWidth((double)newValue);
 
@@ -382,6 +440,8 @@ public class WelcomeScreenController implements Initializable {
         spanish.setGraphic(new ImageView(new Image("/image/Icons/spain.png")));
         portugues.setGraphic(new ImageView(new Image("/image/Icons/portugal.png")));
         chinese.setGraphic(new ImageView(new Image("/image/Icons/china.png")));
+
+
     }
 
     private void zoomFloor(UniqueFloor uf) {
@@ -854,7 +914,7 @@ public class WelcomeScreenController implements Initializable {
                 preAngle = currAngle;
             }
             dirList.setItems(directions);
-            QRgen();
+            //QRgen();
         }
     }
 
@@ -1050,8 +1110,38 @@ public class WelcomeScreenController implements Initializable {
                     .collect(Collectors.toList()));
 
 
+            List<Location> GroundNodes = new ArrayList<>();
 
+            for (Location l: output) {
+                if (Main.h.getFloorById(l.getFloorID()).getBuildingID() == -2) {
+                    GroundNodes.add(l.makeCopy());
+                }
+            }
 
+            for (UniqueFloor uf: FaulknerFloors){
+                uf.getPath().clear();
+                for (Location l: output) {
+                    if (l.getFloorID() == uf.getFloor().getID()){
+                        uf.getPath().add(l);
+                    }
+                }
+
+                uf.adjustPath();
+                displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(uf.getPath().stream()
+                        .map(elem -> (Location) elem)
+                        .collect(Collectors.toList())));
+                uf.getLines().getChildren().setAll(displayedLines);
+            }
+            System.out.println("groudn lknes" + GroundNodes.size());
+            for (Location l: GroundNodes) {
+                l.setX((int)(l.getX()*2.79));
+                l.setY((int)(l.getY()*2.79));
+            }
+            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(GroundNodes.stream()
+                    .map(elem -> (Location) elem)
+                    .collect(Collectors.toList())));
+            GroundLines.getChildren().setAll(displayedLines);
+            //mapGroup.getChildren().add(new Circle(1000,1000, 400));
         }
     }
 

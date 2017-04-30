@@ -307,4 +307,8 @@ public class Location implements Comparable
     public void addNeighbors(List<Location> toAdd) {
         toAdd.forEach(this::addNeighbor);
     }
+
+    public Location makeCopy(){
+        return new Location(name, x, y, neighbors, category, weight, id, floor, building);
+    }
 }

@@ -22,11 +22,12 @@ public class UniqueFloor {
     private double offY;
     private int index;
     private boolean onScreen = true;
-    private double nodeOffset = 1;
     //private static Pane nodePane = new Pane();
     private Group group = new Group();
     private List<UFuniqueNode> points;
-
+    private Group lines = new Group();
+    private double nodeOffset = 1.285;
+    private List<Location> path = new ArrayList<>();
 
     public UniqueFloor(Floor floor, Group mapGroup, double onX, double onY, double offX, double offY, int index){
 
@@ -40,9 +41,15 @@ public class UniqueFloor {
         imageView.setImage(new Image(floor.getFilename()));
         group.setTranslateX(onX);
         group.setTranslateY(onY);
+        if (floor.getBuildingID() == 1) {
+            //ffaulker
+            nodeOffset = 1.285;
+        }
+        if (floor.getBuildingID() == 0) {
+            nodeOffset = .56;
+        }
         //imageView.setX(onX);
         //imageView.setY(onY);
-        double nodeOffset = 1.285;
         for (Location l : floor.getLocations()){
             if(!l.getCategory().getCategory().equals("")  && !l.getCategory().getCategory().equals("Hall")){
                 System.out.println(l.getCategory().getCategory());
@@ -55,6 +62,7 @@ public class UniqueFloor {
         //nodePane.setPickOnBounds(false);
         group.getChildren().add(imageView);
         group.getChildren().addAll(points);
+        group.getChildren().add(lines);
         mapGroup.getChildren().add(group);
 
     }
@@ -129,5 +137,37 @@ public class UniqueFloor {
 
     public List<UFuniqueNode> getPoints() {
         return this.points;
+    }
+
+    public Group getLines() {
+        return lines;
+    }
+
+    public void setLines(Group lines) {
+        this.lines = lines;
+    }
+
+    public double nodeOffset() {
+        return nodeOffset;
+    }
+
+    public List<Location> getPath() {
+        return path;
+    }
+    public void setPath(List<Location> path) {
+        this.path = path;
+    }
+
+    public void adjustPath(){
+        List<Location> copies = new ArrayList<>();
+        if (path.size() != 0){
+            for (Location l : path){
+                Location copy = l.makeCopy();
+                copy.setX((int)(copy.getX()*nodeOffset));
+                copy.setY((int)(copy.getY()*nodeOffset));
+                copies.add(copy);
+            }
+            path = copies;
+        }
     }
 }

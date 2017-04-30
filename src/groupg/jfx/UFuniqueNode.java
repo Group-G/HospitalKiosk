@@ -20,6 +20,7 @@ public class UFuniqueNode extends Circle {
         super(location.getX()*nodeOffset, location.getY()*nodeOffset,radius);
         this.nodeOffset = nodeOffset;
         this.location = location;
+
     }
 
 //    public void setUnhighlighted() {
