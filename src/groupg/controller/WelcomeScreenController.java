@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -55,7 +56,7 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private VBox VBoxSelectPane, fieldsBox;
     @FXML
-    private Button menuBtn, loginBtn, aboutBtn, searchBtn, upButton, downButton, viewButton, menuExitBtn, directionBtn;
+    private Button menuBtn, loginBtn, aboutBtn, searchBtn, viewButton, menuExitBtn, directionBtn,swapBtn;
     @FXML
     private AnchorPane LayerA, LayerB, LayerC, LayerD;
     @FXML
@@ -166,8 +167,8 @@ public class WelcomeScreenController implements Initializable {
         endField.getEntries().addAll(h.getAllLocations());
 
         searchField.setPrefHeight(50);
-        startField.setPrefHeight(50);
-        endField.setPrefHeight(50);
+        startField.setPrefHeight(40);
+        endField.setPrefHeight(40);
 
         List<Location> kioskLocs = h.getLocationsByCategory("Kiosk");
 
@@ -200,6 +201,13 @@ public class WelcomeScreenController implements Initializable {
             if (searchField.getCurrentSelection().getX() != 0) {
                 onSearch(searchField.getCurrentSelection());
             }
+        });
+
+        swapBtn.setOnAction(event -> {
+            String start = startField.getText();
+            String end = endField.getText();
+            startField.setText(end);
+            endField.setText(start);
         });
 
         directionBtn.setOnAction(event -> {
@@ -428,8 +436,6 @@ public class WelcomeScreenController implements Initializable {
 
         //set button graphics
         viewButton.setGraphic(new ImageView(new Image("/image/Icons/location.png", 30, 30, false, false)));
-        // upButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_in.png",30, 30, false, false)));
-        //downButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_out.png",30, 30, false, false)));
         searchBtn.setGraphic(new ImageView(new Image("/image/Icons/search.png", 30, 30, false, false)));
         menuBtn.setGraphic(new ImageView(new Image("/image/Icons/menu.png", 30, 30, false, false)));
         loginBtn.setGraphic(new ImageView(new Image("/image/Icons/admin.png", 30, 30, false, false)));
@@ -440,8 +446,8 @@ public class WelcomeScreenController implements Initializable {
         spanish.setGraphic(new ImageView(new Image("/image/Icons/spain.png")));
         portugues.setGraphic(new ImageView(new Image("/image/Icons/portugal.png")));
         chinese.setGraphic(new ImageView(new Image("/image/Icons/china.png")));
-
-
+        swapBtn.setGraphic(new ImageView(new Image("/image/Icons/swap.png",20,20,false,false)));
+        directionBtn.setGraphic(new ImageView(new Image("/image/Icons/search.png",20, 20, false, false)));
     }
 
     private void zoomFloor(UniqueFloor uf) {
@@ -465,9 +471,17 @@ public class WelcomeScreenController implements Initializable {
     }
 
     private void setHighlight(int floorindex) {
-
+        //getNodeFromGridPane(Floorselectgrid, 0, floorindex-1).setStyle("-fx-background-color:#dddddd;");
     }
 
+    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                return node;
+            }
+        }
+        return null;
+    }
     private void getfloors(int buildingID) {
         List<Floor> floors = Main.h.getBuildingById(buildingID).getFloorList();
         for (int j = 0; j < floors.size(); j++) {
@@ -508,6 +522,7 @@ public class WelcomeScreenController implements Initializable {
         if (index <= 7  && index >= 0) {
             System.out.println("Flipping to floor " + index);
             currentFloor = index;
+            setHighlight(currentFloor);
         }
 
 //        System.out.println("Keeping floors " + (currentFloor) +" down");
