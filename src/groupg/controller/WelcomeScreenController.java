@@ -70,7 +70,7 @@ public class WelcomeScreenController implements Initializable {
     private Accordion acccordionDropDown;
     private AutoCompleteTextField searchField, startField, endField;
     Scale scale = new Scale();
-    double WIDNDOW_WIDTH = 0;
+    double WINDOW_WIDTH = 0, WINDOW_HEIGHT = 0;
     List<UniqueFloor> FaulknerFloors = new ArrayList<>();
     boolean onScreen = false;
     private static int permission = 0;
@@ -87,6 +87,8 @@ public class WelcomeScreenController implements Initializable {
     private static  LocalTime currentTime = LocalTime.now();
     private static LocalDate currentDate = LocalDate.now();
     private static DayOfWeek dow = currentDate.getDayOfWeek();
+
+
     @FXML
     private Text errorText;
 
@@ -390,23 +392,26 @@ public class WelcomeScreenController implements Initializable {
         //mapPane.setMaxWidth(anchorPane.getMaxWidth());
         mapPane.setOnMouseClicked((MouseEvent event) -> {
             System.out.println("clicked the pane!!!!");
-            resetZoom(WIDNDOW_WIDTH, 1250);
+            resetZoom(WINDOW_HEIGHT, 1250);
 //            zoomFloor(FaulknerFloors.get(0));
             flipToFloor(7);
             FloorSelectPane.setVisible(false);
         });
 
         mapPane.widthProperty().addListener((observable, oldValue, newValue) -> {
-            WIDNDOW_WIDTH = (double) newValue;
-            resetZoom(WIDNDOW_WIDTH, 1);
+            WINDOW_WIDTH = (double) newValue;
+            resetZoom(WINDOW_HEIGHT, 1);
             fadePane.setPrefWidth((double) newValue);
+//            scale.setPivotX(-(double)newValue/2);
 //            fadeRect.setWidth((double)newValue);
 
         });
 
         mapPane.heightProperty().addListener((observable, oldValue, newValue) -> {
+            WINDOW_HEIGHT = (double) newValue;
             menuPane.setPrefHeight((double) newValue);
             fadePane.setPrefHeight((double) newValue);
+//            scale.setPivotY(-(double)newValue/2);
 //            fadeRect.setHeight((double)newValue);
 
 
@@ -461,24 +466,21 @@ public class WelcomeScreenController implements Initializable {
 
     private void zoomFloor(UniqueFloor uf) {
 //        double scaleValH = mapPane.getWidth()/uf.getImageView().getImage().getWidth()*.7;
-        double scaleValV = mapPane.getHeight() / uf.getImageView().getImage().getHeight() * .9;
+        double scaleValV = mapPane.getHeight() / uf.getImageView().getImage().getHeight();
         double scaleVal = scaleValV;
-//        if(scaleValV>scaleValH){
-//            scaleVal = scaleValV;
-//        }
+
+
+
         double xoffset = mapPane.getWidth() * 0.3;
-        double yoffset = mapPane.getHeight() * 0.15;
-        xoffset = mapPane.getWidth() / 3;
-        yoffset = mapPane.getHeight() / 2.5;
-        System.out.println();
-        System.out.println("scaleVal = " + scaleVal);
-        System.out.println("yoffset = " + yoffset);
-        System.out.println("xoffset = " + xoffset);
-        if (uf.getFloor().getBuildingID() == 1) {
-            yoffset += 300;
-        } else if (uf.getFloor().getBuildingID() == 0) {
-            yoffset -= 100;
+        double yoffset = mapPane.getHeight() * 0.2;
+        if(uf.getFloor().getBuildingID() == 1){
+            yoffset = mapPane.getHeight() * 0.5;
         }
+
+//        xoffset = 0;
+//        yoffset = 0;
+        System.out.println();
+
         scaleImage(uf.getGroup().getTranslateX() - xoffset, uf.getGroup().getTranslateY() - yoffset, scaleVal, 1250, true).play();
     }
 
@@ -607,14 +609,11 @@ public class WelcomeScreenController implements Initializable {
 
         mapGroup.getTransforms().clear();
         double curScale = scale.getMxx();
-        double curX = -mapGroup.getTranslateX() / curScale;
-        double curY = -mapGroup.getTranslateY() / curScale;
+        double curX = -mapGroup.getTranslateX();
+        double curY = -mapGroup.getTranslateY();
 
 
         mapGroup.getTransforms().add(scale);
-        //double px = scale.getPivotX();
-        //double py = scale.getPivotY();
-        //System.out.println("px + \", \"+py = " + px + ", "+py);
 
         final Animation expandPanel = new Transition() {
             {
@@ -627,30 +626,19 @@ public class WelcomeScreenController implements Initializable {
                 mapGroup.getTransforms().clear();
                 mapGroup.getTransforms().add(scale);
 
-                double newScale = curScale + Math.pow(fraction, .9) * (scaleIn - curScale);
-                if (in) {
-                    newScale = curScale + Math.pow(fraction, 1.7) * (scaleIn - curScale);
-                }
                 double newY = curY + fraction * (y - curY);
                 double newX = curX + fraction * (x - curX);
+                double newScale = curScale + fraction * (scaleIn - curScale);
 
-//                double newY = curY + (scaleIn-newScale)/scaleIn *(y-curY);
-//                double newX = curX + (scaleIn-newScale)/scaleIn *(x-curX);
-                //scale.setPivotX(newX);
-                //scale.setPivotX(newY);
+                mapGroup.getChildren().add(new Circle(newX, newY, 10));
+//                mapGroup.getChildren().add(new Circle(uf.getGroup().getTranslateX(), uf.getGroup().getTranslateY(), 10));
+
+                mapGroup.setTranslateX(-newX *scaleIn);
+                mapGroup.setTranslateY(-newY *scaleIn);
+
 
                 scale.setX(newScale);
                 scale.setY(newScale);
-
-                mapGroup.setTranslateX(-newX * (curScale + fraction * (scaleIn - curScale)));
-                mapGroup.setTranslateY(-newY * (curScale + fraction * (scaleIn - curScale)));
-
-
-//                fraction = Math.pow(fraction, .7);
-
-
-//                scale.setPivotX(newX);
-//                scale.setPivotY(newY);
 
 
             }
@@ -693,9 +681,9 @@ public class WelcomeScreenController implements Initializable {
     }
 
 
-    public void resetZoom(double width, double time) {
-        double newScale = width / imageViewBase.getImage().getWidth();
-        scaleImage(00, 00, newScale, time, false).play();
+    public void resetZoom(double height, double time) {
+        double newScale = height / imageViewBase.getImage().getHeight();
+        scaleImage(0, 0, newScale, time, false).play();
     }
 
     public void onSearch(Location searchNode) {
