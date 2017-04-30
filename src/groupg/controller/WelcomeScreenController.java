@@ -693,16 +693,15 @@ public class WelcomeScreenController implements Initializable {
 
     }
 
-    public Animation animatePath(Circle circle, List<Location> path, double time) {
     public Animation drawPath(List<Location> path, double time){
         Circle pathCircle = new Circle();
         pathCircle.setCenterX(path.get(0).getX());
         pathCircle.setCenterY(path.get(0).getY());
-        return animatePath(pathCircle, path, time);
+        return animatePaths(pathCircle, path, time);
     }
 
 
-    private Animation animatePath(Circle circle, List<Location> path, double time){
+    private Animation animatePaths(Circle circle, List<Location> path, double time){
         double currx = circle.getTranslateX();
         double curry = circle.getTranslateY();
 
@@ -724,7 +723,7 @@ public class WelcomeScreenController implements Initializable {
         if (path.isEmpty()) {
             return animatePath;
         } else {
-            animatePath(circle, path, time);
+            animatePaths(circle, path, time);
         }
         return null; //should never happen ever!
     }
