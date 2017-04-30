@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="697.0" prefWidth="1262.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.WelcomeScreenController">
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="697.0" prefWidth="1262.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.WelcomeScreenController">
 <children>
     <AnchorPane fx:id="LayerC" prefHeight="200.0" prefWidth="200.0">
         <children>
@@ -40,9 +40,9 @@
 
     <AnchorPane fx:id="LayerB" prefHeight="200.0" prefWidth="200.0">
         <children>
-            <VBox prefHeight="697.0" prefWidth="313.0">
+            <VBox pickOnBounds="false" prefHeight="697.0" prefWidth="313.0">
                 <children>
-                  <Pane>
+                  <Pane pickOnBounds="false">
                      <children>
                           <HBox fx:id="searchPane" prefHeight="44.0" prefWidth="283.0">
                               <children>
@@ -80,9 +80,9 @@
             </VBox>
         </children>
     </AnchorPane>
-    <AnchorPane fx:id="LayerA" prefHeight="200.0" prefWidth="200.0" StackPane.alignment="CENTER_RIGHT">
+    <AnchorPane fx:id="LayerA" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" StackPane.alignment="CENTER_RIGHT">
         <children>
-            <VBox fx:id="sidebar" alignment="CENTER_RIGHT" maxWidth="231.0" prefHeight="697.0" prefWidth="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox fx:id="sidebar" alignment="CENTER_RIGHT" maxWidth="231.0" pickOnBounds="false" prefHeight="697.0" prefWidth="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <children>
                   <Pane fx:id="FloorSelectPane" prefHeight="318.0" prefWidth="160.0">
                      <children>
@@ -128,9 +128,9 @@
               </MenuButton>
         </children>
     </AnchorPane>
-      <AnchorPane fx:id="LayerD" prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane fx:id="LayerD" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0">
          <children>
-              <HBox alignment="BOTTOM_LEFT" prefHeight="77.0" prefWidth="457.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+              <HBox alignment="BOTTOM_LEFT" pickOnBounds="false" prefHeight="77.0" prefWidth="457.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
                   <children>
                       <Button fx:id="aboutBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
                   <Button fx:id="loginBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
@@ -159,20 +159,16 @@
                                     <Button fx:id="menuExitBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
                                  </children>
                               </HBox>
-                              <VBox prefHeight="200.0" prefWidth="240.0">
+                              <VBox pickOnBounds="false" prefHeight="587.0" prefWidth="220.0">
                                  <children>
-                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                    <HBox pickOnBounds="false" prefHeight="148.0" prefWidth="220.0">
                                        <children>
                                           <Button mnemonicParsing="false" prefHeight="80.0" text="Button" />
-                                          <VBox fx:id="fieldsBox" prefHeight="97.0" prefWidth="220.0" />
-                                          <VBox prefHeight="200.0" prefWidth="100.0">
-                                             <children>
-                                                <Button mnemonicParsing="false" prefHeight="80.0" text="Button" />
-                                             </children>
-                                          </VBox>
+                                          <VBox fx:id="fieldsBox" pickOnBounds="false" prefHeight="97.0" prefWidth="220.0" />
+                                          <Button fx:id="directionBtn" mnemonicParsing="false" prefHeight="80.0" text="Button" />
                                        </children>
                                     </HBox>
-                                     <Accordion fx:id="acccordionDropDown" />
+                                     <Accordion fx:id="acccordionDropDown" pickOnBounds="false" prefHeight="456.0" prefWidth="220.0" />
                                  </children>
                                  <VBox.margin>
                                     <Insets left="40.0" right="40.0" />

@@ -42,7 +42,7 @@ public class UniqueFloor {
         group.setTranslateY(onY);
         //imageView.setX(onX);
         //imageView.setY(onY);
-        double nodeOffset = 1.275;
+        double nodeOffset = 1.285;
         for (Location l : floor.getLocations()){
             if(!l.getCategory().getCategory().equals("")  && !l.getCategory().getCategory().equals("Hall")){
                 System.out.println(l.getCategory().getCategory());

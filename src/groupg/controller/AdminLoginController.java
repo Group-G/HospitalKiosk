@@ -54,6 +54,15 @@ public class AdminLoginController implements Initializable {
 
         isInactive();
         */
+
+        cancelBtn.setOnAction(event -> {
+            System.out.println("mouse event triggered");
+            try {
+                ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void isInactive() {
@@ -78,6 +87,7 @@ public class AdminLoginController implements Initializable {
             e.printStackTrace();
         }
     }
+
 
     public void onLogin(ActionEvent actionEvent) {
         attemptLogin(actionEvent);
