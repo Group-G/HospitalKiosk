@@ -5,7 +5,10 @@ import groupg.algorithm.NavigationAlgorithm;
 import groupg.algorithm.NavigationFacade;
 import groupg.database.*;
 import groupg.jfx.*;
-import javafx.animation.*;
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
+import javafx.animation.PathTransition;
+import javafx.animation.Transition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,7 +25,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.CircleBuilder;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.text.Text;
@@ -72,6 +74,8 @@ public class WelcomeScreenController implements Initializable {
     private MenuItem english, spanish, portugues, chinese;
     @FXML
     private Accordion acccordionDropDown;
+    @FXML
+    private VBox dirBox;
     private AutoCompleteTextField searchField, startField, endField;
     Scale scale = new Scale();
     double WINDOW_WIDTH = 0, WINDOW_HEIGHT = 0;
@@ -83,7 +87,7 @@ public class WelcomeScreenController implements Initializable {
     List<Floor> floors = Main.h.getAllFloors();
     private String lang = "Eng";
     private ListView<String> dirList;
-    private ImageView qrcode;
+    private ImageView qrcode = new ImageView();
     @FXML
     private CheckBox handicapped;
     @FXML
@@ -440,7 +444,7 @@ public class WelcomeScreenController implements Initializable {
                 });
             } else if (f.getBuildingID() == 0) {
                 b++;
-                UniqueFloor uf = new UniqueFloor(f, mapGroup, 3350, 2625, 3350, -700, b);
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 3351, 2618, 3351, -700, b);
                 FaulknerFloors.add(uf);
                 uf.getImageView().setOnMouseClicked(event -> {
                     System.out.println("BELKIN!");
@@ -529,6 +533,8 @@ public class WelcomeScreenController implements Initializable {
                 e.printStackTrace();
             }
         });
+
+
 
 
         //set button graphics
@@ -1202,6 +1208,9 @@ public class WelcomeScreenController implements Initializable {
 
     private void drawPath() {
         if (startField.getCurrentSelection().getX() != 0 && endField.getCurrentSelection().getX() != 0) {
+
+
+
             final List<LocationDecorator> output = new ArrayList<>();
             //Default algorithm
             if (AdminMainController.selectedAlgorithm == null)
@@ -1247,9 +1256,7 @@ public class WelcomeScreenController implements Initializable {
                 }
 
                 uf.adjustPath();
-                displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(uf.getPath().stream()
-                        .map(elem -> (Location) elem)
-                        .collect(Collectors.toList())));
+                displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(uf.getPath()));
                 uf.getLines().getChildren().setAll(displayedLines);
             }
 
@@ -1260,11 +1267,23 @@ public class WelcomeScreenController implements Initializable {
                 l.setX((int)(l.getX()*2.79));
                 l.setY((int)(l.getY()*2.79));
             }
-            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(GroundNodes.stream()
-                    .map(elem -> (Location) elem)
-                    .collect(Collectors.toList())));
+            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(GroundNodes));
             GroundLines.getChildren().setAll(displayedLines);
             //mapGroup.getChildren().add(new Circle(1000,1000, 400));
+
+            Pane dirPane = new Pane();
+            Pane dicks = new Pane();
+            dicks.getChildren().add(qrcode);
+            dicks.setPadding(new Insets(20, 0, 20, 0));
+
+            //dicks.getChildren().add(dirList);
+            dirBox.setPrefHeight(mapPane.getHeight());
+            dirPane.getChildren().add(dirList);
+            dirBox.getChildren().add(dirPane);
+            dirBox.getChildren().add(dicks);
+            dirList.setPrefWidth(dirBox.getWidth());
+            QRgen();
+
         }
     }
 

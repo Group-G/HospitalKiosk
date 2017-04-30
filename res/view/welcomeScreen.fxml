@@ -43,32 +43,32 @@
         <children>
             <VBox pickOnBounds="false" prefHeight="697.0" prefWidth="313.0">
                 <children>
-                  <Pane pickOnBounds="false">
+                  <Pane fx:id="searchPane" pickOnBounds="false">
                      <children>
-                          <HBox fx:id="searchPane" prefHeight="44.0" prefWidth="283.0">
-                              <children>
-                                  <Button fx:id="menuBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0">
-                                      <font>
-                                          <Font size="18.0" />
-                                      </font>
-                                 <HBox.margin>
-                                    <Insets bottom="3.0" left="3.0" top="3.0" />
-                                 </HBox.margin>
-                                  </Button>
-                              <Group fx:id="textFieldGroup">
-                                  <children>
-                                  </children>
-                              </Group>
-                                  <Button fx:id="searchBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0">
-                                      <font>
-                                          <Font size="18.0" />
-                                      </font>
-                                 <HBox.margin>
-                                    <Insets bottom="3.0" right="3.0" top="3.0" />
-                                 </HBox.margin>
-                                  </Button>
-                              </children>
-                          </HBox>
+                        <VBox fx:id="dirBox" prefHeight="44.0" prefWidth="283.0">
+                           <children>
+                              <HBox prefHeight="100.0" prefWidth="222.0">
+                                 <children>
+                                        <Button fx:id="menuBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                       <HBox.margin>
+                                          <Insets bottom="3.0" left="3.0" top="3.0" />
+                                       </HBox.margin>
+                                        </Button>
+                                    <Group fx:id="textFieldGroup" />
+                                        <Button fx:id="searchBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                       <HBox.margin>
+                                          <Insets bottom="3.0" right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                        </Button>
+                                 </children>
+                              </HBox>
+                           </children></VBox>
                      </children>
                      <VBox.margin>
                         <Insets />
