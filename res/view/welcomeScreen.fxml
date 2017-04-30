@@ -170,7 +170,7 @@
                                        </children>
                                     </HBox>
                                      <Accordion fx:id="acccordionDropDown" pickOnBounds="false" prefHeight="456.0" prefWidth="220.0" />
-                                     <Text fx:id="errorText" fill="RED" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Bad Username/Password Combination" />
+                                     <Text fx:id="errorText" fill="RED" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="You cannot visit at this time! visiting hours are from 12pm-8pm." />
                                  </children>
                                  <VBox.margin>
                                     <Insets left="40.0" right="40.0" />

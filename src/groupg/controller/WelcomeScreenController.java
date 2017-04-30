@@ -203,7 +203,6 @@ public class WelcomeScreenController implements Initializable {
         if (kioskLocs.size() > 0) {
             startField.setCurrentSelection(kioskLocs.get(0));
         }
-
         searchField.setOnKeyPressed(key -> {
 
             if (key.getCode() == KeyCode.ENTER) {
@@ -442,13 +441,6 @@ public class WelcomeScreenController implements Initializable {
         // upButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_in.png",30, 30, false, false)));
         //downButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_out.png",30, 30, false, false)));
         searchBtn.setGraphic(new ImageView(new Image("/image/Icons/search.png", 30, 30, false, false)));
-        if(isVisitingHrs() == false){
-            errorText.setVisible(true);
-            return;
-        }
-        else{
-            errorText.setVisible(false);
-        }
         menuBtn.setGraphic(new ImageView(new Image("/image/Icons/menu.png", 30, 30, false, false)));
         loginBtn.setGraphic(new ImageView(new Image("/image/Icons/admin.png", 30, 30, false, false)));
         aboutBtn.setGraphic(new ImageView(new Image("/image/Icons/info.png", 30, 30, false, false)));
@@ -458,6 +450,13 @@ public class WelcomeScreenController implements Initializable {
         spanish.setGraphic(new ImageView(new Image("/image/Icons/spain.png")));
         portugues.setGraphic(new ImageView(new Image("/image/Icons/portugal.png")));
         chinese.setGraphic(new ImageView(new Image("/image/Icons/china.png")));
+        if(isVisitingHrs() == false){
+            errorText.setVisible(true);
+            return;
+        }
+        else{
+            errorText.setVisible(false);
+        }
     }
 
     private void zoomFloor(UniqueFloor uf) {
