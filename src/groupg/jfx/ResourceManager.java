@@ -67,6 +67,7 @@ public class ResourceManager {
         imageNames.add("/image/Icons/pin.png");
         imageNames.add("/image/Icons/portugal.png");
         imageNames.add("/image/Icons/search.png");
+        imageNames.add("/image/Icons/swap.png");
         imageNames.add("/image/Icons/spain.png");
         imageNames.add("/image/Icons/zoom_in.png");
         imageNames.add("/image/Icons/zoom_out.png");
