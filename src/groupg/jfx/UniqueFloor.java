@@ -55,7 +55,7 @@ public class UniqueFloor {
         for (Location l : floor.getLocations()){
             if(!l.getCategory().getCategory().equals("")  && !l.getCategory().getCategory().equals("Hall")){
                // System.out.println(l.getCategory().getCategory());
-                UFuniqueNode c = new UFuniqueNode(10, l, nodeOffset);
+                UFuniqueNode c = new UFuniqueNode(10, l, nodeOffset, welcomeScreenController);
 
                 c.getCircle().setOnMouseEntered(event -> {
                     if(!welcomeScreenController.getSearched()) {

@@ -22,6 +22,7 @@ import static groupg.Main.h;
  */
 public class UFuniqueNode extends Group {
     private final double radius;
+    private WelcomeScreenController welcomeScreenController;
     private String color;
     private Location location;
     private double nodeOffset;
@@ -29,8 +30,9 @@ public class UFuniqueNode extends Group {
     private Circle c;
     private boolean highlighted;
 
-    public UFuniqueNode(double radius, Location location, double nodeOffset) {
+    public UFuniqueNode(double radius, Location location, double nodeOffset, WelcomeScreenController welcomeScreenController) {
         this.radius = radius;
+        this.welcomeScreenController = welcomeScreenController;
         c = new Circle(location.getX() * nodeOffset, location.getY() * nodeOffset, radius);
         this.getChildren().add(c);
         this.nodeOffset = nodeOffset;
@@ -81,9 +83,15 @@ public class UFuniqueNode extends Group {
 
         //Add buttons
         Button navTo = new Button("Go to here!");
-        navTo.setOnAction(actionEvent -> controller.endField.setCurrentSelection(location));
+        navTo.setOnAction(actionEvent -> {
+            controller.endField.setCurrentSelection(location);
+            welcomeScreenController.openMenu();
+        });
         Button navFrom = new Button("Start from here!");
-        navFrom.setOnAction(actionEvent -> controller.startField.setCurrentSelection(location));
+        navFrom.setOnAction(actionEvent -> {
+            controller.startField.setCurrentSelection(location);
+            welcomeScreenController.openMenu();
+        });
         vbox.getChildren().addAll(navTo, navFrom);
 
         //Add loc name
