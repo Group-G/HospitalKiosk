@@ -73,8 +73,6 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private AnchorPane LayerA, LayerB, LayerC, LayerD;
     @FXML
-    private HBox menuitems;
-    @FXML
     private MenuButton language;
     @FXML
     private MenuItem english, spanish, portugues, chinese;
@@ -105,18 +103,34 @@ public class WelcomeScreenController implements Initializable {
     private static  LocalDate currentDate = LocalDate.now();
     private static  DayOfWeek dow = currentDate.getDayOfWeek();
 
+
+
     public static void setPermission(int p) {
         permission = p;
     }
 
+    public static LocalTime getCurrentTime() {
+        // TODO Auto-generated method stub
+        return currentTime;
+    }
+    public static DayOfWeek getDow(){
+        return dow;
+    }
+
+
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         navigation = new NavigationFacade();
+
         dirList = new ListView<>();
+
         dirList.setCellFactory(list -> new ListCell<String>() {
             @Override
             protected void updateItem(final String item, final boolean empty) {
                 super.updateItem(item, empty);
+
                 // if null, display nothing
                 if (empty || item == null) {
                     setText(null);
@@ -244,13 +258,8 @@ public class WelcomeScreenController implements Initializable {
             if (startField.getCurrentSelection().getX() == 0 || endField.getCurrentSelection().getX() == 0) {
                 return;
             }
-            menuPane.setPickOnBounds(false);
-            menuOpen = false;
-            fadePane.setVisible(false);
-            moveMenu(false, 25).play();
-
-            //System.out.println("endField = " + endField.getCurrentSelection().getID());
-           // System.out.println("endField = " + endField.getCurrentSelection().getX());
+            System.out.println("endField = " + endField.getCurrentSelection().getID());
+            System.out.println("endField = " + endField.getCurrentSelection().getX());
             drawPath();
         });
 
@@ -461,6 +470,7 @@ public class WelcomeScreenController implements Initializable {
             fadePane.setPrefHeight((double) newValue);
 //            scale.setPivotY(-(double)newValue/2);
 //            fadeRect.setHeight((double)newValue);
+
 
         });
 
@@ -1220,14 +1230,19 @@ public class WelcomeScreenController implements Initializable {
 
 
     private void displaydirections(){
+        //Pane dirPane = new Pane();
         QRgen();
+        //Pane dicks = new Pane();
+        //dicks.getChildren().add(qrcode);
+        //dicks.setPadding(new Insets(20, 0, 20, 0));
+        //dicks.getChildren().add(dirList);
         dirBox.setPrefHeight(mapPane.getHeight()-100);
+        //dirPane.getChildren().add();
         dirBox.getChildren().add(dirList);
         dirBox.getChildren().add(qrcode);
         dirBox.setAlignment(Pos.TOP_CENTER);
         dirList.setPrefWidth(dirBox.getWidth()-100);
-        qrcode.setStyle("-fx-padding: 20 0 0 0");
-        menuitems.setStyle("-fx-padding: 0 0 20 0");
+        dirList.setStyle("-fx-margin: 20px;");
     }
 
 
