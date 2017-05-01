@@ -257,11 +257,11 @@ public class Location implements Comparable
             return false;
         }
         if(h == null){
-            System.out.println("fuck");
+           // System.out.println("fuck");
             return false;
         }
         if(h.getLocationById(id) == null){
-            System.out.println("NEIGHBOR " + id + " does not exist??");
+           // System.out.println("NEIGHBOR " + id + " does not exist??");
             return false;
         }
         neighbors.add(Main.h.getLocationById(id));

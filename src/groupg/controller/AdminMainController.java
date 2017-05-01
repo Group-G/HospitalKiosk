@@ -258,7 +258,7 @@ public class AdminMainController implements Initializable {
 
     public void onAddNode(ActionEvent actionEvent) {
 
-        System.out.println(zoomGroupGlobal.getScaleX() + ", " + zoomGroupGlobal.getScaleY() + ", " + zoomGroupGlobal.getScaleZ());
+       // System.out.println(zoomGroupGlobal.getScaleX() + ", " + zoomGroupGlobal.getScaleY() + ", " + zoomGroupGlobal.getScaleZ());
         UniqueNode node = NodeFactory.getNode(imageView.getImage().widthProperty().doubleValue() / 2.0,
                                               imageView.getImage().heightProperty().doubleValue() / 2.0,
                                               currentFloor.getID());
@@ -277,7 +277,7 @@ public class AdminMainController implements Initializable {
     }
 
     private void onChangeAlgorithm(NavigationAlgorithm algorithm) {
-        System.out.println("Changed Algorithm to " + algorithm.toString());
+       // System.out.println("Changed Algorithm to " + algorithm.toString());
         selectedAlgorithm = algorithm;
     }
 

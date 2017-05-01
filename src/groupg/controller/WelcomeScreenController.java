@@ -262,8 +262,8 @@ public class WelcomeScreenController implements Initializable {
             if (startField.getCurrentSelection().getX() == 0 || endField.getCurrentSelection().getX() == 0) {
                 return;
             }
-            System.out.println("endField = " + endField.getCurrentSelection().getID());
-            System.out.println("endField = " + endField.getCurrentSelection().getX());
+            //System.out.println("endField = " + endField.getCurrentSelection().getID());
+            //System.out.println("endField = " + endField.getCurrentSelection().getX());
             drawPath();
             exitMenu();
             searched = true;
@@ -326,9 +326,9 @@ public class WelcomeScreenController implements Initializable {
         for (Person p : Main.h.getAllPeople()) {
             ListView<Location> perloc = new ListView<>();
             for (Integer lid : p.getLocations()) {
-                System.out.println(p.getName());
-                System.out.println("!!!!!!!!!!!!!!!" +Main.h.getLocationById(lid));
-                System.out.println("!!!!!!!" +lid);
+                //System.out.println(p.getName());
+                //System.out.println("!!!!!!!!!!!!!!!" +Main.h.getLocationById(lid));
+               // System.out.println("!!!!!!!" +lid);
                 perloc.getItems().add(Main.h.getLocationById(lid));
                 perloc.setPrefHeight(60);
                 perloc.setOnMouseClicked((MouseEvent event) -> {
@@ -350,7 +350,6 @@ public class WelcomeScreenController implements Initializable {
 
         for (Category category : h.getAllCategories()) {
             if (category.getCategory().contains("Hall") || category.getCategory().contains("Elevator") || category.getCategory().contains("Stairs") || category.getCategory().contains("Kiosk")) {
-
             } else {
                 if (category.getPermission() <= permission){
                     ListView<Location> locByCat = new ListView<>();
@@ -364,7 +363,7 @@ public class WelcomeScreenController implements Initializable {
                     t.setGraphic(r);
                     t.setContentDisplay(ContentDisplay.RIGHT);
                     locByCat.setOnMouseClicked((MouseEvent event) -> {
-                        System.out.println(startField.getText().trim().isEmpty() && endField.getText().isEmpty());
+                   //     System.out.println(startField.getText().trim().isEmpty() && endField.getText().isEmpty());
                         if (event.getClickCount() == 2 && startField.getText().isEmpty() && endField.getText().isEmpty()) {
                             startField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
                         } else if (event.getClickCount() == 2 && startField.getText().isEmpty() && !(endField.getText().isEmpty())) {
@@ -413,7 +412,7 @@ public class WelcomeScreenController implements Initializable {
                 UniqueFloor uf = new UniqueFloor(f, mapGroup, 1313, 1090, 1310, -1600, fa, this);
                 FaulknerFloors.add(uf);
                 uf.getImageView().setOnMouseClicked(event -> {
-                    System.out.println("Faulkner!");
+                 //   System.out.println("Faulkner!");
                     removefloors();
                     event.consume();
                     flipToFloor(uf.getFloorIndex());
@@ -425,7 +424,7 @@ public class WelcomeScreenController implements Initializable {
                 UniqueFloor uf = new UniqueFloor(f, mapGroup, 3351, 2618, 3351, -700, b, this);
                 FaulknerFloors.add(uf);
                 uf.getImageView().setOnMouseClicked(event -> {
-                    System.out.println("BELKIN!");
+                //    System.out.println("BELKIN!");
                     removefloors();
                     event.consume();
                     flipToFloor(uf.getFloorIndex());
@@ -436,7 +435,7 @@ public class WelcomeScreenController implements Initializable {
         }
         UniqueFloor bRoof = new UniqueFloor(new Floor(0, "/image/FaulknerMaps/BelkinR.png", "Belkin Roof"), mapGroup, 3350, 2625, 3350, -700, b+1, this);
         bRoof.getImageView().setOnMouseClicked(event -> {
-            System.out.println("BELKIN!");
+           // System.out.println("BELKIN!");
             removefloors();
             event.consume();
             flipToFloor(bRoof.getFloorIndex());
@@ -445,7 +444,7 @@ public class WelcomeScreenController implements Initializable {
         });
         UniqueFloor fRoof = new UniqueFloor(new Floor(1, "/image/FaulknerMaps/FaulknerR.png", "Faulkner Roof"), mapGroup, 1313, 1090, 1310, -1600, fa+1, this);
         fRoof.getImageView().setOnMouseClicked(event -> {
-            System.out.println("FAULKNER!");
+         //   System.out.println("FAULKNER!");
             removefloors();
             event.consume();
             flipToFloor(fRoof.getFloorIndex());
@@ -460,7 +459,7 @@ public class WelcomeScreenController implements Initializable {
         mapPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         //mapPane.setMaxWidth(anchorPane.getMaxWidth());
         mapPane.setOnMouseClicked((MouseEvent event) -> {
-            System.out.println("clicked the pane!!!!");
+           // System.out.println("clicked the pane!!!!");
             setMenuFill(new VBox());
             resetZoom(WINDOW_WIDTH, 1250);
 //            zoomFloor(FaulknerFloors.get(0));
@@ -566,7 +565,7 @@ public class WelcomeScreenController implements Initializable {
 
 //        xoffset = 0;
 //        yoffset = 0;
-        System.out.println();
+        //System.out.println();
 
         scaleImage(uf.getGroup().getTranslateX() - xoffset, uf.getGroup().getTranslateY() - yoffset, scaleVal, 1250, true).play();
     }
@@ -621,7 +620,7 @@ public class WelcomeScreenController implements Initializable {
     private void flipToFloor(int index) {
         FloorSelectPane.setVisible(true);
         if (index <= 7  && index >= 0) {
-            System.out.println("Flipping to floor " + index);
+           // System.out.println("Flipping to floor " + index);
             currentFloor = index;
             setHighlight(currentFloor);
         }
@@ -781,7 +780,7 @@ public class WelcomeScreenController implements Initializable {
 
     public void onSearch(Location searchNode) {
         unhighLightNodes();
-        System.out.println("Faulkner!");
+       // System.out.println("Faulkner!");
 
         UniqueFloor curUniqueFloor;
         int floorID = searchNode.getFloorID();
@@ -795,7 +794,7 @@ public class WelcomeScreenController implements Initializable {
                         getfloors(f.getBuildingID());
                         for (int i = 0; i < uf.getPoints().size(); i++) {
                             if (uf.getPoints().get(i).getLocation().getID() == searchNode.getID()) {
-                                System.out.println("FOUND ID");
+                              //  System.out.println("FOUND ID");
                                 uf.displayNodeInfo(uf.getPoints().get(i));
 
 //                                uf.getPoints().get(i).getCircle().setFill(Color.RED);
@@ -1279,9 +1278,9 @@ public class WelcomeScreenController implements Initializable {
         //dicks.getChildren().add(dirList);
         p.setPrefHeight(LayerA.getHeight());
         dirList.setMinHeight(LayerA.getHeight()/2);
-        System.out.println("p.getPrefHeight() = " + p.getPrefHeight());
+       // System.out.println("p.getPrefHeight() = " + p.getPrefHeight());
         //dirPane.getChildren().add();
-        System.out.println("dirList = " + dirList.getHeight());
+       // System.out.println("dirList = " + dirList.getHeight());
         p.getChildren().add(dirList);
         p.getChildren().add(qrcode);
         p.setAlignment(Pos.TOP_CENTER);
@@ -1299,7 +1298,7 @@ public class WelcomeScreenController implements Initializable {
         dirBox.getChildren().clear();
         dirBox.getChildren().add(menuItems);
         dirBox.getChildren().add(menuFill);
-        System.out.println("menuFill.getHeight() = " + menuFill.getHeight());
+       // System.out.println("menuFill.getHeight() = " + menuFill.getHeight());
     }
 
     public void unhighLightNodes() {

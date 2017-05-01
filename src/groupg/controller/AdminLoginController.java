@@ -68,7 +68,7 @@ public class AdminLoginController implements Initializable {
     private void isInactive() {
         inactiveTimeOut.schedule(new TimerTask() {
             public void run() {
-                System.out.println("time is up");
+               // System.out.println("time is up");
                 try {
                     ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
                 } catch (IOException e) {
@@ -105,7 +105,7 @@ public class AdminLoginController implements Initializable {
             errorText.setText(h.getErrorMessage());
             errorText.setVisible(true);
         } else if(!h.checkEmptyString(usernameField.getText().trim())){
-            System.out.println("err");
+           // System.out.println("err");
             errorText.setText(h.getErrorMessage());
             errorText.setVisible(true);
 
@@ -121,12 +121,12 @@ public class AdminLoginController implements Initializable {
                 try {
                     if(admin.getType().equals("Admin")){
                         ResourceManager.getInstance().loadFXMLIntoScene("/view/adminMain.fxml", "Admin Main", cancelBtn.getScene());
-                        System.out.println("Logged into User");
+                       // System.out.println("Logged into User");
                     }
                     else{
                         WelcomeScreenController.setPermission(1);
                         ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Admin Main", cancelBtn.getScene());
-                        System.out.println("Logged into User");
+                       // System.out.println("Logged into User");
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

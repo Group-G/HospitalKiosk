@@ -17,13 +17,13 @@ public class JavaDBExample
         }
         catch (ClassNotFoundException e)
         {
-            System.out.println("Java DB Driver not found. Add the classpath to your module.");
-            System.out.println("For IntelliJ do the following:");
-            System.out.println("File | Project Structure, Modules, Dependency tab");
-            System.out.println("Add by clicking on the green plus icon on the right of the window");
-            System.out.println("Select JARs or directories. Go to the folder where the Java JDK is installed");
-            System.out.println("Select the folder java/jdk1.8.xxx/db/lib where xxx is the version.");
-            System.out.println("Click OK, compile the code and run it.");
+           // System.out.println("Java DB Driver not found. Add the classpath to your module.");
+        //    System.out.println("For IntelliJ do the following:");
+          //  System.out.println("File | Project Structure, Modules, Dependency tab");
+         //   System.out.println("Add by clicking on the green plus icon on the right of the window");
+         //   System.out.println("Select JARs or directories. Go to the folder where the Java JDK is installed");
+         //   System.out.println("Select the folder java/jdk1.8.xxx/db/lib where xxx is the version.");
+         //   System.out.println("Click OK, compile the code and run it.");
             e.printStackTrace();
             return;
         }
@@ -51,7 +51,7 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop location.");
+               // System.out.println("Could not drop location.");
                 //e.printStackTrace();
             }
 
@@ -60,7 +60,7 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop personelle.");
+             //   System.out.println("Could not drop personelle.");
                 //e.printStackTrace();
             }
 
@@ -69,7 +69,7 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop building.");
+             //   System.out.println("Could not drop building.");
                 //e.printStackTrace();
             }
 
@@ -78,7 +78,7 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop floor.");
+             //   System.out.println("Could not drop floor.");
                 //e.printStackTrace();
             }
 
@@ -89,7 +89,7 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop admin.");
+             //   System.out.println("Could not drop admin.");
                 //e.printStackTrace();
             }
             try {
@@ -97,7 +97,7 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop people connections.");
+             //   System.out.println("Could not drop people connections.");
                 //e.printStackTrace();
             }
             try {
@@ -105,7 +105,7 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop people locations.");
+             //   System.out.println("Could not drop people locations.");
                 //e.printStackTrace();
             }
 
@@ -114,7 +114,7 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop category.");
+              //  System.out.println("Could not drop category.");
                 //e.printStackTrace();
             }
 
@@ -123,7 +123,7 @@ public class JavaDBExample
             }
             catch (SQLException e)
             {
-                System.out.println("Could not drop track ids.");
+              //  System.out.println("Could not drop track ids.");
                 //e.printStackTrace();
             }
             //END DROP TABLES
@@ -148,7 +148,7 @@ public class JavaDBExample
         }
         catch (SQLException e)
         {
-            System.out.println("Connection failed. Check output console.");
+           // System.out.println("Connection failed. Check output console.");
             e.printStackTrace();
         }
     }
@@ -239,7 +239,7 @@ public class JavaDBExample
         }
         catch (SQLException e)
         {
-            System.out.println("Connection failed. Check output console.");
+          //  System.out.println("Connection failed. Check output console.");
             e.printStackTrace();
         }
     }
@@ -352,7 +352,7 @@ public class JavaDBExample
         }
         catch (SQLException e)
         {
-            System.out.println("Connection failed. Check output console.");
+           // System.out.println("Connection failed. Check output console.");
             e.printStackTrace();
         }
     }
@@ -460,11 +460,11 @@ public class JavaDBExample
         }
         catch (SQLException e)
         {
-            System.out.println("WRITING TO DATABASE FAILED");
+           // System.out.println("WRITING TO DATABASE FAILED");
             e.printStackTrace();
-            System.out.println("RESTORING FROM BACKUP");
+         //   System.out.println("RESTORING FROM BACKUP");
             restoreBackup();
-            System.out.println("BACKUP RESTORATION COMPLETE");
+         //   System.out.println("BACKUP RESTORATION COMPLETE");
         }
     }
 
