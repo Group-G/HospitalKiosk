@@ -191,4 +191,12 @@ public class UniqueFloor {
             c.setHighlighted(false);
         }
     }
+
+    public double getOffsetX(){
+        return this.group.getTranslateX();
+    }
+
+    public double getOffsetY(){
+        return this.group.getTranslateY();
+    }
 }

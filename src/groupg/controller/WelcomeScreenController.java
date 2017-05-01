@@ -30,7 +30,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
@@ -643,28 +642,45 @@ public class WelcomeScreenController implements Initializable {
     }
 
 
-    private Animation moveMiniMap(Group group, double x, double y, double time) {
+    private Animation animateCircle(Circle c, List<Location> l) {
 
-        double curX = group.getTranslateX();
-        double curY = group.getTranslateY();
+        double startX = c.getCenterX();
+        double startY = c.getCenterY();
+
+        double targetX = l.get(0).getX();
+        double targetY = l.get(0).getY();
+
+        double difx = targetX-startX;
+        double dify = targetY-startY;
+
+        double dif = Math.sqrt(difx*difx+dify*dify);
 
 
         final Animation expandPanel = new Transition() {
             {
-                setCycleDuration(Duration.millis(time));
+                setCycleDuration(Duration.millis(1000*dif));
             }
 
             @Override
             protected void interpolate(double fraction) {
-                double newX = curX + fraction * (x - curX);
-                group.setTranslateX(newX);
-                double newY = curY + fraction * (y - curY);
-                group.setTranslateY(newY);
+
+//                double newX = curX + fraction * (x - curX);
+//                group.setTranslateX(newX);
+//                double newY = curY + fraction * (y - curY);
+//                group.setTranslateY(newY);
+
+                double newX = startX+difx*fraction;
+                double newY = startY+dify*fraction;
+                c.setCenterX(newX);
+                c.setCenterY(newY);
             }
         };
 
         expandPanel.setOnFinished(e -> {
-
+            if(l.size()>1){
+                l.remove(0);
+                animateCircle(c, l).play();
+            }
         });
         return expandPanel;
     }
@@ -1253,8 +1269,16 @@ public class WelcomeScreenController implements Initializable {
                 displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(uf.getPath()));
                 uf.getLines().getChildren().setAll(displayedLines);
             }
+            Circle c = new Circle(output.get(0).getX()*1.285, output.get(0).getY()*1.285, 20);
+            List<Location> lCopy = new ArrayList<>();
+            for(Location l: output){
 
-            animatePath(output, 2000);
+                lCopy.add(l.makeCopy());
+            }
+            lCopy.remove(0);
+
+            mapGroup.getChildren().add(c);
+            animateCircle(c, lCopy).play();
 
             for (Location l: GroundNodes) {
                 l.setX((int)(l.getX()*2.79));
