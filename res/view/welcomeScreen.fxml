@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="697.0" prefWidth="1262.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.WelcomeScreenController">
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="697.0" prefWidth="1262.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.WelcomeScreenController">
 <children>
     <AnchorPane fx:id="LayerC" prefHeight="200.0" prefWidth="200.0">
         <children>
@@ -48,7 +48,7 @@
                      <children>
                         <VBox fx:id="dirBox" prefHeight="44.0" prefWidth="283.0">
                            <children>
-                              <HBox prefHeight="0.0" prefWidth="0.0" VBox.vgrow="NEVER">
+                              <HBox fx:id="menuItems" prefHeight="0.0" prefWidth="0.0" VBox.vgrow="NEVER">
                                  <children>
                                         <Button fx:id="menuBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0">
                                             <font>
@@ -68,6 +68,9 @@
                                        </HBox.margin>
                                         </Button>
                                  </children>
+                                 <VBox.margin>
+                                    <Insets top="1.0" />
+                                 </VBox.margin>
                               </HBox>
                            </children></VBox>
                      </children>

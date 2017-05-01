@@ -34,15 +34,13 @@ import javafx.scene.transform.Scale;
 import javafx.util.Duration;
 import net.glxn.qrgen.core.image.ImageType;
 import net.glxn.qrgen.javase.QRCode;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.util.*;
 
 import java.io.*;
 import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -98,7 +96,8 @@ public class WelcomeScreenController implements Initializable {
     private static  LocalTime currentTime = LocalTime.now();
     private static  LocalDate currentDate = LocalDate.now();
     private static  DayOfWeek dow = currentDate.getDayOfWeek();
-
+    @FXML
+    private HBox menuItems;
 
 
     public static void setPermission(int p) {
@@ -261,6 +260,13 @@ public class WelcomeScreenController implements Initializable {
             System.out.println("endField = " + endField.getCurrentSelection().getID());
             System.out.println("endField = " + endField.getCurrentSelection().getX());
             drawPath();
+            exitMenu();
+            for(UniqueFloor uf : FaulknerFloors){
+                if(uf.getFloor().getID() == startField.getCurrentSelection().getFloorID()){
+                    focusFloor(uf);
+                }
+            }
+
         });
 
 
@@ -379,14 +385,7 @@ public class WelcomeScreenController implements Initializable {
         });
 
         menuExitBtn.setOnAction(event -> {
-            if (menuOpen) {
-//                menuPane.setVisible(false);
-                menuPane.setPickOnBounds(false);
-                menuOpen = false;
-                fadePane.setVisible(false);
-                moveMenu(false, 25).play();
-
-            }
+            exitMenu();
         });
         //TODO ggroupnd tliems
 
@@ -518,6 +517,23 @@ public class WelcomeScreenController implements Initializable {
         chinese.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/china.png")));
         swapBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/swap.png",20,20,false,false)));
         directionBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/search.png",20, 20, false, false)));
+    }
+
+    private void focusFloor(UniqueFloor uf) {
+        flipToFloor(uf.getFloorIndex());
+        zoomFloor(uf);
+        getfloors(uf.getFloor().getBuildingID());
+    }
+
+    private void exitMenu() {
+        if (menuOpen) {
+//                menuPane.setVisible(false);
+            menuPane.setPickOnBounds(false);
+            menuOpen = false;
+            fadePane.setVisible(false);
+            moveMenu(false, 25).play();
+
+        }
     }
 
     private void zoomFloor(UniqueFloor uf) {
@@ -1226,26 +1242,38 @@ public class WelcomeScreenController implements Initializable {
             displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(GroundNodes));
             GroundLines.getChildren().setAll(displayedLines);
             //mapGroup.getChildren().add(new Circle(1000,1000, 400));
-            displaydirections();
+            setMenuFill(getDisplayDirections());
         }
     }
 
 
-    private void displaydirections(){
+    private VBox getDisplayDirections(){
         //Pane dirPane = new Pane();
         QRgen();
+        VBox p =new VBox();
         //Pane dicks = new Pane();
         //dicks.getChildren().add(qrcode);
         //dicks.setPadding(new Insets(20, 0, 20, 0));
         //dicks.getChildren().add(dirList);
-        dirBox.setPrefHeight(mapPane.getHeight()-100);
+        p.setPrefHeight(LayerA.getHeight());
+        dirList.setMinHeight(LayerA.getHeight()/2);
+        System.out.println("p.getPrefHeight() = " + p.getPrefHeight());
         //dirPane.getChildren().add();
-        dirBox.getChildren().add(dirList);
-        dirBox.getChildren().add(qrcode);
-        dirBox.setAlignment(Pos.TOP_CENTER);
+        System.out.println("dirList = " + dirList.getHeight());
+        p.getChildren().add(dirList);
+        p.getChildren().add(qrcode);
+        p.setAlignment(Pos.TOP_CENTER);
         dirList.setPrefWidth(dirBox.getWidth()-100);
         dirList.setStyle("-fx-margin: 20px;");
+        return p;
     }
 
 
+    public void setMenuFill(VBox menuFill) {
+
+        dirBox.getChildren().clear();
+        dirBox.getChildren().add(menuItems);
+        dirBox.getChildren().add(menuFill);
+        System.out.println("menuFill.getHeight() = " + menuFill.getHeight());
+    }
 }
