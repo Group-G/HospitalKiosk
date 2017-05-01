@@ -7,8 +7,7 @@ import static groupg.Main.h;
 /**
  * Created by Alazar Genene, Saul Woolf, and Samantha Comeau on 4/2/17.
  */
-public class Person
-{
+public class Person implements Comparable {
     private String name, title;
     private List<Integer> officeId;
     private int id;
@@ -180,5 +179,10 @@ public class Person
      */
     public void addLocation(int id2) {
         officeId.add(id2);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.name.compareTo(((Person)o).getName());
     }
 }

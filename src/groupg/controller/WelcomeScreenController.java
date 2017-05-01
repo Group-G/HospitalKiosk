@@ -39,14 +39,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
-import java.util.Locale;
+import java.util.*;
 
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -122,6 +118,10 @@ public class WelcomeScreenController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+
+
+
         navigation = new NavigationFacade();
 
         dirList = new ListView<>();
@@ -308,7 +308,8 @@ public class WelcomeScreenController implements Initializable {
                 }
             });
         }
-
+        Accordion allperson = new Accordion();
+        Collections.sort(Main.h.getAllPeople());
         for (Person p : Main.h.getAllPeople()) {
             ListView<Location> perloc = new ListView<>();
             for (Integer lid : p.getLocations()) {
@@ -316,6 +317,7 @@ public class WelcomeScreenController implements Initializable {
                 System.out.println("!!!!!!!!!!!!!!!" +Main.h.getLocationById(lid));
                 System.out.println("!!!!!!!" +lid);
                 perloc.getItems().add(Main.h.getLocationById(lid));
+                perloc.setPrefHeight(60);
                 perloc.setOnMouseClicked((MouseEvent event) -> {
                     if (event.getClickCount() == 2) {
                         endField.setCurrentSelection(perloc.getSelectionModel().getSelectedItem());
@@ -323,14 +325,14 @@ public class WelcomeScreenController implements Initializable {
                 });
             }
             TitledPane person = new TitledPane(p.getName(), perloc);
-            //acccordionDropDown.getPanes().add(person);
+            allperson.getPanes().add(person);
         }
-        //acccordionDropDown.getPanes().add(personel);
-
 
         TitledPane quickSearch = new TitledPane("Quick Search", quickList);
         acccordionDropDown.getPanes().add(quickSearch);
-
+        ScrollPane spane = new ScrollPane(allperson);
+        TitledPane Personel = new TitledPane("Personel", spane);
+        acccordionDropDown.getPanes().add(Personel);
 
 
         for (Category category : h.getAllCategories()) {
