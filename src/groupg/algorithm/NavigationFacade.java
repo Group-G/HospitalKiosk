@@ -21,7 +21,7 @@ public class NavigationFacade {
 
     public NavigationFacade() {
         List<Location> locations = new ArrayList<>();
-        if(h.wantStairs == 1){
+        if(h.getWantStairs() == 1){
             //if the user selected wantStairs
             locations = h.getAllLocationsExceptElevators();
         } else {

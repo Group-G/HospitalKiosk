@@ -18,7 +18,7 @@ public class HospitalData {
     private  JavaDBExample dbExample;
 
     private Admin currentAdmin = new Admin("", "aa", 99);
-    public int wantStairs = 1;
+    public int wantStairs = 0;
 
     //Values for TRACKIDS
     private  int LOCATION_NEW;
@@ -517,13 +517,10 @@ public class HospitalData {
 
             for(int f = 0; f < floorList.size(); f++) {
                 List<Location> locationList = floorList.get(f).getLocations();
-
-
                 for(int l = 0; l < locationList.size(); l++) {
-                    if(locationList.get(l).getCategory().equals("Elevators")){
+                    if(locationList.get(l).getCategory().equals("Elevators")||locationList.get(l).getCategory().equals("Elevator")){
                         //don't add!!
                     } else {
-
                         allNodes.add(locationList.get(l));
                     }
                 }
@@ -849,6 +846,10 @@ public class HospitalData {
 
     public void setWantStairs(int val){
         this.wantStairs = val;
+    }
+
+    public int getWantStairs(){
+        return wantStairs;
     }
 
     /**

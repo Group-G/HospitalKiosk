@@ -9,6 +9,8 @@ import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.Transition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -91,6 +93,8 @@ public class WelcomeScreenController implements Initializable {
     private CheckBox handicapped;
     @FXML
     private Text errorText;
+    @FXML
+    private ToggleButton handiBtn;
     public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
     NavigationFacade navigation;
     Group GroundLines = new Group();
@@ -256,7 +260,21 @@ public class WelcomeScreenController implements Initializable {
             startField.setText(end);
             endField.setText(start);
         });
-        //420blazeit
+        ToggleGroup group = new ToggleGroup();
+        handiBtn.setToggleGroup(group);
+        handiBtn.setSelected(false);
+
+        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+            public void changed(ObservableValue<? extends Toggle> ov,
+                                Toggle toggle, Toggle new_toggle) {
+                if (new_toggle == null){
+                    h.setWantStairs(0);
+                    System.out.println(h.getWantStairs());}
+                else{
+                    h.setWantStairs(1);
+                    System.out.println(h.getWantStairs());}
+            }
+        });
         directionBtn.setOnAction(event -> {
             if (startField.getCurrentSelection().getX() == 0 || endField.getCurrentSelection().getX() == 0) {
                 return;
@@ -272,7 +290,6 @@ public class WelcomeScreenController implements Initializable {
                     focusFloor(uf);
                 }
             }
-
         });
 
 
@@ -530,6 +547,7 @@ public class WelcomeScreenController implements Initializable {
         chinese.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/china.png")));
         swapBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/swap.png",20,20,false,false)));
         directionBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/search.png",20, 20, false, false)));
+        handiBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/stairs.png",20, 20, false, false)));
     }
 
     private void focusFloor(UniqueFloor uf) {
@@ -1219,8 +1237,6 @@ public class WelcomeScreenController implements Initializable {
     private void drawPath() {
         if (startField.getCurrentSelection().getX() != 0 && endField.getCurrentSelection().getX() != 0) {
 
-
-
             final List<LocationDecorator> output = new ArrayList<>();
             //Default algorithm
             if (AdminMainController.selectedAlgorithm == null)
@@ -1313,7 +1329,6 @@ public class WelcomeScreenController implements Initializable {
         qrcode.setStyle("-fx-padding: 20 0 0 0;");
         return p;
     }
-
 
     public void setMenuFill(VBox menuFill) {
         if(menuFill.getChildren().size() == 0){
