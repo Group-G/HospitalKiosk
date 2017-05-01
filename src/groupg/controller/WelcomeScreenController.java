@@ -90,6 +90,7 @@ public class WelcomeScreenController implements Initializable {
     private String lang = "Eng";
     private ListView<String> dirList;
     private ImageView qrcode = new ImageView();
+    private Button reanimate = new Button("Show Animation");
     @FXML
     private CheckBox handicapped;
     @FXML
@@ -177,7 +178,7 @@ public class WelcomeScreenController implements Initializable {
                 else if (item.contains("back")){
                     url = "/image/directions/backward.png";
                 }
-                else if (item.contains("stairs")){
+                else if (item.contains("Stairs")){
                     url = "/image/directions/upstair.png";
                 }
                 else if (item.contains("reached")){
@@ -234,6 +235,16 @@ public class WelcomeScreenController implements Initializable {
             }
         });
 
+        reanimate.setOnAction(event->{
+            for(int i =0;i<mapGroup.getChildren().size();i++){
+                Node n = mapGroup.getChildren().get(i);
+                if(n instanceof Circle){
+                    mapGroup.getChildren().remove(i);
+                    i--;
+                }
+            }
+            drawPath();
+        });
         qrcode.setOnMouseClicked(event ->{
             try{
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Lightbox.fxml"));
@@ -580,7 +591,7 @@ public class WelcomeScreenController implements Initializable {
         portugues.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/portugal.png")));
         chinese.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/china.png")));
         swapBtn.setGraphic(new ImageView( new Image("/image/Icons/swap.png",20,20,false,false)));
-        directionBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/search.png",20, 20, false, false)));
+        directionBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/search.png",0, 20, false, false)));
         handiBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/stairs.png",20, 20, false, false)));
     }
 
@@ -773,7 +784,7 @@ public class WelcomeScreenController implements Initializable {
         };
 
         expandPanel.setOnFinished(e -> {
-            if(l.size()>1){
+            if(l.size()>1 && c.getParent()!= null){
                 l.remove(0);
                 animateCircle(c, l, thisCategory).play();
             }
@@ -1455,10 +1466,12 @@ public class WelcomeScreenController implements Initializable {
        // System.out.println("dirList = " + dirList.getHeight());
         p.getChildren().add(dirList);
         p.getChildren().add(qrcode);
+        p.getChildren().add(reanimate);
         p.setAlignment(Pos.TOP_CENTER);
         dirList.setPrefWidth(dirBox.getWidth()-100);
         menuItems.setStyle("-fx-padding: 0 0 0 0;");
         qrcode.setStyle("-fx-padding: 20 0 0 0;");
+
         return p;
     }
 

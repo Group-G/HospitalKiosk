@@ -120,7 +120,7 @@
                </padding>
             </VBox>
               <Button fx:id="viewButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="50.0" />
-              <MenuButton fx:id="language" minWidth="134.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" wrapText="true" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+              <MenuButton fx:id="language" minWidth="87.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="87.0" wrapText="true" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
                   <items>
                       <MenuItem fx:id="english" mnemonicParsing="false" text="English" />
                       <MenuItem fx:id="spanish" mnemonicParsing="false" text="Español" />
@@ -169,7 +169,7 @@
                                        <children>
                                           <Button fx:id="swapBtn" maxHeight="80.0" maxWidth="80.0" mnemonicParsing="false" prefHeight="80.0" />
                                           <VBox fx:id="fieldsBox" pickOnBounds="false" prefHeight="80.0" prefWidth="184.0" />
-                                          <Button fx:id="directionBtn" mnemonicParsing="false" prefHeight="80.0" />
+                                          <Button fx:id="directionBtn" maxHeight="80.0" maxWidth="80.0" mnemonicParsing="false" prefHeight="80.0" />
                                        </children>
                                     </HBox>
                                      <Accordion fx:id="acccordionDropDown" pickOnBounds="false" prefHeight="461.0" prefWidth="220.0" />
