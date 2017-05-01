@@ -110,6 +110,8 @@ public class WelcomeScreenController implements Initializable {
 
 
 
+
+
     public static void setPermission(int p) {
         permission = p;
     }
