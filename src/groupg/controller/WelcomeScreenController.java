@@ -724,9 +724,15 @@ public class WelcomeScreenController implements Initializable {
     }
 
 
-    private Animation animateCircle(Circle c, List<Location> l, String lastCategory) {
+    private Animation animateCircle(Circle c, List<Location> l, String lastCategory, int firstBuilding) {
 
         String thisCategory = l.get(0).getCategory().getCategory();
+        int currentBuilding = Main.h.getFloorById(l.get(0).getFloorID()).getBuildingID();
+        int finalBuilding = Main.h.getFloorById(l.get(l.size()-1).getFloorID()).getBuildingID();
+        if(currentBuilding != firstBuilding){
+            UniqueFloor f = getUf(Main.h.getBuildingById(Main.h.getFloorById(l.get(l.size()-1).getFloorID()).getBuildingID()).getFloorList().get(0).getLocations().get(0));
+            zoomFloor(f);
+        }
 
         switch(Main.h.getFloorById(l.get(0).getFloorID()).getBuildingID()){
             case -2:
@@ -792,7 +798,10 @@ public class WelcomeScreenController implements Initializable {
         expandPanel.setOnFinished(e -> {
             if(l.size()>1 && c.getParent()!= null){
                 l.remove(0);
-                animateCircle(c, l, thisCategory).play();
+                animateCircle(c, l, thisCategory, firstBuilding).play();
+            }
+            else{
+
             }
         });
         return expandPanel;
@@ -1448,11 +1457,13 @@ public class WelcomeScreenController implements Initializable {
                 lCopy.add(newL);
 
             }
-            Circle c = new Circle(lCopy.get(0).getX(), lCopy.get(0).getX(), 15);
+            flipToFloor(getUf(lCopy.get(0)).getFloorIndex());
+            Circle c = new Circle(lCopy.get(0).getX(), lCopy.get(0).getY(), 15);
+            int firstBuilding = Main.h.getFloorById(lCopy.get(0).getFloorID()).getBuildingID();
             lCopy.remove(0);
 
             mapGroup.getChildren().add(c);
-            animateCircle(c, lCopy, "doesnt fuckin matter").play();
+            animateCircle(c, lCopy, "doesnt fuckin matter", firstBuilding).play();
         }
     }
 
@@ -1485,6 +1496,18 @@ public class WelcomeScreenController implements Initializable {
 
     public void setMenuFill(VBox menuFill) {
         if(menuFill.getChildren().size() == 0){
+            for(int i =0; i < mapGroup.getChildren().size(); i++){
+                Node n = mapGroup.getChildren().get(i);
+                if((n instanceof Circle)){
+                    mapGroup.getChildren().remove(i);
+                    i--;
+                }
+            }
+            for(UniqueFloor uf : FaulknerFloors){
+                uf.clearLines();
+            }
+            GroundLines.getChildren().clear();
+
             searched = false;
             dirBox.setPrefHeight(40);
         }

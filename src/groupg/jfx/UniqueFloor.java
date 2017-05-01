@@ -88,6 +88,11 @@ public class UniqueFloor {
         welcomeScreenController.setMenuFill(c.makeDialog(welcomeScreenController));
     }
 
+    public void clearLines(){
+        lines.getChildren().clear();
+    }
+
+
     public double getNodeOffset() {
         return nodeOffset;
     }

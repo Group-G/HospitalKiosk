@@ -1,10 +1,7 @@
 package groupg.database;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Created by  Alazar Genene, Saul Woolf, and Samantha Comeau on 4/1/17.
@@ -29,6 +26,7 @@ public class HospitalData {
     private static double pixelsPerFeet = 1439/388;
     private static String errorMessage = "";
     private List<Integer> allIds = new ArrayList<>();
+//    private int lastTime = Calendar.getInstance().get(Calendar.MILLISECOND);
 
     public static RSA key = new RSA(64);
 //    public s
@@ -46,6 +44,7 @@ public class HospitalData {
         addAdmin(new Admin("admin", "guest", 1));
         addAdmin(new Admin("user", "user", 0));
 //        }
+
 
     }
 
