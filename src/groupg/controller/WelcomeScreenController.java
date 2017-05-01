@@ -160,8 +160,8 @@ public class WelcomeScreenController implements Initializable {
                 hbox.setMaxWidth(dirList.getPrefWidth());
                 text.wrappingWidthProperty().bind(hbox.widthProperty().subtract(10));
                 text.textProperty().bind(itemProperty());
-                setPrefWidth(0);
-                setPrefHeight(60);
+                //setPrefWidth(0);
+                //setPrefHeight(60);
 
                 Label iconLabel = new Label();
                 String url;
@@ -508,6 +508,7 @@ public class WelcomeScreenController implements Initializable {
         mapPane.setOnMouseClicked((MouseEvent event) -> {
            // System.out.println("clicked the pane!!!!");
             setMenuFill(new VBox());
+            dirBox.setPrefHeight(40);
             resetZoom(WINDOW_WIDTH, 1250);
 //            zoomFloor(FaulknerFloors.get(0));
             flipToFloor(8);
@@ -592,6 +593,7 @@ public class WelcomeScreenController implements Initializable {
     public void openMenu() {
         if (!menuOpen) {
             setMenuFill(new VBox());
+            dirBox.setPrefHeight(40);
             menuOpen = true;
             menuPane.setVisible(true);
             menuPane.setPickOnBounds(true);
@@ -1455,7 +1457,7 @@ public class WelcomeScreenController implements Initializable {
         p.getChildren().add(qrcode);
         p.setAlignment(Pos.TOP_CENTER);
         dirList.setPrefWidth(dirBox.getWidth()-100);
-        menuItems.setStyle("-fx-padding: 0 0 20 0;");
+        menuItems.setStyle("-fx-padding: 0 0 0 0;");
         qrcode.setStyle("-fx-padding: 20 0 0 0;");
         return p;
     }
@@ -1463,6 +1465,7 @@ public class WelcomeScreenController implements Initializable {
     public void setMenuFill(VBox menuFill) {
         if(menuFill.getChildren().size() == 0){
             searched = false;
+            dirBox.setPrefHeight(40);
         }
         dirBox.getChildren().clear();
         dirBox.getChildren().add(menuItems);

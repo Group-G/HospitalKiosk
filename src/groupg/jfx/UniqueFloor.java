@@ -53,7 +53,7 @@ public class UniqueFloor {
         //imageView.setX(onX);
         //imageView.setY(onY);
         for (Location l : floor.getLocations()){
-            if(!l.getCategory().getCategory().equals("")  && !l.getCategory().getCategory().equals("Hall")){
+            if(!l.getCategory().getCategory().equals("")  && !(l.getCategory().getCategory().equals("Hall") || l.getCategory().getCategory().equals("Stairs") || l.getCategory().getCategory().equals("Elevator"))){
                // System.out.println(l.getCategory().getCategory());
                 UFuniqueNode c = new UFuniqueNode(10, l, nodeOffset, welcomeScreenController);
 
