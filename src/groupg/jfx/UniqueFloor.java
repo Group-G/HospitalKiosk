@@ -5,6 +5,7 @@ import groupg.database.Location;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
@@ -54,6 +55,11 @@ public class UniqueFloor {
             if(!l.getCategory().getCategory().equals("")  && !l.getCategory().getCategory().equals("Hall")){
                 System.out.println(l.getCategory().getCategory());
                 UFuniqueNode c = new UFuniqueNode(10, l, nodeOffset);
+
+                c.getCircle().setOnMouseClicked(event -> {
+                    c.makeDialog();
+                    event.consume();
+                });
                 points.add(c);
             }
         }

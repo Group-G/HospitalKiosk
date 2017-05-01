@@ -192,7 +192,6 @@ public class WelcomeScreenController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        errorText.setVisible(false);
         navigation = new NavigationFacade();
 
         dirList = new ListView<>();
@@ -366,9 +365,29 @@ public class WelcomeScreenController implements Initializable {
             });
         }
 
+        for (Person p : Main.h.getAllPeople()) {
+            ListView<Location> perloc = new ListView<>();
+            for (Integer lid : p.getLocations()) {
+                System.out.println(p.getName());
+                System.out.println("!!!!!!!!!!!!!!!" +Main.h.getLocationById(lid));
+                System.out.println("!!!!!!!" +lid);
+                perloc.getItems().add(Main.h.getLocationById(lid));
+                perloc.setOnMouseClicked((MouseEvent event) -> {
+                    if (event.getClickCount() == 2) {
+                        endField.setCurrentSelection(perloc.getSelectionModel().getSelectedItem());
+                    }
+                });
+            }
+            TitledPane person = new TitledPane(p.getName(), perloc);
+            //acccordionDropDown.getPanes().add(person);
+        }
+        //acccordionDropDown.getPanes().add(personel);
+
 
         TitledPane quickSearch = new TitledPane("Quick Search", quickList);
         acccordionDropDown.getPanes().add(quickSearch);
+
+
 
         for (Category category : h.getAllCategories()) {
             if (category.getCategory().contains("Hall") || category.getCategory().contains("Elevator") || category.getCategory().contains("Stairs") || category.getCategory().contains("Kiosk")) {
@@ -553,14 +572,6 @@ public class WelcomeScreenController implements Initializable {
         chinese.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/china.png")));
         swapBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/swap.png",20,20,false,false)));
         directionBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/search.png",20, 20, false, false)));
-        if(isVisitingHrs() == false)
-        {
-            errorText.setVisible(true);
-            return;
-        }
-        else{
-            errorText.setVisible(false);
-        }
     }
 
     private void zoomFloor(UniqueFloor uf) {
@@ -808,8 +819,8 @@ public class WelcomeScreenController implements Initializable {
                         for (int i = 0; i < uf.getPoints().size(); i++) {
                             if (uf.getPoints().get(i).getLocation().getID() == searchNode.getID()) {
                                 System.out.println("FOUND ID");
-                                uf.getPoints().get(i).setRadius(20);
-                                uf.getPoints().get(i).setFill(Color.RED);
+                                uf.getPoints().get(i).getCircle().setRadius(20);
+                                uf.getPoints().get(i).getCircle().setFill(Color.RED);
                             }
                         }
                         //System.out.println(uf.getGroup().getChildren().size());
