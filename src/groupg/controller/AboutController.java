@@ -1,6 +1,7 @@
 package groupg.controller;
 
 import groupg.jfx.ResourceManager;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,6 +33,8 @@ public class AboutController implements Initializable {
         saulHS.setImage(ResourceManager.getInstance().loadImageNatural("/image/Headshots/Saul.png"));
         dylanHS.setImage(ResourceManager.getInstance().loadImageNatural("/image/Headshots/Dylan.png"));
         samHS.setImage(ResourceManager.getInstance().loadImageNatural("/image/Headshots/Sam.png"));
+       // Application.setUserAgentStylesheet(getClass().getResource("/css/welcomescreen.css").toExternalForm());
+
     }
 
     public void onCancel(ActionEvent actionEvent) {
