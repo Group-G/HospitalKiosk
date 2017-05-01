@@ -74,7 +74,7 @@ public class WelcomeScreenController implements Initializable {
     private Accordion acccordionDropDown;
     @FXML
     private VBox dirBox;
-    private AutoCompleteTextField searchField, startField, endField;
+    public AutoCompleteTextField searchField, startField, endField;
     Scale scale = new Scale();
     double WINDOW_WIDTH = 0, WINDOW_HEIGHT = 0;
     static List<UniqueFloor> FaulknerFloors = new ArrayList<>();
@@ -108,9 +108,9 @@ public class WelcomeScreenController implements Initializable {
     }
 
     public static LocalTime getCurrentTime() {
-        // TODO Auto-generated method stub
         return currentTime;
     }
+
     public static DayOfWeek getDow(){
         return dow;
     }
@@ -176,7 +176,7 @@ public class WelcomeScreenController implements Initializable {
                     url = "/image/directions/startlocation.png";
                 }
 
-                iconLabel.setGraphic(new ImageView(new Image(url,20, 20, false, false)));
+                iconLabel.setGraphic(new ImageView(ResourceManager.getInstance().loadImage(url,20, 20, false, false)));
                 iconLabel.setPadding(new Insets(0,5,0,0));
 
                 hbox.getChildren().addAll(iconLabel, text);

@@ -61,7 +61,7 @@ public class UniqueFloor {
                     if(!welcomeScreenController.getSearched()) {
                         welcomeScreenController.unhighLightNodes();
                         c.setHighlighted(true);
-                        welcomeScreenController.setMenuFill(c.makeDialog());
+                        welcomeScreenController.setMenuFill(c.makeDialog(welcomeScreenController));
                         event.consume();
                     }
                 });
