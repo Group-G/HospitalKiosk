@@ -54,7 +54,8 @@ import static groupg.Main.h;
  * Created by will on 4/21/17.
  */
 public class WelcomeScreenController implements Initializable {
-
+    @FXML
+    private Label lblFloor;
     @FXML
     private GridPane Floorselectgrid;
     @FXML
@@ -296,7 +297,30 @@ public class WelcomeScreenController implements Initializable {
                 }
             }
         });
-
+        english.setOnAction(event ->{
+            lang="Eng";
+            lblFloor.setText("Floor");
+            language.setText("English");
+            language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/america.png")));
+        });
+        spanish.setOnAction(event ->{
+            lang="Span";
+            language.setText("Español");
+            lblFloor.setText("Piso");
+            language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/spain.png")));
+        });
+        portugues.setOnAction(event ->{
+            lang="Port";
+            language.setText("Português");
+            lblFloor.setText("Chão");
+            language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/portugal.png")));
+        });
+        chinese.setOnAction(event ->{
+            lang="Chin";
+            language.setText("中文");
+            lblFloor.setText("地板");
+            language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/china.png")));
+        });
 
         textFieldGroup.getChildren().add(searchField);
         fieldsBox.getChildren().add(startField);
@@ -1403,5 +1427,8 @@ public class WelcomeScreenController implements Initializable {
     public void setSearched(boolean s){
         this.searched = s;
     }
+
+
+
 
 }
