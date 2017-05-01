@@ -12,7 +12,7 @@
          <children>
             <StackPane prefHeight="150.0" prefWidth="200.0">
                <children>
-                  <ImageView fx:id="qrcodelightbox" fitHeight="178.0" fitWidth="191.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="qrcodelightbox" fitHeight="268.0" fitWidth="310.0" pickOnBounds="true" preserveRatio="true" />
                   <Text fx:id="savetxt" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-stroke: white;" />
                </children>
             </StackPane>

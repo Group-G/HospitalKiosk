@@ -40,6 +40,7 @@ public class AutoCompleteTextField extends TextField {
                                                searchResult2.addAll(h.getAllLocations()
                                                                      .stream()
                                                                      .filter(elem -> FuzzySearch.ratio(elem.getName().toLowerCase(), getText().toLowerCase()) > 25)
+                                                                     .sorted((loc1, loc2) -> FuzzySearch.ratio(loc1.getName().toLowerCase(), loc2.getName().toLowerCase()))
                                                                      .collect(Collectors.toList()));
 
                                                searchResult2.addAll(h.getAllPeople()
@@ -128,5 +129,6 @@ public class AutoCompleteTextField extends TextField {
         this.currentSelection = currentSelection;
         setText(currentSelection.getName());
         entriesPopup.hide();
+
     }
 }
