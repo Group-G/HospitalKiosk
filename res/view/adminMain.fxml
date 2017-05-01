@@ -8,39 +8,46 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<AnchorPane fx:id="mainpane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.AdminMainController">
+
+<StackPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.AdminMainController">
    <children>
-      <ToolBar prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <items>
-            <Button fx:id="logoutBtn" mnemonicParsing="false" onAction="#onLogout" text="Logout" />
-            <Button fx:id="addNodeBtn" mnemonicParsing="false" onAction="#onAddNode" text="Add Node" />
-            <Button fx:id="editPersBtn" mnemonicParsing="false" onAction="#onEditPers" text="Edit Personnel" />
-            <Button fx:id="editCatBtn" mnemonicParsing="false" onAction="#onEditCat" text="Edit Categories" />
-            <Button fx:id="editIFCBtn" mnemonicParsing="false" onAction="#onEditIFC" text="Edit Inter-Floor Connections" />
-            <Button fx:id="showAllCons" mnemonicParsing="false" onAction="#onShowAllCons" text="Show All Connections" />
-            <Button fx:id="editAdminBtn" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" onAction="#onAdminEdit" text="Edit Admin" />
-            <MenuButton fx:id="changeAlgorithmDD" mnemonicParsing="false" text="Change Pathfinding Algorithm" />
-            <Button fx:id="saveBtn" mnemonicParsing="false" text="Save" />
-        </items>
-      </ToolBar>
-      <StackPane layoutY="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+      <AnchorPane fx:id="mainpane" prefHeight="400.0" prefWidth="600.0">
          <children>
-            <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" />
-            <GridPane fx:id="canvasWrapper" layoutX="1.0" layoutY="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <StackPane.margin>
-                  <Insets top="30.0" />
-               </StackPane.margin>
-            </GridPane>
+            <ToolBar prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <items>
+                  <Button fx:id="logoutBtn" mnemonicParsing="false" onAction="#onLogout" text="Logout" />
+                  <Button fx:id="addNodeBtn" mnemonicParsing="false" onAction="#onAddNode" text="Add Node" />
+                  <Button fx:id="editPersBtn" mnemonicParsing="false" onAction="#onEditPers" text="Edit Personnel" />
+                  <Button fx:id="editCatBtn" mnemonicParsing="false" onAction="#onEditCat" text="Edit Categories" />
+                  <Button fx:id="editIFCBtn" mnemonicParsing="false" onAction="#onEditIFC" text="Edit Inter-Floor Connections" />
+                  <Button fx:id="showAllCons" mnemonicParsing="false" onAction="#onShowAllCons" text="Show All Connections" />
+                  <Button fx:id="editAdminBtn" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" onAction="#onAdminEdit" text="Edit Admin" />
+                  <MenuButton fx:id="changeAlgorithmDD" mnemonicParsing="false" text="Change Pathfinding Algorithm" />
+                  <Button fx:id="saveBtn" mnemonicParsing="false" text="Save" />
+              </items>
+            </ToolBar>
+            <StackPane layoutY="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+               <children>
+                  <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" />
+                  <GridPane fx:id="canvasWrapper" layoutX="1.0" layoutY="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <StackPane.margin>
+                        <Insets top="30.0" />
+                     </StackPane.margin>
+                  </GridPane>
+               </children>
+            </StackPane>
          </children>
-      </StackPane>
+      </AnchorPane>
+      <Pane fx:id="TimerPane" prefHeight="200.0" prefWidth="200.0" />
    </children>
-</AnchorPane>
+</StackPane>

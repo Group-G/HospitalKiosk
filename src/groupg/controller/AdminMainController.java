@@ -46,6 +46,8 @@ public class AdminMainController implements Initializable {
     private MenuButton changeAlgorithmDD;
     @FXML
     private AnchorPane mainpane;
+    @FXML
+    private Pane TimerPane;
     private static Pane imageViewPane;
     private static Pane nodeOverlay;
     public static Pane lineOverlay;
@@ -67,34 +69,29 @@ public class AdminMainController implements Initializable {
         //Change listener for removed nodes
         displayedNodes.addListener((ListChangeListener<UniqueNode>) c -> nodeOverlay.getChildren().setAll(displayedNodes));
         nodeOverlay = new Pane();
+        TimerPane.setPickOnBounds(false);
         nodeOverlay.setPickOnBounds(false);
         lineOverlay = new Pane();
         lineOverlay.setPickOnBounds(false);
         infoOverlay = new Pane();
         infoOverlay.setPickOnBounds(false);
-
         //Default current floor to first floor available
         if (currentFloor == null)
             currentFloor = h.getAllFloors().get(0);
-
         imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage(currentFloor.getFilename()), imageViewPane);
-
         //Add tabs for each floor
         h.getAllFloors().forEach(floor -> {
             Tab tab = new Tab(floor.getFloorNum());
             tab.setOnSelectionChanged(event -> {
                 imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename()));
                 currentFloor = floor;
-
                 //Set new nodes for this floor
                 displayedNodes.clear();
                 displayedNodes.addAll(floor.getLocations().stream().map(NodeFactory::getNode).collect(Collectors.toList()));
                 nodeOverlay.getChildren().setAll(displayedNodes);
-
                 //Clear lines
                 displayedLines.clear();
                 lineOverlay.getChildren().clear();
-
                 //Clear current selection
                 NodeListenerFactory.currentSelection = null;
             });
