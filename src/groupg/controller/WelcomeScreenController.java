@@ -772,7 +772,7 @@ public class WelcomeScreenController implements Initializable {
     }
 
     public void onSearch(Location searchNode) {
-
+        unhighLightNodes();
         System.out.println("Faulkner!");
 
         UniqueFloor curUniqueFloor;
@@ -788,8 +788,9 @@ public class WelcomeScreenController implements Initializable {
                         for (int i = 0; i < uf.getPoints().size(); i++) {
                             if (uf.getPoints().get(i).getLocation().getID() == searchNode.getID()) {
                                 System.out.println("FOUND ID");
-                                uf.getPoints().get(i).getCircle().setRadius(20);
-                                uf.getPoints().get(i).getCircle().setFill(Color.RED);
+                                uf.displayNodeInfo(uf.getPoints().get(i));
+
+//                                uf.getPoints().get(i).getCircle().setFill(Color.RED);
                             }
                         }
                         //System.out.println(uf.getGroup().getChildren().size());

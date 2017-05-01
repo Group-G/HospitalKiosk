@@ -59,9 +59,7 @@ public class UniqueFloor {
 
                 c.getCircle().setOnMouseEntered(event -> {
                     if(!welcomeScreenController.getSearched()) {
-                        welcomeScreenController.unhighLightNodes();
-                        c.setHighlighted(true);
-                        welcomeScreenController.setMenuFill(c.makeDialog());
+                        displayNodeInfo(c);
                         event.consume();
                     }
                 });
@@ -76,6 +74,12 @@ public class UniqueFloor {
         group.getChildren().add(lines);
         mapGroup.getChildren().add(group);
 
+    }
+
+    public void displayNodeInfo(UFuniqueNode c) {
+        welcomeScreenController.unhighLightNodes();
+        c.setHighlighted(true);
+        welcomeScreenController.setMenuFill(c.makeDialog());
     }
 
     public double getNodeOffset() {
