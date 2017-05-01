@@ -26,9 +26,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
@@ -354,7 +356,10 @@ public class WelcomeScreenController implements Initializable {
                     ListView<Location> locByCat = new ListView<>();
                     locByCat.getItems().addAll(h.getLocationsByCategory(category.getCategory()));
                     locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-                    acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " ", locByCat));
+                    TitledPane t =new TitledPane(category.getCategory() + " ", locByCat);
+                    acccordionDropDown.getPanes().addAll(t);
+                    t.setGraphic( new Rectangle(10,10, Paint.valueOf(category.getColor())));
+                    t.setContentDisplay(ContentDisplay.RIGHT);
                     locByCat.setOnMouseClicked((MouseEvent event) -> {
                         System.out.println(startField.getText().trim().isEmpty() && endField.getText().isEmpty());
                         if (event.getClickCount() == 2 && startField.getText().isEmpty() && endField.getText().isEmpty()) {
@@ -437,7 +442,7 @@ public class WelcomeScreenController implements Initializable {
         });
         UniqueFloor fRoof = new UniqueFloor(new Floor(1, "/image/FaulknerMaps/FaulknerR.png", "Faulkner Roof"), mapGroup, 1313, 1090, 1310, -1600, fa+1, this);
         fRoof.getImageView().setOnMouseClicked(event -> {
-            System.out.println("BELKIN!");
+            System.out.println("FAULKNER!");
             removefloors();
             event.consume();
             flipToFloor(fRoof.getFloorIndex());
@@ -772,7 +777,7 @@ public class WelcomeScreenController implements Initializable {
     }
 
     public void onSearch(Location searchNode) {
-
+        unhighLightNodes();
         System.out.println("Faulkner!");
 
         UniqueFloor curUniqueFloor;
@@ -788,8 +793,9 @@ public class WelcomeScreenController implements Initializable {
                         for (int i = 0; i < uf.getPoints().size(); i++) {
                             if (uf.getPoints().get(i).getLocation().getID() == searchNode.getID()) {
                                 System.out.println("FOUND ID");
-                                uf.getPoints().get(i).getCircle().setRadius(20);
-                                uf.getPoints().get(i).getCircle().setFill(Color.RED);
+                                uf.displayNodeInfo(uf.getPoints().get(i));
+
+//                                uf.getPoints().get(i).getCircle().setFill(Color.RED);
                             }
                         }
                         //System.out.println(uf.getGroup().getChildren().size());
