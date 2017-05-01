@@ -757,7 +757,6 @@ public class WelcomeScreenController implements Initializable {
         final Animation expandPanel = new Transition() {
             {
                 if(dif <= 2){
-                    System.out.println("FUCKOFF BITCH");
                     c.setFill(Color.rgb(66, 83, 244, 0.0));
                     c.setStroke(Color.rgb(0, 0, 0, 0.0));
                     setCycleDuration(Duration.millis(2500));
