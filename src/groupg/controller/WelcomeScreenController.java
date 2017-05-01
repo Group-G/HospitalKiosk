@@ -12,9 +12,11 @@ import javafx.animation.Transition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -45,6 +47,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static groupg.Main.h;
@@ -63,7 +67,7 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private Pane mapPane, menuPane, fadePane, searchPane, FloorSelectPane;
     @FXML
-    private VBox VBoxSelectPane, fieldsBox;
+    private VBox VBoxSelectPane, fieldsBox, superbox;
     @FXML
     private Button menuBtn, loginBtn, aboutBtn, searchBtn, viewButton, menuExitBtn, directionBtn,swapBtn;
     @FXML
@@ -103,80 +107,6 @@ public class WelcomeScreenController implements Initializable {
 
     public static void setPermission(int p) {
         permission = p;
-    }
-    private static boolean isVisitingHrs(){
-        String currDay = getDow().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
-        if(currDay.equals("Monday") || currDay.equals("Tuesday") || currDay.equals("Wednesday") || currDay.equals("Thursday") || currDay.equals("Friday") || currDay.equals("Saturday") || currDay.equals("Sunday"))
-        {
-            String s = getCurrentTime().format(DateTimeFormatter.ISO_LOCAL_TIME);
-            String noon = getCurrentTime().NOON.format(DateTimeFormatter.ISO_LOCAL_TIME);
-            LocalTime eight = LocalTime.parse("20:00", DateTimeFormatter.ISO_LOCAL_TIME);
-            String eightPm = eight.format(DateTimeFormatter.ISO_LOCAL_TIME);
-            StringBuilder sb = new StringBuilder(s);
-            int i,j,k;
-            i = 0;
-            j = 0;
-            k = 0;
-            while(i < s.length()){
-                char ch = s.charAt(i);
-                if(ch == ' ' || ch == ':' || ch == '.'){
-                    String before = s.substring(0,i);
-                    String after = s.substring(i+1);
-                    s = before+after;
-
-                }
-
-                else
-                    i++;
-            }
-            StringBuilder timeNow = new StringBuilder();
-            String nowTime = new String();
-            for(int z = 0; z <s.length()-3;z++){
-                char ch = s.charAt(z);
-                timeNow.append(ch);
-            }
-            nowTime = s.substring(0,s.length()-3);
-
-            System.out.println(nowTime);
-            while(j< noon.length()){
-                char ch = noon.charAt(j);
-                if(ch == ' ' || ch == ':' || ch == '.'){
-                    String before = noon.substring(0,j);
-                    String after = noon.substring(j+1);
-                    noon = before+after;
-
-                }
-
-                else
-                    j++;
-            }
-            System.out.println(noon);
-            while(k < eightPm.length()){
-                char ch = eightPm.charAt(k);
-                if(ch == ' ' || ch == ':' || ch == '.'){
-                    String before = eightPm.substring(0,k);
-                    String after = eightPm.substring(k+1);
-                    eightPm = before+after;
-
-                }
-                else
-                    k++;
-            }
-            System.out.println(eightPm);
-            int currTime = Integer.parseInt(nowTime);
-            int noonTime = Integer.parseInt(noon);
-            int eightTime = Integer.parseInt(eightPm);
-
-            if(currTime < noonTime){
-                return false;
-            }
-            else if(currTime > noonTime && currTime < eightTime){
-                return true;
-            }
-            else return false;
-        }
-        else
-            return false;
     }
 
     public static LocalTime getCurrentTime() {
@@ -287,6 +217,20 @@ public class WelcomeScreenController implements Initializable {
                 if (startField.getCurrentSelection().getX() != 0) {
                     onSearch(startField.getCurrentSelection());
                 }
+            }
+        });
+
+        qrcode.setOnMouseClicked(event ->{
+            try{
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Lightbox.fxml"));
+                loader.load();
+                Lightbox controller = loader.getController();
+                 controller.showOn(LayerA,qrcode);
+                //Save changes to disk
+            }
+            catch (IOException ex) {
+                // なんか適当にエラー処理でも
+                Logger.getLogger(AdminMainController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 
@@ -553,14 +497,7 @@ public class WelcomeScreenController implements Initializable {
         chinese.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/china.png")));
         swapBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/swap.png",20,20,false,false)));
         directionBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/search.png",20, 20, false, false)));
-        if(isVisitingHrs() == false)
-        {
-            errorText.setVisible(true);
-            return;
-        }
-        else{
-            errorText.setVisible(false);
-        }
+
     }
 
     private void zoomFloor(UniqueFloor uf) {
@@ -1262,7 +1199,7 @@ public class WelcomeScreenController implements Initializable {
 
             animatePath(output, 2000);
 
-            System.out.println("groudn lknes" + GroundNodes.size());
+            //System.out.println("groudn lknes" + GroundNodes.size());
             for (Location l: GroundNodes) {
                 l.setX((int)(l.getX()*2.79));
                 l.setY((int)(l.getY()*2.79));
@@ -1270,21 +1207,25 @@ public class WelcomeScreenController implements Initializable {
             displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(GroundNodes));
             GroundLines.getChildren().setAll(displayedLines);
             //mapGroup.getChildren().add(new Circle(1000,1000, 400));
-
-            Pane dirPane = new Pane();
-            Pane dicks = new Pane();
-            dicks.getChildren().add(qrcode);
-            dicks.setPadding(new Insets(20, 0, 20, 0));
-
-            //dicks.getChildren().add(dirList);
-            dirBox.setPrefHeight(mapPane.getHeight());
-            dirPane.getChildren().add(dirList);
-            dirBox.getChildren().add(dirPane);
-            dirBox.getChildren().add(dicks);
-            dirList.setPrefWidth(dirBox.getWidth());
-            QRgen();
-
+            displaydirections();
         }
     }
+
+
+    private void displaydirections(){
+        //Pane dirPane = new Pane();
+        QRgen();
+        //Pane dicks = new Pane();
+        //dicks.getChildren().add(qrcode);
+        //dicks.setPadding(new Insets(20, 0, 20, 0));
+        //dicks.getChildren().add(dirList);
+        dirBox.setPrefHeight(mapPane.getHeight()-100);
+        //dirPane.getChildren().add();
+        dirBox.getChildren().add(dirList);
+        dirBox.getChildren().add(qrcode);
+        dirBox.setAlignment(Pos.TOP_CENTER);
+        dirList.setPrefWidth(dirBox.getWidth()-100);
+    }
+
 
 }
