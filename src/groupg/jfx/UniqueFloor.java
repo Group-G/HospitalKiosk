@@ -54,7 +54,7 @@ public class UniqueFloor {
         //imageView.setY(onY);
         for (Location l : floor.getLocations()){
             if(!l.getCategory().getCategory().equals("")  && !l.getCategory().getCategory().equals("Hall")){
-                System.out.println(l.getCategory().getCategory());
+               // System.out.println(l.getCategory().getCategory());
                 UFuniqueNode c = new UFuniqueNode(10, l, nodeOffset);
 
                 c.getCircle().setOnMouseEntered(event -> {

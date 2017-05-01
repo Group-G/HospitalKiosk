@@ -36,7 +36,7 @@ public class Astar implements Navigation{
             path = runAStar(start,goal);
         } catch (NullPointerException e) {
             //e.printStackTrace();
-            System.out.println("Cannot find Path");
+           // System.out.println("Cannot find Path");
             return new LinkedList<>();
         }
         return path;

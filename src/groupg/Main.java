@@ -51,9 +51,9 @@ public class Main extends Application
             //Dummy data
             dbExample.createTables();
             dbExample.insertTables();
-            System.out.println("-------------------------------------");
-            System.out.println("GENERATED NEW DATABASE");
-            System.out.println("-------------------------------------");
+            //System.out.println("-------------------------------------");
+           //// System.out.println("GENERATED NEW DATABASE");
+          //  System.out.println("-------------------------------------");
         }
 
         h = new HospitalData(dbExample);

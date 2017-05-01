@@ -23,7 +23,7 @@ public class DepthFirst implements Navigation{
         LinkedList<Location> dfpath = new LinkedList<>();
         dfpath = runDepthFirst(start, end);
         if(dfpath.isEmpty()) {
-            System.out.println("Path not found");
+           // System.out.println("Path not found");
             return new LinkedList<>();
         }
         else {

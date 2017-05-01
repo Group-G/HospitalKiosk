@@ -110,7 +110,7 @@ public class UFuniqueNode extends Group {
     }
 
     public Circle getCircle() {
-        System.out.println("UFuniqueNode.getCircle");
+       // System.out.println("UFuniqueNode.getCircle");
         return c;
     }
 
