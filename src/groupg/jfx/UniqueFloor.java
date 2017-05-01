@@ -1,12 +1,11 @@
 package groupg.jfx;
 
+import groupg.controller.WelcomeScreenController;
 import groupg.database.Floor;
 import groupg.database.Location;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +14,7 @@ import java.util.List;
  * Created by will on 4/23/17.
  */
 public class UniqueFloor {
+    private final WelcomeScreenController welcomeScreenController;
     private Floor floor;
     private ImageView imageView = new ImageView();
     private double onX;
@@ -30,8 +30,9 @@ public class UniqueFloor {
     private double nodeOffset = 1.285;
     private List<Location> path = new ArrayList<>();
 
-    public UniqueFloor(Floor floor, Group mapGroup, double onX, double onY, double offX, double offY, int index){
 
+    public UniqueFloor(Floor floor, Group mapGroup, double onX, double onY, double offX, double offY, int index, WelcomeScreenController welcomeScreenController){
+        this.welcomeScreenController = welcomeScreenController;
         points = new ArrayList<>();
         this.floor = floor;
         this.onX = onX;
@@ -56,9 +57,13 @@ public class UniqueFloor {
                 System.out.println(l.getCategory().getCategory());
                 UFuniqueNode c = new UFuniqueNode(10, l, nodeOffset);
 
-                c.getCircle().setOnMouseClicked(event -> {
-                    c.makeDialog();
-                    event.consume();
+                c.getCircle().setOnMouseEntered(event -> {
+                    if(!welcomeScreenController.getSearched()) {
+                        welcomeScreenController.unhighLightNodes();
+                        c.setHighlighted(true);
+                        welcomeScreenController.setMenuFill(c.makeDialog());
+                        event.consume();
+                    }
                 });
                 points.add(c);
             }
@@ -174,6 +179,12 @@ public class UniqueFloor {
                 copies.add(copy);
             }
             path = copies;
+        }
+    }
+
+    public void unhighlightNodes() {
+        for(UFuniqueNode c : points){
+            c.setHighlighted(false);
         }
     }
 }
