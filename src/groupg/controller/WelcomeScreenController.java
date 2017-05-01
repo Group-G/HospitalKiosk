@@ -300,24 +300,24 @@ public class WelcomeScreenController implements Initializable {
         english.setOnAction(event ->{
             lang="Eng";
             lblFloor.setText("Floor");
-            language.setText("English");
+           // language.setText("English");
             language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/america.png")));
         });
         spanish.setOnAction(event ->{
             lang="Span";
-            language.setText("Español");
+            //language.setText("Español");
             lblFloor.setText("Piso");
             language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/spain.png")));
         });
         portugues.setOnAction(event ->{
             lang="Port";
-            language.setText("Português");
+            //language.setText("Português");
             lblFloor.setText("Chão");
             language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/portugal.png")));
         });
         chinese.setOnAction(event ->{
             lang="Chin";
-            language.setText("中文");
+            //language.setText("中文");
             lblFloor.setText("地板");
             language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/china.png")));
         });
@@ -432,7 +432,14 @@ public class WelcomeScreenController implements Initializable {
 
 
         menuBtn.setOnAction(event -> {
-            openMenu();
+            if (!menuOpen) {
+                setMenuFill(new VBox());
+                menuOpen = true;
+                menuPane.setVisible(true);
+                menuPane.setPickOnBounds(true);
+                fadePane.setVisible(true);
+                moveMenu(true, 25).play();
+            }
         });
 
         menuExitBtn.setOnAction(event -> {
@@ -574,6 +581,12 @@ public class WelcomeScreenController implements Initializable {
         handiBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/stairs.png",20, 20, false, false)));
     }
 
+    private void focusFloor(UniqueFloor uf) {
+        flipToFloor(uf.getFloorIndex());
+        zoomFloor(uf);
+        getfloors(uf.getFloor().getBuildingID());
+    }
+
     public void openMenu() {
         if (!menuOpen) {
             setMenuFill(new VBox());
@@ -585,11 +598,6 @@ public class WelcomeScreenController implements Initializable {
         }
     }
 
-    private void focusFloor(UniqueFloor uf) {
-        flipToFloor(uf.getFloorIndex());
-        zoomFloor(uf);
-        getfloors(uf.getFloor().getBuildingID());
-    }
 
     private void exitMenu() {
         if (menuOpen) {

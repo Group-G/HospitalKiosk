@@ -120,7 +120,7 @@
                </padding>
             </VBox>
               <Button fx:id="viewButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="50.0" />
-              <MenuButton fx:id="language" minWidth="134.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" text="English" wrapText="true" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+              <MenuButton fx:id="language" minWidth="134.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" wrapText="true" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
                   <items>
                       <MenuItem fx:id="english" mnemonicParsing="false" text="English" />
                       <MenuItem fx:id="spanish" mnemonicParsing="false" text="Español" />
