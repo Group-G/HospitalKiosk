@@ -1,6 +1,8 @@
 package groupg.controller;
 
+import groupg.Main;
 import groupg.database.Category;
+import groupg.database.Location;
 import groupg.jfx.ResourceManager;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -45,6 +47,7 @@ public class EditCategoryEditController implements Initializable
     List<Category> quickSearch = new ArrayList<>();
 
     private Category category;
+    private  String nCategory = "";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -79,8 +82,8 @@ public class EditCategoryEditController implements Initializable
 
     public void onSubmit(ActionEvent event)
     {
-        if(h.checkString(catNameField.getText())){
-
+        if(h.checkString(catNameField.getText()) && !(!catNameField.getText().equals("Stairs") && category.getCategory().equals("Stairs")) && !(!catNameField.getText().equals("Elevator") && category.getCategory().equals("Elevator"))){
+            nCategory = catNameField.getText();
             if (radioprivate.isSelected() && quickSearchable.isSelected()) {
                 h.setCategory(category.getCategory(), new Category(catNameField.getText(), 1, colorField.getValue().toString(), 1));
             } else if (radiopublic.isSelected() && quickSearchable.isSelected()) {
@@ -103,9 +106,19 @@ public class EditCategoryEditController implements Initializable
                 e.printStackTrace();
             }
 
+            for (Location l: Main.h.getAllLocations()){
+                if(l.getCategory().equals(category)){
+                    for(Category c : Main.h.getAllCategories()){
+                        if (c.getCategory().equals(nCategory)){
+                            l.setCategory(c);
+                        }
+                    }
+                }
+            }
+
         }
         else{
-            errorText.setText(h.getErrorMessage());
+            errorText.setText("You cannot edit stairs or elevators title!");
             errorText.setVisible(true);
         }
     }
