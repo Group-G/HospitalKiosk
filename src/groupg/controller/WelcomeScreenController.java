@@ -352,13 +352,16 @@ public class WelcomeScreenController implements Initializable {
             if (category.getCategory().contains("Hall") || category.getCategory().contains("Elevator") || category.getCategory().contains("Stairs") || category.getCategory().contains("Kiosk")) {
 
             } else {
-                if (category.getPermission() <= permission) {
+                if (category.getPermission() <= permission){
                     ListView<Location> locByCat = new ListView<>();
                     locByCat.getItems().addAll(h.getLocationsByCategory(category.getCategory()));
                     locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
                     TitledPane t =new TitledPane(category.getCategory() + " ", locByCat);
                     acccordionDropDown.getPanes().addAll(t);
-                    t.setGraphic( new Rectangle(10,10, Paint.valueOf(category.getColor())));
+                    Rectangle r = new Rectangle(10,10);
+                    r.setStroke(Color.BLACK);
+                    r.setFill(Paint.valueOf(category.getColor()));
+                    t.setGraphic(r);
                     t.setContentDisplay(ContentDisplay.RIGHT);
                     locByCat.setOnMouseClicked((MouseEvent event) -> {
                         System.out.println(startField.getText().trim().isEmpty() && endField.getText().isEmpty());
