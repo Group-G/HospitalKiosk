@@ -77,7 +77,7 @@ public class WelcomeScreenController implements Initializable {
     private AutoCompleteTextField searchField, startField, endField;
     Scale scale = new Scale();
     double WINDOW_WIDTH = 0, WINDOW_HEIGHT = 0;
-    List<UniqueFloor> FaulknerFloors = new ArrayList<>();
+    static List<UniqueFloor> FaulknerFloors = new ArrayList<>();
     boolean onScreen = false;
     private static int permission = 0;
     int currentFloor = 7;
@@ -98,6 +98,9 @@ public class WelcomeScreenController implements Initializable {
     private static  DayOfWeek dow = currentDate.getDayOfWeek();
     @FXML
     private HBox menuItems;
+    private boolean searched = false;
+
+
 
 
     public static void setPermission(int p) {
@@ -252,7 +255,7 @@ public class WelcomeScreenController implements Initializable {
             startField.setText(end);
             endField.setText(start);
         });
-
+        //420blazeit
         directionBtn.setOnAction(event -> {
             if (startField.getCurrentSelection().getX() == 0 || endField.getCurrentSelection().getX() == 0) {
                 return;
@@ -261,6 +264,8 @@ public class WelcomeScreenController implements Initializable {
             System.out.println("endField = " + endField.getCurrentSelection().getX());
             drawPath();
             exitMenu();
+            searched = true;
+            unhighLightNodes();
             for(UniqueFloor uf : FaulknerFloors){
                 if(uf.getFloor().getID() == startField.getCurrentSelection().getFloorID()){
                     focusFloor(uf);
@@ -376,6 +381,7 @@ public class WelcomeScreenController implements Initializable {
 
         menuBtn.setOnAction(event -> {
             if (!menuOpen) {
+                setMenuFill(new VBox());
                 menuOpen = true;
                 menuPane.setVisible(true);
                 menuPane.setPickOnBounds(true);
@@ -396,7 +402,7 @@ public class WelcomeScreenController implements Initializable {
             Floor f = floors.get(i);
             if (f.getBuildingID() == 1) {
                 fa++;
-                UniqueFloor uf = new UniqueFloor(f, mapGroup, 1313, 1090, 1310, -1600, fa);
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 1313, 1090, 1310, -1600, fa, this);
                 FaulknerFloors.add(uf);
                 uf.getImageView().setOnMouseClicked(event -> {
                     System.out.println("Faulkner!");
@@ -408,7 +414,7 @@ public class WelcomeScreenController implements Initializable {
                 });
             } else if (f.getBuildingID() == 0) {
                 b++;
-                UniqueFloor uf = new UniqueFloor(f, mapGroup, 3351, 2618, 3351, -700, b);
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 3351, 2618, 3351, -700, b, this);
                 FaulknerFloors.add(uf);
                 uf.getImageView().setOnMouseClicked(event -> {
                     System.out.println("BELKIN!");
@@ -420,7 +426,7 @@ public class WelcomeScreenController implements Initializable {
                 });
             }
         }
-        UniqueFloor bRoof = new UniqueFloor(new Floor(0, "/image/FaulknerMaps/BelkinR.png", "Belkin Roof"), mapGroup, 3350, 2625, 3350, -700, b+1);
+        UniqueFloor bRoof = new UniqueFloor(new Floor(0, "/image/FaulknerMaps/BelkinR.png", "Belkin Roof"), mapGroup, 3350, 2625, 3350, -700, b+1, this);
         bRoof.getImageView().setOnMouseClicked(event -> {
             System.out.println("BELKIN!");
             removefloors();
@@ -429,7 +435,7 @@ public class WelcomeScreenController implements Initializable {
             zoomFloor(bRoof);
             getfloors(bRoof.getFloor().getBuildingID());
         });
-        UniqueFloor fRoof = new UniqueFloor(new Floor(1, "/image/FaulknerMaps/FaulknerR.png", "Faulkner Roof"), mapGroup, 1313, 1090, 1310, -1600, fa+1);
+        UniqueFloor fRoof = new UniqueFloor(new Floor(1, "/image/FaulknerMaps/FaulknerR.png", "Faulkner Roof"), mapGroup, 1313, 1090, 1310, -1600, fa+1, this);
         fRoof.getImageView().setOnMouseClicked(event -> {
             System.out.println("BELKIN!");
             removefloors();
@@ -447,6 +453,7 @@ public class WelcomeScreenController implements Initializable {
         //mapPane.setMaxWidth(anchorPane.getMaxWidth());
         mapPane.setOnMouseClicked((MouseEvent event) -> {
             System.out.println("clicked the pane!!!!");
+            setMenuFill(new VBox());
             resetZoom(WINDOW_WIDTH, 1250);
 //            zoomFloor(FaulknerFloors.get(0));
             flipToFloor(8);
@@ -1277,10 +1284,25 @@ public class WelcomeScreenController implements Initializable {
 
 
     public void setMenuFill(VBox menuFill) {
-
+        if(menuFill.getChildren().size() == 0){
+            searched = false;
+        }
         dirBox.getChildren().clear();
         dirBox.getChildren().add(menuItems);
         dirBox.getChildren().add(menuFill);
         System.out.println("menuFill.getHeight() = " + menuFill.getHeight());
     }
+
+    public void unhighLightNodes() {
+        for(UniqueFloor uf : FaulknerFloors){
+            uf.unhighlightNodes();
+        }
+    }
+    public boolean getSearched(){
+        return this.searched;
+    }
+    public void setSearched(boolean s){
+        this.searched = s;
+    }
+
 }

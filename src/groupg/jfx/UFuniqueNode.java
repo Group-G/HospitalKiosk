@@ -1,18 +1,14 @@
 package groupg.jfx;
 
-import com.sun.javafx.scene.control.skin.LabeledImpl;
 import groupg.Main;
 import groupg.database.Location;
 import groupg.database.Person;
 import javafx.scene.Group;
-import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-import java.awt.*;
 import java.util.Objects;
 
 /**
@@ -20,14 +16,17 @@ import java.util.Objects;
  */
 public class UFuniqueNode extends Group{
 
+    private final double radius;
     private String color;
     private Location location;
     private double nodeOffset;
     private Group nodeOverlay;
     private Circle c;
+    private boolean highlighted;
 
 
     public UFuniqueNode(double radius, Location location, double nodeOffset) {
+        this.radius = radius;
         c = new Circle(location.getX()*nodeOffset, location.getY()*nodeOffset,radius);
         this.getChildren().add(c);
         this.nodeOffset = nodeOffset;
@@ -70,8 +69,8 @@ public class UFuniqueNode extends Group{
         return obj instanceof UniqueNode && Objects.equals(getLocation().getID(), ((UniqueNode) obj).getLocation().getID());
     }
 
-    public void makeDialog(){
-        Pane p = new Pane();
+    public VBox makeDialog(){
+//        Pane p = new Pane();
         Label name = new Label(location.getName());
 
         VBox vbox = new VBox();
@@ -85,20 +84,33 @@ public class UFuniqueNode extends Group{
             }
         }
 
-        vbox.setPrefHeight(300);
+        vbox.setMinHeight(300);
         //vbox.setScaleX(nodeOffset*2);
         //vbox.setScaleY(nodeOffset*2);
-        p.setPrefHeight(300);
+//        p.setPrefHeight(300);
         //Label personel = new Label(Person Main.h.getAllPeople())
         vbox.getChildren().add(name);
-        p.getChildren().add(vbox);
-        p.setLayoutX(location.getX()*nodeOffset);
-        p.setLayoutY(location.getY()*nodeOffset);
-        p.setStyle("-fx-background-color: blueviolet;");
-        this.getChildren().add(p);
+//        p.getChildren().add(vbox);
+//        p.setLayoutX(location.getX()*nodeOffset);
+//        p.setLayoutY(location.getY()*nodeOffset);
+//        p.setStyle("-fx-background-color: blueviolet;");
+       return vbox;
     }
 
     public Circle getCircle(){
-        return this.c;
+        System.out.println("UFuniqueNode.getCircle");
+        return c;
+    }
+
+    public void setHighlighted(boolean h) {
+        this.highlighted = h;
+        if(this.highlighted){
+            c.setRadius(this.radius+10);
+            c.setStrokeWidth(5);
+        }
+        else {
+            c.setRadius(this.radius);
+            c.setStrokeWidth(3);
+        }
     }
 }
