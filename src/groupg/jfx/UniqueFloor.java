@@ -63,6 +63,12 @@ public class UniqueFloor {
                         event.consume();
                     }
                 });
+                c.getCircle().setOnMouseClicked(event -> {
+                    if(!welcomeScreenController.getSearched()) {
+                        displayNodeInfo(c);
+                        event.consume();
+                    }
+                });
                 points.add(c);
             }
         }

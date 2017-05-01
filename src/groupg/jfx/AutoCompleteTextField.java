@@ -77,15 +77,24 @@ public class AutoCompleteTextField extends TextField {
 
                                                for(int i = 0; i < values.size(); i++){
                                                    for(int j = values.size()-1; j > i; j--){
-                                                       if(values.get(j) < values.get(j-1)){
+                                                       if(values.get(j) > values.get(j-1)){
 
                                                            int tempV = values.get(j);
-                                                           values.set(j, values.get(j));
+                                                           values.set(j, values.get(j-1));
                                                            values.set(j-1, tempV);
+
+                                                           Location templ = searchResult.get(j);
+                                                           searchResult.set(j, searchResult.get(j-1));
+                                                           searchResult.set(j-1, templ);
 
                                                        }
                                                    }
                                                }
+//                                               System.out.println("JNVUINIUGVURWBVWYDBYVSDSDB");
+//                                               for(int i = 0; i < searchResult.size(); i++){
+////                                                   values.add(FuzzySearch.ratio(searchResult.get(i).getName().toLowerCase(), getText().toLowerCase()));
+//                                                   System.out.println(values.get(i));
+//                                               }
 
 
                                                populatePopup(searchResult);

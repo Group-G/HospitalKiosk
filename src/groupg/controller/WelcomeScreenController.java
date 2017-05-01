@@ -695,7 +695,32 @@ public class WelcomeScreenController implements Initializable {
     }
 
 
-    private Animation animateCircle(Circle c, List<Location> l) {
+    private Animation animateCircle(Circle c, List<Location> l, String lastCategory) {
+
+        String thisCategory = l.get(0).getCategory().getCategory();
+
+        switch(Main.h.getFloorById(l.get(0).getFloorID()).getBuildingID()){
+            case -2:
+                c.setFill(Color.web("#0000ff"));
+                break;
+            case 1:
+                c.setFill(Color.web("#00ff00"));
+                break;
+            case 0:
+                c.setFill(Color.web("#ff0000"));
+                break;
+            default:
+                c.setFill(Color.web("#ffffff"));
+                break;
+        }
+
+        UniqueFloor uf = getUf(l.get(0));
+        if(uf == null){
+            flipToFloor(7);
+        }
+        else{
+            flipToFloor(uf.getFloorIndex());
+        }
 
         double startX = c.getCenterX();
         double startY = c.getCenterY();
@@ -711,7 +736,13 @@ public class WelcomeScreenController implements Initializable {
 
         final Animation expandPanel = new Transition() {
             {
-                setCycleDuration(Duration.millis(1*dif));
+                if((lastCategory.equals("Elevator") && thisCategory.equals("Elevator")) ||(lastCategory.equals("Stairs") && thisCategory.equals("Stairs") )){
+                    setCycleDuration(Duration.millis(15*dif));
+                }
+                else{
+                    setCycleDuration(Duration.millis(3*dif));
+                }
+
             }
 
             @Override
@@ -732,10 +763,19 @@ public class WelcomeScreenController implements Initializable {
         expandPanel.setOnFinished(e -> {
             if(l.size()>1){
                 l.remove(0);
-                animateCircle(c, l).play();
+                animateCircle(c, l, thisCategory).play();
             }
         });
         return expandPanel;
+    }
+
+    private UniqueFloor getUf(Location l) {
+        for(UniqueFloor uf : FaulknerFloors){
+            if(l.getFloorID() == uf.getFloor().getID()){
+                return uf;
+            }
+        }
+        return null;
     }
 
     private Animation fadeGroup(UniqueFloor uf, boolean fadeIn, double time) {
@@ -1339,16 +1379,16 @@ public class WelcomeScreenController implements Initializable {
 
             for (UniqueFloor uf : FaulknerFloors){
                 if(uf.getFloor().getBuildingID() == -2){
-                    groundOffsetX = uf.getOffsetX()*scale.getMxx();
-                    groundOffsetY = uf.getOffsetY()*scale.getMxx();
+                    groundOffsetX = uf.getOffsetX();
+                    groundOffsetY = uf.getOffsetY();
                 }
                 if(uf.getFloor().getBuildingID() == 0){
-                    faulknerOffsetX = uf.getOffsetX()*scale.getMxx();
-                    faulknerOffsetY = uf.getOffsetY()*scale.getMxx();
+                    faulknerOffsetX = uf.getOffsetX();
+                    faulknerOffsetY = uf.getOffsetY();
                 }
                 if(uf.getFloor().getBuildingID() == 1){
-                    benkinOffsetX = uf.getOffsetX()*scale.getMxx();
-                    benkinOffsetY = uf.getOffsetY()*scale.getMxx();
+                    benkinOffsetX = uf.getOffsetX();
+                    benkinOffsetY = uf.getOffsetY();
                 }
 
             }
@@ -1360,16 +1400,16 @@ public class WelcomeScreenController implements Initializable {
                 Location newL = l.makeCopy();
                 switch(Main.h.getFloorById(newL.getFloorID()).getBuildingID()) {
                     case -2:
-                        newL.setX((int)((newL.getX()*2.79)+groundOffsetX));
-                        newL.setY((int)((newL.getY()*2.79)+groundOffsetY));
+                        newL.setX((int)((newL.getX()*2.79)));
+                        newL.setY((int)((newL.getY()*2.79)));
                         break;
                     case 0:
-                        newL.setX((int)((newL.getX()*.56)+benkinOffsetX));
-                        newL.setY((int)((newL.getY()*.56)+benkinOffsetY));
+                        newL.setX((int)((newL.getX()*.56)+3351));
+                        newL.setY((int)((newL.getY()*.56)+2618));
                         break;
                     case 1:
-                        newL.setX((int)((newL.getX()*1.285)+faulknerOffsetX));
-                        newL.setY((int)((newL.getY()*1.285)+faulknerOffsetY));
+                        newL.setX((int)((newL.getX()*1.285)+1313));
+                        newL.setY((int)((newL.getY()*1.285)+1090));
                         break;
                     default:
                         newL.setX((int)((newL.getX()*1.285)));
@@ -1379,11 +1419,11 @@ public class WelcomeScreenController implements Initializable {
                 lCopy.add(newL);
 
             }
-            Circle c = new Circle(lCopy.get(0).getX(), lCopy.get(0).getX(), 100);
+            Circle c = new Circle(lCopy.get(0).getX(), lCopy.get(0).getX(), 15);
             lCopy.remove(0);
 
             mapGroup.getChildren().add(c);
-            animateCircle(c, lCopy).play();
+            animateCircle(c, lCopy, "doesnt fuckin matter").play();
         }
     }
 
