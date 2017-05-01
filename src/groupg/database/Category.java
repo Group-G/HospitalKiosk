@@ -1,15 +1,5 @@
 package groupg.database;
 
-import java.sql.Time;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.util.Locale;
-import java.time.temporal.ChronoUnit;
-
 /**
  * @author Saul Woolf
  * @since 2017-04-07
@@ -20,10 +10,8 @@ public class Category implements Comparable {
     private String color;
     private int quicksearchOn = 0;
 
-
-
     public Category(String category, int permission, String color, int quicksearch) {
-        if(color.charAt(0) == '#'){
+        if (color.charAt(0) == '#') {
             color = color.substring(1);
             color = "0x" + color;
         }
@@ -33,8 +21,9 @@ public class Category implements Comparable {
         this.quicksearchOn = quicksearch;
 
     }
+
     public Category(String category, int permission, String color) {
-        if(color.charAt(0) == '#'){
+        if (color.charAt(0) == '#') {
             color = color.substring(1);
             color = "0x" + color;
         }
@@ -42,15 +31,11 @@ public class Category implements Comparable {
         this.permission = permission;
         this.color = color;
     }
+
     public Category(String category, int permission) {
         this.category = category;
         this.permission = permission;
         this.color = "0xffffff";
-    }
-
-    @Override
-    public String toString() {
-        return category;
     }
 
     @Override
@@ -99,5 +84,10 @@ public class Category implements Comparable {
     @Override
     public int compareTo(Object o) {
         return toString().compareTo(o.toString());
+    }
+
+    @Override
+    public String toString() {
+        return category;
     }
 }
