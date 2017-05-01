@@ -734,21 +734,6 @@ public class WelcomeScreenController implements Initializable {
             zoomFloor(f);
         }
 
-        switch(Main.h.getFloorById(l.get(0).getFloorID()).getBuildingID()){
-            case -2:
-                c.setFill(Color.web("#0000ff"));
-                break;
-            case 1:
-                c.setFill(Color.web("#00ff00"));
-                break;
-            case 0:
-                c.setFill(Color.web("#ff0000"));
-                break;
-            default:
-                c.setFill(Color.web("#ffffff"));
-                break;
-        }
-
         UniqueFloor uf = getUf(l.get(0));
         if(uf == null){
             flipToFloor(7);
@@ -771,11 +756,19 @@ public class WelcomeScreenController implements Initializable {
 
         final Animation expandPanel = new Transition() {
             {
-                if((lastCategory.equals("Elevator") && thisCategory.equals("Elevator")) ||(lastCategory.equals("Stairs") && thisCategory.equals("Stairs") )){
-                    setCycleDuration(Duration.millis(15*dif));
+                if(dif <= 2){
+                    System.out.println("FUCKOFF BITCH");
+                    c.setFill(Color.rgb(66, 83, 244, 0.0));
+                    c.setStroke(Color.rgb(0, 0, 0, 0.0));
+                    setCycleDuration(Duration.millis(2500));
                 }
-                else{
-                    setCycleDuration(Duration.millis(3*dif));
+                else {
+                    c.setFill(Color.rgb(66, 83, 244, 1));
+                    if ((lastCategory.equals("Elevator") && thisCategory.equals("Elevator")) || (lastCategory.equals("Stairs") && thisCategory.equals("Stairs"))) {
+                        setCycleDuration(Duration.millis(15 * dif));
+                    } else {
+                        setCycleDuration(Duration.millis(3 * dif));
+                    }
                 }
 
             }
@@ -788,10 +781,18 @@ public class WelcomeScreenController implements Initializable {
 //                double newY = curY + fraction * (y - curY);
 //                group.setTranslateY(newY);
 
-                double newX = startX+difx*fraction;
-                double newY = startY+dify*fraction;
-                c.setCenterX(newX);
-                c.setCenterY(newY);
+
+                if(dif <= 2){
+                    fraction = Math.abs((fraction*100)%20-10)/10;
+                    c.setFill(Color.rgb(66, 83, 244, fraction));
+                    c.setStroke(Color.rgb(0, 0, 0, fraction));
+                }
+                else{
+                    double newX = startX+difx*fraction;
+                    double newY = startY+dify*fraction;
+                    c.setCenterX(newX);
+                    c.setCenterY(newY);
+                }
             }
         };
 
@@ -1458,9 +1459,9 @@ public class WelcomeScreenController implements Initializable {
 
             }
             flipToFloor(getUf(lCopy.get(0)).getFloorIndex());
-            Circle c = new Circle(lCopy.get(0).getX(), lCopy.get(0).getY(), 15);
+            Circle c = new Circle(lCopy.get(0).getX(), lCopy.get(0).getY(), 25);
             int firstBuilding = Main.h.getFloorById(lCopy.get(0).getFloorID()).getBuildingID();
-            lCopy.remove(0);
+//            lCopy.remove(0);
 
             mapGroup.getChildren().add(c);
             animateCircle(c, lCopy, "doesnt fuckin matter", firstBuilding).play();
