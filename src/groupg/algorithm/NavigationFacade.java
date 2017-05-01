@@ -21,11 +21,11 @@ public class NavigationFacade {
 
     public NavigationFacade() {
         List<Location> locations = new ArrayList<>();
-        if(h.handicapped == 1){
-            //if the user selected handicapped
-            locations = h.getAllLocationsExceptStairs();
+        if(h.wantStairs == 1){
+            //if the user selected wantStairs
+            locations = h.getAllLocationsExceptElevators();
         } else {
-            //if they didn't select handicapped
+            //if they didn't select wantStairs
             locations = h.getAllLocations();
         }
 

@@ -1,6 +1,5 @@
 package groupg.database;
 
-import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -19,7 +18,7 @@ public class HospitalData {
     private  JavaDBExample dbExample;
 
     private Admin currentAdmin = new Admin("", "aa", 99);
-    public int handicapped = 0;
+    public int wantStairs = 1;
 
     //Values for TRACKIDS
     private  int LOCATION_NEW;
@@ -509,7 +508,7 @@ public class HospitalData {
      * Returns list of all locations
      * @return List of locations
      */
-    public List<Location> getAllLocationsExceptStairs() {
+    public List<Location> getAllLocationsExceptElevators() {
         List<Location> allNodes = new ArrayList<>();
 
         for(int i = 0; i < buildingsList.size(); i++) {
@@ -521,7 +520,7 @@ public class HospitalData {
 
 
                 for(int l = 0; l < locationList.size(); l++) {
-                    if(locationList.get(l).getCategory().equals("Stairs")){
+                    if(locationList.get(l).getCategory().equals("Elevators")){
                         //don't add!!
                     } else {
 
@@ -848,8 +847,8 @@ public class HospitalData {
         return dbStrLength;
     }
 
-    public void  setHandicapped(int val){
-        this.handicapped = val;
+    public void setWantStairs(int val){
+        this.wantStairs = val;
     }
 
     /**

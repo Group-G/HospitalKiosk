@@ -1209,9 +1209,9 @@ public class WelcomeScreenController implements Initializable {
 
     public void setHandicapped() {
         if (handicapped.isSelected()) {
-            h.setHandicapped(1);
+            h.setWantStairs(0);
         } else {
-            h.setHandicapped(0);
+            h.setWantStairs(1);
         }
 
     }
