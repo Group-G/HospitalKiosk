@@ -32,6 +32,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
@@ -107,6 +108,8 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private HBox menuItems;
     private boolean searched = false;
+    ImageView start = new ImageView();
+    ImageView end = new ImageView();
 
 
 
@@ -385,30 +388,42 @@ public class WelcomeScreenController implements Initializable {
                 }
             });
         }
-        Accordion allperson = new Accordion();
+
+
+        //Accordion allperson = new Accordion();
+        ListView<Person> per = new ListView<>();
         Collections.sort(Main.h.getAllPeople());
         for (Person p : Main.h.getAllPeople()) {
-            ListView<Location> perloc = new ListView<>();
-            for (Integer lid : p.getLocations()) {
-                //System.out.println(p.getName());
-                //System.out.println("!!!!!!!!!!!!!!!" +Main.h.getLocationById(lid));
-               // System.out.println("!!!!!!!" +lid);
-                perloc.getItems().add(Main.h.getLocationById(lid));
-                perloc.setPrefHeight(60);
-                perloc.setOnMouseClicked((MouseEvent event) -> {
-                    if (event.getClickCount() == 2) {
-                        endField.setCurrentSelection(perloc.getSelectionModel().getSelectedItem());
-                    }
-                });
-            }
-            TitledPane person = new TitledPane(p.getName(), perloc);
-            allperson.getPanes().add(person);
+            per.getItems().add(p);
+            per.setOnMouseClicked((MouseEvent event) ->{
+                exitMenu();
+                ListView<Location> perloc = new ListView<>();
+                for (Integer lid : per.getSelectionModel().getSelectedItem().getLocations()){
+                    perloc.getItems().add(Main.h.getLocationById(lid));
+                    perloc.setOnMouseClicked((MouseEvent e) ->{
+                        searchField.setCurrentSelection(perloc.getSelectionModel().getSelectedItem());
+                        onSearch(searchField.getCurrentSelection());
+                    });
+                }
+                VBox h = new VBox();
+                h.setMinHeight(400);
+                Label nL = new Label(per.getSelectionModel().getSelectedItem().getName());
+                Label nT = new Label(per.getSelectionModel().getSelectedItem().getTitle());
+                nL.setFont(Font.font(20));
+                h.setPadding(new Insets(10,10,10,10));
+                h.getChildren().add(nL);
+                h.getChildren().add(nT);
+                h.getChildren().add(new Label(" "));
+                h.getChildren().add(perloc);
+                setMenuFill(h);
+            });
         }
 
         TitledPane quickSearch = new TitledPane("Quick Search", quickList);
         acccordionDropDown.getPanes().add(quickSearch);
-        ScrollPane spane = new ScrollPane(allperson);
-        TitledPane Personel = new TitledPane("Personel", spane);
+
+
+        TitledPane Personel = new TitledPane("Personel", per);
         acccordionDropDown.getPanes().add(Personel);
 
 
@@ -723,8 +738,9 @@ public class WelcomeScreenController implements Initializable {
         }
     }
 
-
-    private Animation animateCircle(Circle c, List<Location> l, String lastCategory, int firstBuilding) {
+    Boolean setStart = false;
+    Boolean setEnd = false;
+    private Animation animateCircle(Circle c, List<Location> l, String lastCategory, int firstBuilding, int startFloor) {
 
         String thisCategory = l.get(0).getCategory().getCategory();
         int currentBuilding = Main.h.getFloorById(l.get(0).getFloorID()).getBuildingID();
@@ -733,6 +749,31 @@ public class WelcomeScreenController implements Initializable {
             UniqueFloor f = getUf(Main.h.getBuildingById(Main.h.getFloorById(l.get(l.size()-1).getFloorID()).getBuildingID()).getFloorList().get(0).getLocations().get(0));
             zoomFloor(f);
         }
+
+        if (l.get(0).getFloorID() == startFloor && setStart == false){
+            start.setImage(new Image("/image/Icons/start.png"));
+            start.setX(l.get(0).getX()-start.getImage().getWidth()/2);
+            start.setY(l.get(0).getY()-start.getImage().getHeight());
+            setStart = true;
+            mapGroup.getChildren().add(start);
+        } else if (l.get(0).getFloorID() != startFloor ){
+            mapGroup.getChildren().removeAll(start);
+            setStart = false;
+        }
+
+
+
+        if (setEnd == false && Main.h.getFloorById(l.get(0).getFloorID()) == Main.h.getFloorById(l.get(l.size()-1).getFloorID())){
+            end.setImage(new Image("/image/Icons/end.png"));
+            end.setX(l.get(l.size()-1).getX()-end.getImage().getWidth()/2);
+            end.setY(l.get(l.size()-1).getY()-end.getImage().getHeight());
+            setEnd = true;
+            mapGroup.getChildren().add(end);
+        } else if(Main.h.getFloorById(l.get(0).getFloorID()) != Main.h.getFloorById(l.get(l.size()-1).getFloorID())){
+            mapGroup.getChildren().removeAll(end);
+            setEnd = false;
+        }
+
 
         UniqueFloor uf = getUf(l.get(0));
         if(uf == null){
@@ -798,7 +839,7 @@ public class WelcomeScreenController implements Initializable {
         expandPanel.setOnFinished(e -> {
             if(l.size()>1 && c.getParent()!= null){
                 l.remove(0);
-                animateCircle(c, l, thisCategory, firstBuilding).play();
+                animateCircle(c, l, thisCategory, firstBuilding,startFloor).play();
             }
             else{
 
@@ -1457,13 +1498,15 @@ public class WelcomeScreenController implements Initializable {
                 lCopy.add(newL);
 
             }
+
             flipToFloor(getUf(lCopy.get(0)).getFloorIndex());
             Circle c = new Circle(lCopy.get(0).getX(), lCopy.get(0).getY(), 25);
             int firstBuilding = Main.h.getFloorById(lCopy.get(0).getFloorID()).getBuildingID();
 //            lCopy.remove(0);
 
+
             mapGroup.getChildren().add(c);
-            animateCircle(c, lCopy, "doesnt fuckin matter", firstBuilding).play();
+            animateCircle(c, lCopy, "doesnt fuckin matter", firstBuilding, lCopy.get(0).getFloorID()).play();
         }
     }
 
@@ -1505,6 +1548,9 @@ public class WelcomeScreenController implements Initializable {
             }
             for(UniqueFloor uf : FaulknerFloors){
                 uf.clearLines();
+                mapGroup.getChildren().remove(end);
+                mapGroup.getChildren().remove(start);
+
             }
             GroundLines.getChildren().clear();
 
