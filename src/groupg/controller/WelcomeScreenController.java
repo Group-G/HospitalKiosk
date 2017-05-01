@@ -157,7 +157,6 @@ public class WelcomeScreenController implements Initializable {
 
                 setText(null);
                 final HBox hbox = new HBox();
-
                 Text text = new Text(item);
                 hbox.setMaxWidth(dirList.getPrefWidth());
                 text.wrappingWidthProperty().bind(hbox.widthProperty().subtract(10));
@@ -277,8 +276,14 @@ public class WelcomeScreenController implements Initializable {
         swapBtn.setOnAction(event -> {
             String start = startField.getText();
             String end = endField.getText();
+
             startField.setText(end);
             endField.setText(start);
+            Location startL = startField.getCurrentSelection();
+            Location endL = endField.getCurrentSelection();
+            startField.setCurrentSelection(endL);
+            endField.setCurrentSelection(startL);
+
         });
         ToggleGroup group = new ToggleGroup();
         handiBtn.setToggleGroup(group);
