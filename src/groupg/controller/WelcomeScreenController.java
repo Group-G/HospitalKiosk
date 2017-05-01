@@ -90,6 +90,7 @@ public class WelcomeScreenController implements Initializable {
     private String lang = "Eng";
     private ListView<String> dirList;
     private ImageView qrcode = new ImageView();
+    private Label qrlabel = new Label();
     private Button reanimate = new Button("Show Animation");
     @FXML
     private CheckBox handicapped;
@@ -1465,6 +1466,8 @@ public class WelcomeScreenController implements Initializable {
         //dirPane.getChildren().add();
        // System.out.println("dirList = " + dirList.getHeight());
         p.getChildren().add(dirList);
+        p.getChildren().add(qrlabel);
+        qrlabel.setText("Use your phone to scan this QRCode");
         p.getChildren().add(qrcode);
         p.getChildren().add(reanimate);
         p.setAlignment(Pos.TOP_CENTER);
