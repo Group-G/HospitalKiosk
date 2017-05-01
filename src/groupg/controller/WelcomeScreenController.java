@@ -1225,6 +1225,7 @@ public class WelcomeScreenController implements Initializable {
         dirBox.getChildren().add(qrcode);
         dirBox.setAlignment(Pos.TOP_CENTER);
         dirList.setPrefWidth(dirBox.getWidth()-100);
+        dirList.setStyle("-fx-margin: 20px;");
     }
 
 
