@@ -108,6 +108,7 @@ public class WelcomeScreenController implements Initializable {
 
 
 
+
     public static void setPermission(int p) {
         permission = p;
     }
@@ -126,6 +127,10 @@ public class WelcomeScreenController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        if(WINDOW_WIDTH != 0){
+            menuPane.setPrefHeight((double) WINDOW_WIDTH);
+            fadePane.setPrefHeight((double) WINDOW_WIDTH);
+        }
 
 
 
@@ -513,6 +518,7 @@ public class WelcomeScreenController implements Initializable {
         });
 
         aboutBtn.setOnAction(event -> {
+            exitMenu();
             try {
                 ResourceManager.getInstance().loadFXMLIntoScene("/view/aboutscreen.fxml", "Welcome", aboutBtn.getScene());
             } catch (IOException e) {
@@ -521,6 +527,7 @@ public class WelcomeScreenController implements Initializable {
         });
 
         loginBtn.setOnAction(event -> {
+            exitMenu();
             try {
                 ResourceManager.getInstance().loadFXMLIntoScene("/view/adminLogin.fxml", "Welcome", aboutBtn.getScene());
             } catch (IOException e) {
@@ -545,7 +552,7 @@ public class WelcomeScreenController implements Initializable {
         spanish.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/spain.png")));
         portugues.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/portugal.png")));
         chinese.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/china.png")));
-        swapBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/swap.png",20,20,false,false)));
+        swapBtn.setGraphic(new ImageView( new Image("/image/Icons/swap.png",20,20,false,false)));
         directionBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/search.png",20, 20, false, false)));
         handiBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/stairs.png",20, 20, false, false)));
     }
@@ -676,7 +683,7 @@ public class WelcomeScreenController implements Initializable {
 
         final Animation expandPanel = new Transition() {
             {
-                setCycleDuration(Duration.millis(1000*dif));
+                setCycleDuration(Duration.millis(1*dif));
             }
 
             @Override
@@ -1285,16 +1292,6 @@ public class WelcomeScreenController implements Initializable {
                 displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(uf.getPath()));
                 uf.getLines().getChildren().setAll(displayedLines);
             }
-            Circle c = new Circle(output.get(0).getX()*1.285, output.get(0).getY()*1.285, 20);
-            List<Location> lCopy = new ArrayList<>();
-            for(Location l: output){
-
-                lCopy.add(l.makeCopy());
-            }
-            lCopy.remove(0);
-
-            mapGroup.getChildren().add(c);
-            animateCircle(c, lCopy).play();
 
             for (Location l: GroundNodes) {
                 l.setX((int)(l.getX()*2.79));
@@ -1304,6 +1301,61 @@ public class WelcomeScreenController implements Initializable {
             GroundLines.getChildren().setAll(displayedLines);
             //mapGroup.getChildren().add(new Circle(1000,1000, 400));
             setMenuFill(getDisplayDirections());
+
+            double groundOffsetX = 10;
+            double faulknerOffsetX = 10;
+            double benkinOffsetX = 20;
+            double groundOffsetY = 10;
+            double faulknerOffsetY = 10;
+            double benkinOffsetY = 20;
+
+            for (UniqueFloor uf : FaulknerFloors){
+                if(uf.getFloor().getBuildingID() == -2){
+                    groundOffsetX = uf.getOffsetX()*scale.getMxx();
+                    groundOffsetY = uf.getOffsetY()*scale.getMxx();
+                }
+                if(uf.getFloor().getBuildingID() == 0){
+                    faulknerOffsetX = uf.getOffsetX()*scale.getMxx();
+                    faulknerOffsetY = uf.getOffsetY()*scale.getMxx();
+                }
+                if(uf.getFloor().getBuildingID() == 1){
+                    benkinOffsetX = uf.getOffsetX()*scale.getMxx();
+                    benkinOffsetY = uf.getOffsetY()*scale.getMxx();
+                }
+
+            }
+
+
+            List<Location> lCopy = new ArrayList<>();
+            for(Location l: output){
+
+                Location newL = l.makeCopy();
+                switch(Main.h.getFloorById(newL.getFloorID()).getBuildingID()) {
+                    case -2:
+                        newL.setX((int)((newL.getX()*2.79)+groundOffsetX));
+                        newL.setY((int)((newL.getY()*2.79)+groundOffsetY));
+                        break;
+                    case 0:
+                        newL.setX((int)((newL.getX()*.56)+benkinOffsetX));
+                        newL.setY((int)((newL.getY()*.56)+benkinOffsetY));
+                        break;
+                    case 1:
+                        newL.setX((int)((newL.getX()*1.285)+faulknerOffsetX));
+                        newL.setY((int)((newL.getY()*1.285)+faulknerOffsetY));
+                        break;
+                    default:
+                        newL.setX((int)((newL.getX()*1.285)));
+                        newL.setY((int)((newL.getY()*1.285)));
+                        break;
+                }
+                lCopy.add(newL);
+
+            }
+            Circle c = new Circle(lCopy.get(0).getX(), lCopy.get(0).getX(), 100);
+            lCopy.remove(0);
+
+            mapGroup.getChildren().add(c);
+            animateCircle(c, lCopy).play();
         }
     }
 

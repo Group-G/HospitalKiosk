@@ -167,7 +167,7 @@
                                  <children>
                                     <HBox pickOnBounds="false" prefHeight="148.0" prefWidth="220.0">
                                        <children>
-                                          <Button fx:id="swapBtn" mnemonicParsing="false" prefHeight="80.0" />
+                                          <Button fx:id="swapBtn" maxHeight="80.0" maxWidth="80.0" mnemonicParsing="false" prefHeight="80.0" />
                                           <VBox fx:id="fieldsBox" pickOnBounds="false" prefHeight="80.0" prefWidth="184.0" />
                                           <Button fx:id="directionBtn" mnemonicParsing="false" prefHeight="80.0" />
                                        </children>
