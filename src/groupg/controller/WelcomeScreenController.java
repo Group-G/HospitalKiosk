@@ -843,9 +843,15 @@ public class WelcomeScreenController implements Initializable {
             }
             if (hm.containsKey(Main.h.getFloorById(start.getFloorID()))) {
                 return hm.get(Main.h.getFloorById(start.getFloorID()));
-            } else {
+            }
+            else {
                 for (Floor floor : Main.h.getAllFloors()) {
-                    if (hm.containsKey(floor)) {
+                    if (hm.containsKey(floor) && (floor.getBuildingID()==start.getBuilding()) ) {
+                        return hm.get(floor);
+                    }
+                }
+                for (Floor floor : Main.h.getAllFloors()) {
+                    if (hm.containsKey(floor)){
                         return hm.get(floor);
                     }
                 }
