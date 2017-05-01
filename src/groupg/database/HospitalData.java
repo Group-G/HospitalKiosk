@@ -768,6 +768,16 @@ public class HospitalData {
         return true;
     }
 
+    public boolean setCategory(String cname, Category c) {
+//        peopleList
+        for (int i = 0; i < categories.size(); i++) {
+            if (categories.get(i).getCategory().equals(cname)) {
+                categories.set(i, c);
+            }
+        }
+        return true;
+    }
+
     /**
      * setLocation
      * @param id ID of location you want to change

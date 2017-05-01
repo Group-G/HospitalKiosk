@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 public class EditCategoryController implements Initializable
 {
     @FXML
-    private Button cancelBtn, newBtn, deleteBtn;
+    private Button cancelBtn, newBtn, deleteBtn, editBtn;
     @FXML
     private ListView<Category> catList;
 
@@ -62,5 +62,20 @@ public class EditCategoryController implements Initializable
     {
         h.removeCategory(catList.getSelectionModel().getSelectedItem());
         catList.getItems().remove(catList.getSelectionModel().getSelectedItem());
+    }
+
+    public void onEdit(ActionEvent event) {
+        Category out = catList.getSelectionModel().getSelectedItem();
+        if (out != null) {
+            try {
+                ResourceManager.getInstance()
+                        .<EditCategoryEditController>loadFXMLIntoScene("/view/editCategoryEdit.fxml", "Edit Category",
+                                editBtn.getScene(),
+                                (controllerIn) -> controllerIn.setCategory(out));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }

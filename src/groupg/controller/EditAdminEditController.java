@@ -31,6 +31,8 @@ public class EditAdminEditController implements Initializable
     @FXML
     private RadioButton perm0, perm1;
 
+    private Admin a;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -91,5 +93,13 @@ public class EditAdminEditController implements Initializable
         {
             e.printStackTrace();
         }
+    }
+
+
+    //not going to be implemented couldn't decide whether to show the admin password or not
+    public void setAdmin(Admin a){
+        this.a = a;
+        usernameField.setText(a.getUsername());
+
     }
 }
