@@ -510,25 +510,20 @@ public class HospitalData {
      */
     public List<Location> getAllLocationsExceptElevators() {
         List<Location> allNodes = new ArrayList<>();
-
-        for(int i = 0; i < buildingsList.size(); i++) {
-            ArrayList<Floor> floorList = buildingsList.get(i).getFloorList();
-
-
-            for(int f = 0; f < floorList.size(); f++) {
-                List<Location> locationList = floorList.get(f).getLocations();
-                for(int l = 0; l < locationList.size(); l++) {
-                    if(locationList.get(l).getCategory().equals("Elevators")||locationList.get(l).getCategory().equals("Elevator")){
-                        //don't add!!
-                    } else {
-                        allNodes.add(locationList.get(l));
+        for(Location l : getAllLocations()) {
+            if(l.getCategory().equals("Elevators")||l.getCategory().equals("Elevator")){
+                      //don't add!!
+              System.out.println(l.getCategory());
+             } else {
+                allNodes.add(l);
                     }
                 }
-            }
-        }
         return allNodes;
-
     }
+
+
+
+
     /**
      * Returns all categories
      * @return all categories

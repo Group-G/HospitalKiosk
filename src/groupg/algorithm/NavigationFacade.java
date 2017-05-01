@@ -1,5 +1,6 @@
 package groupg.algorithm;
 
+import groupg.Main;
 import groupg.database.Location;
 import groupg.database.LocationDecorator;
 
@@ -18,12 +19,23 @@ import static groupg.Main.h;
 public class NavigationFacade {
     private Navigation astar, dFirst, bFirst;
     private LinkedList<LocationDecorator> path;
+    public List<Location> locations = new ArrayList<>();
 
     public NavigationFacade() {
-        List<Location> locations = new ArrayList<>();
-        if(h.getWantStairs() == 1){
+        if(Main.h.getWantStairs() == 1){
             //if the user selected wantStairs
+            System.out.println("WANT STIAR IS 1");
             locations = h.getAllLocationsExceptElevators();
+            List newL = new ArrayList();
+            locations.forEach(e -> {
+//                System.out.println("e.getCategory().getCategory() = " + e.getCategory().getCategory());
+                if(!e.getCategory().getCategory().equals("Elevator")){
+                    //System.out.println("e.getCategory().getCategory() = " + e.getCategory().getCategory());
+                    newL.add(e);
+                }
+            });
+            locations.clear();
+            locations = newL;
         } else {
             //if they didn't select wantStairs
             locations = h.getAllLocations();
