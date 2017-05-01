@@ -357,7 +357,7 @@ public class WelcomeScreenController implements Initializable {
                     locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
                     TitledPane t =new TitledPane(category.getCategory() + " ", locByCat);
                     acccordionDropDown.getPanes().addAll(t);
-                    Rectangle r = new Rectangle(10,10);
+                    Circle r = new Circle(5);
                     r.setStroke(Color.BLACK);
                     r.setFill(Paint.valueOf(category.getColor()));
                     t.setGraphic(r);
