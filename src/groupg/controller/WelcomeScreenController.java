@@ -432,14 +432,7 @@ public class WelcomeScreenController implements Initializable {
 
 
         menuBtn.setOnAction(event -> {
-            if (!menuOpen) {
-                setMenuFill(new VBox());
-                menuOpen = true;
-                menuPane.setVisible(true);
-                menuPane.setPickOnBounds(true);
-                fadePane.setVisible(true);
-                moveMenu(true, 25).play();
-            }
+            openMenu();
         });
 
         menuExitBtn.setOnAction(event -> {
@@ -579,6 +572,17 @@ public class WelcomeScreenController implements Initializable {
         swapBtn.setGraphic(new ImageView( new Image("/image/Icons/swap.png",20,20,false,false)));
         directionBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/search.png",20, 20, false, false)));
         handiBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/stairs.png",20, 20, false, false)));
+    }
+
+    public void openMenu() {
+        if (!menuOpen) {
+            setMenuFill(new VBox());
+            menuOpen = true;
+            menuPane.setVisible(true);
+            menuPane.setPickOnBounds(true);
+            fadePane.setVisible(true);
+            moveMenu(true, 25).play();
+        }
     }
 
     private void focusFloor(UniqueFloor uf) {
