@@ -806,7 +806,7 @@ public class WelcomeScreenController implements Initializable {
                 if(dif <= 2){
                     c.setFill(Color.rgb(66, 83, 244, 0.0));
                     c.setStroke(Color.rgb(0, 0, 0, 0.0));
-                    setCycleDuration(Duration.millis(2500));
+                    setCycleDuration(Duration.millis(1800));
                 }
                 else {
                     c.setFill(Color.rgb(66, 83, 244, 1));
