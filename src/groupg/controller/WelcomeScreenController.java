@@ -110,6 +110,7 @@ public class WelcomeScreenController implements Initializable {
     private boolean searched = false;
     ImageView start = new ImageView();
     ImageView end = new ImageView();
+    Circle c;
 
 
 
@@ -497,6 +498,7 @@ public class WelcomeScreenController implements Initializable {
                     flipToFloor(uf.getFloorIndex());
                     zoomFloor(uf);
                     getfloors(f.getBuildingID());
+                    removeSpecial();
                 });
             } else if (f.getBuildingID() == 0) {
                 b++;
@@ -508,6 +510,7 @@ public class WelcomeScreenController implements Initializable {
                     event.consume();
                     flipToFloor(uf.getFloorIndex());
                     zoomFloor(uf);
+                    removeSpecial();
                     getfloors(f.getBuildingID());
                 });
             }
@@ -688,6 +691,7 @@ public class WelcomeScreenController implements Initializable {
             Floorselectgrid.setHalignment(button, HPos.CENTER);
             button.setOnMouseClicked((MouseEvent event) -> {
                 flipToFloor(Integer.parseInt(button.getText()));
+                removeSpecial();
             });
             button.setOnMouseEntered((MouseEvent event) -> {
                 button.setStyle("-fx-pref-width: 50; -fx-pref-height: 100; -fx-alignment: center; -fx-background-color:#dddddd; -fx-border-radius:0px; -fx-padding: 5px;" +
@@ -748,6 +752,8 @@ public class WelcomeScreenController implements Initializable {
         if(currentBuilding != firstBuilding){
             UniqueFloor f = getUf(Main.h.getBuildingById(Main.h.getFloorById(l.get(l.size()-1).getFloorID()).getBuildingID()).getFloorList().get(0).getLocations().get(0));
             zoomFloor(f);
+            removefloors();
+            getfloors(Main.h.getFloorById(f.getFloor().getID()).getBuildingID());
         }
 
         if (l.get(0).getFloorID() == startFloor && setStart == false){
@@ -1500,7 +1506,7 @@ public class WelcomeScreenController implements Initializable {
             }
 
             flipToFloor(getUf(lCopy.get(0)).getFloorIndex());
-            Circle c = new Circle(lCopy.get(0).getX(), lCopy.get(0).getY(), 25);
+             c = new Circle(lCopy.get(0).getX(), lCopy.get(0).getY(), 25);
             int firstBuilding = Main.h.getFloorById(lCopy.get(0).getFloorID()).getBuildingID();
 //            lCopy.remove(0);
 
@@ -1575,7 +1581,11 @@ public class WelcomeScreenController implements Initializable {
         this.searched = s;
     }
 
-
+    public void removeSpecial(){
+        mapGroup.getChildren().remove(end);
+        mapGroup.getChildren().remove(start);
+        mapGroup.getChildren().remove(c);
+    }
 
 
 }
