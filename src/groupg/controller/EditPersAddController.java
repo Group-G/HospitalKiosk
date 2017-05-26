@@ -5,6 +5,9 @@ import groupg.database.Location;
 import groupg.database.Person;
 import groupg.jfx.AutoCompleteTextField;
 import groupg.jfx.ResourceManager;
+import javafx.animation.PauseTransition;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,8 +17,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,13 +45,38 @@ public class EditPersAddController implements Initializable
     private HBox locHBox;
     @FXML
     private Text errorText;
-
+    @FXML
+    private AnchorPane time;
+    private final long MIN_STATIONARY_TIME = 50000 ;
+    PauseTransition pause = new PauseTransition(Duration.millis(MIN_STATIONARY_TIME));
+    BooleanProperty mouseMoving = new SimpleBooleanProperty();
     private AutoCompleteTextField locField = new AutoCompleteTextField();
     private Set<Location> possibleLocs = new HashSet<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        mouseMoving.addListener((obs, wasMoving, isNowMoving) -> {
+        if (!isNowMoving) {
+            //System.out.println("Mouse stopped!");
+        }
+    });
+        pause.setOnFinished(e -> onLogout());
+        time.setOnMouseClicked(e ->{
+            mouseMoving.set(true);
+            // System.out.println("Mouse move!");
+            pause.playFromStart();
+        });
+        time.setOnMouseDragged(e ->{
+            mouseMoving.set(true);
+            // System.out.println("Mouse move!");
+            pause.playFromStart();
+        });
+        time.setOnMouseMoved(e -> {
+            mouseMoving.set(true);
+            pause.playFromStart();
+            // System.out.println("Mouse move!");
+        });
         locField.setMinWidth(200);
         locField.setPromptText("Location");
         possibleLocs.addAll(h.getAllLocations()); //Grab all locs from DB
@@ -110,6 +140,14 @@ public class EditPersAddController implements Initializable
                         .contains(locField.getText()))
         {
             locList.getItems().add(locField.getCurrentSelection());
+        }
+    }
+    public void onLogout() {
+        mouseMoving.set(false);
+        try {
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml","Welcome",cancelBtn.getScene());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

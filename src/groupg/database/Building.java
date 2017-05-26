@@ -7,7 +7,6 @@ import static groupg.Main.h;
  * Created by  Alazar Genene, Saul Woolf, and Samantha Comeau on 4/1/17.
  */
 public class Building{
-
     ArrayList<Floor> floorList = new ArrayList<Floor>();
     private int numFloors;
     private int id;

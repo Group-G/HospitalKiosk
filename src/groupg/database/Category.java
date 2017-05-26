@@ -11,7 +11,7 @@ public class Category implements Comparable {
     private int quicksearchOn = 0;
 
     public Category(String category, int permission, String color, int quicksearch) {
-        if(color.charAt(0) == '#'){
+        if (color.charAt(0) == '#') {
             color = color.substring(1);
             color = "0x" + color;
         }
@@ -21,8 +21,9 @@ public class Category implements Comparable {
         this.quicksearchOn = quicksearch;
 
     }
+
     public Category(String category, int permission, String color) {
-        if(color.charAt(0) == '#'){
+        if (color.charAt(0) == '#') {
             color = color.substring(1);
             color = "0x" + color;
         }
@@ -30,15 +31,11 @@ public class Category implements Comparable {
         this.permission = permission;
         this.color = color;
     }
+
     public Category(String category, int permission) {
         this.category = category;
         this.permission = permission;
         this.color = "0xffffff";
-    }
-
-    @Override
-    public String toString() {
-        return category;
     }
 
     @Override
@@ -47,6 +44,7 @@ public class Category implements Comparable {
                ((Category) o).getCategory().equals(getCategory()) &&
                ((Category) o).getPermission() == getPermission();
     }
+
 
     public String getCategory() {
         return category;
@@ -86,5 +84,10 @@ public class Category implements Comparable {
     @Override
     public int compareTo(Object o) {
         return toString().compareTo(o.toString());
+    }
+
+    @Override
+    public String toString() {
+        return category;
     }
 }

@@ -4,6 +4,7 @@ import groupg.Main;
 import groupg.database.Location;
 
 import javax.xml.bind.SchemaOutputResolver;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,12 +16,17 @@ import static groupg.Main.h;
 public class Astar implements Navigation{
     LinkedList<Location> open = new LinkedList<>();
     LinkedList<Location> closed = new LinkedList<>();
-    LinkedList<Location> locations;  //list of all nodes for the search
     LinkedList<Location> shortestPath = new LinkedList<>();  //the shortest path from start to finish
+    private List<Location> location = new ArrayList();
 
     public Astar(List<Location> loc){
-        locations = new LinkedList<>();
-        locations.addAll(loc);
+        if(Main.h.getWantStairs() == 1){
+            loc.forEach(e -> {
+                if(!e.getCategory().getCategory().equals("Elevator")){
+
+                }
+            });
+        }
     }  //adds all nodes to locations
 
     /**
@@ -36,7 +42,7 @@ public class Astar implements Navigation{
             path = runAStar(start,goal);
         } catch (NullPointerException e) {
             //e.printStackTrace();
-            System.out.println("Cannot find Path");
+           // System.out.println("Cannot find Path");
             return new LinkedList<>();
         }
         return path;
@@ -63,7 +69,20 @@ public class Astar implements Navigation{
             if(closed.contains(goal)){
                 break;
             }
-            List<Location> neighbors = current.getNeighbors();//getNeighbors(current);
+            List<Location> neighbors = current.getNeighbors();//getNeighbors(current);if(Main.h.getWantStairs() == 1){
+            List<Location> noElevators = new ArrayList<>();
+           if(h.getWantStairs() ==1) {
+
+               neighbors.forEach(e -> {
+                   if (!e.getCategory().getCategory().equals("Elevator")) {
+                       System.out.println("e = " + e);
+                       noElevators.add(e);
+                   }
+               });
+
+               neighbors = noElevators;
+           }
+
             for (Location l:neighbors) {
                 if(closed.contains(l)) {
                     //Do Nothing
@@ -76,6 +95,9 @@ public class Astar implements Navigation{
                         open.add(l);
                     }
                     else{
+
+
+
                         double newScore = computeScore(l, start, goal);
                         if(newScore<=l.getFcost()){
                             l.setParent(current);
@@ -159,10 +181,14 @@ public class Astar implements Navigation{
     }
 
     private void clearRentNCost(){
-        for (Location location : locations){
+        for (Location location : location){
             //location.setParent(null);
             location.setFcost(Double.MAX_VALUE);
         }
+    }
+
+    public void setLocation(List<Location> l){
+        this.location = l;
     }
 
 }

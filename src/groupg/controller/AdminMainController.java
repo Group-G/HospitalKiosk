@@ -2,40 +2,55 @@ package groupg.controller;
 
 import groupg.algorithm.NavigationAlgorithm;
 import groupg.database.Floor;
-import static groupg.Main.h;
 import groupg.jfx.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
+import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import static groupg.Main.h;
 
 /**
  * @author Ryan Benasutti
  * @since 2017-03-30
  */
-public class AdminMainController implements Initializable {
+public class AdminMainController implements Initializable{
     @FXML
-    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, showAllCons, editAdminBtn, editAlgorithm;
+    private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, showAllCons, editAdminBtn, saveBtn;
     @FXML
     private TabPane tabPane;
     @FXML
     private GridPane canvasWrapper;
     @FXML
     private MenuButton changeAlgorithmDD;
+    @FXML
+    private AnchorPane mainpane;
     private static Pane imageViewPane;
     private static Pane nodeOverlay;
     public static Pane lineOverlay;
@@ -50,40 +65,61 @@ public class AdminMainController implements Initializable {
     private static int scale = 1;
     private static int xdif = 0;
     private static Group zoomGroupGlobal;
-
+    private double mouseX = 0, mouseY = 0;
+    private final long MIN_STATIONARY_TIME = 50000 ;
+    PauseTransition pause = new PauseTransition(Duration.millis(MIN_STATIONARY_TIME));
+    BooleanProperty mouseMoving = new SimpleBooleanProperty();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //Change listener for removed nodes
+        //Change listener for removed node=
+        mouseMoving.addListener((obs, wasMoving, isNowMoving) -> {
+            if (!isNowMoving) {
+            //    System.out.println("Mouse stopped!");
+            }
+        });
+        pause.setOnFinished(e -> onLogout());
+        mainpane.setOnMouseClicked(e ->{
+            mouseMoving.set(true);
+           // System.out.println("Mouse move!");
+            pause.playFromStart();
+        });
+        mainpane.setOnMouseDragged(e ->{
+            mouseMoving.set(true);
+          //  System.out.println("Mouse move!");
+            pause.playFromStart();
+        });
+        mainpane.setOnMouseMoved(e -> {
+            mouseMoving.set(true);
+            pause.playFromStart();
+          //  System.out.println("Mouse move!");
+        });
+
         displayedNodes.addListener((ListChangeListener<UniqueNode>) c -> nodeOverlay.getChildren().setAll(displayedNodes));
         nodeOverlay = new Pane();
+
         nodeOverlay.setPickOnBounds(false);
         lineOverlay = new Pane();
         lineOverlay.setPickOnBounds(false);
         infoOverlay = new Pane();
         infoOverlay.setPickOnBounds(false);
-
+        //mainpane.setPickOnBounds(false);
         //Default current floor to first floor available
         if (currentFloor == null)
             currentFloor = h.getAllFloors().get(0);
-
         imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage(currentFloor.getFilename()), imageViewPane);
-
         //Add tabs for each floor
         h.getAllFloors().forEach(floor -> {
             Tab tab = new Tab(floor.getFloorNum());
             tab.setOnSelectionChanged(event -> {
                 imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename()));
                 currentFloor = floor;
-
                 //Set new nodes for this floor
                 displayedNodes.clear();
                 displayedNodes.addAll(floor.getLocations().stream().map(NodeFactory::getNode).collect(Collectors.toList()));
                 nodeOverlay.getChildren().setAll(displayedNodes);
-
                 //Clear lines
                 displayedLines.clear();
                 lineOverlay.getChildren().clear();
-
                 //Clear current selection
                 NodeListenerFactory.currentSelection = null;
             });
@@ -124,6 +160,66 @@ public class AdminMainController implements Initializable {
                 !(event.getButton() == MouseButton.PRIMARY && event.isControlDown()))
                 event.consume();
         });
+
+        zoomGroup.setOnMouseMoved(mouseEvent -> {
+            mouseX = mouseEvent.getX();
+            mouseY = mouseEvent.getY();
+
+        });
+
+        saveBtn.setOnAction(event -> {
+            h.publishDB();
+            try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Lightbox.fxml"));
+            loader.load();
+            Lightbox controller = loader.getController();
+                Timeline timeline = new Timeline(new KeyFrame(
+                        Duration.millis(500),
+                        ae -> controller.showin(mainpane)));
+                timeline.play();
+                 //Save changes to disk
+            }
+            catch (IOException ex) {
+                // なんか適当にエラー処理でも
+                Logger.getLogger(AdminMainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+
+        pane.setOnKeyPressed(keyEvent -> {
+            switch (keyEvent.getText()) {
+                case "a":
+                    UniqueNode prevSel = NodeListenerFactory.currentSelection; //Save selection
+
+                    //Make new node
+                    UniqueNode node = NodeFactory.getNode(mouseX, mouseY, currentFloor.getID());
+                    h.setLocation(node.getLocation().getID(), node.getLocation());
+                    displayedNodes.add(node);
+                    nodeOverlay.getChildren().setAll(displayedNodes);
+
+                    //Connect to prev selection
+                    if (prevSel != null)
+                    {
+                        node.getLocation().getNeighbors().add(prevSel.getLocation());
+                        prevSel.getLocation().getNeighbors().add(node.getLocation());
+                    }
+
+                    //Show new connection
+                    drawConnections(node);
+                    updateNodePD();
+
+                    //Select new node and prompt for edit
+                    NodeListenerFactory.updateSelection(node);
+                    NodeListenerFactory.editNodeName();
+                    updateNodePD();
+                    break;
+
+                case "d":
+                    if (NodeListenerFactory.currentSelection != null)
+                        NodeListenerFactory.deleteCurrentSelection();
+                    break;
+            }
+        });
+
         canvasWrapper.getChildren().addAll(pane, infoOverlay);
 
         //Default algorithm
@@ -136,6 +232,7 @@ public class AdminMainController implements Initializable {
             changeAlgorithmDD.getItems().add(item);
 //            System.out.println("we are here!!!");
         }
+        changeAlgorithmDD.setText("Pathfinding Algorithm | "+selectedAlgorithm.toString());
     }
 
     /**
@@ -170,9 +267,8 @@ public class AdminMainController implements Initializable {
         }
     }
 
-    public void onLogout(ActionEvent actionEvent) {
-        h.publishDB(); //Save changes to disk
-
+    public void onLogout() {
+        mouseMoving.set(false);
         try {
             ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", logoutBtn.getScene());
         } catch (IOException e) {
@@ -190,7 +286,7 @@ public class AdminMainController implements Initializable {
 
     public void onAddNode(ActionEvent actionEvent) {
 
-        System.out.println(zoomGroupGlobal.getScaleX() + ", " + zoomGroupGlobal.getScaleY()  + ", " + zoomGroupGlobal.getScaleZ());
+       // System.out.println(zoomGroupGlobal.getScaleX() + ", " + zoomGroupGlobal.getScaleY() + ", " + zoomGroupGlobal.getScaleZ());
         UniqueNode node = NodeFactory.getNode(imageView.getImage().widthProperty().doubleValue() / 2.0,
                                               imageView.getImage().heightProperty().doubleValue() / 2.0,
                                               currentFloor.getID());
@@ -209,8 +305,9 @@ public class AdminMainController implements Initializable {
     }
 
     private void onChangeAlgorithm(NavigationAlgorithm algorithm) {
-        System.out.println("Changed Algorithm to " + algorithm.toString());
+       // System.out.println("Changed Algorithm to " + algorithm.toString());
         selectedAlgorithm = algorithm;
+        changeAlgorithmDD.setText("Pathfinding Algorithm | " + algorithm.toString());
     }
 
     public void onEditPers(ActionEvent event) {

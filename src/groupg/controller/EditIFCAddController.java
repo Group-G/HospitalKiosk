@@ -3,13 +3,18 @@ package groupg.controller;
 import static groupg.Main.h;
 import groupg.database.Location;
 import groupg.jfx.ResourceManager;
+import javafx.animation.PauseTransition;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,10 +33,36 @@ public class EditIFCAddController implements Initializable {
     private ListView<Location> availConList, curConList;
     @FXML
     private VBox titleVBox;
+    @FXML
+    private AnchorPane time;
     private Location location;
-
+    private final long MIN_STATIONARY_TIME = 50000 ;
+    PauseTransition pause = new PauseTransition(Duration.millis(MIN_STATIONARY_TIME));
+    BooleanProperty mouseMoving = new SimpleBooleanProperty();
     @Override
-    public void initialize(URL location, ResourceBundle resources) {}
+    public void initialize(URL location, ResourceBundle resources) {
+        mouseMoving.addListener((obs, wasMoving, isNowMoving) -> {
+            if (!isNowMoving) {
+                //System.out.println("Mouse stopped!");
+            }
+        });
+        pause.setOnFinished(e -> onLogout());
+        time.setOnMouseClicked(e ->{
+            mouseMoving.set(true);
+            // System.out.println("Mouse move!");
+            pause.playFromStart();
+        });
+        time.setOnMouseDragged(e ->{
+            mouseMoving.set(true);
+            // System.out.println("Mouse move!");
+            pause.playFromStart();
+        });
+        time.setOnMouseMoved(e -> {
+            mouseMoving.set(true);
+            pause.playFromStart();
+            // System.out.println("Mouse move!");
+        });
+    }
 
     public void onAdd(ActionEvent event) {
         List<Location> toAdd = availConList.getSelectionModel().getSelectedItems();
@@ -71,5 +102,13 @@ public class EditIFCAddController implements Initializable {
         potential.removeAll(loc.getNeighbors());
         potential.remove(loc);
         availConList.getItems().setAll(potential);
+    }
+    public void onLogout() {
+        mouseMoving.set(false);
+        try {
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml","Welcome",cancelBtn.getScene());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

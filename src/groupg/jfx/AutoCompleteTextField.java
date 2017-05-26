@@ -1,20 +1,15 @@
 package groupg.jfx;
 
-import groupg.Main;
-import groupg.database.HospitalData;
 import groupg.database.Location;
+import groupg.database.Person;
 import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
-import sun.awt.image.ImageWatched;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static groupg.Main.h;
@@ -42,28 +37,71 @@ public class AutoCompleteTextField extends TextField {
                                                LinkedList<Location> searchResult = new LinkedList<>();
                                                LinkedList<Location> searchResult2 = new LinkedList<>();
 
-                                               for(Location loc : h.getAllLocations()){
-                                                   if(FuzzySearch.ratio(loc.getName().toLowerCase(), getText().toLowerCase()) > 25){
-                                                       searchResult2.add(loc);
-                                                   }
-                                               }
+                                               searchResult2.addAll(h.getAllLocations()
+                                                                     .stream()
+                                                                     .filter(elem -> FuzzySearch.ratio(elem.getName().toLowerCase(), getText().toLowerCase()) > 25)
+                                                                     .sorted((loc1, loc2) -> FuzzySearch.ratio(loc1.getName().toLowerCase(), loc2.getName().toLowerCase()))
+                                                                     .collect(Collectors.toList()));
+
+                                               searchResult2.addAll(h.getAllPeople()
+                                                                     .stream()
+                                                                     .map(Person::getLocations)
+                                                                     .map(loc -> {
+                                                                         if (loc.size() != 0)
+                                                                             return h.getLocationById(loc.get(0));
+                                                                         return null;
+                                                                     })
+                                                                     .filter(Objects::nonNull)
+                                                                     .collect(Collectors.toList()));
 
                                                searchResult2.addAll(entries.stream()
-                                                                          .filter(e -> e.toString().toLowerCase().contains(getText().toLowerCase()))
-                                                                          .collect(Collectors.toList()));
+                                                                           .filter(e -> e.toString().toLowerCase().contains(getText().toLowerCase()))
+                                                                           .collect(Collectors.toList()));
 
-                                               for(Location lo : searchResult2){
-                                                   if(!searchResult.contains(lo)){
-                                                       searchResult.add(lo);
+                                               LinkedList<Location> filtered = new LinkedList<>();
+                                               filtered.addAll(searchResult2.stream().filter(elem -> !elem.getName().equals("My Node")).collect(Collectors.toList()));
+
+                                               filtered.forEach(elem -> {
+                                                   if (!searchResult.contains(elem))
+                                                       searchResult.add(elem);
+                                               });
+
+
+//                                               System.out.println("searchResult = " + searchResult.size());
+                                               ArrayList<Integer> values = new ArrayList<>();
+                                               for(int i = 0; i < searchResult.size(); i++){
+                                                    values.add(FuzzySearch.ratio(searchResult.get(i).getName().toLowerCase(), getText().toLowerCase()));
+//                                                   System.out.println(values.get(i));
+                                               }
+//                                               System.out.println("values.size() = " + values.size());
+
+                                               for(int i = 0; i < values.size(); i++){
+                                                   for(int j = values.size()-1; j > i; j--){
+                                                       if(values.get(j) > values.get(j-1)){
+
+                                                           int tempV = values.get(j);
+                                                           values.set(j, values.get(j-1));
+                                                           values.set(j-1, tempV);
+
+                                                           Location templ = searchResult.get(j);
+                                                           searchResult.set(j, searchResult.get(j-1));
+                                                           searchResult.set(j-1, templ);
+
+                                                       }
                                                    }
                                                }
+//                                               System.out.println("JNVUINIUGVURWBVWYDBYVSDSDB");
+//                                               for(int i = 0; i < searchResult.size(); i++){
+////                                                   values.add(FuzzySearch.ratio(searchResult.get(i).getName().toLowerCase(), getText().toLowerCase()));
+//                                                   System.out.println(values.get(i));
+//                                               }
+
 
                                                populatePopup(searchResult);
 
                                                if (!entriesPopup.isShowing())
                                                    entriesPopup.show(AutoCompleteTextField.this, Side.BOTTOM, 0, 0);
-                                           }
-                                           else
+                                           } else
                                                entriesPopup.hide();
                                        }
                                    });
@@ -122,5 +160,6 @@ public class AutoCompleteTextField extends TextField {
         this.currentSelection = currentSelection;
         setText(currentSelection.getName());
         entriesPopup.hide();
+
     }
 }

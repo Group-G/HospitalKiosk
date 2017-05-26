@@ -2,9 +2,12 @@ package groupg.algorithm;
 
 import groupg.database.Location;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
+import static groupg.Main.h;
 
 /**
  * Created by Dylan on 4/12/17.
@@ -51,7 +54,21 @@ public class BreadthFirst implements Navigation{
                 return true;
             }
             else {
-                for(Location child : curr.getNeighbors()) {
+                List<Location> neighbors = curr.getNeighbors();//getNeighbors(current);if(Main.h.getWantStairs() == 1){
+                List<Location> noElevators = new ArrayList<>();
+                if(h.getWantStairs() ==1) {
+
+                    neighbors.forEach(e -> {
+                        if (!e.getCategory().getCategory().equals("Elevator")) {
+                            System.out.println("e = " + e);
+                            noElevators.add(e);
+                        }
+                    });
+
+                    neighbors = noElevators;
+                }
+                for(Location child : neighbors) {
+
                     if(!searched.contains(child)) {
                         queue.add(child);
                         searched.add(child);

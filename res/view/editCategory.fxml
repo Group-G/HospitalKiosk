@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="groupg.controller.EditCategoryController">
    <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane fx:id="time" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Categories" BorderPane.alignment="CENTER">
                <font>
@@ -30,6 +30,7 @@
                <children>
                   <Button fx:id="cancelBtn" minWidth="130.0" mnemonicParsing="false" onAction="#onCancel" text="Cancel/Back" />
                   <Button fx:id="newBtn" minWidth="130.0" mnemonicParsing="false" onAction="#onAdd" text="Add New..." />
+                  <Button fx:id="editBtn" layoutX="15.0" layoutY="90.0" minWidth="130.0" mnemonicParsing="false" onAction="#onEdit" text="Edit Selected" />
                   <Button fx:id="deleteBtn" minWidth="130.0" mnemonicParsing="false" onAction="#onDelete" text="Delete Selected" />
                </children>
                <BorderPane.margin>

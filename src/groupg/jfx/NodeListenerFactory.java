@@ -4,7 +4,6 @@ import groupg.Main;
 import groupg.algorithm.NodeNeighbors;
 import groupg.controller.AdminMainController;
 import groupg.database.Category;
-import groupg.database.HospitalData;
 import groupg.database.Location;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -26,7 +25,7 @@ import java.util.List;
 public class    NodeListenerFactory {
     private static double orgSceneX, orgSceneY, orgTranslateX, orgTranslateY;
     public static UniqueNode currentSelection = null;
-    private static double mouseX, mouseY;
+    public static double mouseX, mouseY;
 
     /**
      * Makes Nodes draggable and clickable with mouse listeners
@@ -51,24 +50,7 @@ public class    NodeListenerFactory {
             ContextMenu contextMenu = new ContextMenu();
 
             MenuItem changeName = new MenuItem("Change Name");
-            changeName.setOnAction(s ->
-                                   {
-                                       TextInputDialog dialog = new TextInputDialog(currentSelection.getLocation().getName());
-                                       dialog.setTitle("Change Name");
-                                       dialog.setGraphic(null);
-                                       dialog.setHeaderText("Change Name");
-                                       dialog.setContentText("Please enter a new name:");
-                                       dialog.showAndWait()
-                                             .filter(result -> !result.equals(""))
-                                             .ifPresent(result -> {
-                                                 if (result.length() >= Main.h.maxStringLength())
-                                                    currentSelection.getLocation().setName(result.substring(0, Main.h.maxStringLength() - 1));
-                                                 else
-                                                     currentSelection.getLocation().setName(result);
-                                             });
-
-                                       AdminMainController.updateNodePD();
-                                   });
+            changeName.setOnAction(s -> editNodeName());
 
             Menu changeCat = new Menu("Change Category");
             List<Category> catsFromDB = Main.h.getAllCategories();
@@ -84,15 +66,7 @@ public class    NodeListenerFactory {
                                });
 
             MenuItem remove = new MenuItem("Remove Node");
-            remove.setOnAction(event1 ->
-                               {
-                                   currentSelection.getLocation().getNeighbors().forEach(elem -> elem.getNeighbors().remove(currentSelection.getLocation()));
-                                   Main.h.removeLocationById(currentSelection.getLocation().getID());
-                                   AdminMainController.displayedNodes.remove(currentSelection);
-
-                                   AdminMainController.updateNodePD();
-                                   AdminMainController.lineOverlay.getChildren().clear();
-                               });
+            remove.setOnAction(event1 -> deleteCurrentSelection());
 
             MenuItem autogen = new MenuItem("Generate Connections");
             autogen.setOnAction(event1 -> {
@@ -190,7 +164,7 @@ public class    NodeListenerFactory {
      *
      * @param node New selection
      */
-    private static void updateSelection(UniqueNode node) {
+    public static void updateSelection(UniqueNode node) {
         //Clear highlight
         if (currentSelection != null)
             currentSelection.setUnhighlighted();
@@ -199,5 +173,38 @@ public class    NodeListenerFactory {
         currentSelection.setHighlighted();
         AdminMainController.drawConnections(currentSelection);
         AdminMainController.updateNodePD();
+    }
+
+    /**
+     * Edits the name of the currently selected node
+     */
+    public static void editNodeName() {
+        TextInputDialog dialog = new TextInputDialog(currentSelection.getLocation().getName());
+        dialog.setTitle("Change Name");
+        dialog.setGraphic(null);
+        dialog.setHeaderText("Change Name");
+        dialog.setContentText("Please enter a new name:");
+        dialog.showAndWait()
+              .filter(result -> !result.equals(""))
+              .ifPresent(result -> {
+                  if (result.length() >= Main.h.maxStringLength())
+                      currentSelection.getLocation().setName(result.substring(0, Main.h.maxStringLength() - 1));
+                  else
+                      currentSelection.getLocation().setName(result);
+              });
+
+        AdminMainController.updateNodePD();
+    }
+
+    /**
+     * Deletes the currently selected node
+     */
+    public static void deleteCurrentSelection() {
+        currentSelection.getLocation().getNeighbors().forEach(elem -> elem.getNeighbors().remove(currentSelection.getLocation()));
+        Main.h.removeLocationById(currentSelection.getLocation().getID());
+        AdminMainController.displayedNodes.remove(currentSelection);
+
+        AdminMainController.updateNodePD();
+        AdminMainController.lineOverlay.getChildren().clear();
     }
 }

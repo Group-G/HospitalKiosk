@@ -3,11 +3,19 @@ package groupg.controller;
 import static groupg.Main.h;
 import groupg.database.Person;
 import groupg.jfx.ResourceManager;
+import javafx.animation.PauseTransition;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.BorderPane;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,10 +31,35 @@ public class EditPersController implements Initializable
     private Button cancelBtn, newBtn, editBtn, deleteBtn;
     @FXML
     private ListView<Person> persList;
-
+    @FXML
+    private BorderPane time;
+    private final long MIN_STATIONARY_TIME = 50000 ;
+    PauseTransition pause = new PauseTransition(Duration.millis(MIN_STATIONARY_TIME));
+    BooleanProperty mouseMoving = new SimpleBooleanProperty();
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        mouseMoving.addListener((obs, wasMoving, isNowMoving) -> {
+            if (!isNowMoving) {
+                //System.out.println("Mouse stopped!");
+            }
+        });
+        pause.setOnFinished(e -> onLogout());
+        time.setOnMouseClicked(e ->{
+            mouseMoving.set(true);
+           // System.out.println("Mouse move!");
+            pause.playFromStart();
+        });
+        time.setOnMouseDragged(e ->{
+            mouseMoving.set(true);
+           // System.out.println("Mouse move!");
+            pause.playFromStart();
+        });
+        time.setOnMouseMoved(e -> {
+            mouseMoving.set(true);
+            pause.playFromStart();
+           // System.out.println("Mouse move!");
+        });
         persList.getItems().setAll(h.getAllPeople()); //Add all people from DB to listview
     }
 
@@ -79,6 +112,15 @@ public class EditPersController implements Initializable
             {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void onLogout() {
+        mouseMoving.set(false);
+        try {
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml","Welcome",newBtn.getScene());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

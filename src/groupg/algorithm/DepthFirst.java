@@ -2,8 +2,11 @@ package groupg.algorithm;
 
 import groupg.database.Location;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import static groupg.Main.h;
 
 /**
  * Created by Dylan on 4/7/17.
@@ -23,7 +26,7 @@ public class DepthFirst implements Navigation{
         LinkedList<Location> dfpath = new LinkedList<>();
         dfpath = runDepthFirst(start, end);
         if(dfpath.isEmpty()) {
-            System.out.println("Path not found");
+           // System.out.println("Path not found");
             return new LinkedList<>();
         }
         else {
@@ -47,7 +50,22 @@ public class DepthFirst implements Navigation{
         if(strt.equals(goal)){
             return true;
         }
-        for (Location neighbor: strt.getNeighbors()) {
+
+        List<Location> neighbors = strt.getNeighbors();//getNeighbors(current);if(Main.h.getWantStairs() == 1){
+        List<Location> noElevators = new ArrayList<>();
+        if(h.getWantStairs() ==1) {
+
+            neighbors.forEach(e -> {
+                if (!e.getCategory().getCategory().equals("Elevator")) {
+                    System.out.println("e = " + e);
+                    noElevators.add(e);
+                }
+            });
+
+            neighbors = noElevators;
+        }
+
+        for (Location neighbor: neighbors) {
             if (!searched.contains(neighbor)){
                 if(isReachable(neighbor, goal)){
                     path.addFirst(neighbor);

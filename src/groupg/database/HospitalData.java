@@ -1,10 +1,7 @@
 package groupg.database;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Created by  Alazar Genene, Saul Woolf, and Samantha Comeau on 4/1/17.
@@ -18,7 +15,7 @@ public class HospitalData {
     private  JavaDBExample dbExample;
 
     private Admin currentAdmin = new Admin("", "aa", 99);
-    public int handicapped = 0;
+    public int wantStairs = 0;
 
     //Values for TRACKIDS
     private  int LOCATION_NEW;
@@ -29,6 +26,7 @@ public class HospitalData {
     private static double pixelsPerFeet = 1439/388;
     private static String errorMessage = "";
     private List<Integer> allIds = new ArrayList<>();
+//    private int lastTime = Calendar.getInstance().get(Calendar.MILLISECOND);
 
     public static RSA key = new RSA(64);
 //    public s
@@ -47,6 +45,7 @@ public class HospitalData {
         addAdmin(new Admin("user", "user", 0));
 //        }
 
+
     }
 
     public static double getPixelsPerFeet() {
@@ -59,9 +58,9 @@ public class HospitalData {
 
     public void pullDB(){
         if(pullDataFromDB()) {
-            System.out.println("Successfully pulled data from DB");
+            //System.out.println("Successfully pulled data from DB");
         } else {
-            System.out.println("Failed to pull data from DB");
+           // System.out.println("Failed to pull data from DB");
         }
     }
 
@@ -80,7 +79,7 @@ public class HospitalData {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
         }
         catch(ClassNotFoundException e) {
-            System.out.println("Java DB Driver not found.");
+           // System.out.println("Java DB Driver not found.");
             return false;
         }
         Connection connection = null;
@@ -113,7 +112,7 @@ public class HospitalData {
         }
         catch (SQLException e)
         {
-            System.out.println("Connection failed. Check output console.");
+          //  System.out.println("Connection failed. Check output console.");
             e.printStackTrace();
             return false;
         }
@@ -153,7 +152,7 @@ public class HospitalData {
      */
     public boolean publishDB() {
 
-        System.out.println("\nPushing the following to the database:");
+       // System.out.println("\nPushing the following to the database:");
         List<Location> locs = getAllLocations();
         String connections = "";
         String locations = "";
@@ -178,8 +177,8 @@ public class HospitalData {
             }
 
         }
-        System.out.println("Locations:" + locations);
-        System.out.println("Connections:" + connections);
+      //  System.out.println("Locations:" + locations);
+     //   System.out.println("Connections:" + connections);
 
         List<Person> peeps = peopleList;
         String people = "";
@@ -201,8 +200,8 @@ public class HospitalData {
             }
 
         }
-        System.out.println("People:" + people);
-        System.out.println("Offices:" + offices);
+     //   System.out.println("People:" + people);
+       // System.out.println("Offices:" + offices);
 
 
 
@@ -217,7 +216,7 @@ public class HospitalData {
                 floors = floors + fls.get(i).getSQL();
             }
         }
-        System.out.println("Floors: " + floors);
+     //   System.out.println("Floors: " + floors);
 
 
         List<Building> blds = buildingsList;
@@ -230,7 +229,7 @@ public class HospitalData {
             }
             building = building + blds.get(i).getSQL();
         }
-        System.out.println("Buildings: " + building);
+      //  System.out.println("Buildings: " + building);
 
 
         String cat = "";
@@ -243,7 +242,7 @@ public class HospitalData {
             cat = cat + "(\'" + categories.get(i).getCategory() + "\', " + categories.get(i).getPermission() + ", \'"+
                     categories.get(i).getColor() + "\', "+ categories.get(i).getQuicksearchOn()+ ")";
         }
-        System.out.println("Categories: " + cat);
+      //  System.out.println("Categories: " + cat);
 
         String admin = "";
         for(int i = 0; i < adminList.size(); i++)
@@ -254,11 +253,11 @@ public class HospitalData {
             }
             admin = admin + adminList.get(i).getSQL();
         }
-        System.out.println("Admins: " + admin);
+      //  System.out.println("Admins: " + admin);
 
         String trackID_push = "";
         trackID_push = "(" + LOCATION_NEW + ", " + PERSONELLE_NEW + ", " + BUILDING_NEW + ", " + FLOOR_NEW + ")";
-        System.out.println("Track IDS: " + trackID_push);
+     //   System.out.println("Track IDS: " + trackID_push);
 
         dbExample.fillTable(locations, people, offices, floors, building, connections, admin, cat, trackID_push);
         return true;
@@ -305,7 +304,7 @@ public class HospitalData {
                 return aBuildingsList;
             }
         }
-        System.out.println("COULD NOT FIND BUILDING " + id);
+       // System.out.println("COULD NOT FIND BUILDING " + id);
         return null;
     }
     /**
@@ -325,7 +324,7 @@ public class HospitalData {
                 }
             }
         }
-        System.out.println("COULD NOT FIND FLOOR " + id);
+       // System.out.println("COULD NOT FIND FLOOR " + id);
         return null;
     }
 
@@ -343,7 +342,7 @@ public class HospitalData {
                 }
             }
         }
-        System.out.println("COULD NOT FIND FLOOR " + name);
+      //  System.out.println("COULD NOT FIND FLOOR " + name);
         return null;
     }
     /**
@@ -422,7 +421,7 @@ public class HospitalData {
     private boolean addFloor(Floor f, int buildingId) {
         Building b = getBuildingById(buildingId);
         if(b == null) {
-            System.out.println("couldnt find building");
+         //   System.out.println("couldnt find building");
         }
         else{
             for(Floor f2 : getAllFloors()){
@@ -446,7 +445,7 @@ public class HospitalData {
         int floorId = l.getFloorID();
         Floor f = getFloorById(floorId);
         if(f == null) {
-            System.out.println("couldnt find floor");
+           // System.out.println("couldnt find floor");
         }
         else{
             f.addLocation(l);
@@ -508,30 +507,22 @@ public class HospitalData {
      * Returns list of all locations
      * @return List of locations
      */
-    public List<Location> getAllLocationsExceptStairs() {
+    public List<Location> getAllLocationsExceptElevators() {
         List<Location> allNodes = new ArrayList<>();
-
-        for(int i = 0; i < buildingsList.size(); i++) {
-            ArrayList<Floor> floorList = buildingsList.get(i).getFloorList();
-
-
-            for(int f = 0; f < floorList.size(); f++) {
-                List<Location> locationList = floorList.get(f).getLocations();
-
-
-                for(int l = 0; l < locationList.size(); l++) {
-                    if(locationList.get(l).getCategory().equals("Stairs")){
-                        //don't add!!
-                    } else {
-
-                        allNodes.add(locationList.get(l));
+        for(Location l : getAllLocations()) {
+            if(l.getCategory().equals("Elevators")||l.getCategory().equals("Elevator")){
+                      //don't add!!
+              System.out.println(l.getCategory());
+             } else {
+                allNodes.add(l);
                     }
                 }
-            }
-        }
         return allNodes;
-
     }
+
+
+
+
     /**
      * Returns all categories
      * @return all categories
@@ -612,11 +603,11 @@ public class HospitalData {
             Floor f = ld.getFloorObj();
             if(!floors.contains(f)){
                 floors.add(f);
-                System.out.print(f.getFloorNum() + " ");
+              //  System.out.print(f.getFloorNum() + " ");
 
             }
         }
-        System.out.println();
+      //  System.out.println();
 
         return floors;
     }
@@ -630,8 +621,8 @@ public class HospitalData {
 //        System.out.println("ADDING A FRIGGIN CONNECTION " + id1 + ", " + id2);
         Location l1 = getLocationById(id1);
         Location l2 = getLocationById(id2);
-        if(l1 == null || l2 == null) System.out.println("Invalid ID's for connection");
-        else if(l1.getID() == l2.getID()) System.out.println("YOU CANT CONNECT A NODE TO ITSELF");
+        if(l1 == null || l2 == null); //System.out.println("Invalid ID's for connection");
+        else if(l1.getID() == l2.getID());// System.out.println("YOU CANT CONNECT A NODE TO ITSELF");
         else{
             l1.addNeighbor(id2);
             l2.addNeighbor(id1);
@@ -767,6 +758,16 @@ public class HospitalData {
         return true;
     }
 
+    public boolean setCategory(String cname, Category c) {
+//        peopleList
+        for (int i = 0; i < categories.size(); i++) {
+            if (categories.get(i).getCategory().equals(cname)) {
+                categories.set(i, c);
+            }
+        }
+        return true;
+    }
+
     /**
      * setLocation
      * @param id ID of location you want to change
@@ -837,8 +838,12 @@ public class HospitalData {
         return dbStrLength;
     }
 
-    public void setHandicapped(int val){
-        this.handicapped = val;
+    public void setWantStairs(int val){
+        this.wantStairs = val;
+    }
+
+    public int getWantStairs(){
+        return wantStairs;
     }
 
     /**
@@ -879,7 +884,7 @@ public class HospitalData {
         }
         catch (SQLException e)
         {
-            System.out.println("Failed to pull buildings");
+           // System.out.println("Failed to pull buildings");
             return false;
         }
 
@@ -956,7 +961,7 @@ public class HospitalData {
         }
         catch (SQLException e)
         {
-            System.out.println("Failed to pull buildings");
+           // System.out.println("Failed to pull buildings");
             return false;
         }
     }
@@ -971,8 +976,10 @@ public class HospitalData {
             ResultSetMetaData roomDataset = locations.getMetaData();
 
             int roomColumns = roomDataset.getColumnCount();
-
+            java.sql.Time startTime = null;
+            java.sql.Time endTime = null;
             int id = -1, x_coord = -1, y_coord = -1, buildingID = -1, floorId = -1;
+            ;
             Category category = new Category("FAILED TO PULL", 0, "#ffffff");
             String locationName = "FAILED TO PULL";
 
@@ -1001,9 +1008,15 @@ public class HospitalData {
                     else if(roomDataset.getColumnName(j).equals("BUILDING_ID")){
                         buildingID = Integer.parseInt(locations.getString(j));
                     }
+                    else if(roomDataset.getColumnName(j).equals("startTime")){
+                        startTime = locations.getTime(j);
+                    }
+                    else if(roomDataset.getColumnName(j).equals("endTime")){
+                        endTime = locations.getTime(j);
+                    }
                     else
                     {
-                        System.out.println("Could not place " + locations.getString(j) +", " + roomDataset.getColumnName(j));
+                       // System.out.println("Could not place " + locations.getString(j) +", " + roomDataset.getColumnName(j));
                     }
                 }
                 Location l = new Location(locationName, x_coord, y_coord, new LinkedList<>(), category, 1, id, floorId, buildingID);
@@ -1015,7 +1028,7 @@ public class HospitalData {
         catch (SQLException e)
         {
 
-            System.out.println("Failed to pull buildings");
+          //  System.out.println("Failed to pull buildings");
 
             return false;
         }
@@ -1047,7 +1060,7 @@ public class HospitalData {
                     } else if (roomDataset.getColumnName(j).equals("PERSONELLE_NAME")) {
                         name = people.getString(j);
                     } else {
-                        System.out.println("Could not place " + people.getString(j) + ", " + roomDataset.getColumnName(j));
+                       // System.out.println("Could not place " + people.getString(j) + ", " + roomDataset.getColumnName(j));
                     }
 
 //
@@ -1059,7 +1072,7 @@ public class HospitalData {
             return true;
         } catch (SQLException e) {
 
-            System.out.println("Failed to pull buildings");
+           // System.out.println("Failed to pull buildings");
 
             return false;
         }
@@ -1096,7 +1109,7 @@ public class HospitalData {
         catch (SQLException e)
         {
 
-            System.out.println("Failed to pull connections");
+          //  System.out.println("Failed to pull connections");
 
             return false;
         }
@@ -1130,7 +1143,7 @@ public class HospitalData {
             return true;
         }
         catch (SQLException e) {
-            System.out.println("Failed to pull connections");
+           // System.out.println("Failed to pull connections");
             return false;
         }
     }
@@ -1172,7 +1185,7 @@ public class HospitalData {
         catch (SQLException e)
         {
 
-            System.out.println("Failed to pull connections");
+          //  System.out.println("Failed to pull connections");
 
             return false;
         }
@@ -1207,7 +1220,7 @@ public class HospitalData {
             return true;
         }
         catch (SQLException e){
-            System.out.println("Failed to pull track IDs");
+          //  System.out.println("Failed to pull track IDs");
             return false;
         }
     }
@@ -1245,7 +1258,7 @@ public class HospitalData {
             return true;
         }
         catch (SQLException e){
-            System.out.println("Failed to pull track IDs");
+           // System.out.println("Failed to pull track IDs");
             return false;
         }
     }

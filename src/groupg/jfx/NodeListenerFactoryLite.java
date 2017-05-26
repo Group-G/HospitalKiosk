@@ -1,24 +1,11 @@
 package groupg.jfx;
 
-import groupg.Main;
-import groupg.algorithm.NodeNeighbors;
-import groupg.controller.AdminMainController;
-import groupg.controller.WelcomeScreenController;
-import groupg.database.Category;
-import groupg.database.HospitalData;
-import groupg.database.Location;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Ryan Benasutti

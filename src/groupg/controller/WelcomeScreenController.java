@@ -1,407 +1,141 @@
 package groupg.controller;
 
-
 import groupg.Main;
 import groupg.algorithm.NavigationAlgorithm;
 import groupg.algorithm.NavigationFacade;
 import groupg.database.*;
-
 import groupg.jfx.*;
-import javafx.scene.paint.Color;
-import javafx.application.Application;
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
+import javafx.animation.PathTransition;
+import javafx.animation.Transition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
+import javafx.util.Duration;
 import net.glxn.qrgen.core.image.ImageType;
 import net.glxn.qrgen.javase.QRCode;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import javax.swing.text.html.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
 import static groupg.Main.h;
-import static groupg.Main.main;
-//import static groupg.controller.AdminMainController.infoOverlay;
-//import static groupg.controller.AdminMainController.nodeOverlay;
 
+/**
+ * Created by Jazzberry Jam Jackelopes on 4/21/17.
+ */
 public class WelcomeScreenController implements Initializable {
+    //FXML Initialized
     @FXML
-    private Button loginBtn, searchBtn;
+    private Label lblFloor;
     @FXML
-    private HBox startFieldHBox, endFieldHBox;
+    private GridPane Floorselectgrid;
     @FXML
-    private ListView<String> dirList;
+    private Group mapGroup, menuGroup, textFieldGroup;
     @FXML
-    private GridPane canvasWrapper;
-    public static Pane imageViewPane, nodeOverlay, lineOverlay, infoOverlay;
-    public static ObservableList<UniqueNode> displayedNodes = FXCollections.observableArrayList();
-    public static ObservableList<Circle> displayedCircles = FXCollections.observableArrayList();
-    public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
-    public static ObservableList<PropertyDisplay> displayedPanels = FXCollections.observableArrayList();
-    private Location closestLocToClick;
-    private ImageView imageView;
-    private AutoCompleteTextField startField, endField;
-    private NavigationFacade navigation;
-    private LinkedList<Location> locations = new LinkedList<>();
+    private ImageView imageViewBase;
+    @FXML
+    private Pane mapPane, menuPane, fadePane, searchPane, FloorSelectPane;
+    @FXML
+    private VBox fieldsBox,dirBox;
+    @FXML
+    private Button menuBtn, loginBtn, aboutBtn, searchBtn, viewButton, menuExitBtn, directionBtn,swapBtn;
+    @FXML
+    private AnchorPane LayerA, LayerB, LayerC, LayerD;
     @FXML
     private MenuButton language;
     @FXML
-    private MenuItem english, spanish, chinese, portugues;
-    @FXML
-    private Label start, end;
-    @FXML
-    private Text directions;
+    private MenuItem english, spanish, portugues, chinese;
     @FXML
     private Accordion acccordionDropDown;
     @FXML
-    private TitledPane wareaPane, bathPane, hdeskPane, exitPane, docPane, officePane;
+    private HBox menuItems;
     @FXML
-    private ListView<Location> waitAreaLV, bathroomLV, ServicesLV, exitsLV, doctorLV, officeLV;
-    @FXML
-    private TabPane tabPane;
-    @FXML
-    private Button AboutBtn;
-    @FXML
-    private VBox sidebar;
-    @FXML
-    private ImageView qrcode;
-    private Tab selectedTab;
-    private static Floor currentFloor;
-    private String lang = "Eng";
+    private ToggleButton handiBtn;
+
+    //dynamically added FXML Objects
+    public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
+    public AutoCompleteTextField searchField, startField, endField;
+    private ImageView qrcode = new ImageView();
+    private Label qrlabel = new Label();
+    private Button reanimate = new Button("Show Animation");
+    private ListView<String> dirList;
+    Group GroundLines = new Group();
+    ImageView start = new ImageView();
+    ImageView end = new ImageView();
+
+    //window scales
+    Scale scale = new Scale();
+    double WINDOW_WIDTH = 0, WINDOW_HEIGHT = 0;
+
+    //Keep track of Floor list
+    static List<UniqueFloor> FaulknerFloors = new ArrayList<>();
+    List<Floor> floors = Main.h.getAllFloors();
+    int currentFloor = 7;
+
+    //keep track of permissions
     private static int permission = 0;
-    private List<Tab> tabList = new ArrayList<>();
-    private boolean searched = false;
 
-    @FXML
-    private CheckBox handicapped;
+    //check if menu open and if term is search prior
+    private boolean menuOpen = false, searched = false;
 
-    @FXML
-    private AnchorPane BasePane; // FXML のルート要素
+    //checks if nodes for start and end have been included or erased
+    private boolean setStart = false,setEnd = false;
 
-    @FXML
-    private void lightboxclickevent(MouseEvent mouseEvent) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/lightbox.fxml"));
-            loader.load();
-            Lightbox controller = loader.getController();
-            controller.showOn(BasePane,qrcode);
-        } catch (IOException ex) {
-            // なんか適当にエラー処理でも
-            Logger.getLogger(WelcomeScreenController.class.getName()).log(Level.SEVERE, null, ex);
+    //Keep track of Current Language
+    private String lang = "Eng";
+
+    //navigation facade
+    NavigationFacade navigation;
+
+    //circle
+    Circle c;
+
+    /**
+     *
+     * @param location
+     * @param resources
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        if(WINDOW_WIDTH != 0){
+            menuPane.setPrefHeight((double) WINDOW_WIDTH);
+            fadePane.setPrefHeight((double) WINDOW_WIDTH);
         }
-    }
 
 
-    public static void setPermission(int p){
-        permission = p;
-    }
-
-
-    public WelcomeScreenController() {
-        startField = new AutoCompleteTextField();
-        startField.setCurrentSelection(new EmptyLocation());
-        endField = new AutoCompleteTextField();
-        endField.setCurrentSelection(new EmptyLocation());
-
-        List<Location> kioskLocs = h.getLocationsByCategory("Kiosk");
-        if (kioskLocs.size() > 0)
-            startField.setCurrentSelection(kioskLocs.get(0));
 
         navigation = new NavigationFacade();
-
-    }
-    private void setOnMouseClickedTwice()
-    {
-        searchBtn.setOnMousePressed((MouseEvent event) -> {
-            switch(event.getClickCount()){
-                case 2:
-
-                    break;
-                case 3:
-                    System.out.println("Three clicks");
-                    break;
-            }
-        });
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        acccordionDropDown.getPanes().clear();
-
-        EmptyLocation empty = new EmptyLocation();
-        ListView<Category> quickList = new ListView<>();
-        for (Category c : Main.h.getAllCategories()){
-            if(c.getQuicksearchOn() == 1 && c.getPermission() <= permission) {
-                quickList.getItems().add(c);
-            }
-            quickList.setOnMouseClicked((MouseEvent event) -> {
-                if(event.getClickCount() == 2){
-                    endField.setCurrentSelection(getClosestOfCategory(startField.getCurrentSelection(), quickList.getSelectionModel().getSelectedItem()));
-                }
-            });
-        }
-
-
-        TitledPane quickSearch = new TitledPane("Quick Search", quickList);
-        acccordionDropDown.getPanes().add(quickSearch);
-        for (Category category : h.getAllCategories()) {
-            if (category.getPermission() <= permission) {
-                ListView<Location> locByCat = new ListView();
-                locByCat.getItems().addAll(h.getLocationsByCategory(category.getCategory()));
-                locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-                acccordionDropDown.getPanes().addAll(new TitledPane(category.getCategory() + " ", locByCat));
-                locByCat.setOnMouseClicked((MouseEvent event) -> {
-                    System.out.println(startField.getText().trim().isEmpty() && endField.getText().isEmpty());
-                    if(event.getClickCount() == 2 && startField.getText().isEmpty() && endField.getText().isEmpty()){
-                        startField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
-                    }
-                    else if(event.getClickCount() == 2 && startField.getText().isEmpty() && !(endField.getText().isEmpty())){
-                        startField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
-                    }
-                    else if(event.getClickCount() == 2) {
-                        endField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
-                    }
-                });
-            }
-        }
-
-        File qrcode = new File("qrcode.jpg");
-        boolean exists = qrcode.exists();
-        if(exists){
-            qrcode.delete();
-        }
-        Pane imageViewPane = new Pane();
-        //displayedNodes.addListener((ListChangeListener<UniqueNode>) c -> nodeOverlay.getChildren().setAll(displayedNodes));
-        imageViewPane.setPickOnBounds(true);
-        nodeOverlay = new Pane();
-        nodeOverlay.setPickOnBounds(true);
-        lineOverlay = new Pane();
-        lineOverlay.setPickOnBounds(true);
-        //infoOverlay = new Pane();
-        //infoOverlay.setPickOnBounds(true);
-        //displayedPanels.set
-
-
-        startFieldHBox.getChildren().add(startField);
-        endFieldHBox.getChildren().add(endField);
-        Application.setUserAgentStylesheet(getClass().getResource("/view/welcomescreen.css").toExternalForm());
-        startField.getStyleClass().add("startfield");
-        endField.getStyleClass().add("endfield");
-        //Find closest location
-        imageViewPane.setOnMouseClicked(event -> {
-            double shortest = Double.MAX_VALUE;
-            for (Location l : h.getAllLocations()) {
-                if (closestLocToClick == null) {
-                    closestLocToClick = l;
-                } else {
-                    Double newShortest = l.lengthTo(new EmptyLocation(event.getX(), event.getY()));
-                    if (newShortest < shortest) {
-                        shortest = newShortest;
-                        closestLocToClick = l;
-                    }
-                }
-            }
-        });
-
-        imageView = ImageViewFactory.getImageView(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"), imageViewPane);
-        Group zoomGroup = new Group(imageView,lineOverlay,nodeOverlay);
-        ScrollPane pane = new ScrollPane(new Pane(zoomGroup));
-        pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        pane.setPannable(true);
-        Scale newScale = new Scale();
-        newScale.setX(939/imageView.getImage().getWidth());
-        newScale.setY(939/imageView.getImage().getWidth());
-        zoomGroup.getTransforms().add(newScale);
-        zoomGroup.addEventHandler(MouseEvent.ANY, event -> {
-            if (event.getButton() != MouseButton.MIDDLE &&
-                    !(event.getButton() == MouseButton.PRIMARY && event.isControlDown()))
-                event.consume();
-        });
-
-        pane.addEventFilter(ScrollEvent.SCROLL, e -> {
-            if (e.isAltDown()) {
-                double zoom_fac = .05;
-                double delta_y = e.getDeltaY();
-                if (delta_y < 0) {
-                    zoom_fac = -zoom_fac;
-                }
-                double zoomx = zoomGroup.getTransforms().get(0).getMxx();
-                double zoomy = zoomGroup.getTransforms().get(0).getMyy();
-                if ((imageView.getImage().getWidth() * (zoomx + zoom_fac) >= canvasWrapper.getWidth() && zoom_fac < 0) || (zoom_fac > 0  && (zoomx+zoomx*zoom_fac) <= 1.25)) {
-                    zoomGroup.getTransforms().clear();
-                    newScale.setX(zoomx + zoomx*zoom_fac);
-                    newScale.setY(zoomy + zoomx*zoom_fac);
-                    zoomGroup.getTransforms().add(newScale);
-                } else if (zoom_fac < 0) {
-                    newScale.setX(canvasWrapper.getWidth()/imageView.getImage().getWidth());
-                    newScale.setY(canvasWrapper.getWidth()/imageView.getImage().getWidth());
-                }
-//                pane.setHmax((zoomx + zoomx*zoom_fac));
-                //System.out.println("max" + pane.getHmax());
-                //System.out.println(pane.getHmin());
-                //System.out.println(pane.getHvalue());
-                //System.out.println(imageView.getImage().getWidth());
-                //System.out.println();
-                e.consume();
-            }
-        });
-
-        canvasWrapper.getChildren().addAll(pane);
-
-        Main.h.getAllFloors().forEach(floor -> {
-            Tab tab = new Tab(floor.getFloorNum());
-            tab.setOnSelectionChanged(event -> {
-                imageView.setImage(ResourceManager.getInstance().loadImage(floor.getFilename()));
-                //currentFloor = floor;
-
-                //Set new nodes for this floor
-                //displayedNodes.clear();
-                //displayedNodes.addAll(floor.getLocations().stream().map(NodeFactory::getpublicNode).collect(Collectors.toList()));
-                //nodeOverlay.getChildren().setAll(displayedNodes);
-
-                //Clear lines
-                //displayedLines.clear();
-                //lineOverlay.getChildren().clear();
-
-                //Clear current selection
-                //NodeListenerFactoryLite.currentSelection = null;
-            });
-            tabList.add(tab);
-        });
-        updateTabs(new ArrayList<Floor>());
-
-        //Listener for tab selection change
-        tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
-            if (newTab != null) {
-                selectedTab = newTab;
-                displayedLines.clear();
-                System.out.println("newTab: " + newTab);
-                displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(navigation.getPath()
-                        .stream()
-                        .filter(elem -> elem.getFloorObj().getFloorNum().equals(newTab.getText()))
-                        .collect(Collectors.toList())));
-                lineOverlay.getChildren().setAll(displayedLines);
-
-                displayedCircles.clear();
-                if(h.getFloorById(startField.getCurrentSelection().getFloorID()).getFloorNum() == newTab.getText()){
-                    Circle c = new Circle(startField.getCurrentSelection().getX(), startField.getCurrentSelection().getY(), 10);
-                    c.setFill(Color.GREEN);
-                    displayedCircles.add(c);
-                } else if (h.getFloorById(endField.getCurrentSelection().getFloorID()).getFloorNum() == newTab.getText()){
-                    Circle c2 = new Circle(endField.getCurrentSelection().getX(), endField.getCurrentSelection().getY(), 10);
-                    c2.setFill(Color.RED);
-                    displayedCircles.add(c2);
-                }
-                nodeOverlay.getChildren().setAll(displayedCircles);
-
-                //Set new nodes for this floor
-
-                //displayedNodes.addAll(floor.getLocations().stream().map(NodeFactory::getNode).collect(Collectors.toList()));
-                //nodeOverlay.getChildren().setAll(displayedNodes);
-
-                //Clear lines
-                //displayedLines.clear();
-                //lineOverlay.getChildren().clear();
-
-                //Clear current selection
-                //NodeListenerFactoryLite.currentSelection = null;
-//            if (oldTab != null) {
-//                Main.h.getFloorByName(oldTab.getText()).setZoom(zoomGroup.getTransforms().get(0).getMxx());
-//            }
-                zoomGroup.getTransforms().clear();
-                Scale newZoom = new Scale();
-                double zoomVal = 1;
-                String filename = Main.h.getFloorByName(newTab.getText()).getFilename();
-                Image img = ResourceManager.getInstance().loadImage(filename);
-                zoomVal = pane.getWidth()/img.getWidth();
-                newZoom.setX(zoomVal);
-                newZoom.setY(zoomVal);
-                zoomGroup.getTransforms().add(newZoom);
-            }
-        });
-
-        //Default selected tab
-        selectedTab = tabPane.getTabs().get(0);
-
-        //Add locations from DB
-        locations.addAll(h.getAllLocations());
-        startField.getEntries().addAll(locations);
-        endField.getEntries().addAll(locations);
-        //Fill drop downs
-        waitAreaLV.getItems().addAll(h.getLocationsByCategory("Waiting Area"));
-        waitAreaLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        waitAreaLV.setOnMouseClicked((MouseEvent event) -> {
-            if (event.getClickCount() == 2)
-                endField.setCurrentSelection(waitAreaLV.getSelectionModel().getSelectedItem());
-        });
-
-        bathroomLV.getItems().addAll(h.getLocationsByCategory("Bathroom"));
-        bathroomLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        bathroomLV.setOnMouseClicked((MouseEvent event) -> {
-            if (event.getClickCount() == 2)
-                endField.setCurrentSelection(bathroomLV.getSelectionModel().getSelectedItem());
-        });
-
-        ServicesLV.getItems().addAll(h.getLocationsByCategory("Service"));
-        ServicesLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        ServicesLV.setOnMouseClicked((MouseEvent event) -> {
-            if (event.getClickCount() == 2)
-                endField.setCurrentSelection(ServicesLV.getSelectionModel().getSelectedItem());
-        });
-
-        exitsLV.getItems().addAll(h.getLocationsByCategory("Exit"));
-        exitsLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        exitsLV.setOnMouseClicked((MouseEvent event) -> {
-            if (event.getClickCount() == 2)
-                endField.setCurrentSelection(exitsLV.getSelectionModel().getSelectedItem());
-        });
-
-        doctorLV.getItems().addAll(h.getLocationsByCategory("Doctor"));
-        doctorLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        doctorLV.setOnMouseClicked((MouseEvent event) -> {
-            if (event.getClickCount() == 2)
-                endField.setCurrentSelection(doctorLV.getSelectionModel().getSelectedItem());
-        });
-
-        officeLV.getItems().addAll(h.getLocationsByCategory("Office"));
-        officeLV.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        officeLV.setOnMouseClicked((MouseEvent event) -> {
-            if (event.getClickCount() == 2)
-                endField.setCurrentSelection(officeLV.getSelectionModel().getSelectedItem());
-        });
+        dirList = new ListView<>();
 
         dirList.setCellFactory(list -> new ListCell<String>() {
             @Override
@@ -417,13 +151,12 @@ public class WelcomeScreenController implements Initializable {
 
                 setText(null);
                 final HBox hbox = new HBox();
-
                 Text text = new Text(item);
                 hbox.setMaxWidth(dirList.getPrefWidth());
                 text.wrappingWidthProperty().bind(hbox.widthProperty().subtract(10));
                 text.textProperty().bind(itemProperty());
-                setPrefWidth(0);
-                setPrefHeight(60);
+                //setPrefWidth(0);
+                //setPrefHeight(60);
 
                 Label iconLabel = new Label();
                 String url;
@@ -439,7 +172,7 @@ public class WelcomeScreenController implements Initializable {
                 else if (item.contains("back")){
                     url = "/image/directions/backward.png";
                 }
-                else if (item.contains("stairs")){
+                else if (item.contains("Stairs")){
                     url = "/image/directions/upstair.png";
                 }
                 else if (item.contains("reached")){
@@ -451,119 +184,947 @@ public class WelcomeScreenController implements Initializable {
                     url = "/image/directions/startlocation.png";
                 }
 
-                iconLabel.setGraphic(new ImageView(new Image(url,20, 20, false, false)));
+                iconLabel.setGraphic(new ImageView(ResourceManager.getInstance().loadImage(url,20, 20, false, false)));
                 iconLabel.setPadding(new Insets(0,5,0,0));
 
                 hbox.getChildren().addAll(iconLabel, text);
                 setGraphic(hbox);
             }
         });
-        if(permission == 1){
-            loginBtn.setText("Logout");
-        }
-        else if(permission == 0){
-            loginBtn.setText("Login");
-        }
-    }
 
-    private void updateTabs(List<Floor> floors) {
-        tabPane.getTabs().clear();
-        if (floors.size() == 0) {
-            tabPane.getTabs().addAll(tabList);
-        } else {
-            for (Floor f:floors){
-                for (Tab t :tabList) {
-                    if (t.getText().equals(f.getFloorNum())){
-                        tabPane.getTabs().add(t);
-                    }
+        FloorSelectPane.setVisible(false);
+        searchField = new AutoCompleteTextField();
+        startField = new AutoCompleteTextField();
+        endField = new AutoCompleteTextField();
+
+        searchField.setCurrentSelection(new EmptyLocation());
+        startField.setCurrentSelection(new EmptyLocation());
+        endField.setCurrentSelection(new EmptyLocation());
+
+        searchField.getEntries().addAll(h.getAllLocations());
+        startField.getEntries().addAll(h.getAllLocations());
+        endField.getEntries().addAll(h.getAllLocations());
+
+        searchField.setPrefHeight(50);
+        searchField.setPrefWidth(172);
+        startField.setPrefHeight(40);
+        endField.setPrefHeight(40);
+
+        List<Location> kioskLocs = h.getLocationsByCategory("Kiosk");
+
+        searchField.setOnKeyPressed(key -> {
+
+            if (key.getCode() == KeyCode.ENTER) {
+                if (searchField.getCurrentSelection().getX() != 0) {
+                    onSearch(searchField.getCurrentSelection());
+                }
+            }
+        });
+
+        startField.setOnKeyPressed(key -> {
+            if (key.getCode() == KeyCode.ENTER) {
+                if (startField.getCurrentSelection().getX() != 0) {
+                    onSearch(startField.getCurrentSelection());
+                }
+            }
+        });
+
+        reanimate.setOnAction(event->{
+            for(int i =0;i<mapGroup.getChildren().size();i++){
+                Node n = mapGroup.getChildren().get(i);
+                if(n instanceof Circle){
+                    mapGroup.getChildren().remove(i);
+                    i--;
+                }
+            }
+            drawPath();
+        });
+        qrcode.setOnMouseClicked(event ->{
+            try{
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Lightbox.fxml"));
+                loader.load();
+                Lightbox controller = loader.getController();
+                 controller.showOn(LayerA,qrcode);
+                //Save changes to disk
+            }
+            catch (IOException ex) {
+                // なんか適当にエラー処理でも
+                Logger.getLogger(AdminMainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+
+        endField.setOnKeyPressed(key -> {
+            if (key.getCode() == KeyCode.ENTER) {
+                if (endField.getCurrentSelection().getX() != 0) {
+                    onSearch(endField.getCurrentSelection());
+                }
+            }
+        });
+
+        searchBtn.setOnAction(event -> {
+            if (searchField.getCurrentSelection().getX() != 0) {
+                onSearch(searchField.getCurrentSelection());
+            }
+        });
+
+        swapBtn.setOnAction(event -> {
+            String start = startField.getText();
+            String end = endField.getText();
+
+            startField.setText(end);
+            endField.setText(start);
+            Location startL = startField.getCurrentSelection();
+            Location endL = endField.getCurrentSelection();
+            startField.setCurrentSelection(endL);
+            endField.setCurrentSelection(startL);
+
+        });
+        ToggleGroup group = new ToggleGroup();
+        handiBtn.setToggleGroup(group);
+        handiBtn.setSelected(false);
+
+        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+            public void changed(ObservableValue<? extends Toggle> ov,
+                                Toggle toggle, Toggle new_toggle) {
+                if (new_toggle == null){
+                    h.setWantStairs(0);
+                    System.out.println(h.getWantStairs());}
+                else{
+                    h.setWantStairs(1);
+                    System.out.println(h.getWantStairs());}
+            }
+        });
+        directionBtn.setOnAction(event -> {
+            if (startField.getCurrentSelection().getX() == 0 || endField.getCurrentSelection().getX() == 0) {
+                return;
+            }
+            //System.out.println("endField = " + endField.getCurrentSelection().getID());
+            //System.out.println("endField = " + endField.getCurrentSelection().getX());
+            drawPath();
+            exitMenu();
+            searched = true;
+            unhighLightNodes();
+            for(UniqueFloor uf : FaulknerFloors){
+                if(uf.getFloor().getID() == startField.getCurrentSelection().getFloorID()){
+                    focusFloor(uf);
+                }
+            }
+        });
+
+        textFieldGroup.getChildren().add(searchField);
+        fieldsBox.getChildren().add(startField);
+        fieldsBox.getChildren().add(endField);
+
+
+        //acccordionDropDown.getPanes().clear();
+
+        File qrcode = new File("qrcode.jpg");
+        if (qrcode.exists()) {
+            qrcode.delete();
+        }
+
+
+        LayerC.setPickOnBounds(false);
+        LayerA.setPickOnBounds(false);
+        LayerB.setPickOnBounds(false);
+        LayerD.setPickOnBounds(false);
+
+        imageViewBase.setPickOnBounds(true);
+        imageViewBase.setImage(new Image("/image/FaulknerMaps/Ground.png"));
+
+//        menuPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        menuPane.setBackground(new Background(new BackgroundFill(Color.web("#ffffff"), CornerRadii.EMPTY, Insets.EMPTY)));
+        //menuPane.getChildren().add(acccordionDropDown);
+        menuPane.setVisible(false);
+        menuPane.setPickOnBounds(false);
+
+        //to show building better
+        mapPane.setTranslateY(-200);
+//        mapGroup
+//        menuPane
+
+
+        ListView<Category> quickList = new ListView<>();
+        for (Category c : Main.h.getAllCategories()) {
+            if (c.getQuicksearchOn() == 1 && c.getPermission() <= permission) {
+                quickList.getItems().add(c);
+            }
+            quickList.setOnMouseClicked((MouseEvent event) -> {
+                if (event.getClickCount() == 2) {
+                    endField.setCurrentSelection(getClosestOfCategory(startField.getCurrentSelection(), quickList.getSelectionModel().getSelectedItem()));
+                }
+            });
+        }
+
+
+        //Accordion allperson = new Accordion();
+        ListView<Person> per = new ListView<>();
+        Collections.sort(Main.h.getAllPeople());
+        for (Person p : Main.h.getAllPeople()) {
+            per.getItems().add(p);
+            per.setOnMouseClicked((MouseEvent event) ->{
+                exitMenu();
+                ListView<Location> perloc = new ListView<>();
+                for (Integer lid : per.getSelectionModel().getSelectedItem().getLocations()){
+                    perloc.getItems().add(Main.h.getLocationById(lid));
+                    perloc.setOnMouseClicked((MouseEvent e) ->{
+                        searchField.setCurrentSelection(perloc.getSelectionModel().getSelectedItem());
+                        onSearch(searchField.getCurrentSelection());
+                    });
+                }
+                VBox h = new VBox();
+                h.setMinHeight(400);
+                Label nL = new Label(per.getSelectionModel().getSelectedItem().getName());
+                Label nT = new Label(per.getSelectionModel().getSelectedItem().getTitle());
+                nL.setFont(Font.font(20));
+                h.setPadding(new Insets(10,10,10,10));
+                h.getChildren().add(nL);
+                h.getChildren().add(nT);
+                h.getChildren().add(new Label(" "));
+                h.getChildren().add(perloc);
+                setMenuFill(h);
+            });
+        }
+
+        TitledPane quickSearch = new TitledPane("Quick Search", quickList);
+        TitledPane Personel = new TitledPane("Personnel", per);
+        acccordionDropDown.getPanes().add(quickSearch);
+        acccordionDropDown.getPanes().add(Personel);
+
+
+        for (Category category : h.getAllCategories()) {
+            if (category.getCategory().contains("Hall") || category.getCategory().contains("Elevator") || category.getCategory().contains("Stairs") || category.getCategory().contains("Kiosk")) {
+            } else {
+                if (category.getPermission() <= permission){
+                    ListView<Location> locByCat = new ListView<>();
+                    locByCat.getItems().addAll(h.getLocationsByCategory(category.getCategory()));
+                    locByCat.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+                    TitledPane t =new TitledPane(category.getCategory() + " ", locByCat);
+                    acccordionDropDown.getPanes().addAll(t);
+                    Circle r = new Circle(5);
+                    r.setStroke(Color.BLACK);
+                    r.setFill(Paint.valueOf(category.getColor()));
+                    t.setGraphic(r);
+                    t.setContentDisplay(ContentDisplay.RIGHT);
+                    locByCat.setOnMouseClicked((MouseEvent event) -> {
+                   //     System.out.println(startField.getText().trim().isEmpty() && endField.getText().isEmpty());
+                        if (event.getClickCount() == 2 && startField.getText().isEmpty() && endField.getText().isEmpty()) {
+                            startField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
+                        } else if (event.getClickCount() == 2 && startField.getText().isEmpty() && !(endField.getText().isEmpty())) {
+                            startField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
+                        } else if (event.getClickCount() == 2) {
+                            endField.setCurrentSelection(locByCat.getSelectionModel().getSelectedItem());
+                        }
+                    });
                 }
             }
         }
-    }
-    private void drawPath() {
-        if (searched && startField.getCurrentSelection() != null && endField.getCurrentSelection() != null) {
-            final List<LocationDecorator> output = new ArrayList<>();
-            final List<LocationDecorator> filtered_output = new ArrayList<>();
-            //Default algorithm
-            if (AdminMainController.selectedAlgorithm == null)
-                AdminMainController.selectedAlgorithm = NavigationAlgorithm.A_STAR;
-            //Use proper algorithm
-            switch (AdminMainController.selectedAlgorithm) {
-                case A_STAR:
-                    output.addAll(navigation.runAstar(startField.getCurrentSelection(),
-                            endField.getCurrentSelection()));
-                    break;
-                case DEPTH_FIRST:
-                    output.addAll(navigation.runDepthFirst(startField.getCurrentSelection(),
-                            endField.getCurrentSelection()));
-                    break;
-                case BREADTH_FIRST:
-                    output.addAll(navigation.runBreadthFirst(startField.getCurrentSelection(),
-                            endField.getCurrentSelection()));
-                    break;
-            }
-            int startfloorID = startField.getCurrentSelection().getFloorID();
-            int endfloorID = endField.getCurrentSelection().getFloorID();
-            output.forEach(e -> {
-                filtered_output.add(e);
-            });
 
-            generateTextDirections(filtered_output.stream()
-                    .map(elem -> (Location) elem)
-                    .collect(Collectors.toList()));
-            //Filter out locations not on this floor
+        english.setOnAction(event ->{
+            lang="Eng";
+            lblFloor.setText("Floor");
+            qrlabel.setText("Use your phone to scan this QRCode");
+            reanimate.setText("Show Animation");
+            // language.setText("English");
+            chenge();
+            language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/america.png")));
+        });
+        spanish.setOnAction(event ->{
+            lang="Span";
+            //language.setText("Español");
+            lblFloor.setText("Piso");
+            qrlabel.setText("Utilice su teléfono para escanear este QRCode");
+            reanimate.setText("Mostrar animación");
+            chenge();
+            language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/spain.png")));
+
+        });
+        portugues.setOnAction(event ->{
+            lang="Port";
+            //language.setText("Português");
+            lblFloor.setText("Chão");
+            qrlabel.setText("Use seu telefone para digitalizar este QRCode");
+            reanimate.setText("Mostrar animação");
+            chenge();
+
+            language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/portugal.png")));
+
+        });
+        chinese.setOnAction(event ->{
+            lang="Chin";
+            //language.setText("中文");
+            lblFloor.setText("地板");
+            qrlabel.setText("使用手机扫描此QRCode");
+            reanimate.setText("显示动画");
+            chenge();
+            language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/china.png")));
+
+        });
+
+        fadePane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
+        fadePane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        fadePane.setVisible(false);
+
+        searchPane.setStyle("-fx-background-color: rgba(255, 255, 255); ");
+        searchPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
+        searchPane.setVisible(true);
+
+
+        menuBtn.setOnAction(event -> {
+            if (!menuOpen) {
+                setMenuFill(new VBox());
+                menuOpen = true;
+                menuPane.setVisible(true);
+                menuPane.setPickOnBounds(true);
+                fadePane.setVisible(true);
+                moveMenu(true, 25).play();
+            }
+        });
+
+        menuExitBtn.setOnAction(event -> {
+            exitMenu();
+        });
+
+        fadePane.setOnMouseClicked(event ->{
+            exitMenu();
+        });
+        //TODO ggroupnd tliems
+
+        mapGroup.getChildren().add(GroundLines);
+        List<Floor> floors = Main.h.getAllFloors();
+        int fa = 0, b = 0;
+        for (int i = 0; i < floors.size(); i++) {
+            Floor f = floors.get(i);
+            if (f.getBuildingID() == 1) {
+                fa++;
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 1313, 1090, 1310, -1600, fa, this);
+                FaulknerFloors.add(uf);
+                uf.getImageView().setOnMouseClicked(event -> {
+                 //   System.out.println("Faulkner!");
+                    removefloors();
+                    event.consume();
+                    flipToFloor(uf.getFloorIndex());
+                    zoomFloor(uf);
+                    getfloors(f.getBuildingID());
+                    removeSpecial();
+                });
+            } else if (f.getBuildingID() == 0) {
+                b++;
+                UniqueFloor uf = new UniqueFloor(f, mapGroup, 3351, 2618, 3351, -700, b, this);
+                FaulknerFloors.add(uf);
+                uf.getImageView().setOnMouseClicked(event -> {
+                //    System.out.println("BELKIN!");
+                    removefloors();
+                    event.consume();
+                    flipToFloor(uf.getFloorIndex());
+                    zoomFloor(uf);
+                    removeSpecial();
+                    getfloors(f.getBuildingID());
+                });
+            }
+        }
+        UniqueFloor bRoof = new UniqueFloor(new Floor(0, "/image/FaulknerMaps/BelkinR.png", "Belkin Roof"), mapGroup, 3350, 2625, 3350, -700, b+1, this);
+        bRoof.getImageView().setOnMouseClicked(event -> {
+           // System.out.println("BELKIN!");
+            removefloors();
+            event.consume();
+            flipToFloor(bRoof.getFloorIndex());
+            zoomFloor(bRoof);
+            getfloors(bRoof.getFloor().getBuildingID());
+        });
+        UniqueFloor fRoof = new UniqueFloor(new Floor(1, "/image/FaulknerMaps/FaulknerR.png", "Faulkner Roof"), mapGroup, 1313, 1090, 1310, -1600, fa+1, this);
+        fRoof.getImageView().setOnMouseClicked(event -> {
+         //   System.out.println("FAULKNER!");
+            removefloors();
+            event.consume();
+            flipToFloor(fRoof.getFloorIndex());
+            zoomFloor(fRoof);
+            getfloors(fRoof.getFloor().getBuildingID());
+        });
+        FaulknerFloors.add(bRoof);
+        FaulknerFloors.add(fRoof);
+
+        mapGroup.getTransforms().add(scale);
+//        System.out.println(mapPane.getWidth());
+        mapPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        //mapPane.setMaxWidth(anchorPane.getMaxWidth());
+        mapPane.setOnMouseClicked((MouseEvent event) -> {
+           //System.out.println("clicked the pane!!!!");
+            setMenuFill(new VBox());
+            dirBox.setPrefHeight(40);
+            resetZoom(WINDOW_WIDTH, 1250);
+//            zoomFloor(FaulknerFloors.get(0));
+            flipToFloor(8);
+            FloorSelectPane.setVisible(false);
+            unhighLightNodes();
+        });
+
+        mapPane.widthProperty().addListener((observable, oldValue, newValue) -> {
+            WINDOW_WIDTH = (double) newValue;
+            resetZoom(WINDOW_WIDTH, 1);
+            fadePane.setPrefWidth((double) newValue);
+            if (kioskLocs.size() > 0) {
+                startField.setCurrentSelection(kioskLocs.get(0));
+            }
+//            scale.setPivotX(-(double)newValue/2);
+//            fadeRect.setWidth((double)newValue);
+
+        });
+
+        mapPane.heightProperty().addListener((observable, oldValue, newValue) -> {
+            WINDOW_HEIGHT = (double) newValue;
+            menuPane.setPrefHeight((double) newValue);
+            fadePane.setPrefHeight((double) newValue);
+//            scale.setPivotY(-(double)newValue/2);
+//            fadeRect.setHeight((double)newValue);
+
+
+        });
+
+
+        viewButton.setOnAction(event -> {
+            if (kioskLocs.size() > 0) {
+                onSearch(kioskLocs.get(0));
+            }
+        });
+
+        aboutBtn.setOnAction(event -> {
+            exitMenu();
             try {
-                //Highlight tabs with paths
-//                tabPane.getTabs().parallelStream().forEach(elem -> {
-//                    elem.setStyle("");
-//                    if (filtered_output.parallelStream()
-//                            .map(item -> item.getFloorObj().getFloorNum())
-//                            .collect(Collectors.toList())
-//                            .contains(elem.getText())) {
-//                        elem.setStyle("-fx-background-color: #f4f142");
-//                    }
-//                });
-
-                List<Floor> floors = Main.h.getFloorsByIds(filtered_output);
-
-                updateTabs(floors);
-
-                //Filter output based on current tab
-                List<LocationDecorator> tempList = filtered_output.stream()
-                        .filter(elem -> elem.getFloorObj().getFloorNum().equals(selectedTab.getText()))
-                        .collect(Collectors.toList());
-
-                //Move filtered items back
-                filtered_output.clear();
-                filtered_output.addAll(tempList);
-
-//                for (int i = 0; i < tempList.size(); i++) {
-//                    output.set(i, tempList.get(i));
-//                }
-            } catch (NullPointerException e) {
-                System.out.println("nullptr while filtering to draw");
+                ResourceManager.getInstance().loadFXMLIntoScene("/view/aboutscreen.fxml", "Welcome", aboutBtn.getScene());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            displayedLines.clear();
-            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(filtered_output.stream()
-                    .map(elem -> (Location) elem)
-                    .collect(Collectors.toList())));
-            lineOverlay.getChildren().setAll(displayedLines);
+        });
 
-            /*/Set new nodes for this floor
-            displayedCircles.clear();
-            Circle c = new Circle(startField.getCurrentSelection().getX(), startField.getCurrentSelection().getY(), 10);
-            c.setFill(Color.GREEN);
-            displayedCircles.add(c);
-            Circle c2 = new Circle(startField.getCurrentSelection().getX(), startField.getCurrentSelection().getY(), 10);
-            c2.setFill(Color.RED);
-            displayedCircles.add(c2);
-            displayedCircles.add(NodeFactory.getNode(endField.getCurrentSelection()));
-            nodeOverlay.getChildren().setAll(displayedCircles);*/
+        loginBtn.setOnAction(event -> {
+            exitMenu();
+            try {
+                ResourceManager.getInstance().loadFXMLIntoScene("/view/adminLogin.fxml", "Welcome", aboutBtn.getScene());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+
+
+
+        //set button graphics
+        viewButton.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/location.png", 30, 30, false, false)));
+        // upButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_in.png",30, 30, false, false)));
+        //downButton.setGraphic(new ImageView(new Image("/image/Icons/zoom_out.png",30, 30, false, false)));
+        searchBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/search.png", 30, 30, false, false)));
+        menuBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/menu.png", 30, 30, false, false)));
+        loginBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/admin.png", 30, 30, false, false)));
+        aboutBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/info.png", 30, 30, false, false)));
+        menuExitBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/close.png", 30, 30, false, false)));
+        language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/america.png"))); //default as english
+        english.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/america.png")));
+        spanish.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/spain.png")));
+        portugues.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/portugal.png")));
+        chinese.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/china.png")));
+        swapBtn.setGraphic(new ImageView( new Image("/image/Icons/swap.png",20,20,false,false)));
+        directionBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/search.png",0, 20, false, false)));
+        handiBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/stairs.png",20, 20, false, false)));
+    }
+
+    /**
+     *
+     * @param p
+     */
+    public static void setPermission(int p) {
+        permission = p;
+    }
+
+    /**
+     *
+     * @param uf
+     */
+    private void focusFloor(UniqueFloor uf) {
+        flipToFloor(uf.getFloorIndex());
+        zoomFloor(uf);
+        getfloors(uf.getFloor().getBuildingID());
+    }
+
+    public void openMenu() {
+        if (!menuOpen) {
+            setMenuFill(new VBox());
+            dirBox.setPrefHeight(40);
+            menuOpen = true;
+            menuPane.setVisible(true);
+            menuPane.setPickOnBounds(true);
+            fadePane.setVisible(true);
+            moveMenu(true, 25).play();
+        }
+    }
+
+    private void exitMenu() {
+        if (menuOpen) {
+            menuPane.setPickOnBounds(false);
+            menuOpen = false;
+            fadePane.setVisible(false);
+            moveMenu(false, 25).play();
+        }
+    }
+
+    /**
+     *
+     * @param uf
+     */
+    private void zoomFloor(UniqueFloor uf) {
+        double scaleValV = mapPane.getHeight() / uf.getImageView().getImage().getHeight();
+        double scaleVal = scaleValV;
+        double xoffset = mapPane.getWidth() * 0.3;
+        double yoffset = mapPane.getHeight() * 0.2;
+        if(uf.getFloor().getBuildingID() == 1){
+            yoffset = mapPane.getHeight() * 0.5;
+        }
+        scaleImage(uf.getGroup().getTranslateX() - xoffset, uf.getGroup().getTranslateY() - yoffset, scaleVal, 1250, true).play();
+    }
+
+    private void setHighlight(int floorindex) {
+        //getNodeFromGridPane(Floorselectgrid, 0, floorindex-1).setStyle("-fx-background-color:#dddddd;");
+    }
+
+    /**
+     *
+     * @param buildingID
+     */
+    private void getfloors(int buildingID) {
+        List<Floor> floors = Main.h.getBuildingById(buildingID).getFloorList();
+        for (int j = 0; j < floors.size(); j++) {
+
+            Button button = new Button(Integer.toString(j + 1));
+            //VBoxSelectPane.getChildren().add(j+1, button);
+            Floorselectgrid.add(button, 0, floors.size() - j - 1);
+            Floorselectgrid.setHalignment(button, HPos.CENTER);
+            button.setOnMouseClicked((MouseEvent event) -> {
+                flipToFloor(Integer.parseInt(button.getText()));
+                removeSpecial();
+            });
+            button.setOnMouseEntered((MouseEvent event) -> {
+                button.setStyle("-fx-pref-width: 50; -fx-pref-height: 100; -fx-alignment: center; -fx-background-color:#dddddd; -fx-border-radius:0px; -fx-padding: 5px;" +
+                        "    -fx-border-insets: 5px;" +
+                        "    -fx-background-insets: 5px;");
+            });
+            button.setOnMouseExited((MouseEvent event) -> {
+                button.setStyle("-fx-pref-width: 50; -fx-pref-height: 100; -fx-alignment: center; -fx-background-color:#ffffff;-fx-border-radius:0px;-fx-padding: 5px;" +
+                        "    -fx-border-insets: 5px;" +
+                        "    -fx-background-insets: 5px;");
+            });
+            button.setStyle("-fx-pref-width: 50; -fx-pref-height: 100;-fx-alignment: center; -fx-background-color:#ffffff;-fx-border-radius:0px;-fx-padding: 5px;" +
+                    "    -fx-border-insets: 5px;" +
+                    "    -fx-background-insets: 5px;");
+        }
+
+    }
+
+    private void removefloors() {
+        Floorselectgrid.getChildren().clear();
+        while (Floorselectgrid.getRowConstraints().size() > 0) {
+            Floorselectgrid.getRowConstraints().remove(0);
+        }
+    }
+
+    /**
+     *
+     * @param index
+     */
+    private void flipToFloor(int index) {
+        FloorSelectPane.setVisible(true);
+        if (index <= 7  && index >= 0) {
+            currentFloor = index;
+            setHighlight(currentFloor);
+        }
+
+        for (int j = 0; j < FaulknerFloors.size(); j++) {
+            UniqueFloor u = FaulknerFloors.get(j);
+            if (u.getFloorIndex() <= index && !u.onScreen()) {
+                fadeGroup(u, true, 250).play();
+                u.setOnScreen(true);
+            } else if (u.getFloorIndex() > index && u.onScreen()) {
+                fadeGroup(u, false, 250).play();
+                u.setOnScreen(false);
+            }
 
         }
     }
 
-    // TODO check for adjacent nodes before instructing a turn
+    /**
+     *
+     * @param c
+     * @param l
+     * @param lastCategory
+     * @param firstBuilding
+     * @param startFloor
+     * @return
+     */
+    private Animation animateCircle(Circle c, List<Location> l, String lastCategory, int firstBuilding, int startFloor) {
+
+        String thisCategory = l.get(0).getCategory().getCategory();
+        int currentBuilding = Main.h.getFloorById(l.get(0).getFloorID()).getBuildingID();
+        int finalBuilding = Main.h.getFloorById(l.get(l.size()-1).getFloorID()).getBuildingID();
+        if(currentBuilding != firstBuilding){
+            UniqueFloor f = getUf(Main.h.getBuildingById(Main.h.getFloorById(l.get(l.size()-1).getFloorID()).getBuildingID()).getFloorList().get(0).getLocations().get(0));
+            zoomFloor(f);
+            removefloors();
+            getfloors(Main.h.getFloorById(f.getFloor().getID()).getBuildingID());
+        }
+
+        if (l.get(0).getFloorID() == startFloor && setStart == false){
+            start.setImage(new Image("/image/Icons/start.png"));
+            start.setX(l.get(0).getX()-start.getImage().getWidth()/2);
+            start.setY(l.get(0).getY()-start.getImage().getHeight());
+            setStart = true;
+            mapGroup.getChildren().add(start);
+        } else if (l.get(0).getFloorID() != startFloor ){
+            mapGroup.getChildren().removeAll(start);
+            setStart = false;
+        }
+
+
+
+        if (setEnd == false && Main.h.getFloorById(l.get(0).getFloorID()) == Main.h.getFloorById(l.get(l.size()-1).getFloorID())){
+            end.setImage(new Image("/image/Icons/end.png"));
+            end.setX(l.get(l.size()-1).getX()-end.getImage().getWidth()/2);
+            end.setY(l.get(l.size()-1).getY()-end.getImage().getHeight());
+            setEnd = true;
+            mapGroup.getChildren().add(end);
+        } else if(Main.h.getFloorById(l.get(0).getFloorID()) != Main.h.getFloorById(l.get(l.size()-1).getFloorID())){
+            mapGroup.getChildren().removeAll(end);
+            setEnd = false;
+        }
+
+
+        UniqueFloor uf = getUf(l.get(0));
+        if(uf == null){
+            flipToFloor(7);
+        }
+        else{
+            flipToFloor(uf.getFloorIndex());
+        }
+
+        double startX = c.getCenterX();
+        double startY = c.getCenterY();
+
+        double targetX = l.get(0).getX();
+        double targetY = l.get(0).getY();
+
+        double difx = targetX-startX;
+        double dify = targetY-startY;
+
+        double dif = Math.sqrt(difx*difx+dify*dify);
+
+
+        final Animation expandPanel = new Transition() {
+            {
+                if(dif <= 2){
+                    c.setFill(Color.rgb(66, 83, 244, 0.0));
+                    c.setStroke(Color.rgb(0, 0, 0, 0.0));
+                    setCycleDuration(Duration.millis(1800));
+                }
+                else {
+                    c.setFill(Color.rgb(66, 83, 244, 1));
+                    if ((lastCategory.equals("Elevator") && thisCategory.equals("Elevator")) || (lastCategory.equals("Stairs") && thisCategory.equals("Stairs"))) {
+                        setCycleDuration(Duration.millis(15 * dif));
+                    } else {
+                        setCycleDuration(Duration.millis(3 * dif));
+                    }
+                }
+
+            }
+
+            @Override
+            protected void interpolate(double fraction) {
+
+//                double newX = curX + fraction * (x - curX);
+//                group.setTranslateX(newX);
+//                double newY = curY + fraction * (y - curY);
+//                group.setTranslateY(newY);
+
+
+                if(dif <= 2){
+                    fraction = Math.abs((fraction*100)%20-10)/10;
+                    c.setFill(Color.rgb(66, 83, 244, fraction));
+                    c.setStroke(Color.rgb(0, 0, 0, fraction));
+                }
+                else{
+                    double newX = startX+difx*fraction;
+                    double newY = startY+dify*fraction;
+                    c.setCenterX(newX);
+                    c.setCenterY(newY);
+                }
+            }
+        };
+
+        expandPanel.setOnFinished(e -> {
+            if(l.size()>1 && c.getParent()!= null){
+                l.remove(0);
+                animateCircle(c, l, thisCategory, firstBuilding,startFloor).play();
+            }
+            else{
+
+            }
+        });
+        return expandPanel;
+    }
+
+    /**
+     *
+     * @param l
+     * @return
+     */
+    private UniqueFloor getUf(Location l) {
+        for(UniqueFloor uf : FaulknerFloors){
+            if(l.getFloorID() == uf.getFloor().getID()){
+                return uf;
+            }
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param uf
+     * @param fadeIn
+     * @param time
+     * @return
+     */
+    private Animation fadeGroup(UniqueFloor uf, boolean fadeIn, double time) {
+
+        double start, end;
+        if (fadeIn) {
+            uf.getGroup().setTranslateX(uf.getOnX());
+            uf.getGroup().setTranslateY(uf.getOnY());
+            start = 0;
+            end = 1;
+        } else {
+            start = 1;
+            end = 0;
+        }
+
+
+        final FadeTransition ft = new FadeTransition(Duration.millis(time), uf.getGroup());
+        ft.setFromValue(start);
+        ft.setToValue(end);
+        ft.setCycleCount(1);
+        ft.setAutoReverse(true);
+
+        ft.setOnFinished(event -> {
+            if (!fadeIn) {
+                uf.getGroup().setTranslateX(uf.getOffX());
+                uf.getGroup().setTranslateY(uf.getOffY());
+            }
+        });
+
+        return ft;
+    }
+
+    /**
+     *
+     * @param x
+     * @param y
+     * @param scaleIn
+     * @param time
+     * @param in
+     * @return
+     */
+    private Animation scaleImage(double x, double y, double scaleIn, double time, boolean in) {
+
+        mapGroup.getTransforms().clear();
+        double curScale = scale.getMxx();
+        double curX = -mapGroup.getTranslateX()/scaleIn;
+        double curY = -mapGroup.getTranslateY()/scaleIn;
+
+
+        mapGroup.getTransforms().add(scale);
+
+        final Animation expandPanel = new Transition() {
+            {
+                setCycleDuration(Duration.millis(time));
+            }
+
+            @Override
+            protected void interpolate(double fraction) {
+
+                mapGroup.getTransforms().clear();
+                mapGroup.getTransforms().add(scale);
+
+                double newY = curY + fraction * (y - curY);
+                double newX = curX + fraction * (x - curX);
+                double newScale = curScale + fraction * (scaleIn - curScale);
+
+                mapGroup.setTranslateX(-newX *scaleIn);
+                mapGroup.setTranslateY(-newY *scaleIn);
+
+
+                scale.setX(newScale);
+                scale.setY(newScale);
+
+
+            }
+        };
+        expandPanel.setOnFinished(e -> {
+        });
+        return expandPanel;
+    }
+
+    /**
+     *
+     * @param on
+     * @param time
+     * @return
+     */
+    private Animation moveMenu(boolean on, double time) {
+
+
+        final Animation expandPanel = new Transition() {
+            {
+                setCycleDuration(Duration.millis(time));
+            }
+
+            @Override
+            protected void interpolate(double fraction) {
+                double cx, cy = 0, tx, ty = 0;
+                if (on) {
+                    tx = 0;
+                    cx = -menuPane.getWidth();
+                } else {
+                    tx = -menuPane.getWidth();
+                    cx = 0;
+                }
+
+
+                double newX = cx + fraction * (tx - cx);
+                menuGroup.setTranslateX(newX);
+                double newY = cy + fraction * (ty - cy);
+                menuGroup.setTranslateY(newY);
+            }
+        };
+        expandPanel.setOnFinished(e -> {
+        });
+
+        return expandPanel;
+    }
+
+    /**
+     *
+     * @param width
+     * @param time
+     */
+    public void resetZoom(double width, double time) {
+        double newScale = width / imageViewBase.getImage().getWidth();
+        scaleImage(0, 0, newScale, time, false).play();
+    }
+
+    /**
+     *
+     * @param searchNode
+     */
+    public void onSearch(Location searchNode) {
+        unhighLightNodes();
+       // System.out.println("Faulkner!");
+
+        UniqueFloor curUniqueFloor;
+        int floorID = searchNode.getFloorID();
+        for (Floor f : Main.h.getAllFloors()) {
+            if (Main.h.getFloorById(floorID).equals(f)) {
+                for (UniqueFloor uf : FaulknerFloors) {
+                    if (uf.getFloor().equals(f)) {
+                        curUniqueFloor = uf;
+                        flipToFloor(curUniqueFloor.getFloorIndex());
+                        zoomFloor(uf);
+                        getfloors(f.getBuildingID());
+                        for (int i = 0; i < uf.getPoints().size(); i++) {
+                            if (uf.getPoints().get(i).getLocation().getID() == searchNode.getID()) {
+                              //  System.out.println("FOUND ID");
+                                uf.displayNodeInfo(uf.getPoints().get(i));
+
+//                                uf.getPoints().get(i).getCircle().setFill(Color.RED);
+                            }
+                        }
+                        //System.out.println(uf.getGroup().getChildren().size());
+                    }
+                }
+            }
+
+        }
+
+    }
+
+
+    /**
+     *
+     * @param start
+     * @param cat
+     * @return
+     */
+    public Location getClosestOfCategory(Location start, Category cat) {
+        List<Location> filteredLocs = new ArrayList<>();
+        HashMap<Floor, Location> hm = new HashMap<>();
+        for (Location aloc : Main.h.getAllLocations()) {
+            if (aloc.getCategory().equals(cat)) {
+                filteredLocs.add(aloc);
+            }
+        }
+        if (!filteredLocs.isEmpty()) {
+            for (Floor floor : Main.h.getAllFloors()) {
+                List<Location> floorLoc = new ArrayList<>();
+                for (Location loca : filteredLocs) {
+                    if (loca.getFloorID() == floor.getID()) {
+                        floorLoc.add(loca);
+                    }
+                }
+                Location close = closestTo(start, floorLoc);
+                if (close != start) {
+                    hm.put(floor, close);
+                }
+            }
+            if (hm.containsKey(Main.h.getFloorById(start.getFloorID()))) {
+                return hm.get(Main.h.getFloorById(start.getFloorID()));
+            }
+            else {
+                for (Floor floor : Main.h.getAllFloors()) {
+                    if (hm.containsKey(floor) && (floor.getBuildingID()==start.getBuilding()) ) {
+                        return hm.get(floor);
+                    }
+                }
+                for (Floor floor : Main.h.getAllFloors()) {
+                    if (hm.containsKey(floor)){
+                        return hm.get(floor);
+                    }
+                }
+            }
+        } else {
+            return start;
+        }
+        return start;
+    }
+
+    /**
+     *
+     * @param closest
+     * @param locs
+     * @return
+     */
+    private Location closestTo(Location closest, List<Location> locs) {
+        Location bestLoc = closest;
+        double bestDist = Double.MAX_VALUE;
+        double curr;
+        for (Location loc : locs) {
+            curr = loc.lengthTo(closest);
+            if (curr < bestDist) {
+                bestDist = curr;
+                bestLoc = loc;
+            }
+        }
+        return bestLoc;
+    }
+
+    /**
+     *
+     * @param locations
+     */
     private void generateTextDirections(List<Location> locations) {
         ObservableList<String> directions = FXCollections.observableArrayList();
         boolean enterElevator = false;
@@ -599,7 +1160,7 @@ public class WelcomeScreenController implements Initializable {
 
                 // if the node is the last node
                 if (loc == locations.size() - 1) {
-                    switch ( lang){
+                    switch (lang) {
                         case "Eng":
                             directions.add("You have reached your destination");
                             break;
@@ -617,15 +1178,14 @@ public class WelcomeScreenController implements Initializable {
                     }
                     // if the node is not the last node
                 } else {
-                    if(samepath) {
-                        pixelCounter += (int) locations.get(loc).lengthTo(locations.get(loc+1));
+                    if (samepath) {
+                        pixelCounter += (int) locations.get(loc).lengthTo(locations.get(loc + 1));
+//                        System.out.println(pixelCounter);
+                    } else {
+                        pixelCounter = (int) locations.get(loc).lengthTo(locations.get(loc + 1));
 //                        System.out.println(pixelCounter);
                     }
-                    else {
-                        pixelCounter = (int) locations.get(loc).lengthTo(locations.get(loc+1));
-//                        System.out.println(pixelCounter);
-                    }
-                    String distance = " In " + (int)(pixelCounter/Main.h.getPixelsPerFeet()) + " ft\n";
+                    String distance = " In " + (int) (pixelCounter / Main.h.getPixelsPerFeet()) + " ft\n";
                     // get the current angle of the node
                     currAngle = getAngle(locations.get(loc), locations.get(loc + 1));
                     // from current facing position calculate turn
@@ -633,37 +1193,36 @@ public class WelcomeScreenController implements Initializable {
                     // as long as this isn't the first node
                     if (loc != 0) { //TODO change if we ever add start orientation
                         // if this is an elevator or stair case
-                        if (enterElevator == false && h.getAllCategories().contains(locations.get(loc).getCategory())&& (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Elevator")
-                                || (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Stairs"))))
-                        {
+                        if (enterElevator == false && h.getAllCategories().contains(locations.get(loc).getCategory()) && (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Elevator")
+                                || (locations.get(loc).getCategory().getCategory().equalsIgnoreCase("Stairs")))) {
                             enterElevator = true;
                             //languages other than english currently only specify elevators
-                            switch(lang){
+                            switch (lang) {
                                 case "Eng":
-                                    directions.add(distance + "Take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                    directions.add(distance + "Take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc + 1).getFloorID()).getFloorNum());
                                     break;
                                 case "Span":
-                                    directions.add("Toma el ascensor hasta piso " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                    directions.add("Toma el ascensor hasta piso " + h.getFloorById(locations.get(loc + 1).getFloorID()).getFloorNum());
                                     break;
                                 case "Port":
-                                    directions.add("Pegue o elevador até o chão " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                    directions.add("Pegue o elevador até o chão " + h.getFloorById(locations.get(loc + 1).getFloorID()).getFloorNum());
                                     break;
                                 case "Chin":
-                                    directions.add("把电梯带到地板上 " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                    directions.add("把电梯带到地板上 " + h.getFloorById(locations.get(loc + 1).getFloorID()).getFloorNum());
                                     break;
-                                default: directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
+                                default:
+                                    directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc + 1).getFloorID()).getFloorNum());
                                     break;
                             }
                             //directions.add("take " + locations.get(loc).getCategory().getCategory() + " to Floor " + h.getFloorById(locations.get(loc+1).getFloorID()).getFloorNum());
                         }
                         // if this not an elevator or stair case
-                        else
-                        {
+                        else {
                             enterElevator = false;
-                            if(samepath == false && locations.get(loc).getNeighbors().stream().filter(elm -> elm.getCategory().getCategory().equalsIgnoreCase("Hall")).collect(Collectors.toList()).size() < 2){
+                            if (samepath == false && locations.get(loc).getNeighbors().stream().filter(elm -> elm.getCategory().getCategory().equalsIgnoreCase("Hall")).collect(Collectors.toList()).size() < 2) {
 
 
-                                switch (lang){
+                                switch (lang) {
                                     case "Eng":
                                         directions.add("Continue on same path");
                                         break;
@@ -682,18 +1241,18 @@ public class WelcomeScreenController implements Initializable {
                                 }
 
                                 samepath = true;
-                            }else {
+                            } else {
                                 samepath = false;
                                 String turnD = getTurn(turn);
 
 
-                                if ( straight == false && (turnD == "Go straight" ||turnD == "Derecho" || turnD== "Siga em frente" || turnD =="笔直走")) {
+                                if (straight == false && (turnD == "Go straight" || turnD == "Derecho" || turnD == "Siga em frente" || turnD == "笔直走")) {
                                     //System.out.println("found 1 go straight");
                                     straight = true;
                                     directions.add(distance + getTurn(turn));
                                 } else {
-                                    if (turnD != "Go straight" && turnD!="Derecho" && turnD !="Siga em frente"&& turnD != "笔直走") {
-                                        straight =false;
+                                    if (turnD != "Go straight" && turnD != "Derecho" && turnD != "Siga em frente" && turnD != "笔直走") {
+                                        straight = false;
                                     }
                                 }
                                 if (straight == false) {
@@ -708,10 +1267,15 @@ public class WelcomeScreenController implements Initializable {
                 preAngle = currAngle;
             }
             dirList.setItems(directions);
-            QRgen();
+            //QRgen();
         }
     }
 
+    /**
+     *
+     * @param turn
+     * @return
+     */
     private String getTurn(double turn) {
         /*
         0 right
@@ -833,219 +1397,31 @@ public class WelcomeScreenController implements Initializable {
         return "";
     }
 
+    /**
+     *
+     * @param curNode
+     * @param nextNode
+     * @return
+     */
     private double getAngle(Location curNode, Location nextNode) {
         return (((Math.atan2(curNode.getY() - nextNode.getY(), nextNode.getX() - curNode.getX())) * 180 / Math.PI) + 360) % 360;
     }
 
-    public void onLogin(ActionEvent actionEvent) {
-        try {
-            if(permission == 1){
-                permission = 0;
-                ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Login", loginBtn.getScene());
-            }else{
-//                loginBtn.setText("Logout");
-                ResourceManager.getInstance().loadFXMLIntoScene("/view/adminLogin.fxml", "Login", loginBtn.getScene());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public void onAbout(ActionEvent actionEvent) {
-        try {
-            ResourceManager.getInstance().loadFXMLIntoScene("/view/aboutscreen.fxml", "About", AboutBtn.getScene());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void onSearch(ActionEvent actionEvent) {
-        if (searched == true) {
-            searched = false;
-            updateTabs(new ArrayList<>());
-            dirList.getItems().clear();
-            qrcode.setVisible(false);
-            displayedLines.clear();
-            displayedNodes.clear();
-            nodeOverlay.getChildren().clear();
-            lineOverlay.getChildren().clear();
-            searchBtn.setText("Search");
-        } else {
-            searched = true;
-            drawPath();
-            searchBtn.setText("Cancel");
-            qrcode.setVisible(true);
-        }
-    }
-
-    public void onFloor1(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_1_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor2(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_2_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor3(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_3_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor4(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_4_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor5(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_5_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor6(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_6_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void onFloor7(Event event) {
-        try {
-            imageView.setImage(ResourceManager.getInstance().loadImage("/image/faulkner_7_cropped.png"));
-        } catch (NullPointerException e) {
-        }
-    }
-
-    public void changelangE(ActionEvent actionEvent) {
-        lang = "Eng";
-        start.setText("Start:");
-        end.setText("End:");
-        directions.setText("Directions:");
-        if(permission == 0){
-            loginBtn.setText("Login");
-        }
-        else{
-            loginBtn.setText("Logout");
-        }
-        searchBtn.setText("Search");
-        wareaPane.setText("Waiting Areas");
-        bathPane.setText("Bathrooms");
-        hdeskPane.setText("Services");
-        exitPane.setText("Exits");
-        docPane.setText("Doctors");
-        language.setText("Language");
-        ObservableList<String> directions = FXCollections.observableArrayList();
-        directions.add("Please enter a start and end location to display locations");
-        officePane.setText("Offices");
-        dirList.setItems(directions);
-    }
-
-    public void changelangS(ActionEvent actionEvent) {
-        lang = "Span";
-        start.setText("Comienzo:");
-        end.setText("Fin:");
-        directions.setText("Direcciones:");
-        if(permission == 0){
-            loginBtn.setText("Inicio");
-        }
-        else{
-            loginBtn.setText("Cerrar Sesión");
-        }
-        searchBtn.setText("Busca");
-        wareaPane.setText("Área de Espera");
-        bathPane.setText("Baño");
-        hdeskPane.setText("Servicios");
-        exitPane.setText("Salidas");
-        docPane.setText("Doctores");
-        language.setText("Idiomas");
-        ObservableList<String> directions = FXCollections.observableArrayList();
-        directions.add("Por favor, ingrese una ubicación inicial y final");
-        officePane.setText("Oficinas");
-        dirList.setItems(directions);
-
-    }
-
-    public void changelangP(ActionEvent actionEvent) {
-        lang = "Port";
-        start.setText("Enceta:");
-        end.setText("Fim:");
-        directions.setText("Instruções:");
-        if(permission == 0){
-            loginBtn.setText("Entra");
-        }
-        else{
-            loginBtn.setText("Sair");
-        }
-        searchBtn.setText("Busca");
-        wareaPane.setText("Área de Espera");
-        bathPane.setText("Banheiro");
-        hdeskPane.setText("Serviços");
-        exitPane.setText("Saída");
-        docPane.setText("Médicos");
-        language.setText("Línguas");
-        ObservableList<String> directions = FXCollections.observableArrayList();
-        directions.add("Você chegou ao seu destino");
-        officePane.setText("Escritórios");
-        dirList.setItems(directions);
-
-    }
-
-    public void changelangC(ActionEvent actionEvent) {
-        lang = "Chin";
-        start.setText("开始");
-        end.setText("终点");
-        directions.setText("说明");
-        if(permission == 0){
-            loginBtn.setText("注册");
-        }
-        else{
-            loginBtn.setText("登出");
-        }
-        searchBtn.setText("搜查");
-        wareaPane.setText("等候区");
-        bathPane.setText("盥洗室");
-        hdeskPane.setText("服务");
-        exitPane.setText("紧急出口");
-        docPane.setText("医生");
-        language.setText("语");
-        ObservableList<String> directions = FXCollections.observableArrayList();
-        directions.add("请输入开始和结束位置以获取路线");
-        officePane.setText("办公室");
-        dirList.setItems(directions);
-    }
-
-
-    public void QRgen(){
-        //String details = "";
-        //System.out.print("QRGEN!");
+    public void QRgen() {
         String textdir = new String();
         for (int j = 0; j < dirList.getItems().size(); j++) {
-            textdir += (dirList.getItems().get(j)+ "\n");
+            textdir += (dirList.getItems().get(j) + "\n");
         }
         ByteArrayOutputStream out = QRCode.from(textdir).to(ImageType.JPG).stream();
-        //System.out.print(out);
         File f = new File("qrcode.jpg");
         try {
             FileOutputStream fos = new FileOutputStream(f);
             fos.write(out.toByteArray());
             fos.flush();
-            String imagepath = f.toString();
             FileInputStream input = new FileInputStream("qrcode.jpg");
             Image image = new Image(input);
             qrcode.setImage(image);
-
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -1053,66 +1429,204 @@ public class WelcomeScreenController implements Initializable {
         }
     }
 
-    public void setHandicapped(){
-        if(handicapped.isSelected()){
-            h.setHandicapped(1);
-        } else {
-            h.setHandicapped(0);
-        }
 
-    }
 
-    public Location getClosestOfCategory(Location start, Category cat) {
-        List<Location> filteredLocs = new ArrayList<>();
-        List<Location> filterFloor = new ArrayList<>();
-        HashMap<Floor, Location> hm = new HashMap<>();
-        for (Location aloc: Main.h.getAllLocations()){
-            if(aloc.getCategory().equals(cat)){
-                filteredLocs.add(aloc);
+    private void drawPath() {
+        if (startField.getCurrentSelection().getX() != 0 && endField.getCurrentSelection().getX() != 0) {
+
+            final List<LocationDecorator> output = new ArrayList<>();
+            //Default algorithm
+            if (AdminMainController.selectedAlgorithm == null)
+                AdminMainController.selectedAlgorithm = NavigationAlgorithm.A_STAR;
+            //Use proper algorithm
+            switch (AdminMainController.selectedAlgorithm) {
+                case A_STAR:
+                    output.addAll(navigation.runAstar(startField.getCurrentSelection(),
+                            endField.getCurrentSelection()));
+                    break;
+                case DEPTH_FIRST:
+                    output.addAll(navigation.runDepthFirst(startField.getCurrentSelection(),
+                            endField.getCurrentSelection()));
+                    break;
+                case BREADTH_FIRST:
+                    output.addAll(navigation.runBreadthFirst(startField.getCurrentSelection(),
+                            endField.getCurrentSelection()));
+                    break;
             }
-        }
-        if(!filteredLocs.isEmpty()) {
-            for (Floor floor:Main.h.getAllFloors()) {
-                List<Location> floorLoc = new ArrayList<>();
-                for(Location loca:filteredLocs) {
-                    if(loca.getFloorID()==floor.getID()){
-                        floorLoc.add(loca);
+            int startfloorID = startField.getCurrentSelection().getFloorID();
+            int endfloorID = endField.getCurrentSelection().getFloorID();
+
+
+            generateTextDirections(output.stream()
+                    .map(elem -> (Location) elem)
+                    .collect(Collectors.toList()));
+
+
+            List<Location> GroundNodes = new ArrayList<>();
+
+            for (Location l: output) {
+                if (Main.h.getFloorById(l.getFloorID()).getBuildingID() == -2) {
+                    GroundNodes.add(l.makeCopy());
+                }
+            }
+
+            for (UniqueFloor uf: FaulknerFloors){
+                uf.getPath().clear();
+                for (Location l: output) {
+                    if (l.getFloorID() == uf.getFloor().getID()){
+                        uf.getPath().add(l);
                     }
                 }
-                Location close = closestTo(start,floorLoc);
-                if(close != start){
-                    hm.put(floor, close);
+
+                uf.adjustPath();
+                displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(uf.getPath()));
+                uf.getLines().getChildren().setAll(displayedLines);
+            }
+
+            for (Location l: GroundNodes) {
+                l.setX((int)(l.getX()*2.79));
+                l.setY((int)(l.getY()*2.79));
+            }
+            displayedLines = FXCollections.observableArrayList(DrawLines.drawLinesInOrder(GroundNodes));
+            GroundLines.getChildren().setAll(displayedLines);
+            //mapGroup.getChildren().add(new Circle(1000,1000, 400));
+            setMenuFill(getDisplayDirections());
+
+            double groundOffsetX = 10;
+            double faulknerOffsetX = 10;
+            double benkinOffsetX = 20;
+            double groundOffsetY = 10;
+            double faulknerOffsetY = 10;
+            double benkinOffsetY = 20;
+
+            for (UniqueFloor uf : FaulknerFloors){
+                if(uf.getFloor().getBuildingID() == -2){
+                    groundOffsetX = uf.getOffsetX();
+                    groundOffsetY = uf.getOffsetY();
                 }
-            }
-            if(hm.containsKey(Main.h.getFloorById(start.getFloorID()))) {
-                return hm.get(Main.h.getFloorById(start.getFloorID()));
-            }
-            else {
-                for(Floor floor:Main.h.getAllFloors()) {
-                    if(hm.containsKey(floor)) {
-                        return hm.get(floor);
-                    }
+                if(uf.getFloor().getBuildingID() == 0){
+                    faulknerOffsetX = uf.getOffsetX();
+                    faulknerOffsetY = uf.getOffsetY();
                 }
+                if(uf.getFloor().getBuildingID() == 1){
+                    benkinOffsetX = uf.getOffsetX();
+                    benkinOffsetY = uf.getOffsetY();
+                }
+
             }
+
+
+            List<Location> lCopy = new ArrayList<>();
+            for(Location l: output){
+
+                Location newL = l.makeCopy();
+                switch(Main.h.getFloorById(newL.getFloorID()).getBuildingID()) {
+                    case -2:
+                        newL.setX((int)((newL.getX()*2.79)));
+                        newL.setY((int)((newL.getY()*2.79)));
+                        break;
+                    case 0:
+                        newL.setX((int)((newL.getX()*.56)+3351));
+                        newL.setY((int)((newL.getY()*.56)+2618));
+                        break;
+                    case 1:
+                        newL.setX((int)((newL.getX()*1.285)+1313));
+                        newL.setY((int)((newL.getY()*1.285)+1090));
+                        break;
+                    default:
+                        newL.setX((int)((newL.getX()*1.285)));
+                        newL.setY((int)((newL.getY()*1.285)));
+                        break;
+                }
+                lCopy.add(newL);
+
+            }
+
+            flipToFloor(getUf(lCopy.get(0)).getFloorIndex());
+             c = new Circle(lCopy.get(0).getX(), lCopy.get(0).getY(), 25);
+            int firstBuilding = Main.h.getFloorById(lCopy.get(0).getFloorID()).getBuildingID();
+//            lCopy.remove(0);
+
+
+            mapGroup.getChildren().add(c);
+            animateCircle(c, lCopy, "", firstBuilding, lCopy.get(0).getFloorID()).play();
         }
-        else {
-            return start;
-        }
-        return start;
     }
 
-    private Location closestTo(Location closest, List<Location> locs){
-        Location bestLoc = closest;
-        double bestDist = Double.MAX_VALUE;
-        double curr;
-        for (Location loc: locs) {
-            curr = loc.lengthTo(closest);
-            if(curr < bestDist){
-                bestDist = curr;
-                bestLoc = loc;
-            }
-        }
-        return bestLoc;
+
+    private VBox getDisplayDirections(){
+        QRgen();
+        VBox p =new VBox();
+        p.setPrefHeight(LayerA.getHeight());
+        dirList.setMinHeight(LayerA.getHeight()/2);
+        p.getChildren().add(dirList);
+        p.getChildren().add(qrlabel);
+        qrlabel.setText("Use your phone to scan this QRCode");
+        p.getChildren().add(qrcode);
+        p.getChildren().add(reanimate);
+        p.setAlignment(Pos.TOP_CENTER);
+        dirList.setPrefWidth(dirBox.getWidth()-100);
+        menuItems.setStyle("-fx-padding: 0 0 0 0;");
+        qrcode.setStyle("-fx-padding: 20 0 0 0;");
+        return p;
     }
 
+    /**
+     *
+     * @param menuFill
+     */
+    public void setMenuFill(VBox menuFill) {
+        if(menuFill.getChildren().size() == 0){
+            for(int i =0; i < mapGroup.getChildren().size(); i++){
+                Node n = mapGroup.getChildren().get(i);
+                if((n instanceof Circle)){
+                    mapGroup.getChildren().remove(i);
+                    i--;
+                }
+            }
+            for(UniqueFloor uf : FaulknerFloors){
+                uf.clearLines();
+                mapGroup.getChildren().remove(end);
+                mapGroup.getChildren().remove(start);
+
+            }
+            GroundLines.getChildren().clear();
+
+            searched = false;
+            dirBox.setPrefHeight(40);
+        }
+        dirBox.getChildren().clear();
+        dirBox.getChildren().add(menuItems);
+        dirBox.getChildren().add(menuFill);
+    }
+
+    public void unhighLightNodes() {
+        for(UniqueFloor uf : FaulknerFloors){
+            uf.unhighlightNodes();
+        }
+    }
+
+    public boolean getSearched(){
+        return this.searched;
+    }
+
+
+    public void removeSpecial(){
+        mapGroup.getChildren().remove(end);
+        mapGroup.getChildren().remove(start);
+        mapGroup.getChildren().remove(c);
+    }
+
+public String getlang(){
+        return lang;
+}
+
+public void chenge(){
+    for (UniqueFloor uf : FaulknerFloors) {
+            for (int i = 0; i < uf.getPoints().size(); i++) {
+                uf.ulang(uf.getPoints().get(i));
+            }
+            //System.out.println(uf.getGroup().getChildren().size());
+    }
+}
 }

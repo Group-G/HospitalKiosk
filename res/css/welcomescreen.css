@@ -1,28 +1,6 @@
-/*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
- *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
- *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
- *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
- *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
- */
 
+<<<<<<< HEAD:res/view/welcomescreen.css
+=======
 /*******************************************************************************
  *                                                                             *
  * CSS Styles for core infrastructure bits.  The .root section provides the   *
@@ -3525,333 +3503,118 @@ Only the properties with values that are different from the TextBox are specifie
     -fx-pref-width: 10.666667em;
     -fx-pref-height: 1.75em;
 }
+>>>>>>> origin/develop:res/view/developWelcomescreen.css
 
-.custom-color-dialog .transparent-pattern {
-    -fx-background-image: url("pattern-transparent.png");
-    -fx-background-repeat: repeat;
-    -fx-background-size: auto;
+/*******************************************************************************
+ *                                                                             *
+ * Button                                                                      *
+ *                                                                             *
+ ******************************************************************************/
+
+.button {
+    -fx-background-color: transparent;
+    -fx-shadow-highlight-color: transparent;
+
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+
+    -fx-background-radius: 5, 5, 4, 3;
+    -fx-outer-border: 0;
+               -fx-inner-border: 0;
+               -fx-border-color: transparent;
+
+
+    -fx-text-fill: -fx-text-base-color;
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
 }
 
-.custom-color-dialog .controls-pane #spacer1 {
-    -fx-min-height: 0.1666667em;
-    -fx-max-height: 0.1666667em;
-    -fx-pref-height: 0.1666667em;
+.button:focused {
+    -fx-background-color: rgba(200,200,200, .2);
+    -fx-shadow-highlight-color: transparent;
+    -fx-outer-border: 0;
+               -fx-inner-border: 0;
+               -fx-border-color: transparent;
+
+    -fx-text-fill: -fx-text-base-color;
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
 }
 
-.custom-color-dialog .controls-pane #spacer2 {
-    -fx-min-height: 1em;
-    -fx-max-height: 1em;
-    -fx-pref-height: 1em;
+.button:hover {
+       -fx-background-color: rgba(220,220,220, .2);
+       -fx-shadow-highlight-color: transparent;
+       -fx-outer-border: 0;
+           -fx-inner-border: 0;
+           -fx-border-color: transparent;
+
+       -fx-text-fill: -fx-text-base-color;
+       -fx-alignment: CENTER;
+       -fx-content-display: LEFT;
 }
 
-.custom-color-dialog .controls-pane #settings-pane {
-    -fx-hgap: 0.4166667em;
-    -fx-vgap: 0.3333333em;
+.button:armed {
+    -fx-color: -fx-pressed-base;
 }
 
-.custom-color-dialog .controls-pane #settings-pane .settings-label {
-    -fx-min-width: 5.75em;
+.button:cancel {
 }
 
-.custom-color-dialog .controls-pane #settings-pane .settings-unit {
-    -fx-max-width: 1em;
+.button:disabled {
+    -fx-opacity: -fx-disabled-opacity;
 }
 
-.custom-color-dialog .controls-pane #settings-pane .slider {
-    -fx-pref-width: 8.25em;
+.button:show-mnemonics > .mnemonic-underline {
+    -fx-stroke: -fx-text-fill;
 }
-
-.custom-color-dialog .controls-pane .color-input-field {
-    -fx-pref-column-count: 3;
-    -fx-max-width: 3.25em;
-    -fx-min-width: 3.25em;
-    -fx-pref-width: 3.25em;
-}
-
-.custom-color-dialog .controls-pane .web-field {
-    -fx-pref-column-count: 6;
-    -fx-pref-width: 8.25em;
-}
-
-.custom-color-dialog .controls-pane #spacer-side {
-    -fx-min-width: 0.5em;
-    -fx-pref-width: 0.5em;
-}
-
-.custom-color-dialog .controls-pane #spacer-bottom {
-    -fx-pref-height: 0.833333em;
-    -fx-min-height: 0.833333em;
-}
-
-.custom-color-dialog .controls-pane .customcolor-controls-background {
-    -fx-background-color: -fx-text-box-border, -fx-control-inner-background;
-    -fx-background-insets:
-        0.8333333em 0 0.4166667em 0,
-        1em 0.166667em 0.5833333em 0.166667em;
-    -fx-background-radius: 0.3333333em, 0.166667em;
-}
-
-.custom-color-dialog .controls-pane .current-new-color-grid .label {
-    -fx-padding: 0 0 0 0.4166667em;
-}
-
-.custom-color-dialog .controls-pane #buttons-hbox {
-    -fx-spacing: 0.333333em;
-    -fx-padding: 1em 0 0 0;
-    -fx-alignment: bottom-right;
-}
-
-
 
 
 /*******************************************************************************
  *                                                                             *
- * DatePicker                                                                  *
+ * Accordion                                                                   *
  *                                                                             *
  ******************************************************************************/
 
-.date-picker > .arrow-button > .arrow {
-    -fx-shape: "M0,0v9h9V0H0z M2,8H1V7h1V8z M2,6H1V5h1V6z M2,4H1V3h1V4z M4,8H3V7h1V8z M4,6H3V5h1V6z M4,4H3V3h1V4z M6,8H5V7h1V8z M6,6H5 V5h1V6z M6,4H5V3h1V4z M8,8H7V7h1V8z M8,6H7V5h1V6z M8,4H7V3h1V4z";
-    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
-    -fx-background-insets: 1 0 -1 0, 0;
-    -fx-padding: 0.416667em 0.416667em 0.333333em 0.333333em; /*5 5 4 4 */
-    -fx-scale-shape: true;
+.accordion > .titled-pane > .title {
+    -fx-background-color:
+        -fx-box-border,
+        -fx-inner-border,
+        -fx-body-color;
+    -fx-background-insets: -1 0 0 0, 0 1 1 1, 1 2 2 2;
+    -fx-background-radius: 0, 0, 0;
 }
 
-.date-picker-popup {
-    -fx-background-color: -fx-box-border, -fx-control-inner-background;
-    -fx-background-insets: 0, 1;
-    /*-fx-background-radius: 0 6 6 6, 0 5 5 5;*/
-    -fx-background-radius: 0;
-    -fx-padding: 0;
-    -fx-alignment: CENTER; /* VBox */
-    -fx-spacing: 0; /* VBox */
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 8, 0.0 , 0 , 0 );
-}
-.date-picker-popup > .month-year-pane {
-    -fx-padding: 0.5em; /* 6 6 6 6 */
-    -fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
+.accordion > .first-titled-pane > .title {
     -fx-background-insets: 0, 1, 2;
-    -fx-background-radius: 0;
-}
-.date-picker-popup > * > .spinner {
-    -fx-spacing: 0.25em;
-    -fx-alignment: CENTER;
-    -fx-fill-height: false;
-}
-.date-picker-popup > * > .spinner > .button {
-    -fx-background-color: transparent;
-    -fx-background-radius: 0;
-}
-.date-picker-popup > * > .spinner > .button:hover {
-    -fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
-    -fx-background-radius: 3, 2, 1;
-}
-.date-picker-popup > * > .spinner > .button:focused {
-    -fx-background-color: -fx-focus-color, -fx-outer-border, -fx-inner-border, -fx-focus-color, -fx-body-color;
-    -fx-background-radius: 3, 2, 1;
-}
-.date-picker-popup > * > .spinner > .left-button {
-    -fx-padding: 0 0.333333em 0 0.25em; /* 0 4 0 3 */
-}
-.date-picker-popup > * > .spinner > .right-button {
-    -fx-padding: 0 0.25em 0 0.333333em; /* 0 3 0 4 */
-}
-.date-picker-popup > * > .spinner > .button > .right-arrow {
-    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
-    -fx-background-insets: 1 0 -1 0, 0;
-    -fx-padding: 0.5em 0.333333em 0 0; /* 6 4 0 0 */
-    -fx-shape: "M 4 0 L 0 -3 L 0 3 z";
-    -fx-scale-shape: true;
-}
-.date-picker-popup > * > .spinner > .button > .left-arrow {
-    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
-    -fx-background-insets: 1 0 -1 0, 0;
-    -fx-padding: 0.5em 0.333333em 0 0; /* 6 4 0 0 */
-    -fx-shape: "M 0 0 L 4 -3 L 4 3 z";
-    -fx-scale-shape: true;
-}
-.date-picker-popup > * > .spinner > .label {
-    -fx-alignment: CENTER;
-}
-.date-picker-popup > .month-year-pane > .secondary-label {
-    -fx-alignment: BASELINE_CENTER;
-    -fx-padding: 0.5em 0 0 0; /* 6 0 0 0 */
-    -fx-text-fill: firebrick;
-}
-.date-picker-popup > .calendar-grid {
-    -fx-background-color: derive(-fx-base, 6.8%);
-    -fx-background-insets: 1;
-    -fx-padding: 1;
-}
-.date-picker-popup > * > .date-cell {
-    -fx-background-color: transparent;
-    -fx-background-insets: 1, 2;
-    -fx-padding: 0.166667em;
-    -fx-alignment: BASELINE_CENTER;
-    -fx-opacity: 1.0;
-}
-.date-cell:disabled > * {
-    -fx-opacity: -fx-disabled-opacity;
-}
-.date-picker-popup > * > .day-name-cell,
-.date-picker-popup > * > .week-number-cell {
-    -fx-font-size: 0.916667em;
-}
-.date-picker-popup > * > .week-number-cell {
-    /* Add one pixel to the top padding to
-     * compensate for the smaller font size. */
-    -fx-padding: 0.416667em 0.583333em 0.333333em 0.583333em; /* 5 7 4 7 */
-    -fx-border-color: -fx-background;
-    -fx-border-width: 1px;
-    -fx-background: -fx-control-inner-background;
-    -fx-background-color: -fx-background;
-    -fx-text-fill: -fx-accent;
-}
-.date-picker-popup > * > .day-cell {
-    -fx-padding: 0.333333em 0.583333em 0.333333em 0.583333em; /* 4 7 4 7 */
-    -fx-border-color: derive(-fx-control-inner-background,-10%);
-    -fx-border-width: 1px;
-    -fx-background: -fx-control-inner-background;
-    -fx-background-color: -fx-background;
-    -fx-text-fill: -fx-text-background-color;
-}
-.date-picker-popup > * > .hijrah-day-cell {
-    -fx-alignment: TOP_LEFT;
-    -fx-padding: 0.083333em 0.333333em 0.083333em 0.333333em; /* 1 4 1 4 */
-    -fx-cell-size: 2.75em;
-}
-.date-picker-popup > * > .day-cell > .secondary-text {
-    -fx-fill: firebrick;
-}
-.date-picker-popup > * > .today {
-    -fx-background-color: -fx-control-inner-background, derive(-fx-base, -10%), -fx-control-inner-background;
-    -fx-background-insets: 1, 2, 3;
-}
-.date-picker-popup > * > .day-cell:hover,
-.date-picker-popup > * > .selected,
-.date-picker-popup > * > .previous-month.selected,
-.date-picker-popup > * > .next-month.selected {
-    -fx-background-color: -fx-selection-bar;
-    -fx-background: -fx-accent;
-}
-.date-picker-popup > * > .today:hover,
-.date-picker-popup > * > .today.selected {
-    -fx-background-color: -fx-selection-bar, derive(-fx-base, -10%),-fx-selection-bar;
-}
-.date-picker-popup > * > .day-cell:focused,
-.date-picker-popup > * > .today:focused {
-    -fx-background-color: -fx-control-inner-background, -fx-cell-focus-inner-border, -fx-control-inner-background;
-    -fx-background-insets: 1, 2, 3;
-}
-.date-picker-popup > * > .day-cell:focused:hover,
-.date-picker-popup > * > .today:focused:hover,
-.date-picker-popup > * > .today.selected:focused,
-.date-picker-popup > * > .selected:focused {
-    -fx-background-color: -fx-selection-bar, -fx-cell-focus-inner-border, -fx-selection-bar;
-}
-.date-picker-popup > * > .previous-month,
-.date-picker-popup > * > .next-month {
-    -fx-background: derive(-fx-control-inner-background,-5%);
-}
-.date-picker-popup > * > .previous-month:hover,
-.date-picker-popup > * > .next-month:hover {
-    -fx-background: lightgrey;
-    -fx-text-fill: -fx-dark-text-color;
-}
-.date-picker-popup > * > .day-cell:hover > .secondary-text,
-.date-picker-popup > * > .previous-month > .secondary-text,
-.date-picker-popup > * > .next-month > .secondary-text,
-.date-picker-popup > * > .selected > .secondary-text {
-    -fx-fill: -fx-text-background-color;
-}
-.date-picker-popup > * > .previous-month.today,
-.date-picker-popup > * > .next-month.today {
-    -fx-background-color: derive(-fx-control-inner-background,-5%), derive(-fx-base, -10%), derive(-fx-control-inner-background,-5%);
-}
-.date-picker-popup > * > .previous-month.today:hover,
-.date-picker-popup > * > .next-month.today:hover {
-    -fx-background-color: lightgrey, derive(-fx-base, -10%), lightgrey;
 }
 
-
-
-/* -------------------------- STYLES FOR PAGINATION CONTROL ----- */
-.pagination {
-    -fx-padding: 0;
-    -fx-arrows-visible: true;
-    -fx-tooltip-visible: true;
-    -fx-page-information-visible: true;
-    -fx-page-information-alignment: bottom;
-}
-.pagination > .page {
-    -fx-background-color: transparent;
+.accordion > .titled-pane:focused > .title {
+    -fx-color: -fx-focus-color;
 }
 
-.pagination > .pagination-control {
-    -fx-background-color: transparent;
-    -fx-padding: 0.833333em 0em 0.833333em 0em;
+.accordion > .titled-pane:focused {
+    -fx-text-fill: white;
 }
 
-.pagination > .pagination-control > .control-box {
-    -fx-spacing: 4;
-    -fx-alignment: center;
+.accordion > .titled-pane:focused > .title > .arrow-button > .arrow {
+    -fx-background-color: white;
 }
 
-.pagination > .pagination-control > .control-box > .left-arrow-button{
-    -fx-background-radius: 0;
-    -fx-padding: 0.166667em 0.416em 0.25em 0.333em;
-}
-.pagination > .pagination-control > .control-box > .right-arrow-button {
-    -fx-background-radius: 0;
-    -fx-padding: 0.166667em 0.333em 0.25em 0.416em;
+.accordion > .titled-pane:focused > .titled-pane:collapsed > .title > .arrow-button > .arrow {
+    -fx-background-color: white;
 }
 
-.pagination > .pagination-control .left-arrow {
-    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
-    -fx-background-insets: 1 0 -1 0, 0;
-    -fx-padding: 0.375em 0.291em 0.375em 0.291em;
-    -fx-shape: "M 0 0 L -13 7 L 0 13 z";
-    -fx-scale-shape: true;
+.accordion > .titled-pane:collapsed:focused > .title {
+    -fx-color: -fx-focus-color;
 }
 
-.pagination > .pagination-control .right-arrow {
-    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
-    -fx-background-insets: 1 0 -1 0, 0;
-    -fx-padding: 0.375em 0.291em 0.375em 0.291em;
-    -fx-shape: "M 0 0 L 13 7 L 0 13 z";
-    -fx-scale-shape: true;
+.accordion > .titled-pane:expanded:focused > .title {
+    -fx-color: -fx-focus-color;
 }
 
-.pagination > .pagination-control > .control-box > .bullet-button {
-   -fx-background-radius: 0, 4em, 4em, 4em, 4em;
-   -fx-padding: 0.333em;
-
-   -fx-background-color: transparent, -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
-   -fx-background-insets: 0, 4 4 3 4,  5,  6,  7;
+.accordion > .titled-pane:hover > .title {
+    -fx-color: -fx-hover-base;
 }
 
-.pagination > .pagination-control > .control-box > .bullet-button:selected {
-    -fx-base: -fx-accent;
-}
-
-.pagination.bullet > .pagination-control > .control-box > .left-arrow-button,
-.pagination.bullet > .pagination-control > .control-box > .right-arrow-button {
-    -fx-background-radius: 4em;
-}
-
-.pagination > .pagination-control > .control-box > .number-button {
-    -fx-background-radius: 0;
-    -fx-padding: 0.166667em 0.25em 0.25em 0.333em;
-    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
-}
-
-.pagination > .pagination-control > .control-box > .number-button:selected {
-    -fx-base: -fx-accent;
-}
-.pagination > .pagination-control > .page-information {
-    -fx-padding: 0.416em 0 0 0;
-}
 
 
 /*******************************************************************************
@@ -3861,37 +3624,7 @@ Only the properties with values that are different from the TextBox are specifie
  * TableView CSS styles elsewhere in caspian.css (as they are the same, just   *
  * targeting different CSS style classes).                                     *
  ******************************************************************************/
-.tree-table-view {
-    -fx-background-color: -fx-box-border, -fx-control-inner-background;
-    -fx-background-insets: 0,1;
 
-    /* There is some oddness if padding is in em values rather than pixels,
-       in particular, the left border of the control doesn't show. */
-    -fx-padding: 1; /* 0.083333em; */
-
-    /* Constants used throughout the tableview.
-     * TODO: Should these be derived from the palette in .scene?
-     */
-    -fx-table-header-border-color: #959595;
-/*    -fx-table-header-background-color: linear (0%,0%) to (0%,100%) stops (80%, #bbbbbb) (10%, #f6f6f6);*/
-    -fx-table-cell-border-color: #bbbbbb;
-}
-
-.tree-table-row-cell {
-    -fx-background-color: -fx-control-inner-background;
-    -fx-padding: 0.0em; /* 0 */
-    -fx-text-fill: -fx-text-inner-color;
-}
-
-.tree-table-cell {
-    -fx-padding: 0.166667em; /* 2px, plus border adds 1px */
-
-    -fx-background-color: transparent;
-    -fx-border-color: transparent -fx-table-cell-border-color transparent transparent;
-    -fx-border-width: 0.083333em; /* 1 */
-    -fx-cell-size: 2.0em; /* 24 */
-    -fx-text-fill: -fx-text-inner-color;
-}
 
 
 /*******************************************************************************
@@ -3900,58 +3633,7 @@ Only the properties with values that are different from the TextBox are specifie
  *                                                                             *
  ******************************************************************************/
 
-.cell-span-tree-table-view > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell {
-    -fx-background-color: transparent;
-}
-
-/* All table-row-cells - we don't care if they are even or odd */
-.cell-span-tree-table-view > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell > .tree-table-cell {
-    -fx-background-color: -fx-table-cell-border-color, -fx-control-inner-background;
-    -fx-background-insets: 0, 0 1 0 0;
-    -fx-alignment: center;
-}
-
-/** Selection styles */
-/*.cell-span-table-view > .virtual-flow > .clipped-container > .sheet > .table-row-cell > .table-cell:focused:selected, */
-.cell-span-tree-table-view:row-selection > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell:filled:selected > .tree-table-cell,
-.cell-span-tree-table-view:row-selection > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell:filled:focused:selected > .tree-table-cell,
-.cell-span-tree-table-view:row-selection > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell:filled:focused:selected:hover > .tree-table-cell,
-.cell-span-tree-table-view:cell-selection > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell > .tree-table-cell:filled:selected,
-.cell-span-tree-table-view:cell-selection > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell > .tree-table-cell:filled:focused:selected,
-.cell-span-tree-table-view:cell-selection > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell > .tree-table-cell:filled:focused:selected:hover{
-    -fx-background-color: -fx-focus-color, -fx-cell-focus-inner-border, -fx-selection-bar;
-    -fx-background-insets: 0 1 0 0, 1 2 1 1, 2 3 2 2;
-    -fx-background: -fx-accent;
-    -fx-text-fill: -fx-selection-bar-text;
-}
-
-/** Hover styles */
-/** --- Row selection mode hover */
-.cell-span-tree-table-view:row-selection > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell:filled:hover > .tree-table-cell {
-    -fx-background-color: -fx-table-cell-border-color, -fx-cell-hover-color;
-    -fx-background-insets: 0, 0 0 1 0;
-    -fx-text-fill: -fx-text-inner-color;
-}
-
-.cell-span-tree-table-view:row-selection > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell:filled:focused:hover > .tree-table-cell {
-    -fx-background-color: -fx-table-cell-border-color, -fx-focus-color, -fx-cell-focus-inner-border, -fx-cell-hover-color;
-    -fx-background-insets: 0, 0 0 1 0, 1 1 2 1, 2 2 3 2, 3 3 4 3;
-    -fx-text-fill: -fx-text-inner-color;
-}
-
-/** --- Cell selection mode hover */
-.cell-span-tree-table-view:cell-selection > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell:filled > .tree-table-cell:hover{
-    -fx-background-color: -fx-table-cell-border-color, -fx-cell-hover-color;
-    -fx-text-fill: -fx-text-inner-color;
-    -fx-background-insets: 0, 0 0 1 0;
-}
-
-.cell-span-tree-table-view:cell-selection > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell:filled > .tree-table-cell:focused:hover{
-    -fx-background-color: -fx-focus-color, -fx-cell-focus-inner-border, -fx-cell-hover-color;
-    -fx-background-insets: 0 1 0 0, 1 2 1 1, 2 3 2 2;
-    -fx-text-fill: -fx-text-inner-color;
-}
-/** End of hover styles */
+ End of hover styles */
 
 /********************************************************************************
  *                                                                              *
@@ -3959,53 +3641,7 @@ Only the properties with values that are different from the TextBox are specifie
  *                                                                              *
  ********************************************************************************/
 
-.html-editor {
-    -fx-border-width: 1;
-    -fx-border-style: solid;
-    -fx-padding: 0;
-    -fx-border-color: derive(-fx-base,-35%);
-}
-.html-editor .button,
-.html-editor .toggle-button {
-    -fx-padding: 0.333333em 0.833333em 0.416667em 0.833333em; /* 2 10 3 10 */
-}
-.html-editor .combo-box > .list-cell {
-    -fx-cell-size: 2.0833em; /* 21 */
-}
-/* Each Toolbar is constructed of two stacked shapes */
-.html-editor > * > .top-toolbar {
-    -fx-background-color:
-        linear-gradient(to bottom, white 10%, derive(-fx-base, 50%) 90%),
-        linear-gradient(to bottom, derive(-fx-base, 65%) 0%, derive(-fx-base, 5%) 90%);
-    -fx-background-insets: 0, 1;
-    -fx-border-color: transparent transparent derive(-fx-base,-20%) transparent, transparent;
-    -fx-border-width: 1, 0;
-    -fx-padding: 0.333em 0.5em 0.333em 0.5em; /* 4 6 4 6;*/
-}
 
-.html-editor > * > .bottom-toolbar {
-    -fx-background-color:
-        linear-gradient(to bottom,  derive(-fx-base, 50%) 10%, derive(-fx-base, -60%) 90%),
-        linear-gradient(to bottom,  derive(-fx-base, 5%) 0%, derive(-fx-base, -15%) 90%);
-    -fx-background-insets: 0, 1;
-    -fx-border-color: transparent derive(-fx-base,50%) transparent derive(-fx-base,50%),
-    transparent transparent derive(-fx-base,-60%) transparent;
-    -fx-border-width: 1, 0;
-    -fx-padding: 0.166667em 0.5em 0.166667em 1.5em; /* 2 6 2 6;*/
-}
-
-.html-editor-foreground, .html-editor-background {
-    -fx-color-label-visible: false;
-    -fx-color-rect-x: 0;
-    -fx-color-rect-y: 10;
-    -fx-color-rect-width: 16;
-    -fx-color-rect-height: 5;
-    -fx-padding: 0;
-}
-.html-editor-foreground > .color-picker-label,
-.html-editor-background > .color-picker-label {
-    -fx-padding: 0 0 -0.083333em 0;
-}
 /* Note: The Separator is constructed of a 1-pixel shape
 whose borders are styled.  Only the right border is specified
 with a color; the other three borders are transparent.*/
@@ -4014,82 +3650,12 @@ with a color; the other three borders are transparent.*/
 Specifying the color here ensures the same color for both .top-toolbar
 and .bottom-toolbar Separators, as they will inherit the color. */
 
-.html-editor > * > * > .separator:vertical > .line{
-    -fx-border-style: solid;
-    -fx-background-color: null;
-    -fx-border-color: transparent derive(-fx-base,-35%) transparent transparent; /* #878787 */
-}
 
 /* Note: This next section of CSS (below) specifies the Separator’s length.
 The length of the Separator is determined by adding its -fx-padding values
 to the top and bottom -fx-padding values of the parent toolbar. */
 
-.html-editor > * > .top-toolbar > .separator {
-    -fx-padding: 1 0 1 0;
-}
 
-.html-editor > * > .bottom-toolbar:horizontal {
-    -fx-padding: 0.417em; /* 5px */
-}
-
-.html-editor > * > .bottom-toolbar > .separator {
-    -fx-padding:  1 2 1 2;
-}
-
-.html-editor > * > * > .button {
-    -fx-background-color: null;
-    -fx-background-insets: -1, 0, 1;
-    -fx-background-radius: 0.25em; /* 3 */
-    -fx-padding: 0.25em;  /* 3 */
-    -fx-alignment: CENTER;
-    -fx-graphic-vpos: CENTER;
-}
-
-.html-editor > * > .top-toolbar > .button:hover {
-    -fx-background-color: transparent, derive(-fx-base,-10%), derive(-fx-base,65%);
-}
-
-.html-editor > * > .bottom-toolbar > .button:hover {
-    -fx-background-color: transparent, derive(-fx-base,-25%), derive(-fx-base,15%);
-}
-
-.html-editor > * > * > .toggle-button {
-    -fx-background-color: transparent;
-    -fx-background-insets: -1, 0, 1;
-    -fx-background-radius: 3;
-    -fx-padding: 0.25em;  /* 3 */
-    -fx-alignment: CENTER;
-    -fx-graphic-vpos: CENTER;
-}
-
-.html-editor > * > .top-toolbar > .toggle-button:hover {
-    -fx-background-color: transparent, derive(-fx-base,-10%), derive(-fx-base,65%);
-}
-
-.html-editor > * > .bottom-toolbar > .toggle-button:hover {
-    -fx-background-color: transparent, derive(-fx-base,-25%), derive(-fx-base,15%);
-}
-
-.html-editor > * > .toggle-button:focused {
-    -fx-color: transparent;
-    -fx-background-color: -fx-focus-color, derive(-fx-base,-25%), derive(-fx-base,15%);
-    -fx-background-insets: -1.2, 0, 1;
-    -fx-background-radius: 3.2, 3, 3;
-}
-
-.html-editor > * > * > .toggle-button:selected {
-    -fx-background-color: transparent,
-    linear-gradient(to bottom,  derive(-fx-base, -70%) 10%, derive(-fx-base, -40%) 90%),
-    linear-gradient(to bottom,  derive(-fx-base, -40%) 0%, derive(-fx-base, -20%) 50%, derive(-fx-base, -10%) 98%, derive(-fx-base, -35%) 100%);
-}
-
-.html-editor > * > * > .font-menu-button {
-    -fx-background-radius: 5, 5, 4, 3;
-}
-
-.html-editor > * > * > .font-menu-button .label{
-    -fx-padding: 0.166667em 0.5em 0.25em 0.5em; /* 2 6 3 6 */
-}
 
 /*******************************************************************************
  *                                                                             *
@@ -4097,134 +3663,7 @@ to the top and bottom -fx-padding values of the parent toolbar. */
  *                                                                             *
  ******************************************************************************/
 
-.spinner {
-    -fx-background-color: -fx-shadow-highlight-color, -fx-text-box-border, -fx-control-inner-background;
-    -fx-background-insets: 0, 0 0 1 0, 1 1 2 1;
-    -fx-background-radius: 3, 3, 2;
-}
-.spinner:focused,
-.spinner:contains-focus {
-    -fx-background-color: -fx-focus-color, -fx-text-box-border, -fx-control-inner-background;
-    -fx-background-insets: -1.4 -1.4 -0.4 -1.4, 0 0 1 0, 1 1 2 1;
-    -fx-background-radius: 4, 3, 2;
-}
-.spinner:disabled {
-    -fx-opacity: -fx-disabled-opacity;
-}
-.spinner > .text-field {
-    -fx-background-color: -fx-text-box-border, -fx-control-inner-background;
-    -fx-background-insets: 0 0 1 0, 1 0 2 1;
-    -fx-background-radius: 3 0 0 3, 2 0 0 2;
-}
 
-.spinner .increment-arrow-button {
-    -fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
-    -fx-background-insets: 0, 1, 2;
-    -fx-background-radius: 0 3 0 0, 0 2 0 0, 0 1 0 0;
-    -fx-padding: 0.333em 0.666em 0.333em 0.666em; /* 4 8 4 8 */
-}
-.spinner .decrement-arrow-button {
-    -fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
-    -fx-background-insets: -1 0 1 0, 0 1 2 1, 0 2 3 2;
-    -fx-background-radius: 0 0 3 0, 0 0 2 0, 0 0 1 0;
-    -fx-padding: 0.250em 0.666em 0.5em 0.666em; /* 3 8 6 8 */
-}
-
-.spinner .increment-arrow-button .increment-arrow {
-    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
-    -fx-background-insets: -0.6 0 1 0, 0;
-    -fx-padding: 0.167em 0.333em 0.167em 0.333em; /* 2 4 2 4 */
-    -fx-shape: "M 0 0 h 7 l -3.5 4 z";
-    -fx-rotate: 180;
-}
-.spinner .decrement-arrow-button .decrement-arrow {
-    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
-    -fx-background-insets: 1 0 -1 0, 0;
-    -fx-padding: 0.167em 0.333em 0.167em 0.333em; /* 2 4 2 4 */
-    -fx-shape: "M 0 0 h 7 l -3.5 4 z";
-}
-
-/* Spinner - Horizontal arrows */
-.spinner.split-arrows-horizontal .increment-arrow-button .increment-arrow,
-.spinner.arrows-on-right-horizontal .increment-arrow-button .increment-arrow,
-.spinner.arrows-on-left-horizontal .increment-arrow-button .increment-arrow,
-.spinner.split-arrows-horizontal .decrement-arrow-button .decrement-arrow,
-.spinner.arrows-on-right-horizontal .decrement-arrow-button .decrement-arrow,
-.spinner.arrows-on-left-horizontal .decrement-arrow-button .decrement-arrow{
-    -fx-padding: 0.333em 0.166em 0.333em 0.166em; /* 4 2 4 2 */
-    -fx-shape: "M 4 0 v 7 l -4 -3.5 z";
-}
-
-/* Spinner - STYLE_CLASS_ARROWS_ON_RIGHT_HORIZONTAL */
-.spinner.arrows-on-right-horizontal .increment-arrow-button {
-    -fx-background-insets: 0 0 1 0, 1 1 2 0, 2 2 3 1;
-    -fx-background-radius: 0 3 3 0, 0 2 2 0, 0 1 1 0;
-    -fx-padding: 0.333em 0.666em 0.333em 0.583em; /* 4 8 4 7 */
-
-}
-.spinner.arrows-on-right-horizontal .decrement-arrow-button {
-    -fx-background-insets: 0 0 1 0, 1 1 2 1, 2 2 3 2;
-    -fx-background-radius: 0, 0, 0;
-    -fx-padding: 0.333em 0.666em 0.333em 0.666em; /* 4 8 4 8 */
-}
-
-/* Spinner - STYLE_CLASS_ARROWS_ON_LEFT_VERTICAL */
-.spinner.arrows-on-left-vertical > .text-field {
-    -fx-background-insets: 0 0 1 0, 1 1 2 0;
-    -fx-background-radius: 0 3 3 0, 0 2 2 0;
-}
-.spinner.arrows-on-left-vertical .increment-arrow-button {
-    -fx-background-radius: 3 0 0 0, 2 0 0 0, 1 0 0 0;
-}
-.spinner.arrows-on-left-vertical .decrement-arrow-button {
-    -fx-background-radius: 0 0 0 3, 0 0 0 2, 0 0 0 1;
-}
-
-/* Spinner - STYLE_CLASS_ARROWS_ON_LEFT_HORIZONTAL */
-.spinner.arrows-on-left-horizontal > .text-field {
-    -fx-background-insets: 0 0 1 -1, 1 1 2 -1;
-    -fx-background-radius: 0 3 3 0, 0 2 2 0;
-}
-.spinner.arrows-on-left-horizontal .increment-arrow-button {
-    -fx-background-insets: 0 0 1 0, 1 1 2 0, 2 2 3 1;
-    -fx-background-radius: 0, 0, 0;
-    -fx-padding: 0.333em 0.666em 0.333em 0.583em; /* 4 8 4 7 */
-}
-.spinner.arrows-on-left-horizontal .decrement-arrow-button {
-    -fx-background-insets: 0 0 1 0, 1 1 2 1, 2 2 3 2;
-    -fx-background-radius: 3 0 0 3, 2 0 0 2, 1 0 0 1;
-    -fx-padding: 0.333em 0.666em 0.333em 0.666em; /* 4 8 4 8 */
-}
-
-/* Spinner - STYLE_CLASS_SPLIT_ARROWS_VERTICAL */
-.spinner.split-arrows-vertical > .text-field {
-    -fx-background-insets: 0, 0 1 0 1;
-    -fx-background-radius: 0, 0;
-}
-.spinner.split-arrows-vertical .increment-arrow-button {
-    -fx-background-radius: 3 3 0 0, 2 2 0 0, 1 1 0 0;
-}
-.spinner.split-arrows-vertical .decrement-arrow-button {
-    -fx-background-insets: -1 0 1 0, 0 1 2 1, 1 2 3 2;
-    -fx-background-radius: 0 0 3 3, 0 0 2 2, 0 0 1 1;
-    -fx-padding: 0.25em 0.666em 0.417em 0.666em; /* 3 8 5 8 */
-}
-
-/* Spinner - STYLE_CLASS_SPLIT_ARROWS_HORIZONTAL */
-.spinner.split-arrows-horizontal > .text-field {
-    -fx-background-insets: 0 0 1 0, 1 0 2 0;
-    -fx-background-radius: 0, 0;
-}
-.spinner.split-arrows-horizontal .increment-arrow-button {
-    -fx-background-insets: 0 0 1 0, 1 1 2 1, 2 2 3 2;
-    -fx-background-radius: 0 3 3 0, 0 2 2 0, 0 1 1 0;
-    -fx-padding: 0.333em 0.666em 0.333em 0.666em; /* 4 8 4 8 */
-}
-.spinner.split-arrows-horizontal .decrement-arrow-button {
-    -fx-background-insets: 0 0 1 0, 1 1 2 1, 2 2 3 2;
-    -fx-background-radius: 3 0 0 3, 2 0 0 2, 1 0 0 1;
-    -fx-padding: 0.333em 0.666em 0.333em 0.666em; /* 4 8 4 8 */
-}
 
 /*******************************************************************************
  *                                                                             *
@@ -4232,102 +3671,10 @@ to the top and bottom -fx-padding values of the parent toolbar. */
  *                                                                             *
  ******************************************************************************/
 
-.dialog-pane {
-    -fx-background-color: -fx-background;
-    -fx-padding: 0;
-}
 
-.dialog-pane > .expandable-content {
-    -fx-padding: 0.666em; /* 8px */
-}
 
-.dialog-pane > .button-bar > .container {
-    -fx-padding: 0.833em; /* 10px */
-}
 
-.dialog-pane > .content.label {
-    -fx-alignment: top-left;
-    -fx-padding: 1.333em 0.833em 0 0.833em; /* 16px 10px 0px 10px */
-}
 
-.dialog-pane > .content {
-    -fx-padding: 0.833em; /* 10 */
-}
-
-.dialog-pane:no-header .graphic-container {
-    -fx-padding: 0.833em 0 0 0.833em; /* 10px 0px 0px 10px */
-}
-
-.dialog-pane:header .header-panel {
-    /*-fx-padding: 0.833em 1.166em 0.833em 1.166em; *//* 10px 14px 10px 14px */
-    -fx-padding: 0.833em; /* 10px */
-    -fx-background-color: -fx-box-border, linear-gradient(-fx-background, derive(-fx-background, 30%));
-    -fx-background-insets: 0, 0 0 1 0;
-}
-
-.dialog-pane:header .header-panel .label {
-    -fx-font-size: 1.167em; /* 14px */
-    -fx-wrap-text: true;
-}
-
-.dialog-pane:header .header-panel .graphic-container {
-    /* This prevents the text in the header running directly into the graphic */
-    -fx-padding: 0 0 0 0.833em; /* 0px 0px 0px 10px */
-}
-
-.dialog-pane > .button-bar > .container > .details-button {
-    -fx-alignment: baseline-left;
-    -fx-focus-traversable: false;
-    -fx-padding: 0.416em; /* 5px */
-    -fx-font-size: 0.833em; /* 10px */
-}
-
-.dialog-pane > .button-bar > .container > .details-button.more {
-    -fx-graphic: url("dialog-more-details.png");
-}
-
-.dialog-pane > .button-bar > .container > .details-button.less {
-    -fx-graphic: url("dialog-fewer-details.png");
-}
-
-.dialog-pane > .button-bar > .container > .details-button:hover {
-    -fx-underline: true;
-}
-
-.alert.confirmation.dialog-pane,
-.text-input-dialog.dialog-pane,
-.choice-dialog.dialog-pane {
-    -fx-graphic: url("dialog-confirm.png");
-}
-
-.alert.information.dialog-pane {
-    -fx-graphic: url("dialog-information.png");
-}
-
-.alert.error.dialog-pane {
-    -fx-graphic: url("dialog-error.png");
-}
-
-.alert.warning.dialog-pane {
-    -fx-graphic: url("dialog-warning.png");
-}
-
-.header{
- -fx-background-color: linear-gradient(#ffffff 0%, #eaf4f9 100%);
-}
-
-.canvoos{
-    -fx-background-image: url('/image/bg.png');
-    -fx-background-size: cover;
-}
-
-.tab-pane .tab-header-area .tab-header-background {
-    -fx-background-color: #F0F0EC;
-    -fx-border-color: transparent;
-}
-.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
-    -fx-border-color: transparent;
-}
 .color-picker{
     -fx-background-color: #8dbad6;
     -fx-shadow-highlight-color: #99c3dd;
