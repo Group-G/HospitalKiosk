@@ -1,4 +1,6 @@
 apply plugin: 'java'
+compileJava { options.encoding = "UTF-8" }
+
 apply plugin: 'application'
 
 version = '1.0'

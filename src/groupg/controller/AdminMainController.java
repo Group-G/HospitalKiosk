@@ -180,7 +180,6 @@ public class AdminMainController implements Initializable{
                  //Save changes to disk
             }
             catch (IOException ex) {
-                // なんか適当にエラー処理でも
                 Logger.getLogger(AdminMainController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });

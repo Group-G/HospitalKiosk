@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import sun.plugin.javascript.navig.Anchor;
 
 import java.io.IOException;
 import java.net.URL;
