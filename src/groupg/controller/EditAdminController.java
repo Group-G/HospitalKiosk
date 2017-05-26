@@ -3,14 +3,21 @@ package groupg.controller;
 import groupg.database.Admin;
 import groupg.Main;
 import groupg.jfx.ResourceManager;
+import javafx.animation.PauseTransition;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +35,11 @@ public class EditAdminController implements Initializable
     private Button cancelBtn, newBtn, deleteBtn;
     @FXML
     private ListView<Admin> addList;
-
+    @FXML
+    private BorderPane time;
+    private final long MIN_STATIONARY_TIME = 50000 ;
+    PauseTransition pause = new PauseTransition(Duration.millis(MIN_STATIONARY_TIME));
+    BooleanProperty mouseMoving = new SimpleBooleanProperty();
     private ObservableList<String> cats = FXCollections.observableArrayList();
     private static int numOfAdmins = 2;
     @FXML
@@ -48,7 +59,27 @@ public class EditAdminController implements Initializable
         errorText.setVisible(false);
         cats.clear();
         addList.getItems().setAll(h.getAllAdmins());
-
+        mouseMoving.addListener((obs, wasMoving, isNowMoving) -> {
+            if (!isNowMoving) {
+                //System.out.println("Mouse stopped!");
+            }
+        });
+        pause.setOnFinished(e -> onLogout());
+        time.setOnMouseClicked(e ->{
+            mouseMoving.set(true);
+            // System.out.println("Mouse move!");
+            pause.playFromStart();
+        });
+        time.setOnMouseDragged(e ->{
+            mouseMoving.set(true);
+            // System.out.println("Mouse move!");
+            pause.playFromStart();
+        });
+        time.setOnMouseMoved(e -> {
+            mouseMoving.set(true);
+            pause.playFromStart();
+            // System.out.println("Mouse move!");
+        });
     }
 
     public void onCancel(ActionEvent actionEvent)
@@ -80,6 +111,7 @@ public class EditAdminController implements Initializable
     public void onDelete(ActionEvent actionEvent)
     {
         if(getNumOfAdmins() == 2){
+            errorText.setText("There must be at least 2 Admins");
             errorText.setVisible(true);
             return;
         }
@@ -107,4 +139,12 @@ public class EditAdminController implements Initializable
         }
     }
 
+    public void onLogout() {
+        mouseMoving.set(false);
+        try {
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml","Welcome",cancelBtn.getScene());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

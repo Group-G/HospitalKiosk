@@ -33,7 +33,10 @@ public class UFuniqueNode extends Group {
     private Group nodeOverlay;
     private Circle c;
     private boolean highlighted;
-
+    private String lang;
+    Label peop = new Label("People at this location:");
+    Button navTo = new Button("Go to here!");
+    Button navFrom = new Button("Start from here!");
     public UFuniqueNode(double radius, Location location, double nodeOffset, WelcomeScreenController welcomeScreenController) {
         this.radius = radius;
         this.welcomeScreenController = welcomeScreenController;
@@ -86,12 +89,14 @@ public class UFuniqueNode extends Group {
         vbox.setSpacing(5);
 
         //Add buttons
-        Button navTo = new Button("Go to here!");
+        //System.out.println(welcomeScreenController.getlang());
+
         navTo.setOnAction(actionEvent -> {
             controller.endField.setCurrentSelection(location);
             welcomeScreenController.openMenu();
         });
-        Button navFrom = new Button("Start from here!");
+
+
         navFrom.setOnAction(actionEvent -> {
             controller.startField.setCurrentSelection(location);
             welcomeScreenController.openMenu();
@@ -129,7 +134,9 @@ public class UFuniqueNode extends Group {
         }
 
         if (people.size() > 0) {
-            vbox.getChildren().add(new Label("People at this location:"));
+
+            vbox.getChildren().add(peop);
+
             ListView<Label> nlable = new ListView<>();
             nlable.getItems().addAll(people);
             vbox.getChildren().addAll(nlable);
@@ -151,6 +158,50 @@ public class UFuniqueNode extends Group {
         } else {
             c.setRadius(this.radius);
             c.setStrokeWidth(3);
+        }
+    }
+    public void checklang(){
+       lang = welcomeScreenController.getlang();
+    }
+    public void updatelang(){
+        checklang();
+        if(lang.equals("Eng")){
+            peop.setText("People at this location:");
+        }
+        else if(lang.equals("Span")){
+            peop.setText("Gente en este lugar:");
+        }
+        else if(lang.equals("Port")){
+            peop.setText("Pessoas neste local:");
+        }
+        else if(lang.equals("Chin")){
+            peop.setText("在这个位置的人：");
+        }
+
+        if(lang.equals("Eng")){
+            navTo.setText("Go to here!");
+        }
+        else if(lang.equals("Span")){
+            navTo.setText("¡Vete aquí!");
+        }
+        else if(lang.equals("Port")){
+            navTo.setText("Vá até aqui!");
+        }
+        else if(lang.equals("Chin")){
+            navTo.setText("去这里！");
+        }
+
+        if(lang.equals("Eng")){
+            navFrom.setText("Start from here!");
+        }
+        else if(lang.equals("Span")){
+            navFrom.setText("Comienza desde aquí!");
+        }
+        else if(lang.equals("Port")){
+            navFrom.setText("Comece aqui!");
+        }
+        else if(lang.equals("Chin")){
+            navFrom.setText("从这里开始!");
         }
     }
 }

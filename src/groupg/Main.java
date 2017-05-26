@@ -26,40 +26,26 @@ public class Main extends Application
         Parent root = FXMLLoader.load(getClass().getResource("/view/welcomeScreen.fxml"));
         Scene s = new Scene(root, 1404, 800);
 
-        String css = this.getClass().getResource("/view/developWelcomescreen.css").toExternalForm();
+        //String css = this.getClass().getResource("/css/welcomescreen.css").toExternalForm();
         //s.getStylesheets().add(css);
 
         primaryStage.setTitle("Welcome");
         primaryStage.setScene(s);
-        //primaryStage.setFullScreen(true);
-        //primaryStage.setResizable(true);
-       // primaryStage.setFullScreenExitHint("");
         primaryStage.show();
         primaryStage.setOnCloseRequest(event -> Main.h.publishDB());
-
-
     }
 
     public static void main(String[] args)
     {
-
         dbExample.connectDB();
-
         Path path = Paths.get("HospitalDatabase");
         if (!Files.exists(path))
         {
-            //Dummy data
             dbExample.createTables();
             dbExample.insertTables();
-            //System.out.println("-------------------------------------");
-           //// System.out.println("GENERATED NEW DATABASE");
-          //  System.out.println("-------------------------------------");
         }
-
         h = new HospitalData(dbExample);
         h.pullDB();
-
-
         launch(args);
     }
 }

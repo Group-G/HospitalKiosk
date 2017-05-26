@@ -4,6 +4,9 @@ import groupg.Main;
 import groupg.database.Category;
 import groupg.database.Location;
 import groupg.jfx.ResourceManager;
+import javafx.animation.PauseTransition;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -16,8 +19,10 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -44,8 +49,12 @@ public class EditCategoryEditController implements Initializable
     private RadioButton radiopublic, radioprivate;
     @FXML
     private Text errorText;
+    @FXML
+    private AnchorPane time;
     List<Category> quickSearch = new ArrayList<>();
-
+    private final long MIN_STATIONARY_TIME = 50000 ;
+    PauseTransition pause = new PauseTransition(Duration.millis(MIN_STATIONARY_TIME));
+    BooleanProperty mouseMoving = new SimpleBooleanProperty();
     private Category category;
     private  String nCategory = "";
 
@@ -63,6 +72,27 @@ public class EditCategoryEditController implements Initializable
                     //System.out.println(group.getSelectedToggle().getUserData().toString());
                 }
             }
+        });
+        mouseMoving.addListener((obs, wasMoving, isNowMoving) -> {
+            if (!isNowMoving) {
+                //System.out.println("Mouse stopped!");
+            }
+        });
+        pause.setOnFinished(e -> onLogout());
+        time.setOnMouseClicked(e ->{
+            mouseMoving.set(true);
+            // System.out.println("Mouse move!");
+            pause.playFromStart();
+        });
+        time.setOnMouseDragged(e ->{
+            mouseMoving.set(true);
+            // System.out.println("Mouse move!");
+            pause.playFromStart();
+        });
+        time.setOnMouseMoved(e -> {
+            mouseMoving.set(true);
+            pause.playFromStart();
+            // System.out.println("Mouse move!");
         });
     }
 
@@ -140,5 +170,13 @@ public class EditCategoryEditController implements Initializable
 
         colorField.setValue(Color.web(c.getColor()));
 
+    }
+    public void onLogout() {
+        mouseMoving.set(false);
+        try {
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml","Welcome",cancelBtn.getScene());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -83,9 +83,14 @@ public class UniqueFloor {
     }
 
     public void displayNodeInfo(UFuniqueNode c) {
+
         welcomeScreenController.unhighLightNodes();
         c.setHighlighted(true);
         welcomeScreenController.setMenuFill(c.makeDialog(welcomeScreenController));
+    }
+
+    public void ulang(UFuniqueNode c){
+        c.updatelang();
     }
 
     public void clearLines(){

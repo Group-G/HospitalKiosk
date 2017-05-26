@@ -3,12 +3,17 @@ package groupg.controller;
 import groupg.Main;
 import groupg.database.Admin;
 import groupg.jfx.ResourceManager;
+import javafx.animation.PauseTransition;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -30,14 +35,39 @@ public class AdminLoginController implements Initializable {
     private TextField usernameField, passField;
     @FXML
     private Text errorText;
+    @FXML
+    private AnchorPane time;
     private Timer inactiveTimeOut;
     private int cursorX;
     private int cursorY;
     private int seconds = 10;
-
+    private final long MIN_STATIONARY_TIME = 50000 ;
+    PauseTransition pause = new PauseTransition(Duration.millis(MIN_STATIONARY_TIME));
+    BooleanProperty mouseMoving = new SimpleBooleanProperty();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         errorText.setVisible(false);
+        mouseMoving.addListener((obs, wasMoving, isNowMoving) -> {
+            if (!isNowMoving) {
+                //System.out.println("Mouse stopped!");
+            }
+        });
+        pause.setOnFinished(e -> onLogout());
+        time.setOnMouseClicked(e ->{
+            mouseMoving.set(true);
+            // System.out.println("Mouse move!");
+            pause.playFromStart();
+        });
+        time.setOnMouseDragged(e ->{
+            mouseMoving.set(true);
+            // System.out.println("Mouse move!");
+            pause.playFromStart();
+        });
+        time.setOnMouseMoved(e -> {
+            mouseMoving.set(true);
+            pause.playFromStart();
+            // System.out.println("Mouse move!");
+        });
         //Application.setUserAgentStylesheet(getClass().getResource("").toExternalForm());
         /*
         cancelBtn.getScene().setOnMouseMoved(event -> {
@@ -65,19 +95,7 @@ public class AdminLoginController implements Initializable {
         });
     }
 
-    private void isInactive() {
-        inactiveTimeOut.schedule(new TimerTask() {
-            public void run() {
-               // System.out.println("time is up");
-                try {
-                    ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", cancelBtn.getScene());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                inactiveTimeOut.cancel();
-            }
-        }, seconds * 1000);
-    }
+
 
     public void onCancel(ActionEvent actionEvent) {
         try {
@@ -138,5 +156,13 @@ public class AdminLoginController implements Initializable {
         }
 
 
+    }
+    public void onLogout() {
+        mouseMoving.set(false);
+        try {
+            ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml","Welcome",cancelBtn.getScene());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

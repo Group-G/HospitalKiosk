@@ -38,7 +38,6 @@ import javafx.scene.transform.Scale;
 import javafx.util.Duration;
 import net.glxn.qrgen.core.image.ImageType;
 import net.glxn.qrgen.javase.QRCode;
-
 import java.io.*;
 import java.net.URL;
 import java.time.DayOfWeek;
@@ -48,13 +47,13 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
 import static groupg.Main.h;
 
 /**
- * Created by will on 4/21/17.
+ * Created by Jazzberry Jam Jackelopes on 4/21/17.
  */
 public class WelcomeScreenController implements Initializable {
+    //FXML Initialized
     @FXML
     private Label lblFloor;
     @FXML
@@ -66,7 +65,7 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private Pane mapPane, menuPane, fadePane, searchPane, FloorSelectPane;
     @FXML
-    private VBox VBoxSelectPane, fieldsBox, superbox;
+    private VBox fieldsBox,dirBox;
     @FXML
     private Button menuBtn, loginBtn, aboutBtn, searchBtn, viewButton, menuExitBtn, directionBtn,swapBtn;
     @FXML
@@ -78,61 +77,53 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private Accordion acccordionDropDown;
     @FXML
-    private VBox dirBox;
+    private HBox menuItems;
+    @FXML
+    private ToggleButton handiBtn;
+
+    //dynamically added FXML Objects
+    public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
     public AutoCompleteTextField searchField, startField, endField;
-    Scale scale = new Scale();
-    double WINDOW_WIDTH = 0, WINDOW_HEIGHT = 0;
-    static List<UniqueFloor> FaulknerFloors = new ArrayList<>();
-    boolean onScreen = false;
-    private static int permission = 0;
-    int currentFloor = 7;
-    private boolean menuOpen = false;
-    List<Floor> floors = Main.h.getAllFloors();
-    private String lang = "Eng";
-    private ListView<String> dirList;
     private ImageView qrcode = new ImageView();
     private Label qrlabel = new Label();
     private Button reanimate = new Button("Show Animation");
-    @FXML
-    private CheckBox handicapped;
-    @FXML
-    private Text errorText;
-    @FXML
-    private ToggleButton handiBtn;
-    public static ObservableList<UniqueLine> displayedLines = FXCollections.observableArrayList();
-    NavigationFacade navigation;
+    private ListView<String> dirList;
     Group GroundLines = new Group();
-    private static  LocalTime currentTime = LocalTime.now();
-    private static  LocalDate currentDate = LocalDate.now();
-    private static  DayOfWeek dow = currentDate.getDayOfWeek();
-    @FXML
-    private HBox menuItems;
-    private boolean searched = false;
     ImageView start = new ImageView();
     ImageView end = new ImageView();
+
+    //window scales
+    Scale scale = new Scale();
+    double WINDOW_WIDTH = 0, WINDOW_HEIGHT = 0;
+
+    //Keep track of Floor list
+    static List<UniqueFloor> FaulknerFloors = new ArrayList<>();
+    List<Floor> floors = Main.h.getAllFloors();
+    int currentFloor = 7;
+
+    //keep track of permissions
+    private static int permission = 0;
+
+    //check if menu open and if term is search prior
+    private boolean menuOpen = false, searched = false;
+
+    //checks if nodes for start and end have been included or erased
+    private boolean setStart = false,setEnd = false;
+
+    //Keep track of Current Language
+    private String lang = "Eng";
+
+    //navigation facade
+    NavigationFacade navigation;
+
+    //circle
     Circle c;
 
-
-
-
-
-
-
-    public static void setPermission(int p) {
-        permission = p;
-    }
-
-    public static LocalTime getCurrentTime() {
-        return currentTime;
-    }
-
-    public static DayOfWeek getDow(){
-        return dow;
-    }
-
-
-
-
+    /**
+     *
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -144,7 +135,6 @@ public class WelcomeScreenController implements Initializable {
 
 
         navigation = new NavigationFacade();
-
         dirList = new ListView<>();
 
         dirList.setCellFactory(list -> new ListCell<String>() {
@@ -201,8 +191,7 @@ public class WelcomeScreenController implements Initializable {
                 setGraphic(hbox);
             }
         });
-        //String css = this.getClass().getResource("/view/welcomescreen.css").toExternalForm();
-        //Application.setUserAgentStylesheet(getClass().getResource("/view/developWelcomescreen.css").toExternalForm());
+
         FloorSelectPane.setVisible(false);
         searchField = new AutoCompleteTextField();
         startField = new AutoCompleteTextField();
@@ -217,6 +206,7 @@ public class WelcomeScreenController implements Initializable {
         endField.getEntries().addAll(h.getAllLocations());
 
         searchField.setPrefHeight(50);
+        searchField.setPrefWidth(172);
         startField.setPrefHeight(40);
         endField.setPrefHeight(40);
 
@@ -320,30 +310,6 @@ public class WelcomeScreenController implements Initializable {
                 }
             }
         });
-        english.setOnAction(event ->{
-            lang="Eng";
-            lblFloor.setText("Floor");
-           // language.setText("English");
-            language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/america.png")));
-        });
-        spanish.setOnAction(event ->{
-            lang="Span";
-            //language.setText("Español");
-            lblFloor.setText("Piso");
-            language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/spain.png")));
-        });
-        portugues.setOnAction(event ->{
-            lang="Port";
-            //language.setText("Português");
-            lblFloor.setText("Chão");
-            language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/portugal.png")));
-        });
-        chinese.setOnAction(event ->{
-            lang="Chin";
-            //language.setText("中文");
-            lblFloor.setText("地板");
-            language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/china.png")));
-        });
 
         textFieldGroup.getChildren().add(searchField);
         fieldsBox.getChildren().add(startField);
@@ -421,10 +387,8 @@ public class WelcomeScreenController implements Initializable {
         }
 
         TitledPane quickSearch = new TitledPane("Quick Search", quickList);
+        TitledPane Personel = new TitledPane("Personnel", per);
         acccordionDropDown.getPanes().add(quickSearch);
-
-
-        TitledPane Personel = new TitledPane("Personel", per);
         acccordionDropDown.getPanes().add(Personel);
 
 
@@ -456,6 +420,46 @@ public class WelcomeScreenController implements Initializable {
             }
         }
 
+        english.setOnAction(event ->{
+            lang="Eng";
+            lblFloor.setText("Floor");
+            qrlabel.setText("Use your phone to scan this QRCode");
+            reanimate.setText("Show Animation");
+            // language.setText("English");
+            chenge();
+            language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/america.png")));
+        });
+        spanish.setOnAction(event ->{
+            lang="Span";
+            //language.setText("Español");
+            lblFloor.setText("Piso");
+            qrlabel.setText("Utilice su teléfono para escanear este QRCode");
+            reanimate.setText("Mostrar animación");
+            chenge();
+            language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/spain.png")));
+
+        });
+        portugues.setOnAction(event ->{
+            lang="Port";
+            //language.setText("Português");
+            lblFloor.setText("Chão");
+            qrlabel.setText("Use seu telefone para digitalizar este QRCode");
+            reanimate.setText("Mostrar animação");
+            chenge();
+
+            language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/portugal.png")));
+
+        });
+        chinese.setOnAction(event ->{
+            lang="Chin";
+            //language.setText("中文");
+            lblFloor.setText("地板");
+            qrlabel.setText("使用手机扫描此QRCode");
+            reanimate.setText("显示动画");
+            chenge();
+            language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/china.png")));
+
+        });
 
         fadePane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
         fadePane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
@@ -478,6 +482,10 @@ public class WelcomeScreenController implements Initializable {
         });
 
         menuExitBtn.setOnAction(event -> {
+            exitMenu();
+        });
+
+        fadePane.setOnMouseClicked(event ->{
             exitMenu();
         });
         //TODO ggroupnd tliems
@@ -541,13 +549,14 @@ public class WelcomeScreenController implements Initializable {
         mapPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         //mapPane.setMaxWidth(anchorPane.getMaxWidth());
         mapPane.setOnMouseClicked((MouseEvent event) -> {
-           // System.out.println("clicked the pane!!!!");
+           //System.out.println("clicked the pane!!!!");
             setMenuFill(new VBox());
             dirBox.setPrefHeight(40);
             resetZoom(WINDOW_WIDTH, 1250);
 //            zoomFloor(FaulknerFloors.get(0));
             flipToFloor(8);
             FloorSelectPane.setVisible(false);
+            unhighLightNodes();
         });
 
         mapPane.widthProperty().addListener((observable, oldValue, newValue) -> {
@@ -619,6 +628,18 @@ public class WelcomeScreenController implements Initializable {
         handiBtn.setGraphic(new ImageView(ResourceManager.getInstance().loadImage("/image/Icons/stairs.png",20, 20, false, false)));
     }
 
+    /**
+     *
+     * @param p
+     */
+    public static void setPermission(int p) {
+        permission = p;
+    }
+
+    /**
+     *
+     * @param uf
+     */
     private void focusFloor(UniqueFloor uf) {
         flipToFloor(uf.getFloorIndex());
         zoomFloor(uf);
@@ -637,35 +658,27 @@ public class WelcomeScreenController implements Initializable {
         }
     }
 
-
     private void exitMenu() {
         if (menuOpen) {
-//                menuPane.setVisible(false);
             menuPane.setPickOnBounds(false);
             menuOpen = false;
             fadePane.setVisible(false);
             moveMenu(false, 25).play();
-
         }
     }
 
+    /**
+     *
+     * @param uf
+     */
     private void zoomFloor(UniqueFloor uf) {
-//        double scaleValH = mapPane.getWidth()/uf.getImageView().getImage().getWidth()*.7;
         double scaleValV = mapPane.getHeight() / uf.getImageView().getImage().getHeight();
         double scaleVal = scaleValV;
-
-
-
         double xoffset = mapPane.getWidth() * 0.3;
         double yoffset = mapPane.getHeight() * 0.2;
         if(uf.getFloor().getBuildingID() == 1){
             yoffset = mapPane.getHeight() * 0.5;
         }
-
-//        xoffset = 0;
-//        yoffset = 0;
-        //System.out.println();
-
         scaleImage(uf.getGroup().getTranslateX() - xoffset, uf.getGroup().getTranslateY() - yoffset, scaleVal, 1250, true).play();
     }
 
@@ -673,14 +686,10 @@ public class WelcomeScreenController implements Initializable {
         //getNodeFromGridPane(Floorselectgrid, 0, floorindex-1).setStyle("-fx-background-color:#dddddd;");
     }
 
-    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
-        for (Node node : gridPane.getChildren()) {
-            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-                return node;
-            }
-        }
-        return null;
-    }
+    /**
+     *
+     * @param buildingID
+     */
     private void getfloors(int buildingID) {
         List<Floor> floors = Main.h.getBuildingById(buildingID).getFloorList();
         for (int j = 0; j < floors.size(); j++) {
@@ -717,24 +726,23 @@ public class WelcomeScreenController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param index
+     */
     private void flipToFloor(int index) {
         FloorSelectPane.setVisible(true);
         if (index <= 7  && index >= 0) {
-           // System.out.println("Flipping to floor " + index);
             currentFloor = index;
             setHighlight(currentFloor);
         }
 
-//        System.out.println("Keeping floors " + (currentFloor) +" down");
         for (int j = 0; j < FaulknerFloors.size(); j++) {
             UniqueFloor u = FaulknerFloors.get(j);
-
             if (u.getFloorIndex() <= index && !u.onScreen()) {
-                //moveMiniMap(u.getGroup(), u.getOnX(), u.getOnY(), 1250 + u.getFloorIndex() * 100).play();
                 fadeGroup(u, true, 250).play();
                 u.setOnScreen(true);
             } else if (u.getFloorIndex() > index && u.onScreen()) {
-                // moveMiniMap(u.getGroup(), u.getOffX(), u.getOffY(), 1750 - u.getFloorIndex() * 100).play();
                 fadeGroup(u, false, 250).play();
                 u.setOnScreen(false);
             }
@@ -742,8 +750,15 @@ public class WelcomeScreenController implements Initializable {
         }
     }
 
-    Boolean setStart = false;
-    Boolean setEnd = false;
+    /**
+     *
+     * @param c
+     * @param l
+     * @param lastCategory
+     * @param firstBuilding
+     * @param startFloor
+     * @return
+     */
     private Animation animateCircle(Circle c, List<Location> l, String lastCategory, int firstBuilding, int startFloor) {
 
         String thisCategory = l.get(0).getCategory().getCategory();
@@ -854,6 +869,11 @@ public class WelcomeScreenController implements Initializable {
         return expandPanel;
     }
 
+    /**
+     *
+     * @param l
+     * @return
+     */
     private UniqueFloor getUf(Location l) {
         for(UniqueFloor uf : FaulknerFloors){
             if(l.getFloorID() == uf.getFloor().getID()){
@@ -863,6 +883,13 @@ public class WelcomeScreenController implements Initializable {
         return null;
     }
 
+    /**
+     *
+     * @param uf
+     * @param fadeIn
+     * @param time
+     * @return
+     */
     private Animation fadeGroup(UniqueFloor uf, boolean fadeIn, double time) {
 
         double start, end;
@@ -893,7 +920,15 @@ public class WelcomeScreenController implements Initializable {
         return ft;
     }
 
-
+    /**
+     *
+     * @param x
+     * @param y
+     * @param scaleIn
+     * @param time
+     * @param in
+     * @return
+     */
     private Animation scaleImage(double x, double y, double scaleIn, double time, boolean in) {
 
         mapGroup.getTransforms().clear();
@@ -934,6 +969,12 @@ public class WelcomeScreenController implements Initializable {
         return expandPanel;
     }
 
+    /**
+     *
+     * @param on
+     * @param time
+     * @return
+     */
     private Animation moveMenu(boolean on, double time) {
 
 
@@ -966,12 +1007,20 @@ public class WelcomeScreenController implements Initializable {
         return expandPanel;
     }
 
-
+    /**
+     *
+     * @param width
+     * @param time
+     */
     public void resetZoom(double width, double time) {
         double newScale = width / imageViewBase.getImage().getWidth();
         scaleImage(0, 0, newScale, time, false).play();
     }
 
+    /**
+     *
+     * @param searchNode
+     */
     public void onSearch(Location searchNode) {
         unhighLightNodes();
        // System.out.println("Faulkner!");
@@ -1003,34 +1052,15 @@ public class WelcomeScreenController implements Initializable {
 
     }
 
-    public void animatePath(List<LocationDecorator> path, double time){
-        final Group group = new Group();
-        final Circle pathCircle = new Circle(path.get(0).getX(), path.get(0).getY(), 8);
-        pathCircle.setFill(Color.DARKRED);
-        final Path animPath = new Path();
-        for (int i=1;i<path.size();i++){
-            animPath.getElements().add(new MoveTo(path.get(i).getX(),path.get(i).getY()));
-        }
 
-        group.getChildren().add(animPath);
-        group.getChildren().add(pathCircle);
-
-        final PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.seconds(time));
-        pathTransition.setDelay(Duration.seconds(.1));
-        pathTransition.setPath(animPath);
-        pathTransition.setNode(pathCircle);
-        pathTransition
-                .setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-        pathTransition.setCycleCount(1);
-        pathTransition.setAutoReverse(false);
-        pathTransition.play();
-    }
-
-
+    /**
+     *
+     * @param start
+     * @param cat
+     * @return
+     */
     public Location getClosestOfCategory(Location start, Category cat) {
         List<Location> filteredLocs = new ArrayList<>();
-        List<Location> filterFloor = new ArrayList<>();
         HashMap<Floor, Location> hm = new HashMap<>();
         for (Location aloc : Main.h.getAllLocations()) {
             if (aloc.getCategory().equals(cat)) {
@@ -1071,6 +1101,12 @@ public class WelcomeScreenController implements Initializable {
         return start;
     }
 
+    /**
+     *
+     * @param closest
+     * @param locs
+     * @return
+     */
     private Location closestTo(Location closest, List<Location> locs) {
         Location bestLoc = closest;
         double bestDist = Double.MAX_VALUE;
@@ -1085,7 +1121,10 @@ public class WelcomeScreenController implements Initializable {
         return bestLoc;
     }
 
-
+    /**
+     *
+     * @param locations
+     */
     private void generateTextDirections(List<Location> locations) {
         ObservableList<String> directions = FXCollections.observableArrayList();
         boolean enterElevator = false;
@@ -1232,6 +1271,11 @@ public class WelcomeScreenController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param turn
+     * @return
+     */
     private String getTurn(double turn) {
         /*
         0 right
@@ -1353,31 +1397,31 @@ public class WelcomeScreenController implements Initializable {
         return "";
     }
 
+    /**
+     *
+     * @param curNode
+     * @param nextNode
+     * @return
+     */
     private double getAngle(Location curNode, Location nextNode) {
         return (((Math.atan2(curNode.getY() - nextNode.getY(), nextNode.getX() - curNode.getX())) * 180 / Math.PI) + 360) % 360;
     }
 
 
     public void QRgen() {
-        //String details = "";
-        //System.out.print("QRGEN!");
         String textdir = new String();
         for (int j = 0; j < dirList.getItems().size(); j++) {
             textdir += (dirList.getItems().get(j) + "\n");
         }
         ByteArrayOutputStream out = QRCode.from(textdir).to(ImageType.JPG).stream();
-        //System.out.print(out);
         File f = new File("qrcode.jpg");
         try {
             FileOutputStream fos = new FileOutputStream(f);
             fos.write(out.toByteArray());
             fos.flush();
-            String imagepath = f.toString();
             FileInputStream input = new FileInputStream("qrcode.jpg");
             Image image = new Image(input);
             qrcode.setImage(image);
-
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -1385,14 +1429,7 @@ public class WelcomeScreenController implements Initializable {
         }
     }
 
-    public void setHandicapped() {
-        if (handicapped.isSelected()) {
-            h.setWantStairs(0);
-        } else {
-            h.setWantStairs(1);
-        }
 
-    }
 
     private void drawPath() {
         if (startField.getCurrentSelection().getX() != 0 && endField.getCurrentSelection().getX() != 0) {
@@ -1512,24 +1549,16 @@ public class WelcomeScreenController implements Initializable {
 
 
             mapGroup.getChildren().add(c);
-            animateCircle(c, lCopy, "doesnt fuckin matter", firstBuilding, lCopy.get(0).getFloorID()).play();
+            animateCircle(c, lCopy, "", firstBuilding, lCopy.get(0).getFloorID()).play();
         }
     }
 
 
     private VBox getDisplayDirections(){
-        //Pane dirPane = new Pane();
         QRgen();
         VBox p =new VBox();
-        //Pane dicks = new Pane();
-        //dicks.getChildren().add(qrcode);
-        //dicks.setPadding(new Insets(20, 0, 20, 0));
-        //dicks.getChildren().add(dirList);
         p.setPrefHeight(LayerA.getHeight());
         dirList.setMinHeight(LayerA.getHeight()/2);
-       // System.out.println("p.getPrefHeight() = " + p.getPrefHeight());
-        //dirPane.getChildren().add();
-       // System.out.println("dirList = " + dirList.getHeight());
         p.getChildren().add(dirList);
         p.getChildren().add(qrlabel);
         qrlabel.setText("Use your phone to scan this QRCode");
@@ -1539,10 +1568,13 @@ public class WelcomeScreenController implements Initializable {
         dirList.setPrefWidth(dirBox.getWidth()-100);
         menuItems.setStyle("-fx-padding: 0 0 0 0;");
         qrcode.setStyle("-fx-padding: 20 0 0 0;");
-
         return p;
     }
 
+    /**
+     *
+     * @param menuFill
+     */
     public void setMenuFill(VBox menuFill) {
         if(menuFill.getChildren().size() == 0){
             for(int i =0; i < mapGroup.getChildren().size(); i++){
@@ -1566,7 +1598,6 @@ public class WelcomeScreenController implements Initializable {
         dirBox.getChildren().clear();
         dirBox.getChildren().add(menuItems);
         dirBox.getChildren().add(menuFill);
-       // System.out.println("menuFill.getHeight() = " + menuFill.getHeight());
     }
 
     public void unhighLightNodes() {
@@ -1574,12 +1605,11 @@ public class WelcomeScreenController implements Initializable {
             uf.unhighlightNodes();
         }
     }
+
     public boolean getSearched(){
         return this.searched;
     }
-    public void setSearched(boolean s){
-        this.searched = s;
-    }
+
 
     public void removeSpecial(){
         mapGroup.getChildren().remove(end);
@@ -1587,5 +1617,16 @@ public class WelcomeScreenController implements Initializable {
         mapGroup.getChildren().remove(c);
     }
 
+public String getlang(){
+        return lang;
+}
 
+public void chenge(){
+    for (UniqueFloor uf : FaulknerFloors) {
+            for (int i = 0; i < uf.getPoints().size(); i++) {
+                uf.ulang(uf.getPoints().get(i));
+            }
+            //System.out.println(uf.getGroup().getChildren().size());
+    }
+}
 }

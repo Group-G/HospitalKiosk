@@ -4,7 +4,10 @@ import groupg.algorithm.NavigationAlgorithm;
 import groupg.database.Floor;
 import groupg.jfx.*;
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -20,8 +23,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
+import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,7 +40,7 @@ import static groupg.Main.h;
  * @author Ryan Benasutti
  * @since 2017-03-30
  */
-public class AdminMainController implements Initializable {
+public class AdminMainController implements Initializable{
     @FXML
     private Button logoutBtn, addNodeBtn, editCatBtn, editPersBtn, editIFCBtn, showAllCons, editAdminBtn, saveBtn;
     @FXML
@@ -46,8 +51,6 @@ public class AdminMainController implements Initializable {
     private MenuButton changeAlgorithmDD;
     @FXML
     private AnchorPane mainpane;
-    @FXML
-    private Pane TimerPane;
     private static Pane imageViewPane;
     private static Pane nodeOverlay;
     public static Pane lineOverlay;
@@ -63,18 +66,43 @@ public class AdminMainController implements Initializable {
     private static int xdif = 0;
     private static Group zoomGroupGlobal;
     private double mouseX = 0, mouseY = 0;
-
+    private final long MIN_STATIONARY_TIME = 50000 ;
+    PauseTransition pause = new PauseTransition(Duration.millis(MIN_STATIONARY_TIME));
+    BooleanProperty mouseMoving = new SimpleBooleanProperty();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //Change listener for removed nodes
+        //Change listener for removed node=
+        mouseMoving.addListener((obs, wasMoving, isNowMoving) -> {
+            if (!isNowMoving) {
+            //    System.out.println("Mouse stopped!");
+            }
+        });
+        pause.setOnFinished(e -> onLogout());
+        mainpane.setOnMouseClicked(e ->{
+            mouseMoving.set(true);
+           // System.out.println("Mouse move!");
+            pause.playFromStart();
+        });
+        mainpane.setOnMouseDragged(e ->{
+            mouseMoving.set(true);
+          //  System.out.println("Mouse move!");
+            pause.playFromStart();
+        });
+        mainpane.setOnMouseMoved(e -> {
+            mouseMoving.set(true);
+            pause.playFromStart();
+          //  System.out.println("Mouse move!");
+        });
+
         displayedNodes.addListener((ListChangeListener<UniqueNode>) c -> nodeOverlay.getChildren().setAll(displayedNodes));
         nodeOverlay = new Pane();
-        TimerPane.setPickOnBounds(false);
+
         nodeOverlay.setPickOnBounds(false);
         lineOverlay = new Pane();
         lineOverlay.setPickOnBounds(false);
         infoOverlay = new Pane();
         infoOverlay.setPickOnBounds(false);
+        //mainpane.setPickOnBounds(false);
         //Default current floor to first floor available
         if (currentFloor == null)
             currentFloor = h.getAllFloors().get(0);
@@ -136,6 +164,7 @@ public class AdminMainController implements Initializable {
         zoomGroup.setOnMouseMoved(mouseEvent -> {
             mouseX = mouseEvent.getX();
             mouseY = mouseEvent.getY();
+
         });
 
         saveBtn.setOnAction(event -> {
@@ -203,6 +232,7 @@ public class AdminMainController implements Initializable {
             changeAlgorithmDD.getItems().add(item);
 //            System.out.println("we are here!!!");
         }
+        changeAlgorithmDD.setText("Pathfinding Algorithm | "+selectedAlgorithm.toString());
     }
 
     /**
@@ -237,7 +267,8 @@ public class AdminMainController implements Initializable {
         }
     }
 
-    public void onLogout(ActionEvent actionEvent) {
+    public void onLogout() {
+        mouseMoving.set(false);
         try {
             ResourceManager.getInstance().loadFXMLIntoScene("/view/welcomeScreen.fxml", "Welcome", logoutBtn.getScene());
         } catch (IOException e) {
@@ -276,6 +307,7 @@ public class AdminMainController implements Initializable {
     private void onChangeAlgorithm(NavigationAlgorithm algorithm) {
        // System.out.println("Changed Algorithm to " + algorithm.toString());
         selectedAlgorithm = algorithm;
+        changeAlgorithmDD.setText("Pathfinding Algorithm | " + algorithm.toString());
     }
 
     public void onEditPers(ActionEvent event) {
