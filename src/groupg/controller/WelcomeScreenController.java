@@ -133,7 +133,7 @@ public class WelcomeScreenController implements Initializable {
         }
 
 
-
+        qrlabel.setText("Use your phone to scan this QRCode");
         navigation = new NavigationFacade();
         dirList = new ListView<>();
 
@@ -428,6 +428,16 @@ public class WelcomeScreenController implements Initializable {
             // language.setText("English");
             chenge();
             language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/america.png")));
+            if(getSearched()) {
+                for (int i = 0; i < mapGroup.getChildren().size(); i++) {
+                    Node n = mapGroup.getChildren().get(i);
+                    if (n instanceof Circle) {
+                        mapGroup.getChildren().remove(i);
+                        i--;
+                    }
+                }
+                drawPath();
+            }
         });
         spanish.setOnAction(event ->{
             lang="Span";
@@ -437,7 +447,16 @@ public class WelcomeScreenController implements Initializable {
             reanimate.setText("Mostrar animación");
             chenge();
             language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/spain.png")));
-
+            if(getSearched()) {
+                for (int i = 0; i < mapGroup.getChildren().size(); i++) {
+                    Node n = mapGroup.getChildren().get(i);
+                    if (n instanceof Circle) {
+                        mapGroup.getChildren().remove(i);
+                        i--;
+                    }
+                }
+                drawPath();
+            }
         });
         portugues.setOnAction(event ->{
             lang="Port";
@@ -448,7 +467,16 @@ public class WelcomeScreenController implements Initializable {
             chenge();
 
             language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/portugal.png")));
-
+            if(getSearched()) {
+                for (int i = 0; i < mapGroup.getChildren().size(); i++) {
+                    Node n = mapGroup.getChildren().get(i);
+                    if (n instanceof Circle) {
+                        mapGroup.getChildren().remove(i);
+                        i--;
+                    }
+                }
+                drawPath();
+            }
         });
         chinese.setOnAction(event ->{
             lang="Chin";
@@ -458,7 +486,16 @@ public class WelcomeScreenController implements Initializable {
             reanimate.setText("显示动画");
             chenge();
             language.setGraphic(new ImageView(ResourceManager.getInstance().loadImageNatural("/image/Icons/china.png")));
-
+            if(getSearched()) {
+                for (int i = 0; i < mapGroup.getChildren().size(); i++) {
+                    Node n = mapGroup.getChildren().get(i);
+                    if (n instanceof Circle) {
+                        mapGroup.getChildren().remove(i);
+                        i--;
+                    }
+                }
+                drawPath();
+            }
         });
 
         fadePane.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5); -fx-background-radius: 10;");
@@ -683,7 +720,19 @@ public class WelcomeScreenController implements Initializable {
     }
 
     private void setHighlight(int floorindex) {
-        //getNodeFromGridPane(Floorselectgrid, 0, floorindex-1).setStyle("-fx-background-color:#dddddd;");
+       getNodeFromGridPane(Floorselectgrid.getChildren().size()-floorindex, 0, Floorselectgrid).setStyle("-fx-background-color:#dddddd;");
+    }
+
+    public Node getNodeFromGridPane (final int row, final int column, GridPane gridPane) {
+        Node result = null;
+        ObservableList<Node> childrens = gridPane.getChildren();
+        for (Node node : childrens) {
+            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+                result = node;
+                break;
+            }
+        }
+        return result;
     }
 
     /**
@@ -734,7 +783,6 @@ public class WelcomeScreenController implements Initializable {
         FloorSelectPane.setVisible(true);
         if (index <= 7  && index >= 0) {
             currentFloor = index;
-            setHighlight(currentFloor);
         }
 
         for (int j = 0; j < FaulknerFloors.size(); j++) {
@@ -742,12 +790,14 @@ public class WelcomeScreenController implements Initializable {
             if (u.getFloorIndex() <= index && !u.onScreen()) {
                 fadeGroup(u, true, 250).play();
                 u.setOnScreen(true);
+
             } else if (u.getFloorIndex() > index && u.onScreen()) {
                 fadeGroup(u, false, 250).play();
                 u.setOnScreen(false);
             }
 
         }
+        setHighlight(index);
     }
 
     /**
@@ -1561,7 +1611,6 @@ public class WelcomeScreenController implements Initializable {
         dirList.setMinHeight(LayerA.getHeight()/2);
         p.getChildren().add(dirList);
         p.getChildren().add(qrlabel);
-        qrlabel.setText("Use your phone to scan this QRCode");
         p.getChildren().add(qrcode);
         p.getChildren().add(reanimate);
         p.setAlignment(Pos.TOP_CENTER);
@@ -1599,6 +1648,7 @@ public class WelcomeScreenController implements Initializable {
         dirBox.getChildren().add(menuItems);
         dirBox.getChildren().add(menuFill);
     }
+
 
     public void unhighLightNodes() {
         for(UniqueFloor uf : FaulknerFloors){
